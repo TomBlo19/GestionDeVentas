@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GestionDeVentas.Vendedor; // Cambiado para referenciar la carpeta vendedor
+using GestionDeVentas.Gerente; // Cambiado para referenciar la carpeta vendedor
 
 namespace GestionDeVentas
 {
@@ -19,7 +19,7 @@ namespace GestionDeVentas
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Modifica esta línea para iniciar el FormVendedor
-            Application.Run(new FormVendedor());
+            Application.Run(new FormGerente());
         }
     }
 }

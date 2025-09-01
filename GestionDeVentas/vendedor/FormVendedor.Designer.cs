@@ -1,6 +1,6 @@
-﻿namespace GestionDeVentas.Vendedor
+﻿namespace GestionDeVentas.Gerente
 {
-    partial class FormVendedor
+    partial class FormGerente
     {
         private System.ComponentModel.IContainer components = null;
 

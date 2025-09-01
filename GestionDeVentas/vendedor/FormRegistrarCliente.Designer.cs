@@ -1,4 +1,4 @@
-﻿namespace GestionDeVentas.Vendedor
+﻿namespace GestionDeVentas.Gerente
 {
     partial class FormRegistrarCliente
     {

@@ -3,13 +3,13 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace GestionDeVentas.Vendedor
+namespace GestionDeVentas.Gerente
 {
-    public partial class FormVendedor : Form
+    public partial class FormGerente : Form
     {
         private bool isFormOpen = false;
 
-        public FormVendedor()
+        public FormGerente()
         {
             InitializeComponent();
         }

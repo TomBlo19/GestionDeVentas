@@ -65,9 +65,10 @@
             this.mainPanel.Controls.Add(this.formPanel);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
+            this.mainPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Padding = new System.Windows.Forms.Padding(20);
-            this.mainPanel.Size = new System.Drawing.Size(900, 749);
+            this.mainPanel.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
+            this.mainPanel.Size = new System.Drawing.Size(1200, 922);
             this.mainPanel.TabIndex = 0;
             // 
             // dgvProductos
@@ -99,12 +100,14 @@
             this.dgvProductos.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvProductos.EnableHeadersVisualStyles = false;
             this.dgvProductos.GridColor = System.Drawing.Color.LightGray;
-            this.dgvProductos.Location = new System.Drawing.Point(20, 512);
+            this.dgvProductos.Location = new System.Drawing.Point(27, 630);
+            this.dgvProductos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvProductos.Name = "dgvProductos";
             this.dgvProductos.ReadOnly = true;
             this.dgvProductos.RowHeadersVisible = false;
+            this.dgvProductos.RowHeadersWidth = 51;
             this.dgvProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProductos.Size = new System.Drawing.Size(860, 217);
+            this.dgvProductos.Size = new System.Drawing.Size(1147, 267);
             this.dgvProductos.TabIndex = 1;
             this.dgvProductos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductos_CellClick);
             // 
@@ -115,9 +118,10 @@
             this.formPanel.Controls.Add(this.lblTitulo);
             this.formPanel.Controls.Add(this.btnRegistrarProducto);
             this.formPanel.Controls.Add(this.tableLayoutPanel);
-            this.formPanel.Location = new System.Drawing.Point(20, 20);
+            this.formPanel.Location = new System.Drawing.Point(27, 25);
+            this.formPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.formPanel.Name = "formPanel";
-            this.formPanel.Size = new System.Drawing.Size(860, 486);
+            this.formPanel.Size = new System.Drawing.Size(1147, 598);
             this.formPanel.TabIndex = 0;
             // 
             // lblTitulo
@@ -126,8 +130,9 @@
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.lblTitulo.Location = new System.Drawing.Point(0, 0);
+            this.lblTitulo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(860, 50);
+            this.lblTitulo.Size = new System.Drawing.Size(1147, 62);
             this.lblTitulo.TabIndex = 2;
             this.lblTitulo.Text = "Registrar nuevo producto";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -140,9 +145,10 @@
             this.btnRegistrarProducto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegistrarProducto.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegistrarProducto.ForeColor = System.Drawing.Color.White;
-            this.btnRegistrarProducto.Location = new System.Drawing.Point(293, 438);
+            this.btnRegistrarProducto.Location = new System.Drawing.Point(391, 539);
+            this.btnRegistrarProducto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRegistrarProducto.Name = "btnRegistrarProducto";
-            this.btnRegistrarProducto.Size = new System.Drawing.Size(300, 45);
+            this.btnRegistrarProducto.Size = new System.Drawing.Size(400, 55);
             this.btnRegistrarProducto.TabIndex = 1;
             this.btnRegistrarProducto.Text = "Registrar Producto";
             this.btnRegistrarProducto.UseVisualStyleBackColor = false;
@@ -181,26 +187,27 @@
             this.tableLayoutPanel.Controls.Add(this.lblCodigo, 0, 12);
             this.tableLayoutPanel.Controls.Add(this.txtCodigo, 0, 13);
             this.tableLayoutPanel.Controls.Add(this.lblErrorCodigo, 0, 14);
-            this.tableLayoutPanel.Location = new System.Drawing.Point(3, 60);
+            this.tableLayoutPanel.Location = new System.Drawing.Point(4, 74);
+            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.Padding = new System.Windows.Forms.Padding(10);
+            this.tableLayoutPanel.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.tableLayoutPanel.RowCount = 15;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(854, 372);
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(1139, 458);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // lblNombreProducto
@@ -209,9 +216,10 @@
             this.lblNombreProducto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblNombreProducto.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNombreProducto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblNombreProducto.Location = new System.Drawing.Point(13, 10);
+            this.lblNombreProducto.Location = new System.Drawing.Point(17, 12);
+            this.lblNombreProducto.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNombreProducto.Name = "lblNombreProducto";
-            this.lblNombreProducto.Size = new System.Drawing.Size(411, 25);
+            this.lblNombreProducto.Size = new System.Drawing.Size(548, 31);
             this.lblNombreProducto.TabIndex = 0;
             this.lblNombreProducto.Text = "Nombre del producto";
             this.lblNombreProducto.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -221,9 +229,10 @@
             this.txtNombreProducto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNombreProducto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtNombreProducto.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombreProducto.Location = new System.Drawing.Point(13, 38);
+            this.txtNombreProducto.Location = new System.Drawing.Point(17, 47);
+            this.txtNombreProducto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtNombreProducto.Name = "txtNombreProducto";
-            this.txtNombreProducto.Size = new System.Drawing.Size(411, 25);
+            this.txtNombreProducto.Size = new System.Drawing.Size(548, 30);
             this.txtNombreProducto.TabIndex = 1;
             // 
             // lblErrorNombre
@@ -232,9 +241,10 @@
             this.lblErrorNombre.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorNombre.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorNombre.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorNombre.Location = new System.Drawing.Point(13, 65);
+            this.lblErrorNombre.Location = new System.Drawing.Point(17, 80);
+            this.lblErrorNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorNombre.Name = "lblErrorNombre";
-            this.lblErrorNombre.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorNombre.Size = new System.Drawing.Size(548, 22);
             this.lblErrorNombre.TabIndex = 2;
             this.lblErrorNombre.Text = " ";
             // 
@@ -244,9 +254,10 @@
             this.lblDescripcion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblDescripcion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDescripcion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblDescripcion.Location = new System.Drawing.Point(430, 10);
+            this.lblDescripcion.Location = new System.Drawing.Point(573, 12);
+            this.lblDescripcion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDescripcion.Name = "lblDescripcion";
-            this.lblDescripcion.Size = new System.Drawing.Size(411, 25);
+            this.lblDescripcion.Size = new System.Drawing.Size(549, 31);
             this.lblDescripcion.TabIndex = 3;
             this.lblDescripcion.Text = "Descripción";
             this.lblDescripcion.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -256,10 +267,11 @@
             this.txtDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtDescripcion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtDescripcion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDescripcion.Location = new System.Drawing.Point(430, 38);
+            this.txtDescripcion.Location = new System.Drawing.Point(573, 47);
+            this.txtDescripcion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(411, 24);
+            this.txtDescripcion.Size = new System.Drawing.Size(549, 29);
             this.txtDescripcion.TabIndex = 4;
             // 
             // lblErrorDescripcion
@@ -268,9 +280,10 @@
             this.lblErrorDescripcion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorDescripcion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorDescripcion.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorDescripcion.Location = new System.Drawing.Point(430, 65);
+            this.lblErrorDescripcion.Location = new System.Drawing.Point(573, 80);
+            this.lblErrorDescripcion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorDescripcion.Name = "lblErrorDescripcion";
-            this.lblErrorDescripcion.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorDescripcion.Size = new System.Drawing.Size(549, 22);
             this.lblErrorDescripcion.TabIndex = 5;
             this.lblErrorDescripcion.Text = " ";
             // 
@@ -280,9 +293,10 @@
             this.lblTalle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTalle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTalle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblTalle.Location = new System.Drawing.Point(13, 83);
+            this.lblTalle.Location = new System.Drawing.Point(17, 102);
+            this.lblTalle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTalle.Name = "lblTalle";
-            this.lblTalle.Size = new System.Drawing.Size(411, 25);
+            this.lblTalle.Size = new System.Drawing.Size(548, 31);
             this.lblTalle.TabIndex = 6;
             this.lblTalle.Text = "Talle";
             this.lblTalle.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -293,9 +307,10 @@
             this.cmbTalle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbTalle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTalle.FormattingEnabled = true;
-            this.cmbTalle.Location = new System.Drawing.Point(13, 111);
+            this.cmbTalle.Location = new System.Drawing.Point(17, 137);
+            this.cmbTalle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbTalle.Name = "cmbTalle";
-            this.cmbTalle.Size = new System.Drawing.Size(411, 25);
+            this.cmbTalle.Size = new System.Drawing.Size(548, 31);
             this.cmbTalle.TabIndex = 7;
             this.cmbTalle.Text = "Seleccione un talle";
             // 
@@ -305,9 +320,10 @@
             this.lblErrorTalle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorTalle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorTalle.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorTalle.Location = new System.Drawing.Point(13, 138);
+            this.lblErrorTalle.Location = new System.Drawing.Point(17, 170);
+            this.lblErrorTalle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorTalle.Name = "lblErrorTalle";
-            this.lblErrorTalle.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorTalle.Size = new System.Drawing.Size(548, 22);
             this.lblErrorTalle.TabIndex = 8;
             this.lblErrorTalle.Text = " ";
             // 
@@ -317,9 +333,10 @@
             this.lblColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblColor.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblColor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblColor.Location = new System.Drawing.Point(430, 83);
+            this.lblColor.Location = new System.Drawing.Point(573, 102);
+            this.lblColor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblColor.Name = "lblColor";
-            this.lblColor.Size = new System.Drawing.Size(411, 25);
+            this.lblColor.Size = new System.Drawing.Size(549, 31);
             this.lblColor.TabIndex = 9;
             this.lblColor.Text = "Color";
             this.lblColor.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -329,9 +346,10 @@
             this.txtColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtColor.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtColor.Location = new System.Drawing.Point(430, 111);
+            this.txtColor.Location = new System.Drawing.Point(573, 137);
+            this.txtColor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtColor.Name = "txtColor";
-            this.txtColor.Size = new System.Drawing.Size(411, 25);
+            this.txtColor.Size = new System.Drawing.Size(549, 30);
             this.txtColor.TabIndex = 10;
             // 
             // lblErrorColor
@@ -340,9 +358,10 @@
             this.lblErrorColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorColor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorColor.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorColor.Location = new System.Drawing.Point(430, 138);
+            this.lblErrorColor.Location = new System.Drawing.Point(573, 170);
+            this.lblErrorColor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorColor.Name = "lblErrorColor";
-            this.lblErrorColor.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorColor.Size = new System.Drawing.Size(549, 22);
             this.lblErrorColor.TabIndex = 11;
             this.lblErrorColor.Text = " ";
             // 
@@ -352,9 +371,10 @@
             this.lblPrecio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblPrecio.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPrecio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblPrecio.Location = new System.Drawing.Point(13, 156);
+            this.lblPrecio.Location = new System.Drawing.Point(17, 192);
+            this.lblPrecio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPrecio.Name = "lblPrecio";
-            this.lblPrecio.Size = new System.Drawing.Size(411, 26);
+            this.lblPrecio.Size = new System.Drawing.Size(548, 32);
             this.lblPrecio.TabIndex = 12;
             this.lblPrecio.Text = "Precio";
             this.lblPrecio.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -364,9 +384,10 @@
             this.txtPrecio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPrecio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtPrecio.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPrecio.Location = new System.Drawing.Point(13, 185);
+            this.txtPrecio.Location = new System.Drawing.Point(17, 228);
+            this.txtPrecio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtPrecio.Name = "txtPrecio";
-            this.txtPrecio.Size = new System.Drawing.Size(411, 25);
+            this.txtPrecio.Size = new System.Drawing.Size(548, 30);
             this.txtPrecio.TabIndex = 13;
             // 
             // lblErrorPrecio
@@ -375,9 +396,10 @@
             this.lblErrorPrecio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorPrecio.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorPrecio.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorPrecio.Location = new System.Drawing.Point(13, 211);
+            this.lblErrorPrecio.Location = new System.Drawing.Point(17, 260);
+            this.lblErrorPrecio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorPrecio.Name = "lblErrorPrecio";
-            this.lblErrorPrecio.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorPrecio.Size = new System.Drawing.Size(548, 22);
             this.lblErrorPrecio.TabIndex = 14;
             this.lblErrorPrecio.Text = " ";
             // 
@@ -387,9 +409,10 @@
             this.lblStock.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblStock.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStock.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblStock.Location = new System.Drawing.Point(430, 156);
+            this.lblStock.Location = new System.Drawing.Point(573, 192);
+            this.lblStock.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStock.Name = "lblStock";
-            this.lblStock.Size = new System.Drawing.Size(411, 26);
+            this.lblStock.Size = new System.Drawing.Size(549, 32);
             this.lblStock.TabIndex = 15;
             this.lblStock.Text = "Stock";
             this.lblStock.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -399,9 +422,10 @@
             this.txtStock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtStock.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtStock.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtStock.Location = new System.Drawing.Point(430, 185);
+            this.txtStock.Location = new System.Drawing.Point(573, 228);
+            this.txtStock.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtStock.Name = "txtStock";
-            this.txtStock.Size = new System.Drawing.Size(411, 25);
+            this.txtStock.Size = new System.Drawing.Size(549, 30);
             this.txtStock.TabIndex = 16;
             // 
             // lblErrorStock
@@ -410,9 +434,10 @@
             this.lblErrorStock.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorStock.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorStock.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorStock.Location = new System.Drawing.Point(430, 211);
+            this.lblErrorStock.Location = new System.Drawing.Point(573, 260);
+            this.lblErrorStock.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorStock.Name = "lblErrorStock";
-            this.lblErrorStock.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorStock.Size = new System.Drawing.Size(549, 22);
             this.lblErrorStock.TabIndex = 17;
             this.lblErrorStock.Text = " ";
             // 
@@ -422,9 +447,10 @@
             this.lblCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCategoria.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCategoria.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblCategoria.Location = new System.Drawing.Point(13, 229);
+            this.lblCategoria.Location = new System.Drawing.Point(17, 282);
+            this.lblCategoria.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCategoria.Name = "lblCategoria";
-            this.lblCategoria.Size = new System.Drawing.Size(411, 25);
+            this.lblCategoria.Size = new System.Drawing.Size(548, 31);
             this.lblCategoria.TabIndex = 18;
             this.lblCategoria.Text = "Categoría";
             this.lblCategoria.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -435,9 +461,10 @@
             this.cmbCategoria.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbCategoria.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbCategoria.FormattingEnabled = true;
-            this.cmbCategoria.Location = new System.Drawing.Point(13, 257);
+            this.cmbCategoria.Location = new System.Drawing.Point(17, 317);
+            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(411, 25);
+            this.cmbCategoria.Size = new System.Drawing.Size(548, 31);
             this.cmbCategoria.TabIndex = 19;
             this.cmbCategoria.Text = "Seleccione una categoría";
             // 
@@ -447,9 +474,10 @@
             this.lblErrorCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorCategoria.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorCategoria.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorCategoria.Location = new System.Drawing.Point(13, 284);
+            this.lblErrorCategoria.Location = new System.Drawing.Point(17, 350);
+            this.lblErrorCategoria.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorCategoria.Name = "lblErrorCategoria";
-            this.lblErrorCategoria.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorCategoria.Size = new System.Drawing.Size(548, 22);
             this.lblErrorCategoria.TabIndex = 20;
             this.lblErrorCategoria.Text = " ";
             // 
@@ -459,9 +487,10 @@
             this.lblMarca.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMarca.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMarca.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblMarca.Location = new System.Drawing.Point(430, 229);
+            this.lblMarca.Location = new System.Drawing.Point(573, 282);
+            this.lblMarca.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMarca.Name = "lblMarca";
-            this.lblMarca.Size = new System.Drawing.Size(411, 25);
+            this.lblMarca.Size = new System.Drawing.Size(549, 31);
             this.lblMarca.TabIndex = 21;
             this.lblMarca.Text = "Marca";
             this.lblMarca.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -471,9 +500,10 @@
             this.txtMarca.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtMarca.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtMarca.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMarca.Location = new System.Drawing.Point(430, 257);
+            this.txtMarca.Location = new System.Drawing.Point(573, 317);
+            this.txtMarca.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtMarca.Name = "txtMarca";
-            this.txtMarca.Size = new System.Drawing.Size(411, 25);
+            this.txtMarca.Size = new System.Drawing.Size(549, 30);
             this.txtMarca.TabIndex = 22;
             // 
             // lblErrorMarca
@@ -482,9 +512,10 @@
             this.lblErrorMarca.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorMarca.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorMarca.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorMarca.Location = new System.Drawing.Point(430, 284);
+            this.lblErrorMarca.Location = new System.Drawing.Point(573, 350);
+            this.lblErrorMarca.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorMarca.Name = "lblErrorMarca";
-            this.lblErrorMarca.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorMarca.Size = new System.Drawing.Size(549, 22);
             this.lblErrorMarca.TabIndex = 23;
             this.lblErrorMarca.Text = " ";
             // 
@@ -494,9 +525,10 @@
             this.lblCodigo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCodigo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCodigo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblCodigo.Location = new System.Drawing.Point(13, 302);
+            this.lblCodigo.Location = new System.Drawing.Point(17, 372);
+            this.lblCodigo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCodigo.Name = "lblCodigo";
-            this.lblCodigo.Size = new System.Drawing.Size(411, 25);
+            this.lblCodigo.Size = new System.Drawing.Size(548, 31);
             this.lblCodigo.TabIndex = 24;
             this.lblCodigo.Text = "Código";
             this.lblCodigo.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -506,9 +538,10 @@
             this.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCodigo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtCodigo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCodigo.Location = new System.Drawing.Point(13, 330);
+            this.txtCodigo.Location = new System.Drawing.Point(17, 407);
+            this.txtCodigo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(411, 25);
+            this.txtCodigo.Size = new System.Drawing.Size(548, 30);
             this.txtCodigo.TabIndex = 25;
             // 
             // lblErrorCodigo
@@ -517,19 +550,21 @@
             this.lblErrorCodigo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblErrorCodigo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblErrorCodigo.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorCodigo.Location = new System.Drawing.Point(13, 357);
+            this.lblErrorCodigo.Location = new System.Drawing.Point(17, 440);
+            this.lblErrorCodigo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblErrorCodigo.Name = "lblErrorCodigo";
-            this.lblErrorCodigo.Size = new System.Drawing.Size(411, 18);
+            this.lblErrorCodigo.Size = new System.Drawing.Size(548, 22);
             this.lblErrorCodigo.TabIndex = 26;
             this.lblErrorCodigo.Text = " ";
             // 
             // FormRegistrarProducto
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(900, 749);
+            this.ClientSize = new System.Drawing.Size(1200, 922);
             this.Controls.Add(this.mainPanel);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormRegistrarProducto";
             this.Text = "Registrar Producto";
             this.Load += new System.EventHandler(this.FormRegistrarProducto_Load);

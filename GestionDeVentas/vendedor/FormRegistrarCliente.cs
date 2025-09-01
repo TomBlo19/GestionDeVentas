@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
-namespace GestionDeVentas.Vendedor
+namespace GestionDeVentas.Gerente
 {
     public partial class FormRegistrarCliente : Form
     {

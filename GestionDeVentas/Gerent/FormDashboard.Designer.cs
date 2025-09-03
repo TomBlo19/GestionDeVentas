@@ -6,7 +6,8 @@ namespace GestionDeVentas.Gerent
     {
         private System.ComponentModel.IContainer components = null;
 
-        // NUEVOS CONTROLES (filtros)
+        // NUEVOS CONTROLES
+        private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Panel panelFiltros;
         private System.Windows.Forms.Label lblDesde;
         private System.Windows.Forms.Label lblHasta;
@@ -73,6 +74,7 @@ namespace GestionDeVentas.Gerent
             this.lblHasta = new System.Windows.Forms.Label();
             this.dtpHasta = new System.Windows.Forms.DateTimePicker();
             this.btnAplicar = new System.Windows.Forms.Button();
+            this.btnCerrar = new System.Windows.Forms.Button();
             this.panelKpis.SuspendLayout();
             this.panelClientesNuevos.SuspendLayout();
             this.panelProductosVendidos.SuspendLayout();
@@ -248,7 +250,6 @@ namespace GestionDeVentas.Gerent
             this.chartVentasPorProducto.Size = new System.Drawing.Size(385, 180);
             this.chartVentasPorProducto.TabIndex = 1;
             this.chartVentasPorProducto.Text = "chart2";
-            this.chartVentasPorProducto.Click += new System.EventHandler(this.chartVentasPorProducto_Click);
             // 
             // panelProductos
             // 
@@ -290,7 +291,7 @@ namespace GestionDeVentas.Gerent
             this.lblTituloDashboard.Name = "lblTituloDashboard";
             this.lblTituloDashboard.Size = new System.Drawing.Size(800, 50);
             this.lblTituloDashboard.TabIndex = 3;
-            this.lblTituloDashboard.Text = "Dashboard Gerencial";
+            this.lblTituloDashboard.Text = "Reportes Gerenciales";
             this.lblTituloDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblTituloDashboard.Click += new System.EventHandler(this.lblTituloDashboard_Click);
             // 
@@ -350,7 +351,25 @@ namespace GestionDeVentas.Gerent
             this.btnAplicar.Size = new System.Drawing.Size(75, 24);
             this.btnAplicar.TabIndex = 4;
             this.btnAplicar.Text = "Aplicar";
+            this.btnAplicar.UseVisualStyleBackColor = true;
             this.btnAplicar.Click += new System.EventHandler(this.btnAplicar_Click);
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCerrar.FlatAppearance.BorderSize = 0;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.Location = new System.Drawing.Point(760, 0); // 800 - 40
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(0);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(40, 40);
+            this.btnCerrar.TabIndex = 99;
+            this.btnCerrar.Text = "✕";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            // Cierra el formulario sin necesitar un método en el .cs
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // FormReporte
             // 
@@ -358,14 +377,16 @@ namespace GestionDeVentas.Gerent
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.panelProductos);
             this.Controls.Add(this.panelGrafico);
             this.Controls.Add(this.panelKpis);
             this.Controls.Add(this.panelFiltros);
             this.Controls.Add(this.lblTituloDashboard);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None; // importante para incrustar en panel
             this.Name = "FormReporte";
-            this.Text = "FormDashboard";
-            this.Load += new System.EventHandler(this.FormReporte_Load);
+            this.Text = "FormReporte";
+            this.Load += new System.EventHandler(this.FormDashboard_Load);
             this.panelKpis.ResumeLayout(false);
             this.panelClientesNuevos.ResumeLayout(false);
             this.panelProductosVendidos.ResumeLayout(false);

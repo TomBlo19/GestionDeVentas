@@ -1,4 +1,7 @@
-﻿namespace GestionDeVentas.Gerent
+﻿using System;
+using System.Windows.Forms;
+
+namespace GestionDeVentas.Gerent
 {
     partial class FormRendimientoVendedores
     {
@@ -6,10 +9,7 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
@@ -42,6 +42,9 @@
             this.panelGraficos = new System.Windows.Forms.Panel();
             this.chartIngresosMensuales = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartVentasPorProducto = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            // >>> NUEVO: botón cerrar
+            this.btnCerrar = new System.Windows.Forms.Button();
+
             this.panelFiltros.SuspendLayout();
             this.panelKPIs.SuspendLayout();
             this.panelVentasUnidades.SuspendLayout();
@@ -265,12 +268,28 @@
             this.chartVentasPorProducto.TabIndex = 1;
             this.chartVentasPorProducto.Text = "chart2";
             // 
+            // >>> NUEVO: btnCerrar
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.FlatAppearance.BorderSize = 0;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.Location = new System.Drawing.Point(760, 0); // 800 - 40
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(40, 40);
+            this.btnCerrar.TabIndex = 999;
+            this.btnCerrar.Text = "✕";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+
+            // 
             // FormRendimientoVendedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.btnCerrar);                 // agregado arriba
             this.Controls.Add(this.panelGraficos);
             this.Controls.Add(this.panelKPIs);
             this.Controls.Add(this.panelFiltros);
@@ -309,5 +328,7 @@
         private System.Windows.Forms.Panel panelGraficos;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartVentasPorProducto;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartIngresosMensuales;
+        // >>> NUEVO:
+        private System.Windows.Forms.Button btnCerrar;
     }
 }

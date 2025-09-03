@@ -15,12 +15,12 @@ namespace GestionDeVentas.Gerent
         public FormReportes()
         {
             InitializeComponent();
-            this.Load += FormReportes_Load;
+            this.Load += FormReportes_Load; // Enlace seguro para el Diseñador
         }
 
         private void FormReportes_Load(object sender, EventArgs e)
         {
-            // OCULTAR elementos de dashboard si existen en tu Designer
+            // Si en tu diseñador quedaron paneles de un dashboard viejo, ocultalos sin romper
             try { panelKpis.Visible = false; } catch { }
             try { panelGraficos.Visible = false; } catch { }
 
@@ -42,9 +42,11 @@ namespace GestionDeVentas.Gerent
             AplicarFiltros();
         }
 
-        private void btnAplicar_Click(object sender, EventArgs e) => AplicarFiltros();
+        private void btnAplicar_Click(object sender, EventArgs e)
+        {
+            AplicarFiltros();
+        }
 
-        // Exportar CSV del detalle
         private void btnExportarCsv_Click(object sender, EventArgs e)
         {
             if (_filtradas == null || _filtradas.Count == 0)
@@ -57,7 +59,7 @@ namespace GestionDeVentas.Gerent
             using (var sfd = new SaveFileDialog()
             {
                 Filter = "CSV (*.csv)|*.csv",
-                FileName = $"reporte_ventas_{DateTime.Now:yyyyMMdd_HHmm}.csv"
+                FileName = "reporte_ventas_" + DateTime.Now.ToString("yyyyMMdd_HHmm")
             })
             {
                 if (sfd.ShowDialog() == DialogResult.OK)
@@ -69,7 +71,6 @@ namespace GestionDeVentas.Gerent
             }
         }
 
-        // Exportar captura de la grilla (por si la querés pegar en un informe)
         private void btnExportarPng_Click(object sender, EventArgs e)
         {
             if (_filtradas == null || _filtradas.Count == 0)
@@ -82,7 +83,7 @@ namespace GestionDeVentas.Gerent
             using (var sfd = new SaveFileDialog()
             {
                 Filter = "PNG (*.png)|*.png",
-                FileName = $"reporte_detalle_{DateTime.Now:yyyyMMdd_HHmm}.png"
+                FileName = "reporte_detalle_" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".png"
             })
             {
                 if (sfd.ShowDialog() == DialogResult.OK)
@@ -98,9 +99,7 @@ namespace GestionDeVentas.Gerent
             }
         }
 
-        // ============================
-        // Filtros y visualización (solo detalle)
-        // ============================
+        // ======== Filtros y visualización (solo detalle) ========
         private void AplicarFiltros()
         {
             var desde = dtpDesde.Value.Date;
@@ -112,7 +111,7 @@ namespace GestionDeVentas.Gerent
                 return;
             }
 
-            string vendedor = cboVendedor.SelectedItem?.ToString() ?? "Todos";
+            string vendedor = (cboVendedor.SelectedItem != null) ? cboVendedor.SelectedItem.ToString() : "Todos";
 
             _filtradas = _ventas
                 .Where(v => v.Fecha.Date >= desde && v.Fecha.Date <= hasta
@@ -129,11 +128,31 @@ namespace GestionDeVentas.Gerent
             dgvDetalle.AutoGenerateColumns = false;
             dgvDetalle.Columns.Clear();
 
-            dgvDetalle.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Fecha", DataPropertyName = "Fecha", Width = 90, DefaultCellStyle = { Format = "dd/MM/yyyy" } });
-            dgvDetalle.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Vendedor", DataPropertyName = "Vendedor", Width = 120 });
-            dgvDetalle.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Producto", DataPropertyName = "Producto", Width = 150 });
-            dgvDetalle.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Cantidad", DataPropertyName = "Cantidad", Width = 70 });
-            dgvDetalle.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Importe", DataPropertyName = "Importe", Width = 90, DefaultCellStyle = { Format = "C2", FormatProvider = CultureInfo.GetCultureInfo("es-AR") } });
+            var cultura = CultureInfo.GetCultureInfo("es-AR");
+
+            var colFecha = new DataGridViewTextBoxColumn();
+            colFecha.HeaderText = "Fecha"; colFecha.DataPropertyName = "Fecha"; colFecha.Width = 90;
+            colFecha.DefaultCellStyle.Format = "dd/MM/yyyy";
+
+            var colVend = new DataGridViewTextBoxColumn();
+            colVend.HeaderText = "Vendedor"; colVend.DataPropertyName = "Vendedor"; colVend.Width = 120;
+
+            var colProd = new DataGridViewTextBoxColumn();
+            colProd.HeaderText = "Producto"; colProd.DataPropertyName = "Producto"; colProd.Width = 150;
+
+            var colCant = new DataGridViewTextBoxColumn();
+            colCant.HeaderText = "Cantidad"; colCant.DataPropertyName = "Cantidad"; colCant.Width = 70;
+
+            var colImp = new DataGridViewTextBoxColumn();
+            colImp.HeaderText = "Importe"; colImp.DataPropertyName = "Importe"; colImp.Width = 90;
+            colImp.DefaultCellStyle.Format = "C2";
+            colImp.DefaultCellStyle.FormatProvider = cultura;
+
+            dgvDetalle.Columns.Add(colFecha);
+            dgvDetalle.Columns.Add(colVend);
+            dgvDetalle.Columns.Add(colProd);
+            dgvDetalle.Columns.Add(colCant);
+            dgvDetalle.Columns.Add(colImp);
 
             dgvDetalle.DataSource = data;
             dgvDetalle.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -141,17 +160,14 @@ namespace GestionDeVentas.Gerent
             dgvDetalle.ReadOnly = true;
             dgvDetalle.RowHeadersVisible = false;
 
-            // Muestra totales en el título del formulario (o podés poner labels propios)
-            var cultura = CultureInfo.GetCultureInfo("es-AR");
             decimal monto = data.Sum(v => v.Importe);
             int unidades = data.Sum(v => v.Cantidad);
             int pedidos = data.Count;
-            this.Text = $"Reportes - Detalle ({pedidos} pedidos, {unidades} unidades, {monto.ToString("$ #,0", cultura)})";
+            this.Text = "Reportes - Detalle (" + pedidos + " pedidos, " + unidades + " unidades, " +
+                        monto.ToString("$ #,0", cultura) + ")";
         }
 
-        // ============================
-        // Utilidades
-        // ============================
+        // ======== Utilidades ========
         private void ExportarCsv(string path, List<Venta> data)
         {
             var cultura = CultureInfo.GetCultureInfo("es-AR");
@@ -159,11 +175,22 @@ namespace GestionDeVentas.Gerent
             {
                 sw.WriteLine("Fecha,Vendedor,Producto,Cantidad,Importe");
                 foreach (var v in data)
-                    sw.WriteLine($"{v.Fecha:yyyy-MM-dd},{Esc(v.Vendedor)},{Esc(v.Producto)},{v.Cantidad},{v.Importe.ToString(cultura)}");
+                {
+                    sw.WriteLine(
+                        v.Fecha.ToString("yyyy-MM-dd") + "," +
+                        Esc(v.Vendedor) + "," +
+                        Esc(v.Producto) + "," +
+                        v.Cantidad + "," +
+                        v.Importe.ToString(cultura)
+                    );
+                }
             }
         }
 
-        private string Esc(string s) { return "\"" + s.Replace("\"", "\"\"") + "\""; }
+        private string Esc(string s)
+        {
+            return "\"" + (s ?? string.Empty).Replace("\"", "\"\"") + "\"";
+        }
 
         private List<Venta> GenerarVentasDemoUltimos6Meses()
         {
@@ -188,11 +215,21 @@ namespace GestionDeVentas.Gerent
                     decimal precio;
                     switch (prod)
                     {
-                        case "Remera": precio = 12000m; break;
-                        case "Buzo": precio = 25000m; break;
-                        case "Jean": precio = 38000m; break;
-                        case "Campera": precio = 65000m; break;
-                        default: precio = 30000m; break;
+                        case "Remera":
+                            precio = 12000m;
+                            break;
+                        case "Buzo":
+                            precio = 25000m;
+                            break;
+                        case "Jean":
+                            precio = 38000m;
+                            break;
+                        case "Campera":
+                            precio = 65000m;
+                            break;
+                        default:
+                            precio = 30000m;
+                            break;
                     }
 
                     lista.Add(new Venta
@@ -208,7 +245,13 @@ namespace GestionDeVentas.Gerent
             return lista;
         }
 
-        // Clase de dominio
+        // >>> Handler del botón cerrar (✕) — enlazado desde el Designer
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        // ======== Clase de dominio ========
         private class Venta
         {
             public DateTime Fecha { get; set; }

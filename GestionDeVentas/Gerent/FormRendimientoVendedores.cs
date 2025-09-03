@@ -59,5 +59,11 @@ namespace GestionDeVentas.Gerent
             chartVentasPorProducto.Titles.Clear();
             chartVentasPorProducto.Titles.Add("Ventas por Producto");
         }
+
+        // >>> NUEVO: handler del botón ✕
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

@@ -23,12 +23,14 @@ namespace GestionDeVentas.Gerent
         public FormDashboard()
         {
             InitializeComponent();
-            // NO volver a enganchar Load aquí (ya lo hace el Designer)
         }
 
-        // ==== Eventos ====
+        // =======================
+        //        EVENTOS
+        // =======================
 
-        private void FormReporte_Load(object sender, EventArgs e)
+        // ¡OJO! El Designer debe enlazar: this.Load += FormDashboard_Load;
+        private void FormDashboard_Load(object sender, EventArgs e)
         {
             // Rango por defecto: 1° día del mes actual hasta hoy
             var hoy = DateTime.Today;
@@ -37,7 +39,16 @@ namespace GestionDeVentas.Gerent
             AplicarFiltros();
         }
 
-        private void btnAplicar_Click(object sender, EventArgs e) => AplicarFiltros();
+        // Handler del botón ❌ (el Designer debe enlazar: this.btnCerrar.Click += btnCerrar_Click;)
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close(); // Cierra el formulario; el contenedor limpia y vuelve al Inicio
+        }
+
+        private void btnAplicar_Click(object sender, EventArgs e)
+        {
+            AplicarFiltros();
+        }
 
         private void chartVentasPorProducto_Click(object sender, EventArgs e)
         {
@@ -46,10 +57,12 @@ namespace GestionDeVentas.Gerent
 
         private void lblTituloDashboard_Click(object sender, EventArgs e)
         {
-            // opcional: navegar, mostrar ayuda, etc.
+            // opcional
         }
 
-        // ==== Lógica ====
+        // =======================
+        //        LÓGICA
+        // =======================
 
         private void AplicarFiltros()
         {
@@ -132,7 +145,9 @@ namespace GestionDeVentas.Gerent
             chartVentasPorProducto.Series.Add(serieVentas);
         }
 
-        // Clase auxiliar
+        // =======================
+        //   CLASE AUXILIAR
+        // =======================
         private class RegistroMensual
         {
             public DateTime Mes { get; set; }

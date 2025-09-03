@@ -20,6 +20,9 @@ namespace GestionDeVentas.Gerent
         private ComboBox cboVendedor;
         private Button btnAplicar;
 
+        // >>> NUEVO: Botón cerrar <<<
+        private Button btnCerrar;
+
         // KPIs
         private Panel panelKpis;
         private Panel panelMonto;
@@ -64,6 +67,9 @@ namespace GestionDeVentas.Gerent
             this.cboVendedor = new System.Windows.Forms.ComboBox();
             this.btnAplicar = new System.Windows.Forms.Button();
 
+            // >>> NUEVO: botón cerrar
+            this.btnCerrar = new System.Windows.Forms.Button();
+
             this.panelKpis = new System.Windows.Forms.Panel();
             this.panelMonto = new System.Windows.Forms.Panel();
             this.lblMonto = new System.Windows.Forms.Label();
@@ -88,7 +94,6 @@ namespace GestionDeVentas.Gerent
             ((System.ComponentModel.ISupportInitialize)(this.chartPorDia)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartPorProducto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
-
             this.SuspendLayout();
 
             // ===== Form =====
@@ -282,7 +287,21 @@ namespace GestionDeVentas.Gerent
             this.panelDetalle.Controls.Add(this.dgvDetalle);
             this.panelDetalle.Controls.Add(this.panelExport);
 
+            // ===== NUEVO: Botón Cerrar (✕) =====
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.FlatAppearance.BorderSize = 0;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.Location = new System.Drawing.Point(940, 0); // 980 - 40
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(40, 40);
+            this.btnCerrar.TabIndex = 999;
+            this.btnCerrar.Text = "✕";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+
             // ===== Orden de agregado al Form =====
+            this.Controls.Add(this.btnCerrar);        // <- lo agrego al final para que quede arriba
             this.Controls.Add(this.panelDetalle);
             this.Controls.Add(this.panelGraficos);
             this.Controls.Add(this.panelKpis);
@@ -296,4 +315,3 @@ namespace GestionDeVentas.Gerent
         }
     }
 }
-

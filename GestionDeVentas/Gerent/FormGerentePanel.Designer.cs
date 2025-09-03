@@ -28,9 +28,9 @@
             this.lblInicio = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.pictureBoxWelcome = new System.Windows.Forms.PictureBox();
-            this.lblGerenteWelcome = new System.Windows.Forms.Label();
             this.topBarPanel = new System.Windows.Forms.Panel();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
+            this.lblGerenteWelcome = new System.Windows.Forms.Label();
             this.logoPanel.SuspendLayout();
             this.sidePanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
@@ -44,8 +44,9 @@
             this.logoPanel.Controls.Add(this.lblGerentePanel);
             this.logoPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.logoPanel.Location = new System.Drawing.Point(0, 0);
+            this.logoPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.logoPanel.Name = "logoPanel";
-            this.logoPanel.Size = new System.Drawing.Size(200, 75);
+            this.logoPanel.Size = new System.Drawing.Size(267, 92);
             this.logoPanel.TabIndex = 9;
             // 
             // lblGerentePanel
@@ -53,8 +54,9 @@
             this.lblGerentePanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblGerentePanel.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGerentePanel.Location = new System.Drawing.Point(0, 0);
+            this.lblGerentePanel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGerentePanel.Name = "lblGerentePanel";
-            this.lblGerentePanel.Size = new System.Drawing.Size(200, 75);
+            this.lblGerentePanel.Size = new System.Drawing.Size(267, 92);
             this.lblGerentePanel.TabIndex = 0;
             this.lblGerentePanel.Text = "Panel de Gerente";
             this.lblGerentePanel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -72,8 +74,9 @@
             this.sidePanel.Controls.Add(this.logoPanel);
             this.sidePanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidePanel.Location = new System.Drawing.Point(0, 0);
+            this.sidePanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.sidePanel.Name = "sidePanel";
-            this.sidePanel.Size = new System.Drawing.Size(200, 450);
+            this.sidePanel.Size = new System.Drawing.Size(267, 554);
             this.sidePanel.TabIndex = 0;
             // 
             // lblCerrarSesion
@@ -83,10 +86,11 @@
             this.lblCerrarSesion.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblCerrarSesion.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCerrarSesion.ForeColor = System.Drawing.Color.Black;
-            this.lblCerrarSesion.Location = new System.Drawing.Point(0, 243);
+            this.lblCerrarSesion.Location = new System.Drawing.Point(0, 262);
+            this.lblCerrarSesion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCerrarSesion.Name = "lblCerrarSesion";
-            this.lblCerrarSesion.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblCerrarSesion.Size = new System.Drawing.Size(200, 30);
+            this.lblCerrarSesion.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblCerrarSesion.Size = new System.Drawing.Size(267, 37);
             this.lblCerrarSesion.TabIndex = 8;
             this.lblCerrarSesion.Text = "Cerrar sesión";
             this.lblCerrarSesion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -99,15 +103,23 @@
             this.lblRendimientoVendedores.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblRendimientoVendedores.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRendimientoVendedores.ForeColor = System.Drawing.Color.Black;
-            this.lblRendimientoVendedores.Location = new System.Drawing.Point(0, 198);
+            this.lblRendimientoVendedores.Location = new System.Drawing.Point(0, 207);
+            this.lblRendimientoVendedores.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRendimientoVendedores.Name = "lblRendimientoVendedores";
-            this.lblRendimientoVendedores.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblRendimientoVendedores.Size = new System.Drawing.Size(200, 45);
+            this.lblRendimientoVendedores.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblRendimientoVendedores.Size = new System.Drawing.Size(267, 55);
             this.lblRendimientoVendedores.TabIndex = 12;
             this.lblRendimientoVendedores.Text = "Rendimiento de Vendedores";
             this.lblRendimientoVendedores.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblRendimientoVendedores.Click += new System.EventHandler(this.lblRendimientoVendedores_Click);
-            
+            // 
+            // lblListarVentas
+            // 
+            this.lblListarVentas.Location = new System.Drawing.Point(0, 0);
+            this.lblListarVentas.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblListarVentas.Name = "lblListarVentas";
+            this.lblListarVentas.Size = new System.Drawing.Size(133, 28);
+            this.lblListarVentas.TabIndex = 13;
             // 
             // lblReportes
             // 
@@ -116,10 +128,11 @@
             this.lblReportes.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblReportes.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblReportes.ForeColor = System.Drawing.Color.Black;
-            this.lblReportes.Location = new System.Drawing.Point(0, 138);
+            this.lblReportes.Location = new System.Drawing.Point(0, 170);
+            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblReportes.Name = "lblReportes";
-            this.lblReportes.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblReportes.Size = new System.Drawing.Size(200, 30);
+            this.lblReportes.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblReportes.Size = new System.Drawing.Size(267, 37);
             this.lblReportes.TabIndex = 10;
             this.lblReportes.Text = "Reportes";
             this.lblReportes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -132,10 +145,11 @@
             this.lblDashboard.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblDashboard.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDashboard.ForeColor = System.Drawing.Color.Black;
-            this.lblDashboard.Location = new System.Drawing.Point(0, 108);
+            this.lblDashboard.Location = new System.Drawing.Point(0, 133);
+            this.lblDashboard.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDashboard.Name = "lblDashboard";
-            this.lblDashboard.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblDashboard.Size = new System.Drawing.Size(200, 30);
+            this.lblDashboard.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblDashboard.Size = new System.Drawing.Size(267, 37);
             this.lblDashboard.TabIndex = 2;
             this.lblDashboard.Text = "Dashboard";
             this.lblDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -148,10 +162,11 @@
             this.lblInicio.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblInicio.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInicio.ForeColor = System.Drawing.Color.Black;
-            this.lblInicio.Location = new System.Drawing.Point(0, 75);
+            this.lblInicio.Location = new System.Drawing.Point(0, 92);
+            this.lblInicio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInicio.Name = "lblInicio";
-            this.lblInicio.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblInicio.Size = new System.Drawing.Size(200, 33);
+            this.lblInicio.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblInicio.Size = new System.Drawing.Size(267, 41);
             this.lblInicio.TabIndex = 0;
             this.lblInicio.Text = "Inicio";
             this.lblInicio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -162,63 +177,74 @@
             this.mainPanel.AutoScroll = true;
             this.mainPanel.Controls.Add(this.pictureBoxWelcome);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(200, 75);
+            this.mainPanel.Location = new System.Drawing.Point(267, 100);
+            this.mainPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(600, 375);
+            this.mainPanel.Size = new System.Drawing.Size(1009, 454);
             this.mainPanel.TabIndex = 2;
             // 
             // pictureBoxWelcome
             // 
             this.pictureBoxWelcome.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.pictureBoxWelcome.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxWelcome.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxWelcome.Name = "pictureBoxWelcome";
-            this.pictureBoxWelcome.Size = new System.Drawing.Size(600, 375);
+            this.pictureBoxWelcome.Size = new System.Drawing.Size(1001, 462);
             this.pictureBoxWelcome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxWelcome.TabIndex = 0;
             this.pictureBoxWelcome.TabStop = false;
             this.pictureBoxWelcome.Click += new System.EventHandler(this.pictureBoxWelcome_Click);
             // 
-            // lblGerenteWelcome
-            // 
-            this.lblGerenteWelcome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblGerenteWelcome.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGerenteWelcome.ForeColor = System.Drawing.Color.White;
-            this.lblGerenteWelcome.Location = new System.Drawing.Point(394, 27);
-            this.lblGerenteWelcome.Name = "lblGerenteWelcome";
-            this.lblGerenteWelcome.Size = new System.Drawing.Size(194, 23);
-            this.lblGerenteWelcome.TabIndex = 0;
-            this.lblGerenteWelcome.Text = "Gerente";
-            this.lblGerenteWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // topBarPanel
             // 
             this.topBarPanel.AutoScroll = true;
             this.topBarPanel.BackColor = System.Drawing.Color.Black;
+            this.topBarPanel.BackgroundImage = global::GestionDeVentas.Properties.Resources.fondo;
             this.topBarPanel.Controls.Add(this.pictureBoxLogo);
             this.topBarPanel.Controls.Add(this.lblGerenteWelcome);
             this.topBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.topBarPanel.Location = new System.Drawing.Point(200, 0);
+            this.topBarPanel.Location = new System.Drawing.Point(267, 0);
+            this.topBarPanel.Margin = new System.Windows.Forms.Padding(4);
             this.topBarPanel.Name = "topBarPanel";
-            this.topBarPanel.Size = new System.Drawing.Size(600, 75);
+            this.topBarPanel.Size = new System.Drawing.Size(1009, 100);
             this.topBarPanel.TabIndex = 1;
+            this.topBarPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.topBarPanel_Paint);
             // 
             // pictureBoxLogo
             // 
-            this.pictureBoxLogo.Location = new System.Drawing.Point(262, 12);
+            this.pictureBoxLogo.ErrorImage = global::GestionDeVentas.Properties.Resources.logoTYV;
+            this.pictureBoxLogo.Location = new System.Drawing.Point(477, 13);
+            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(50, 50);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(99, 78);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogo.TabIndex = 1;
             this.pictureBoxLogo.TabStop = false;
             // 
+            // lblGerenteWelcome
+            // 
+            this.lblGerenteWelcome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblGerenteWelcome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(224)))), ((int)(((byte)(215)))));
+            this.lblGerenteWelcome.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGerenteWelcome.ForeColor = System.Drawing.Color.Black;
+            this.lblGerenteWelcome.Location = new System.Drawing.Point(913, 33);
+            this.lblGerenteWelcome.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGerenteWelcome.Name = "lblGerenteWelcome";
+            this.lblGerenteWelcome.Size = new System.Drawing.Size(80, 28);
+            this.lblGerenteWelcome.TabIndex = 0;
+            this.lblGerenteWelcome.Text = "Gerente";
+            this.lblGerenteWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblGerenteWelcome.Click += new System.EventHandler(this.lblGerenteWelcome_Click);
+            // 
             // FormGerentePanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1276, 554);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.topBarPanel);
             this.Controls.Add(this.sidePanel);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormGerentePanel";
             this.Text = "Panel de Gerente";
             this.Load += new System.EventHandler(this.FormGerentePanel_Load);

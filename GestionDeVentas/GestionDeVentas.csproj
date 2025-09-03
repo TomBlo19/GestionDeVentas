@@ -101,12 +101,6 @@
     <Compile Include="Gerent\FormGerentePanel.Designer.cs">
       <DependentUpon>FormGerentePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gerent\FormListarVentas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Gerent\FormListarVentas.Designer.cs">
-      <DependentUpon>FormListarVentas.cs</DependentUpon>
-    </Compile>
     <Compile Include="Gerent\FormRendimientoVendedores.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -226,6 +220,23 @@
   <ItemGroup>
     <None Include="Resources\ChatGPT Image 29 ago 2025, 04_20_30.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\fondo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fondo2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\header_TYV_800x92.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChatGPT Image 3 sept 2025, 17_38_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fondo21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logoTYV.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

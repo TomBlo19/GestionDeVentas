@@ -139,5 +139,15 @@ namespace GestionDeVentas.Gerent
         {
 
         }
+
+        private void topBarPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblGerenteWelcome_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

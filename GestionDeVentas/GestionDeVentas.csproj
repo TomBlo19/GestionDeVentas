@@ -101,11 +101,23 @@
     <Compile Include="Gerent\FormGerentePanel.Designer.cs">
       <DependentUpon>FormGerentePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Gerent\FormListarVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerent\FormListarVentas.Designer.cs">
+      <DependentUpon>FormListarVentas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Gerent\FormRendimientoVendedores.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Gerent\FormRendimientoVendedores.Designer.cs">
       <DependentUpon>FormRendimientoVendedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerent\FormReporte.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerent\FormReporte.Designer.cs">
+      <DependentUpon>FormReporte.cs</DependentUpon>
     </Compile>
     <Compile Include="iniciar_Sesion\inicioSesion.cs">
       <SubType>Form</SubType>
@@ -162,6 +174,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gerent\FormRendimientoVendedores.resx">
       <DependentUpon>FormRendimientoVendedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerent\FormReporte.resx">
+      <DependentUpon>FormReporte.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="iniciar_Sesion\inicioSesion.resx">
       <DependentUpon>inicioSesion.cs</DependentUpon>

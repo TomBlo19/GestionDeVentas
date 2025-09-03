@@ -9,25 +9,26 @@ namespace GestionDeVentas.Gerent
 {
     public partial class FormDashboard : Form
     {
-        // =========================
         // Datos de ejemplo (mensuales)
-        // =========================
         private readonly List<RegistroMensual> _data = new List<RegistroMensual>
         {
-            new RegistroMensual(new DateTime(DateTime.Today.Year, 1, 1),  7500,  410, 12),
-            new RegistroMensual(new DateTime(DateTime.Today.Year, 2, 1),  8200,  430, 14),
-            new RegistroMensual(new DateTime(DateTime.Today.Year, 3, 1),  7800,  420, 12),
-            new RegistroMensual(new DateTime(DateTime.Today.Year, 4, 1),  9200,  470, 18),
-            new RegistroMensual(new DateTime(DateTime.Today.Year, 5,  1),  8700,  440, 16),
-            new RegistroMensual(new DateTime(DateTime.Today.Year, 6,  1),  8900,  460, 13),
+            new RegistroMensual(new DateTime(DateTime.Today.Year, 1, 1),  7500, 410, 12),
+            new RegistroMensual(new DateTime(DateTime.Today.Year, 2, 1),  8200, 430, 14),
+            new RegistroMensual(new DateTime(DateTime.Today.Year, 3, 1),  7800, 420, 12),
+            new RegistroMensual(new DateTime(DateTime.Today.Year, 4, 1),  9200, 470, 18),
+            new RegistroMensual(new DateTime(DateTime.Today.Year, 5, 1),  8700, 440, 16),
+            new RegistroMensual(new DateTime(DateTime.Today.Year, 6, 1),  8900, 460, 13),
         };
 
         public FormDashboard()
         {
             InitializeComponent();
+            // NO volver a enganchar Load aquí (ya lo hace el Designer)
         }
 
-        private void FormDashboard_Load(object sender, EventArgs e)
+        // ==== Eventos ====
+
+        private void FormReporte_Load(object sender, EventArgs e)
         {
             // Rango por defecto: 1° día del mes actual hasta hoy
             var hoy = DateTime.Today;
@@ -36,10 +37,19 @@ namespace GestionDeVentas.Gerent
             AplicarFiltros();
         }
 
-        private void btnAplicar_Click(object sender, EventArgs e)
+        private void btnAplicar_Click(object sender, EventArgs e) => AplicarFiltros();
+
+        private void chartVentasPorProducto_Click(object sender, EventArgs e)
         {
-            AplicarFiltros();
+            // opcional
         }
+
+        private void lblTituloDashboard_Click(object sender, EventArgs e)
+        {
+            // opcional: navegar, mostrar ayuda, etc.
+        }
+
+        // ==== Lógica ====
 
         private void AplicarFiltros()
         {
@@ -58,7 +68,6 @@ namespace GestionDeVentas.Gerent
 
         private void LoadData(DateTime desde, DateTime hasta)
         {
-            // Normalizo al primer día del mes
             var desdeMes = new DateTime(desde.Year, desde.Month, 1);
             var hastaMes = new DateTime(hasta.Year, hasta.Month, 1);
 
@@ -67,7 +76,7 @@ namespace GestionDeVentas.Gerent
                 .OrderBy(r => r.Mes)
                 .ToList();
 
-            // ===== KPIs =====
+            // KPIs
             var totalIngresos = enRango.Sum(r => r.Ingresos);
             var totalVendidos = enRango.Sum(r => r.ProductosVendidos);
             var totalClientes = enRango.Sum(r => r.ClientesNuevos);
@@ -76,7 +85,7 @@ namespace GestionDeVentas.Gerent
             lblProductosVendidosValor.Text = totalVendidos.ToString("N0");
             lblClientesNuevosValor.Text = totalClientes.ToString("N0");
 
-            // ===== Top 5 Productos (mock) =====
+            // Top 5 (demo)
             dgvTopProductos.Columns.Clear();
             dgvTopProductos.Rows.Clear();
             dgvTopProductos.ColumnCount = 2;
@@ -92,57 +101,38 @@ namespace GestionDeVentas.Gerent
             dgvTopProductos.ReadOnly = true;
             dgvTopProductos.RowHeadersVisible = false;
 
-            // ===== Gráfico de Barras (Ingresos Mensuales) =====
+            // Gráfico Columnas: Ingresos mensuales
             chartIngresosMensuales.Series.Clear();
             chartIngresosMensuales.Titles.Clear();
             chartIngresosMensuales.Titles.Add("Ingresos Mensuales");
 
-            var serieIngresos = new Series("Ingresos")
-            {
-                ChartType = SeriesChartType.Column,
-            };
+            var serieIngresos = new Series("Ingresos") { ChartType = SeriesChartType.Column };
 
             if (enRango.Count == 0)
-            {
-                // Sin datos: agrego un punto 0 para evitar excepciones visuales
                 serieIngresos.Points.AddXY("Sin datos", 0);
-            }
             else
-            {
                 foreach (var r in enRango)
                     serieIngresos.Points.AddXY(r.Mes.ToString("MMM", new CultureInfo("es-AR")), r.Ingresos);
-            }
 
             chartIngresosMensuales.Series.Add(serieIngresos);
             chartIngresosMensuales.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
             chartIngresosMensuales.ChartAreas[0].AxisY.LabelStyle.Format = "$ #,0";
 
-            // ===== Gráfico Pie (Ventas por Producto - ejemplo) =====
+            // Gráfico Pie: Ventas por producto (demo)
             chartVentasPorProducto.Series.Clear();
             chartVentasPorProducto.Titles.Clear();
             chartVentasPorProducto.Titles.Add("Ventas por Producto");
 
-            var serieVentas = new Series("Ventas")
-            {
-                ChartType = SeriesChartType.Pie,
-            };
+            var serieVentas = new Series("Ventas") { ChartType = SeriesChartType.Pie };
             serieVentas.Points.AddXY("Remeras", 30);
             serieVentas.Points.AddXY("Buzos", 25);
             serieVentas.Points.AddXY("Jeans", 20);
             serieVentas.Points.AddXY("Camperas", 15);
             serieVentas.Points.AddXY("Hoodies", 10);
-
             chartVentasPorProducto.Series.Add(serieVentas);
         }
 
-        private void chartVentasPorProducto_Click(object sender, EventArgs e)
-        {
-            // opcional
-        }
-
-        // =========================
-        // Clase auxiliar para datos mensuales
-        // =========================
+        // Clase auxiliar
         private class RegistroMensual
         {
             public DateTime Mes { get; set; }
@@ -157,11 +147,6 @@ namespace GestionDeVentas.Gerent
                 ProductosVendidos = productosVendidos;
                 ClientesNuevos = clientesNuevos;
             }
-        }
-
-        private void panelGrafico_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

@@ -107,22 +107,7 @@
             this.lblRendimientoVendedores.Text = "Rendimiento de Vendedores";
             this.lblRendimientoVendedores.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblRendimientoVendedores.Click += new System.EventHandler(this.lblRendimientoVendedores_Click);
-            // 
-            // lblListarVentas
-            // 
-            this.lblListarVentas.BackColor = System.Drawing.Color.Transparent;
-            this.lblListarVentas.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblListarVentas.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblListarVentas.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblListarVentas.ForeColor = System.Drawing.Color.Black;
-            this.lblListarVentas.Location = new System.Drawing.Point(0, 168);
-            this.lblListarVentas.Name = "lblListarVentas";
-            this.lblListarVentas.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblListarVentas.Size = new System.Drawing.Size(200, 30);
-            this.lblListarVentas.TabIndex = 11;
-            this.lblListarVentas.Text = "Listar Ventas";
-            this.lblListarVentas.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblListarVentas.Click += new System.EventHandler(this.lblListarVentas_Click);
+            
             // 
             // lblReportes
             // 

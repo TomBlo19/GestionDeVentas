@@ -1,5 +1,6 @@
 ﻿using GestionDeVentas.Admin;
 using GestionDeVentas.Gerente;
+using GestionDeVentas.Vendedor;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -142,6 +143,11 @@ namespace GestionDeVentas.vendedor
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+        //terminar
+        private void lblFormFactura_Click(object sender, EventArgs e)
+        {
+            LoadForm(new FormFactura());
         }
 
         private void pictureBoxWelcome_Click(object sender, EventArgs e)

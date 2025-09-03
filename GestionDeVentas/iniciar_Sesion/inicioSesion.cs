@@ -158,5 +158,10 @@ namespace gestionDeVentas
                 "Cierra y vuelve a abrir la aplicación para reintentar.",
                 "Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
+
+        private void table_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace GestionDeVentas.Admin
+﻿namespace GestionDeVentas.AdmSuperior
 {
     partial class FormAdminSuperior
     {
@@ -23,7 +23,7 @@
             this.lblCerrarSesion = new System.Windows.Forms.Label();
             this.lblListarVentas = new System.Windows.Forms.Label();
             this.lblGestionarUsuarios = new System.Windows.Forms.Label();
-            this.lblListarUsuario = new System.Windows.Forms.Label(); // <-- Esta es la nueva declaración
+            this.lblListarUsuario = new System.Windows.Forms.Label();
             this.lblRegistrarUsuario = new System.Windows.Forms.Label();
             this.lblInicio = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
@@ -246,7 +246,6 @@
             this.topBarPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -264,7 +263,6 @@
         private System.Windows.Forms.Label lblAdminWelcome;
         private System.Windows.Forms.Panel topBarPanel;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
-        // Ahora tienes las declaraciones correctas sin duplicados
         private System.Windows.Forms.Label lblListarUsuario;
     }
 }

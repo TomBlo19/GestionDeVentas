@@ -1,16 +1,15 @@
 ﻿using GestionDeVentas.Admin;
-using GestionDeVentas.Gerente;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace GestionDeVentas.vendedor
+namespace GestionDeVentas.Gerent
 {
-    public partial class FormVendedor : Form
+    public partial class FormGerentePanel : Form
     {
         private bool isFormOpen = false;
 
-        public FormVendedor()
+        public FormGerentePanel()
         {
             InitializeComponent();
         }
@@ -27,7 +26,8 @@ namespace GestionDeVentas.vendedor
             this.mainPanel.Controls.Clear();
             this.pictureBoxWelcome.Visible = false;
 
-            form.FormClosed += (s, e) => {
+            form.FormClosed += (s, e) =>
+            {
                 isFormOpen = false;
                 this.mainPanel.Controls.Clear();
                 ShowWelcomeView();
@@ -40,7 +40,7 @@ namespace GestionDeVentas.vendedor
             form.Show();
         }
 
-        private void FormVendedor_Load(object sender, EventArgs e)
+        private void FormGerentePanel_Load(object sender, EventArgs e)
         {
             this.ShowWelcomeView();
 
@@ -62,7 +62,7 @@ namespace GestionDeVentas.vendedor
             isFormOpen = false;
 
             Label welcomeLabel = new Label();
-            welcomeLabel.Text = "¡Bienvenido al Panel de Ventas!";
+            welcomeLabel.Text = "¡Bienvenido al Panel de Gerente!";
             welcomeLabel.Font = new Font("Arial", 20, FontStyle.Bold);
             welcomeLabel.ForeColor = System.Drawing.Color.Gray;
             welcomeLabel.Dock = DockStyle.Top;
@@ -85,7 +85,8 @@ namespace GestionDeVentas.vendedor
                 (this.mainPanel.Height - this.pictureBoxWelcome.Height) / 2
             );
 
-            this.mainPanel.Resize += (sender, e) => {
+            this.mainPanel.Resize += (sender, e) =>
+            {
                 this.pictureBoxWelcome.Location = new Point(
                     (this.mainPanel.Width - this.pictureBoxWelcome.Width) / 2,
                     (this.mainPanel.Height - this.pictureBoxWelcome.Height) / 2
@@ -94,16 +95,16 @@ namespace GestionDeVentas.vendedor
 
             try
             {
-                // Carga tu imagen de bienvenida de vendedor
-                this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
+                // Carga tu imagen de bienvenida para el gerente
+                //this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.imagen_gerente_bienvenida;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar la imagen de bienvenida: " + ex.Message, "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            lblVendedorWelcome.Text = "Vendedor";
-            lblVendedorWelcome.TextAlign = ContentAlignment.MiddleRight;
+            lblGerenteWelcome.Text = "Gerente";
+            lblGerenteWelcome.TextAlign = ContentAlignment.MiddleRight;
         }
 
         // Métodos del menú lateral
@@ -112,31 +113,31 @@ namespace GestionDeVentas.vendedor
             ShowWelcomeView();
         }
 
-        private void lblListarProductos_Click(object sender, EventArgs e)
+        private void lblDashboard_Click(object sender, EventArgs e)
         {
-            // Carga el formulario de listar productos
-            LoadForm(new ListarProductos());
+            LoadForm(new FormDashboard());
+        }
+
+        private void lblReportes_Click(object sender, EventArgs e)
+        {
+            // Carga un formulario vacío para pruebas de Reportes
+            Form tempForm = new Form();
+            tempForm.Text = "Formulario de Reportes (Vacío)";
+            LoadForm(tempForm);
         }
 
         private void lblListarVentas_Click(object sender, EventArgs e)
         {
-            // Carga un formulario vacío para pruebas
+            // Carga un formulario vacío para pruebas de Listar Ventas
             Form tempForm = new Form();
             tempForm.Text = "Formulario de Listar Ventas (Vacío)";
             LoadForm(tempForm);
         }
 
-        private void lblFacturacion_Click(object sender, EventArgs e)
+        private void lblRendimientoVendedores_Click(object sender, EventArgs e)
         {
-            // Carga un formulario vacío para pruebas
-            Form tempForm = new Form();
-            tempForm.Text = "Formulario de Facturación (Vacío)";
-            LoadForm(tempForm);
-        }
-
-        private void lblAñadirCliente_Click(object sender, EventArgs e)
-        {
-            LoadForm(new FormRegistrarCliente());
+            // Carga el formulario de Rendimiento de Vendedores
+            LoadForm(new FormRendimientoVendedores());
         }
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)
@@ -146,7 +147,7 @@ namespace GestionDeVentas.vendedor
 
         private void pictureBoxWelcome_Click(object sender, EventArgs e)
         {
-            // Este método está vacío, no se necesita acción aquí
+
         }
     }
 }

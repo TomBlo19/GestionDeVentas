@@ -1,8 +1,10 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using GestionDeVentas.Admin;
+using System;
 using System.Drawing;
+using System.Windows.Forms;
 
-namespace GestionDeVentas.Admin
+// El namespace ahora es AdmSuperior para ser consistente con el login
+namespace GestionDeVentas.AdmSuperior
 {
     public partial class FormAdminSuperior : Form
     {
@@ -12,6 +14,9 @@ namespace GestionDeVentas.Admin
         {
             InitializeComponent();
         }
+
+        // ... (el resto de tu código de FormAdminSuperior.cs) ...
+        // No necesitas cambiar nada más, solo el namespace de arriba
 
         private void LoadForm(Form form)
         {
@@ -111,7 +116,6 @@ namespace GestionDeVentas.Admin
             lblAdminWelcome.TextAlign = ContentAlignment.MiddleRight;
         }
 
-        // Métodos del menú lateral
         private void lblInicio_Click(object sender, EventArgs e)
         {
             ShowWelcomeView();
@@ -129,7 +133,7 @@ namespace GestionDeVentas.Admin
 
         private void lblGestionarUsuarios_Click(object sender, EventArgs e)
         {
-            // Este método ahora está vacío y no hace nada
+            // Este método ahora está vacío
         }
 
         private void lblListarVentas_Click(object sender, EventArgs e)
@@ -144,7 +148,7 @@ namespace GestionDeVentas.Admin
 
         private void pictureBoxWelcome_Click(object sender, EventArgs e)
         {
-            // Este método está vacío, no se necesita acción aquí
+            // Este método está vacío
         }
     }
 }

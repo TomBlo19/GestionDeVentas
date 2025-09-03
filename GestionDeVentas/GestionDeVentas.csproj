@@ -59,16 +59,16 @@
     <Compile Include="Admin\FormRegistrarProducto.Designer.cs">
       <DependentUpon>FormRegistrarProducto.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdmSiperior\FormAdminSuperior.cs">
+    <Compile Include="AdmSuperior\FormAdminSuperior.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdmSiperior\FormAdminSuperior.Designer.cs">
+    <Compile Include="AdmSuperior\FormAdminSuperior.Designer.cs">
       <DependentUpon>FormAdminSuperior.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdmSiperior\FormRegistrarUsuario.cs">
+    <Compile Include="AdmSuperior\FormRegistrarUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdmSiperior\FormRegistrarUsuario.Designer.cs">
+    <Compile Include="AdmSuperior\FormRegistrarUsuario.Designer.cs">
       <DependentUpon>FormRegistrarUsuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Admin\ListarProductos.cs">
@@ -77,16 +77,16 @@
     <Compile Include="Admin\ListarProductos.Designer.cs">
       <DependentUpon>ListarProductos.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdmSiperior\ListarUsuario.cs">
+    <Compile Include="AdmSuperior\ListarUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdmSiperior\ListarUsuario.Designer.cs">
+    <Compile Include="AdmSuperior\ListarUsuario.Designer.cs">
       <DependentUpon>ListarUsuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdmSiperior\ListarVentas.cs">
+    <Compile Include="AdmSuperior\ListarVentas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AdmSiperior\ListarVentas.Designer.cs">
+    <Compile Include="AdmSuperior\ListarVentas.Designer.cs">
       <DependentUpon>ListarVentas.cs</DependentUpon>
     </Compile>
     <Compile Include="Gerente\FormGerente.cs">
@@ -94,6 +94,30 @@
     </Compile>
     <Compile Include="Gerente\FormGerente.Designer.cs">
       <DependentUpon>FormGerente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerent\FormDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerent\FormDashboard.Designer.cs">
+      <DependentUpon>FormDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerent\FormGerentePanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerent\FormGerentePanel.Designer.cs">
+      <DependentUpon>FormGerentePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gerent\FormRendimientoVendedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gerent\FormRendimientoVendedores.Designer.cs">
+      <DependentUpon>FormRendimientoVendedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="iniciar_Sesion\inicioSesion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="iniciar_Sesion\inicioSesion.Designer.cs">
+      <DependentUpon>inicioSesion.cs</DependentUpon>
     </Compile>
     <Compile Include="MDIParent1.cs">
       <SubType>Form</SubType>
@@ -121,23 +145,35 @@
     <EmbeddedResource Include="Admin\FormRegistrarProducto.resx">
       <DependentUpon>FormRegistrarProducto.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdmSiperior\FormAdminSuperior.resx">
+    <EmbeddedResource Include="AdmSuperior\FormAdminSuperior.resx">
       <DependentUpon>FormAdminSuperior.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdmSiperior\FormRegistrarUsuario.resx">
+    <EmbeddedResource Include="AdmSuperior\FormRegistrarUsuario.resx">
       <DependentUpon>FormRegistrarUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Admin\ListarProductos.resx">
       <DependentUpon>ListarProductos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdmSiperior\ListarUsuario.resx">
+    <EmbeddedResource Include="AdmSuperior\ListarUsuario.resx">
       <DependentUpon>ListarUsuario.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AdmSiperior\ListarVentas.resx">
+    <EmbeddedResource Include="AdmSuperior\ListarVentas.resx">
       <DependentUpon>ListarVentas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gerente\FormGerente.resx">
       <DependentUpon>FormGerente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerent\FormDashboard.resx">
+      <DependentUpon>FormDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerent\FormGerentePanel.resx">
+      <DependentUpon>FormGerentePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gerent\FormRendimientoVendedores.resx">
+      <DependentUpon>FormRendimientoVendedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="iniciar_Sesion\inicioSesion.resx">
+      <DependentUpon>inicioSesion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MDIParent1.resx">
       <DependentUpon>MDIParent1.cs</DependentUpon>

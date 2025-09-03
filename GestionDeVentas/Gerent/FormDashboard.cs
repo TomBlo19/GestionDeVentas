@@ -31,11 +31,11 @@ namespace GestionDeVentas.Gerent
             dgvTopProductos.Columns[0].Name = "Producto";
             dgvTopProductos.Columns[1].Name = "Cantidad Vendida";
 
-            dgvTopProductos.Rows.Add("Smartwatch X1", "550");
-            dgvTopProductos.Rows.Add("Auriculares Pro", "480");
-            dgvTopProductos.Rows.Add("Cámara Digital HD", "390");
-            dgvTopProductos.Rows.Add("Teclado Ergonómico", "320");
-            dgvTopProductos.Rows.Add("Mouse Gaming RGB", "280");
+            dgvTopProductos.Rows.Add("Buzo Canguro", "550");
+            dgvTopProductos.Rows.Add("Remera Mitos", "480");
+            dgvTopProductos.Rows.Add("Campera de Cuero", "390");
+            dgvTopProductos.Rows.Add("jean Cargo ", "320");
+            dgvTopProductos.Rows.Add("jeans Baggy", "280");
 
             dgvTopProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvTopProductos.AllowUserToAddRows = false;
@@ -71,6 +71,11 @@ namespace GestionDeVentas.Gerent
             chartVentasPorProducto.Series.Add(ventasSeries);
             chartVentasPorProducto.Titles.Clear();
             chartVentasPorProducto.Titles.Add("Ventas por Producto");
+        }
+
+        private void chartVentasPorProducto_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

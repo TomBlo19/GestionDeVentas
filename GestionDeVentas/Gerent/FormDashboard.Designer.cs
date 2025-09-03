@@ -179,7 +179,7 @@
             this.panelGrafico.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelGrafico.Location = new System.Drawing.Point(0, 150);
             this.panelGrafico.Name = "panelGrafico";
-            this.panelGrafico.Padding = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.panelGrafico.Padding = new System.Windows.Forms.Padding(10);
             this.panelGrafico.Size = new System.Drawing.Size(800, 200);
             this.panelGrafico.TabIndex = 1;
             // 
@@ -214,6 +214,7 @@
             this.chartVentasPorProducto.Size = new System.Drawing.Size(385, 180);
             this.chartVentasPorProducto.TabIndex = 1;
             this.chartVentasPorProducto.Text = "chart2";
+            this.chartVentasPorProducto.Click += new System.EventHandler(this.chartVentasPorProducto_Click);
             // 
             // panelProductos
             // 
@@ -280,6 +281,7 @@
             this.panelProductos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTopProductos)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion

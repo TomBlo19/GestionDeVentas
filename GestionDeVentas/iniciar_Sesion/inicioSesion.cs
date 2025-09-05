@@ -163,5 +163,10 @@ namespace gestionDeVentas
         {
 
         }
+
+        private void inicioSesion_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

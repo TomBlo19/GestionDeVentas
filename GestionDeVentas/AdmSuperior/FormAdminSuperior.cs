@@ -136,11 +136,7 @@ namespace GestionDeVentas.AdmSuperior
             // Este método ahora está vacío
         }
 
-        private void lblListarVentas_Click(object sender, EventArgs e)
-        {
-            LoadForm(new ListarVentas());
-        }
-
+       
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -150,5 +146,11 @@ namespace GestionDeVentas.AdmSuperior
         {
             // Este método está vacío
         }
+
+        private void lblBackup_Click(object sender, EventArgs e)
+        {
+            LoadForm(new FormBackup());
+        }
+
     }
 }

@@ -223,6 +223,7 @@
             this.Name = "inicioSesion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.inicioSesion_Load);
             this.panelLogin.ResumeLayout(false);
             this.table.ResumeLayout(false);
             this.table.PerformLayout();

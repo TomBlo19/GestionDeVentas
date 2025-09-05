@@ -47,5 +47,15 @@ namespace GestionDeVentas.Vendedor
         {
             this.Close();
         }
+
+        private void FormFactura_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void picLogo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

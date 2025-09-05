@@ -127,14 +127,6 @@ namespace GestionDeVentas.vendedor
             LoadForm(tempForm);
         }
 
-        private void lblFacturacion_Click(object sender, EventArgs e)
-        {
-            // Carga un formulario vacío para pruebas
-            Form tempForm = new Form();
-            tempForm.Text = "Formulario de Facturación (Vacío)";
-            LoadForm(tempForm);
-        }
-
         private void lblAñadirCliente_Click(object sender, EventArgs e)
         {
             LoadForm(new FormRegistrarCliente());
@@ -145,7 +137,7 @@ namespace GestionDeVentas.vendedor
             this.Close();
         }
         //terminar
-        private void lblFormFactura_Click(object sender, EventArgs e)
+        private void lblFacturacion_Click(object sender, EventArgs e)
         {
             LoadForm(new FormFactura());
         }

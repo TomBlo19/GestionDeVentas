@@ -53,24 +53,27 @@
             // 
             // picLogo
             // 
+            this.picLogo.ErrorImage = global::GestionDeVentas.Properties.Resources.logoTYV;
+            this.picLogo.Image = global::GestionDeVentas.Properties.Resources.logoTYV;
             this.picLogo.Location = new System.Drawing.Point(20, 10);
             this.picLogo.Name = "picLogo";
             this.picLogo.Size = new System.Drawing.Size(150, 60);
             this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picLogo.TabIndex = 1;
             this.picLogo.TabStop = false;
+            this.picLogo.Click += new System.EventHandler(this.picLogo_Click);
             // 
             // lblCliente
             // 
             this.lblCliente.Location = new System.Drawing.Point(20, 90);
             this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(100, 23);
+            this.lblCliente.Size = new System.Drawing.Size(54, 23);
             this.lblCliente.TabIndex = 2;
             this.lblCliente.Text = "Cliente:";
             // 
             // txtCliente
             // 
-            this.txtCliente.Location = new System.Drawing.Point(116, 90);
+            this.txtCliente.Location = new System.Drawing.Point(93, 91);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(100, 22);
             this.txtCliente.TabIndex = 3;
@@ -79,13 +82,13 @@
             // 
             this.lblDni.Location = new System.Drawing.Point(20, 120);
             this.lblDni.Name = "lblDni";
-            this.lblDni.Size = new System.Drawing.Size(100, 23);
+            this.lblDni.Size = new System.Drawing.Size(36, 23);
             this.lblDni.TabIndex = 4;
             this.lblDni.Text = "DNI:";
             // 
             // txtDni
             // 
-            this.txtDni.Location = new System.Drawing.Point(116, 120);
+            this.txtDni.Location = new System.Drawing.Point(93, 121);
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(100, 22);
             this.txtDni.TabIndex = 5;
@@ -94,13 +97,13 @@
             // 
             this.lblDireccion.Location = new System.Drawing.Point(20, 150);
             this.lblDireccion.Name = "lblDireccion";
-            this.lblDireccion.Size = new System.Drawing.Size(100, 23);
+            this.lblDireccion.Size = new System.Drawing.Size(67, 23);
             this.lblDireccion.TabIndex = 6;
             this.lblDireccion.Text = "Dirección:";
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(116, 150);
+            this.txtDireccion.Location = new System.Drawing.Point(93, 147);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(100, 22);
             this.txtDireccion.TabIndex = 7;
@@ -109,13 +112,13 @@
             // 
             this.lblFecha.Location = new System.Drawing.Point(20, 180);
             this.lblFecha.Name = "lblFecha";
-            this.lblFecha.Size = new System.Drawing.Size(100, 23);
+            this.lblFecha.Size = new System.Drawing.Size(46, 23);
             this.lblFecha.TabIndex = 8;
             this.lblFecha.Text = "Fecha:";
             // 
             // dtpFecha
             // 
-            this.dtpFecha.Location = new System.Drawing.Point(116, 181);
+            this.dtpFecha.Location = new System.Drawing.Point(93, 180);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(200, 22);
             this.dtpFecha.TabIndex = 9;
@@ -174,7 +177,7 @@
             // 
             this.lblSubtotal.Location = new System.Drawing.Point(400, 440);
             this.lblSubtotal.Name = "lblSubtotal";
-            this.lblSubtotal.Size = new System.Drawing.Size(100, 23);
+            this.lblSubtotal.Size = new System.Drawing.Size(64, 23);
             this.lblSubtotal.TabIndex = 12;
             this.lblSubtotal.Text = "Subtotal:";
             // 
@@ -182,7 +185,7 @@
             // 
             this.lblIVA.Location = new System.Drawing.Point(400, 470);
             this.lblIVA.Name = "lblIVA";
-            this.lblIVA.Size = new System.Drawing.Size(100, 23);
+            this.lblIVA.Size = new System.Drawing.Size(71, 23);
             this.lblIVA.TabIndex = 14;
             this.lblIVA.Text = "IVA (21%):";
             // 
@@ -190,20 +193,20 @@
             // 
             this.lblTotal.Location = new System.Drawing.Point(400, 500);
             this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(100, 23);
+            this.lblTotal.Size = new System.Drawing.Size(64, 23);
             this.lblTotal.TabIndex = 16;
             this.lblTotal.Text = "Total:";
             // 
             // txtSubtotal
             // 
-            this.txtSubtotal.Location = new System.Drawing.Point(506, 438);
+            this.txtSubtotal.Location = new System.Drawing.Point(480, 437);
             this.txtSubtotal.Name = "txtSubtotal";
             this.txtSubtotal.Size = new System.Drawing.Size(100, 22);
             this.txtSubtotal.TabIndex = 13;
             // 
             // txtIVA
             // 
-            this.txtIVA.Location = new System.Drawing.Point(506, 466);
+            this.txtIVA.Location = new System.Drawing.Point(480, 469);
             this.txtIVA.Name = "txtIVA";
             this.txtIVA.Size = new System.Drawing.Size(100, 22);
             this.txtIVA.TabIndex = 15;
@@ -256,6 +259,7 @@
             this.Controls.Add(this.btnCancelar);
             this.Name = "FormFactura";
             this.Text = "Factura";
+            this.Load += new System.EventHandler(this.FormFactura_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).EndInit();
             this.ResumeLayout(false);

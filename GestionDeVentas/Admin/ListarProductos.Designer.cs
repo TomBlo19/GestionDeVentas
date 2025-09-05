@@ -43,7 +43,7 @@
             this.topPanel.Controls.Add(this.btnCerrar);
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(0, 0);
-            this.topPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.topPanel.Margin = new System.Windows.Forms.Padding(4);
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(1067, 98);
             this.topPanel.TabIndex = 0;
@@ -66,7 +66,7 @@
             this.tableLayoutPanelFiltros.Controls.Add(this.cmbTalle, 3, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.cmbCategoria, 5, 0);
             this.tableLayoutPanelFiltros.Location = new System.Drawing.Point(160, 49);
-            this.tableLayoutPanelFiltros.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanelFiltros.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelFiltros.Name = "tableLayoutPanelFiltros";
             this.tableLayoutPanelFiltros.RowCount = 1;
             this.tableLayoutPanelFiltros.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -120,7 +120,7 @@
             this.txtBuscarNombre.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtBuscarNombre.Font = new System.Drawing.Font("Arial", 10F);
             this.txtBuscarNombre.Location = new System.Drawing.Point(97, 4);
-            this.txtBuscarNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBuscarNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtBuscarNombre.Name = "txtBuscarNombre";
             this.txtBuscarNombre.Size = new System.Drawing.Size(183, 27);
             this.txtBuscarNombre.TabIndex = 2;
@@ -132,7 +132,7 @@
             this.cmbTalle.Font = new System.Drawing.Font("Arial", 10F);
             this.cmbTalle.FormattingEnabled = true;
             this.cmbTalle.Location = new System.Drawing.Point(355, 4);
-            this.cmbTalle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbTalle.Margin = new System.Windows.Forms.Padding(4);
             this.cmbTalle.Name = "cmbTalle";
             this.cmbTalle.Size = new System.Drawing.Size(183, 27);
             this.cmbTalle.TabIndex = 4;
@@ -144,7 +144,7 @@
             this.cmbCategoria.Font = new System.Drawing.Font("Arial", 10F);
             this.cmbCategoria.FormattingEnabled = true;
             this.cmbCategoria.Location = new System.Drawing.Point(653, 4);
-            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCategoria.Name = "cmbCategoria";
             this.cmbCategoria.Size = new System.Drawing.Size(183, 27);
             this.cmbCategoria.TabIndex = 6;
@@ -171,7 +171,7 @@
             this.btnCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
             this.btnCerrar.Location = new System.Drawing.Point(1013, 12);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(40, 37);
             this.btnCerrar.TabIndex = 7;
@@ -207,7 +207,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewProductos.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewProductos.Location = new System.Drawing.Point(27, 123);
-            this.dataGridViewProductos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridViewProductos.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridViewProductos.Name = "dataGridViewProductos";
             this.dataGridViewProductos.ReadOnly = true;
             this.dataGridViewProductos.RowHeadersVisible = false;
@@ -226,7 +226,7 @@
             this.Controls.Add(this.dataGridViewProductos);
             this.Controls.Add(this.topPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ListarProductos";
             this.Text = "ListarProductos";
             this.Load += new System.EventHandler(this.ListarProductos_Load);

@@ -38,6 +38,7 @@
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.btnGenerar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnCerrar = new System.Windows.Forms.Button(); // NUEVO
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
             this.SuspendLayout();
@@ -47,7 +48,7 @@
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.Location = new System.Drawing.Point(193, 9);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(113, 36);
+            this.lblTitulo.Size = new System.Drawing.Size(350, 36);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Factura - T&V CLOTHES";
             // 
@@ -61,7 +62,6 @@
             this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picLogo.TabIndex = 1;
             this.picLogo.TabStop = false;
-            this.picLogo.Click += new System.EventHandler(this.picLogo_Click);
             // 
             // lblCliente
             // 
@@ -75,7 +75,7 @@
             // 
             this.txtCliente.Location = new System.Drawing.Point(93, 91);
             this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(100, 22);
+            this.txtCliente.Size = new System.Drawing.Size(150, 22);
             this.txtCliente.TabIndex = 3;
             // 
             // lblDni
@@ -90,7 +90,7 @@
             // 
             this.txtDni.Location = new System.Drawing.Point(93, 121);
             this.txtDni.Name = "txtDni";
-            this.txtDni.Size = new System.Drawing.Size(100, 22);
+            this.txtDni.Size = new System.Drawing.Size(150, 22);
             this.txtDni.TabIndex = 5;
             // 
             // lblDireccion
@@ -105,7 +105,7 @@
             // 
             this.txtDireccion.Location = new System.Drawing.Point(93, 147);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(100, 22);
+            this.txtDireccion.Size = new System.Drawing.Size(200, 22);
             this.txtDireccion.TabIndex = 7;
             // 
             // lblFecha
@@ -169,7 +169,7 @@
             // 
             this.btnAgregar.Location = new System.Drawing.Point(640, 220);
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(75, 23);
+            this.btnAgregar.Size = new System.Drawing.Size(100, 23);
             this.btnAgregar.TabIndex = 11;
             this.btnAgregar.Text = "Agregar Ítem";
             // 
@@ -222,7 +222,7 @@
             // 
             this.btnGenerar.Location = new System.Drawing.Point(200, 550);
             this.btnGenerar.Name = "btnGenerar";
-            this.btnGenerar.Size = new System.Drawing.Size(75, 23);
+            this.btnGenerar.Size = new System.Drawing.Size(120, 23);
             this.btnGenerar.TabIndex = 18;
             this.btnGenerar.Text = "Generar Factura";
             // 
@@ -230,13 +230,30 @@
             // 
             this.btnCancelar.Location = new System.Drawing.Point(350, 550);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelar.Size = new System.Drawing.Size(100, 23);
             this.btnCancelar.TabIndex = 19;
             this.btnCancelar.Text = "Cancelar";
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.FlatAppearance.BorderSize = 0;
+            this.btnCerrar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(255, 100, 100);
+            this.btnCerrar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(230, 70, 70);
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.Location = new System.Drawing.Point(760, 10);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(30, 30);
+            this.btnCerrar.TabIndex = 20;
+            this.btnCerrar.Text = "X";
+            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // FormFactura
             // 
             this.ClientSize = new System.Drawing.Size(800, 600);
+            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.picLogo);
             this.Controls.Add(this.lblCliente);
@@ -293,5 +310,6 @@
         private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.Button btnGenerar;
         private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Button btnCerrar;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -8,23 +7,40 @@ namespace GestionDeVentas.Admin
 {
     public partial class FormRegistrarProducto : Form
     {
-        private List<Producto> listaProductos = new List<Producto>();
+        // Lista visible (para la grilla)
+        private readonly List<Producto> listaProductos = new List<Producto>();
+
+        // Índice para detectar duplicados en O(1)
+        private readonly HashSet<string> clavesUnicas =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // Estado de edición
+        private bool _editMode = false;
+        private int _editingProductId = -1;
+        private string _oldKeyWhileEditing = null; // clave original del producto en edición
 
         public FormRegistrarProducto()
         {
             InitializeComponent();
             CargarTallesYCategorias();
             ConfigurarDataGridView();
-            // Asignar los eventos KeyPress a los TextBoxes
-            this.txtPrecio.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
-            this.txtStock.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
-            this.txtColor.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
+
+            // Validaciones de tipeo
+            this.txtPrecio.KeyPress += txt_SoloNumeros_KeyPress;
+            this.txtStock.KeyPress += txt_SoloNumeros_KeyPress;
+            this.txtColor.KeyPress += txt_SoloLetras_KeyPress;
+
+            // Asegura estado inicial
+            HabilitarEdicion(false);
         }
 
         private void FormRegistrarProducto_Load(object sender, EventArgs e)
         {
-            // Código que se ejecuta al cargar el formulario.
+            // Si más adelante cargas productos desde BD/archivo,
+            // reconstruí acá el HashSet con BuildKey(prod).
         }
+
+        #region Inicialización UI
 
         private void CargarTallesYCategorias()
         {
@@ -47,6 +63,7 @@ namespace GestionDeVentas.Admin
             dgvProductos.Columns.Add("Id", "ID");
             dgvProductos.Columns.Add("Nombre", "Nombre");
             dgvProductos.Columns.Add("Talle", "Talle");
+            dgvProductos.Columns.Add("Color", "Color");
             dgvProductos.Columns.Add("Precio", "Precio");
             dgvProductos.Columns.Add("Stock", "Stock");
             dgvProductos.Columns.Add("Codigo", "Código");
@@ -55,40 +72,166 @@ namespace GestionDeVentas.Admin
         private void ActualizarDataGridView()
         {
             dgvProductos.Rows.Clear();
-            foreach (var prod in listaProductos)
+            foreach (var p in listaProductos)
             {
-                dgvProductos.Rows.Add(prod.Id, prod.Nombre, prod.Talle, prod.Precio, prod.Stock, prod.Codigo);
+                dgvProductos.Rows.Add(p.Id, p.Nombre, p.Talle, p.Color, p.Precio, p.Stock, p.Codigo);
             }
         }
 
+        #endregion
+
+        #region Clave compuesta (evitar duplicados)
+
+        private static string N(string s) => (s ?? string.Empty).Trim().ToUpperInvariant();
+
+        private static string BuildKey(string nombre, string talle, string color, string codigo)
+            => $"{N(nombre)}|{N(talle)}|{N(color)}|{N(codigo)}";
+
+        private static string BuildKey(Producto p)
+            => BuildKey(p.Nombre, p.Talle, p.Color, p.Codigo);
+
+        #endregion
+
+        #region Botón principal (Registrar/Aceptar cambios)
+
         private void btnRegistrarProducto_Click(object sender, EventArgs e)
         {
-            if (ValidarCampos())
+            if (!ValidarCampos()) return;
+
+            string nuevaKey = BuildKey(
+                txtNombreProducto.Text,
+                cmbTalle.SelectedItem?.ToString(),
+                txtColor.Text,
+                txtCodigo.Text
+            );
+
+            if (_editMode)
             {
-                Producto nuevoProducto = new Producto
+                // En edición: si la clave nueva es distinta a la original, verificar duplicado
+                if (!string.Equals(nuevaKey, _oldKeyWhileEditing, StringComparison.OrdinalIgnoreCase) &&
+                    clavesUnicas.Contains(nuevaKey))
+                {
+                    lblErrorCodigo.Text = "Ya existe una prenda con mismo Nombre + Talle + Color + Código.";
+                    return;
+                }
+
+                var prod = listaProductos.FirstOrDefault(p => p.Id == _editingProductId);
+                if (prod != null)
+                {
+                    // Actualiza índice de claves
+                    if (_oldKeyWhileEditing != null)
+                        clavesUnicas.Remove(_oldKeyWhileEditing);
+
+                    prod.Nombre = txtNombreProducto.Text;
+                    prod.Descripcion = txtDescripcion.Text;
+                    prod.Talle = cmbTalle.SelectedItem?.ToString();
+                    prod.Color = txtColor.Text;
+                    prod.Precio = decimal.Parse(txtPrecio.Text);
+                    prod.Stock = int.Parse(txtStock.Text);
+                    prod.Categoria = cmbCategoria.SelectedItem?.ToString();
+                    prod.Marca = txtMarca.Text;
+                    prod.Codigo = txtCodigo.Text;
+
+                    clavesUnicas.Add(BuildKey(prod));
+                }
+
+                MessageBox.Show("Cambios guardados.", "Edición", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                HabilitarEdicion(false);
+                _editingProductId = -1;
+                _oldKeyWhileEditing = null;
+                LimpiarCampos();
+                ActualizarDataGridView();
+            }
+            else
+            {
+                // Alta normal
+                if (clavesUnicas.Contains(nuevaKey))
+                {
+                    lblErrorCodigo.Text = "Ya existe una prenda con mismo Nombre + Talle + Color + Código.";
+                    return;
+                }
+
+                var nuevo = new Producto
                 {
                     Nombre = txtNombreProducto.Text,
                     Descripcion = txtDescripcion.Text,
-                    Talle = cmbTalle.SelectedItem.ToString(),
+                    Talle = cmbTalle.SelectedItem?.ToString(),
                     Color = txtColor.Text,
                     Precio = decimal.Parse(txtPrecio.Text),
                     Stock = int.Parse(txtStock.Text),
-                    Categoria = cmbCategoria.SelectedItem.ToString(),
+                    Categoria = cmbCategoria.SelectedItem?.ToString(),
                     Marca = txtMarca.Text,
                     Codigo = txtCodigo.Text
                 };
 
-                listaProductos.Add(nuevoProducto);
-                MessageBox.Show("Producto registrado correctamente!", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                listaProductos.Add(nuevo);
+                clavesUnicas.Add(BuildKey(nuevo));
+
+                MessageBox.Show("Producto registrado correctamente.", "Registro",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 LimpiarCampos();
                 ActualizarDataGridView();
             }
         }
 
+        #endregion
+
+        #region Doble clic en grilla -> Modo edición
+
+        private void dgvProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var fila = dgvProductos.Rows[e.RowIndex];
+            if (fila.Cells["Id"].Value == null) return;
+
+            _editingProductId = Convert.ToInt32(fila.Cells["Id"].Value);
+            var prod = listaProductos.FirstOrDefault(p => p.Id == _editingProductId);
+            if (prod == null) return;
+
+            txtNombreProducto.Text = prod.Nombre;
+            txtDescripcion.Text = prod.Descripcion;
+            cmbTalle.SelectedItem = prod.Talle;
+            txtColor.Text = prod.Color;
+            txtPrecio.Text = prod.Precio.ToString();
+            txtStock.Text = prod.Stock.ToString();
+            cmbCategoria.SelectedItem = prod.Categoria;
+            txtMarca.Text = prod.Marca;
+            txtCodigo.Text = prod.Codigo;
+
+            // Guardar clave original por si cambia
+            _oldKeyWhileEditing = BuildKey(prod);
+
+            HabilitarEdicion(true);
+        }
+
+        private void HabilitarEdicion(bool habilitar)
+        {
+            _editMode = habilitar;
+            btnRegistrarProducto.Text = habilitar ? "Aceptar cambios" : "Registrar Producto";
+            btnCancelarEdicion.Visible = habilitar;
+            dgvProductos.Enabled = !habilitar;
+        }
+
+        private void btnCancelarEdicion_Click(object sender, EventArgs e)
+        {
+            // Cancela edición, NO guarda cambios ni toca el HashSet
+            HabilitarEdicion(false);
+            _editingProductId = -1;
+            _oldKeyWhileEditing = null;
+            LimpiarCampos();
+            dgvProductos.Enabled = true;
+        }
+
+        #endregion
+
+        #region Validaciones y utilidades
+
         private bool ValidarCampos()
         {
-            bool esValido = true;
-            // Limpiar todos los errores al inicio de la validación
+            bool ok = true;
+
             lblErrorNombre.Text = " ";
             lblErrorDescripcion.Text = " ";
             lblErrorTalle.Text = " ";
@@ -99,75 +242,53 @@ namespace GestionDeVentas.Admin
             lblErrorMarca.Text = " ";
             lblErrorCodigo.Text = " ";
 
-            // Validar Nombre
             if (string.IsNullOrWhiteSpace(txtNombreProducto.Text))
             {
                 lblErrorNombre.Text = "El nombre es obligatorio.";
-                esValido = false;
+                ok = false;
             }
-
-            // Validar Descripción
             if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
             {
                 lblErrorDescripcion.Text = "La descripción es obligatoria.";
-                esValido = false;
+                ok = false;
             }
-
-            // Validar Talle
             if (cmbTalle.SelectedItem == null)
             {
                 lblErrorTalle.Text = "Selecciona un talle.";
-                esValido = false;
+                ok = false;
             }
-
-            // Validar Color
             if (string.IsNullOrWhiteSpace(txtColor.Text))
             {
                 lblErrorColor.Text = "El color es obligatorio.";
-                esValido = false;
+                ok = false;
             }
-
-            // Validar Precio (numérico)
             if (!decimal.TryParse(txtPrecio.Text, out _))
             {
                 lblErrorPrecio.Text = "El precio debe ser un número.";
-                esValido = false;
+                ok = false;
             }
-
-            // Validar Stock (numérico)
             if (!int.TryParse(txtStock.Text, out _))
             {
                 lblErrorStock.Text = "El stock debe ser un número entero.";
-                esValido = false;
+                ok = false;
             }
-
-            // Validar Categoría
             if (cmbCategoria.SelectedItem == null)
             {
                 lblErrorCategoria.Text = "Selecciona una categoría.";
-                esValido = false;
+                ok = false;
             }
-
-            // Validar Marca
             if (string.IsNullOrWhiteSpace(txtMarca.Text))
             {
                 lblErrorMarca.Text = "La marca es obligatoria.";
-                esValido = false;
+                ok = false;
             }
-
-            // Validar Código Único
             if (string.IsNullOrWhiteSpace(txtCodigo.Text))
             {
                 lblErrorCodigo.Text = "El código es obligatorio.";
-                esValido = false;
-            }
-            else if (listaProductos.Any(p => p.Codigo == txtCodigo.Text))
-            {
-                lblErrorCodigo.Text = "Este código ya existe.";
-                esValido = false;
+                ok = false;
             }
 
-            return esValido;
+            return ok;
         }
 
         private void LimpiarCampos()
@@ -181,44 +302,22 @@ namespace GestionDeVentas.Admin
             cmbCategoria.SelectedIndex = -1;
             txtMarca.Clear();
             txtCodigo.Clear();
-        }
 
-        private void dgvProductos_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                var fila = dgvProductos.Rows[e.RowIndex];
-                if (fila.Cells["Id"].Value != null)
-                {
-                    var idProducto = int.Parse(fila.Cells["Id"].Value.ToString());
-                    var productoSeleccionado = listaProductos.FirstOrDefault(p => p.Id == idProducto);
-
-                    if (productoSeleccionado != null)
-                    {
-                        txtNombreProducto.Text = productoSeleccionado.Nombre;
-                        txtDescripcion.Text = productoSeleccionado.Descripcion;
-                        cmbTalle.SelectedItem = productoSeleccionado.Talle;
-                        txtColor.Text = productoSeleccionado.Color;
-                        txtPrecio.Text = productoSeleccionado.Precio.ToString();
-                        txtStock.Text = productoSeleccionado.Stock.ToString();
-                        cmbCategoria.SelectedItem = productoSeleccionado.Categoria;
-                        txtMarca.Text = productoSeleccionado.Marca;
-                        txtCodigo.Text = productoSeleccionado.Codigo;
-                    }
-                }
-            }
+            lblErrorNombre.Text = lblErrorDescripcion.Text = lblErrorTalle.Text =
+                lblErrorColor.Text = lblErrorPrecio.Text = lblErrorStock.Text =
+                lblErrorCategoria.Text = lblErrorMarca.Text = lblErrorCodigo.Text = " ";
         }
 
         private void txt_SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite solo dígitos, la tecla de retroceso (Backspace) y el punto/coma decimal.
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != ','))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ',')
             {
                 e.Handled = true;
             }
 
-            // Si es un punto o una coma, evita que se ponga más de uno.
-            if ((e.KeyChar == '.' || e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf('.') > -1 || (sender as TextBox).Text.IndexOf(',') > -1))
+            var tb = sender as TextBox;
+            if ((e.KeyChar == '.' || e.KeyChar == ',') &&
+                (tb.Text.Contains('.') || tb.Text.Contains(',')))
             {
                 e.Handled = true;
             }
@@ -226,12 +325,18 @@ namespace GestionDeVentas.Admin
 
         private void txt_SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permite solo letras, la tecla de retroceso (Backspace) y la barra espaciadora
             if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
             {
                 e.Handled = true;
             }
         }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion
     }
 
     public class Producto
@@ -253,9 +358,6 @@ namespace GestionDeVentas.Admin
             Id = ++IdCounter;
         }
 
-        public override string ToString()
-        {
-            return $"{Nombre} - {Codigo} - ${Precio}";
-        }
+        public override string ToString() => $"{Nombre} - {Codigo} - ${Precio}";
     }
 }

@@ -70,7 +70,7 @@
             // 
             // txtCliente
             // 
-            this.txtCliente.Location = new System.Drawing.Point(100, 90);
+            this.txtCliente.Location = new System.Drawing.Point(116, 90);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(100, 22);
             this.txtCliente.TabIndex = 3;
@@ -85,7 +85,7 @@
             // 
             // txtDni
             // 
-            this.txtDni.Location = new System.Drawing.Point(100, 120);
+            this.txtDni.Location = new System.Drawing.Point(116, 120);
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(100, 22);
             this.txtDni.TabIndex = 5;
@@ -100,7 +100,7 @@
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(100, 150);
+            this.txtDireccion.Location = new System.Drawing.Point(116, 150);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(100, 22);
             this.txtDireccion.TabIndex = 7;
@@ -115,7 +115,7 @@
             // 
             // dtpFecha
             // 
-            this.dtpFecha.Location = new System.Drawing.Point(100, 180);
+            this.dtpFecha.Location = new System.Drawing.Point(116, 181);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(200, 22);
             this.dtpFecha.TabIndex = 9;
@@ -196,14 +196,14 @@
             // 
             // txtSubtotal
             // 
-            this.txtSubtotal.Location = new System.Drawing.Point(480, 440);
+            this.txtSubtotal.Location = new System.Drawing.Point(506, 438);
             this.txtSubtotal.Name = "txtSubtotal";
             this.txtSubtotal.Size = new System.Drawing.Size(100, 22);
             this.txtSubtotal.TabIndex = 13;
             // 
             // txtIVA
             // 
-            this.txtIVA.Location = new System.Drawing.Point(480, 470);
+            this.txtIVA.Location = new System.Drawing.Point(506, 466);
             this.txtIVA.Name = "txtIVA";
             this.txtIVA.Size = new System.Drawing.Size(100, 22);
             this.txtIVA.TabIndex = 15;

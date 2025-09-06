@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GestionDeVentas.Admin
@@ -10,9 +11,19 @@ namespace GestionDeVentas.Admin
         // Lista visible (para la grilla)
         private readonly List<Producto> listaProductos = new List<Producto>();
 
-        // Índice para detectar duplicados en O(1)
+        // Índice para detectar duplicados en O(1) (clave compuesta)
         private readonly HashSet<string> clavesUnicas =
             new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // Unicidad de códigos (SKU) global
+        private readonly HashSet<string> codigosUnicos =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        // Límites (ajustables)
+        private const int MaxNombre = 60, MaxDescripcion = 400, MaxCodigo = 20, MaxMarca = 40, MaxColor = 30;
+
+        // Patrón de código: letras/números y -._ (3 a 20)
+        private static readonly Regex RxCodigo = new Regex(@"^[A-Za-z0-9._-]{3,20}$");
 
         // Estado de edición
         private bool _editMode = false;
@@ -22,6 +33,7 @@ namespace GestionDeVentas.Admin
         public FormRegistrarProducto()
         {
             InitializeComponent();
+
             CargarTallesYCategorias();
             ConfigurarDataGridView();
 
@@ -37,7 +49,7 @@ namespace GestionDeVentas.Admin
         private void FormRegistrarProducto_Load(object sender, EventArgs e)
         {
             // Si más adelante cargas productos desde BD/archivo,
-            // reconstruí acá el HashSet con BuildKey(prod).
+            // reconstruí acá el HashSet con BuildKey(prod) y codigosUnicos.
         }
 
         #region Inicialización UI
@@ -80,9 +92,27 @@ namespace GestionDeVentas.Admin
 
         #endregion
 
-        #region Clave compuesta (evitar duplicados)
+        #region Helpers y clave compuesta
 
         private static string N(string s) => (s ?? string.Empty).Trim().ToUpperInvariant();
+        private static string T(string s) => (s ?? "").Trim();
+
+        private static string Title(string s)
+        {
+            var t = T(s).ToLower();
+            return System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(t);
+        }
+
+        private static bool TryParseDecimalFlexible(string text, out decimal value)
+        {
+            var ci = System.Globalization.CultureInfo.CurrentCulture;
+            string sep = ci.NumberFormat.NumberDecimalSeparator;
+            text = T(text).Replace(",", sep).Replace(".", sep);
+            return decimal.TryParse(
+                text,
+                System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowThousands,
+                ci, out value);
+        }
 
         private static string BuildKey(string nombre, string talle, string color, string codigo)
             => $"{N(nombre)}|{N(talle)}|{N(color)}|{N(codigo)}";
@@ -98,6 +128,7 @@ namespace GestionDeVentas.Admin
         {
             if (!ValidarCampos()) return;
 
+            // Clave compuesta para el índice de duplicados
             string nuevaKey = BuildKey(
                 txtNombreProducto.Text,
                 cmbTalle.SelectedItem?.ToString(),
@@ -107,7 +138,7 @@ namespace GestionDeVentas.Admin
 
             if (_editMode)
             {
-                // En edición: si la clave nueva es distinta a la original, verificar duplicado
+                // Verificar duplicado si la clave nueva difiere de la original
                 if (!string.Equals(nuevaKey, _oldKeyWhileEditing, StringComparison.OrdinalIgnoreCase) &&
                     clavesUnicas.Contains(nuevaKey))
                 {
@@ -118,21 +149,32 @@ namespace GestionDeVentas.Admin
                 var prod = listaProductos.FirstOrDefault(p => p.Id == _editingProductId);
                 if (prod != null)
                 {
-                    // Actualiza índice de claves
+                    // Actualizar índices
                     if (_oldKeyWhileEditing != null)
                         clavesUnicas.Remove(_oldKeyWhileEditing);
 
-                    prod.Nombre = txtNombreProducto.Text;
-                    prod.Descripcion = txtDescripcion.Text;
-                    prod.Talle = cmbTalle.SelectedItem?.ToString();
-                    prod.Color = txtColor.Text;
-                    prod.Precio = decimal.Parse(txtPrecio.Text);
-                    prod.Stock = int.Parse(txtStock.Text);
-                    prod.Categoria = cmbCategoria.SelectedItem?.ToString();
-                    prod.Marca = txtMarca.Text;
-                    prod.Codigo = txtCodigo.Text;
+                    codigosUnicos.Remove(T(prod.Codigo).ToUpperInvariant());
 
+                    // Normalización al guardar
+                    prod.Nombre = Title(txtNombreProducto.Text);
+                    prod.Descripcion = T(txtDescripcion.Text);
+                    prod.Talle = cmbTalle.SelectedItem?.ToString();
+                    prod.Color = Title(txtColor.Text);
+
+                    // Precio/Stock parseados con cultura
+                    TryParseDecimalFlexible(txtPrecio.Text, out var precioVal);
+                    prod.Precio = precioVal;
+
+                    int.TryParse(T(txtStock.Text), out var stockVal);
+                    prod.Stock = stockVal;
+
+                    prod.Categoria = cmbCategoria.SelectedItem?.ToString();
+                    prod.Marca = Title(txtMarca.Text);
+                    prod.Codigo = T(txtCodigo.Text).ToUpperInvariant();
+
+                    // Reinsertar índices
                     clavesUnicas.Add(BuildKey(prod));
+                    codigosUnicos.Add(prod.Codigo);
                 }
 
                 MessageBox.Show("Cambios guardados.", "Edición", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -144,28 +186,28 @@ namespace GestionDeVentas.Admin
             }
             else
             {
-                // Alta normal
-                if (clavesUnicas.Contains(nuevaKey))
-                {
-                    lblErrorCodigo.Text = "Ya existe una prenda con mismo Nombre + Talle + Color + Código.";
-                    return;
-                }
-
+                // Alta normal (ya validado código único)
                 var nuevo = new Producto
                 {
-                    Nombre = txtNombreProducto.Text,
-                    Descripcion = txtDescripcion.Text,
+                    Nombre = Title(txtNombreProducto.Text),
+                    Descripcion = T(txtDescripcion.Text),
                     Talle = cmbTalle.SelectedItem?.ToString(),
-                    Color = txtColor.Text,
-                    Precio = decimal.Parse(txtPrecio.Text),
-                    Stock = int.Parse(txtStock.Text),
-                    Categoria = cmbCategoria.SelectedItem?.ToString(),
-                    Marca = txtMarca.Text,
-                    Codigo = txtCodigo.Text
+                    Color = Title(txtColor.Text),
                 };
+
+                TryParseDecimalFlexible(txtPrecio.Text, out var precioVal);
+                nuevo.Precio = precioVal;
+
+                int.TryParse(T(txtStock.Text), out var stockVal);
+                nuevo.Stock = stockVal;
+
+                nuevo.Categoria = cmbCategoria.SelectedItem?.ToString();
+                nuevo.Marca = Title(txtMarca.Text);
+                nuevo.Codigo = T(txtCodigo.Text).ToUpperInvariant();
 
                 listaProductos.Add(nuevo);
                 clavesUnicas.Add(BuildKey(nuevo));
+                codigosUnicos.Add(nuevo.Codigo);
 
                 MessageBox.Show("Producto registrado correctamente.", "Registro",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -216,7 +258,6 @@ namespace GestionDeVentas.Admin
 
         private void btnCancelarEdicion_Click(object sender, EventArgs e)
         {
-            // Cancela edición, NO guarda cambios ni toca el HashSet
             HabilitarEdicion(false);
             _editingProductId = -1;
             _oldKeyWhileEditing = null;
@@ -232,60 +273,108 @@ namespace GestionDeVentas.Admin
         {
             bool ok = true;
 
-            lblErrorNombre.Text = " ";
-            lblErrorDescripcion.Text = " ";
-            lblErrorTalle.Text = " ";
-            lblErrorColor.Text = " ";
-            lblErrorPrecio.Text = " ";
-            lblErrorStock.Text = " ";
-            lblErrorCategoria.Text = " ";
-            lblErrorMarca.Text = " ";
-            lblErrorCodigo.Text = " ";
+            // Reset errores
+            lblErrorNombre.Text = lblErrorDescripcion.Text = lblErrorTalle.Text =
+            lblErrorColor.Text = lblErrorPrecio.Text = lblErrorStock.Text =
+            lblErrorCategoria.Text = lblErrorMarca.Text = lblErrorCodigo.Text = " ";
 
-            if (string.IsNullOrWhiteSpace(txtNombreProducto.Text))
+            // Normalizar (para validar)
+            string nombre = T(txtNombreProducto.Text);
+            string descripcion = T(txtDescripcion.Text);
+            string talle = cmbTalle.SelectedItem?.ToString();
+            string color = T(txtColor.Text);
+            string precioTxt = T(txtPrecio.Text);
+            string stockTxt = T(txtStock.Text);
+            string categoria = cmbCategoria.SelectedItem?.ToString();
+            string marca = T(txtMarca.Text);
+            string codigo = T(txtCodigo.Text);
+
+            // Nombre
+            if (string.IsNullOrWhiteSpace(nombre) || nombre.Length < 2 || nombre.Length > MaxNombre)
             {
-                lblErrorNombre.Text = "El nombre es obligatorio.";
+                lblErrorNombre.Text = $"El nombre es obligatorio (2–{MaxNombre} caracteres).";
                 ok = false;
             }
-            if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
+
+            // Descripción
+            if (string.IsNullOrWhiteSpace(descripcion) || descripcion.Length < 5 || descripcion.Length > MaxDescripcion)
             {
-                lblErrorDescripcion.Text = "La descripción es obligatoria.";
+                lblErrorDescripcion.Text = $"La descripción es obligatoria (5–{MaxDescripcion} caracteres).";
                 ok = false;
             }
-            if (cmbTalle.SelectedItem == null)
+
+            // Talle/Categoría
+            if (string.IsNullOrEmpty(talle))
             {
                 lblErrorTalle.Text = "Selecciona un talle.";
                 ok = false;
             }
-            if (string.IsNullOrWhiteSpace(txtColor.Text))
-            {
-                lblErrorColor.Text = "El color es obligatorio.";
-                ok = false;
-            }
-            if (!decimal.TryParse(txtPrecio.Text, out _))
-            {
-                lblErrorPrecio.Text = "El precio debe ser un número.";
-                ok = false;
-            }
-            if (!int.TryParse(txtStock.Text, out _))
-            {
-                lblErrorStock.Text = "El stock debe ser un número entero.";
-                ok = false;
-            }
-            if (cmbCategoria.SelectedItem == null)
+            if (string.IsNullOrEmpty(categoria))
             {
                 lblErrorCategoria.Text = "Selecciona una categoría.";
                 ok = false;
             }
-            if (string.IsNullOrWhiteSpace(txtMarca.Text))
+
+            // Color
+            if (string.IsNullOrWhiteSpace(color) || color.Length > MaxColor)
             {
-                lblErrorMarca.Text = "La marca es obligatoria.";
+                lblErrorColor.Text = $"El color es obligatorio (≤ {MaxColor} caracteres).";
                 ok = false;
             }
-            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
+
+            // Marca
+            if (string.IsNullOrWhiteSpace(marca) || marca.Length > MaxMarca)
             {
-                lblErrorCodigo.Text = "El código es obligatorio.";
+                lblErrorMarca.Text = $"La marca es obligatoria (≤ {MaxMarca} caracteres).";
                 ok = false;
+            }
+
+            // Código: formato y longitud
+            if (string.IsNullOrWhiteSpace(codigo) || codigo.Length > MaxCodigo || !RxCodigo.IsMatch(codigo))
+            {
+                lblErrorCodigo.Text = $"Código inválido (3–{MaxCodigo}, solo letras/números y -._).";
+                ok = false;
+            }
+
+            // Precio
+            if (!TryParseDecimalFlexible(precioTxt, out var precio) || precio <= 0 || precio > 1_000_000m)
+            {
+                lblErrorPrecio.Text = "Precio inválido (> 0).";
+                ok = false;
+            }
+
+            // Stock
+            if (!int.TryParse(stockTxt, out var stock) || stock < 0 || stock > 1_000_000)
+            {
+                lblErrorStock.Text = "Stock inválido (entero ≥ 0).";
+                ok = false;
+            }
+
+            // Unicidad de código (global)
+            if (ok)
+            {
+                string codeKey = codigo.ToUpperInvariant();
+
+                if (_editMode)
+                {
+                    var prod = listaProductos.FirstOrDefault(p => p.Id == _editingProductId);
+                    if (prod != null && !codeKey.Equals(T(prod.Codigo).ToUpperInvariant(), StringComparison.Ordinal))
+                    {
+                        if (codigosUnicos.Contains(codeKey))
+                        {
+                            lblErrorCodigo.Text = "El código ya existe.";
+                            ok = false;
+                        }
+                    }
+                }
+                else
+                {
+                    if (codigosUnicos.Contains(codeKey))
+                    {
+                        lblErrorCodigo.Text = "El código ya existe.";
+                        ok = false;
+                    }
+                }
             }
 
             return ok;
@@ -325,7 +414,7 @@ namespace GestionDeVentas.Admin
 
         private void txt_SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ' && e.KeyChar != '-')
             {
                 e.Handled = true;
             }
@@ -337,6 +426,8 @@ namespace GestionDeVentas.Admin
         }
 
         #endregion
+
+        private void lblTitulo_Click(object sender, EventArgs e) { }
     }
 
     public class Producto

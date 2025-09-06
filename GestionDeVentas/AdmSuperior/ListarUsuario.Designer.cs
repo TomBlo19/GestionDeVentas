@@ -41,7 +41,7 @@
             this.topPanel.Controls.Add(this.btnCerrar);
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(0, 0);
-            this.topPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.topPanel.Margin = new System.Windows.Forms.Padding(4);
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(1067, 98);
             this.topPanel.TabIndex = 0;
@@ -60,7 +60,7 @@
             this.tableLayoutPanelFiltros.Controls.Add(this.txtBuscarNombre, 1, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.cmbTipoUsuario, 3, 0);
             this.tableLayoutPanelFiltros.Location = new System.Drawing.Point(160, 49);
-            this.tableLayoutPanelFiltros.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanelFiltros.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelFiltros.Name = "tableLayoutPanelFiltros";
             this.tableLayoutPanelFiltros.RowCount = 1;
             this.tableLayoutPanelFiltros.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -100,7 +100,7 @@
             this.txtBuscarNombre.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtBuscarNombre.Font = new System.Drawing.Font("Arial", 10F);
             this.txtBuscarNombre.Location = new System.Drawing.Point(97, 4);
-            this.txtBuscarNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBuscarNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtBuscarNombre.Name = "txtBuscarNombre";
             this.txtBuscarNombre.Size = new System.Drawing.Size(299, 27);
             this.txtBuscarNombre.TabIndex = 2;
@@ -112,7 +112,7 @@
             this.cmbTipoUsuario.Font = new System.Drawing.Font("Arial", 10F);
             this.cmbTipoUsuario.FormattingEnabled = true;
             this.cmbTipoUsuario.Location = new System.Drawing.Point(537, 4);
-            this.cmbTipoUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbTipoUsuario.Margin = new System.Windows.Forms.Padding(4);
             this.cmbTipoUsuario.Name = "cmbTipoUsuario";
             this.cmbTipoUsuario.Size = new System.Drawing.Size(299, 27);
             this.cmbTipoUsuario.TabIndex = 6;
@@ -139,7 +139,7 @@
             this.btnCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
             this.btnCerrar.Location = new System.Drawing.Point(1013, 12);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(40, 37);
             this.btnCerrar.TabIndex = 7;
@@ -175,7 +175,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewUsuarios.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewUsuarios.Location = new System.Drawing.Point(27, 123);
-            this.dataGridViewUsuarios.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridViewUsuarios.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridViewUsuarios.Name = "dataGridViewUsuarios";
             this.dataGridViewUsuarios.ReadOnly = true;
             this.dataGridViewUsuarios.RowHeadersVisible = false;
@@ -193,7 +193,7 @@
             this.Controls.Add(this.dataGridViewUsuarios);
             this.Controls.Add(this.topPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ListarUsuario";
             this.Text = "ListarUsuario";
             this.Load += new System.EventHandler(this.ListarUsuario_Load);

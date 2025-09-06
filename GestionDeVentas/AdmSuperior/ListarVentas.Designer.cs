@@ -41,7 +41,7 @@
             this.topPanel.Controls.Add(this.btnCerrar);
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(0, 0);
-            this.topPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.topPanel.Margin = new System.Windows.Forms.Padding(4);
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(1067, 98);
             this.topPanel.TabIndex = 0;
@@ -60,7 +60,7 @@
             this.tableLayoutPanelFiltros.Controls.Add(this.dtpFecha, 1, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.cmbVendedor, 3, 0);
             this.tableLayoutPanelFiltros.Location = new System.Drawing.Point(160, 49);
-            this.tableLayoutPanelFiltros.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanelFiltros.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanelFiltros.Name = "tableLayoutPanelFiltros";
             this.tableLayoutPanelFiltros.RowCount = 1;
             this.tableLayoutPanelFiltros.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -101,7 +101,7 @@
             this.dtpFecha.Font = new System.Drawing.Font("Arial", 10F);
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFecha.Location = new System.Drawing.Point(97, 4);
-            this.dtpFecha.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpFecha.Margin = new System.Windows.Forms.Padding(4);
             this.dtpFecha.Name = "dtpFecha";
             this.dtpFecha.Size = new System.Drawing.Size(312, 27);
             this.dtpFecha.TabIndex = 2;
@@ -113,7 +113,7 @@
             this.cmbVendedor.Font = new System.Drawing.Font("Arial", 10F);
             this.cmbVendedor.FormattingEnabled = true;
             this.cmbVendedor.Location = new System.Drawing.Point(524, 4);
-            this.cmbVendedor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbVendedor.Margin = new System.Windows.Forms.Padding(4);
             this.cmbVendedor.Name = "cmbVendedor";
             this.cmbVendedor.Size = new System.Drawing.Size(312, 27);
             this.cmbVendedor.TabIndex = 6;
@@ -140,7 +140,7 @@
             this.btnCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
             this.btnCerrar.Location = new System.Drawing.Point(1013, 12);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(40, 37);
             this.btnCerrar.TabIndex = 7;
@@ -176,7 +176,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewVentas.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewVentas.Location = new System.Drawing.Point(27, 123);
-            this.dataGridViewVentas.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridViewVentas.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridViewVentas.Name = "dataGridViewVentas";
             this.dataGridViewVentas.ReadOnly = true;
             this.dataGridViewVentas.RowHeadersVisible = false;
@@ -194,7 +194,7 @@
             this.Controls.Add(this.dataGridViewVentas);
             this.Controls.Add(this.topPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ListarVentas";
             this.Text = "ListarVentas";
             this.Load += new System.EventHandler(this.ListarVentas_Load);

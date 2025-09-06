@@ -69,7 +69,7 @@
             this.mainPanel.Controls.Add(this.formPanel);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 0);
-            this.mainPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mainPanel.Margin = new System.Windows.Forms.Padding(4);
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Padding = new System.Windows.Forms.Padding(53, 37, 53, 37);
             this.mainPanel.Size = new System.Drawing.Size(1200, 922);
@@ -86,7 +86,7 @@
             this.btnRegistrarUsuario.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegistrarUsuario.ForeColor = System.Drawing.Color.White;
             this.btnRegistrarUsuario.Location = new System.Drawing.Point(61, 724);
-            this.btnRegistrarUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRegistrarUsuario.Margin = new System.Windows.Forms.Padding(4);
             this.btnRegistrarUsuario.Name = "btnRegistrarUsuario";
             this.btnRegistrarUsuario.Size = new System.Drawing.Size(1061, 62);
             this.btnRegistrarUsuario.TabIndex = 1;
@@ -99,7 +99,7 @@
             this.formPanel.Controls.Add(this.tableLayoutPanel);
             this.formPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.formPanel.Location = new System.Drawing.Point(53, 37);
-            this.formPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.formPanel.Margin = new System.Windows.Forms.Padding(4);
             this.formPanel.Name = "formPanel";
             this.formPanel.Size = new System.Drawing.Size(1094, 679);
             this.formPanel.TabIndex = 0;
@@ -149,7 +149,7 @@
             this.tableLayoutPanel.Controls.Add(this.txtConfirmarContrasena, 1, 17);
             this.tableLayoutPanel.Controls.Add(this.lblErrorConfirmar, 1, 18);
             this.tableLayoutPanel.Location = new System.Drawing.Point(-16, -22);
-            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.tableLayoutPanel.RowCount = 19;
@@ -210,7 +210,7 @@
             this.txtNombreUsuario.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtNombreUsuario.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNombreUsuario.Location = new System.Drawing.Point(17, 109);
-            this.txtNombreUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNombreUsuario.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombreUsuario.Name = "txtNombreUsuario";
             this.txtNombreUsuario.Size = new System.Drawing.Size(543, 30);
             this.txtNombreUsuario.TabIndex = 2;
@@ -247,7 +247,7 @@
             this.txtApellido.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtApellido.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtApellido.Location = new System.Drawing.Point(568, 109);
-            this.txtApellido.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtApellido.Margin = new System.Windows.Forms.Padding(4);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(543, 30);
             this.txtApellido.TabIndex = 5;
@@ -284,7 +284,7 @@
             this.txtDNI.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtDNI.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDNI.Location = new System.Drawing.Point(17, 202);
-            this.txtDNI.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDNI.Margin = new System.Windows.Forms.Padding(4);
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(543, 30);
             this.txtDNI.TabIndex = 8;
@@ -321,7 +321,7 @@
             this.txtTelefono.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtTelefono.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTelefono.Location = new System.Drawing.Point(568, 202);
-            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(543, 30);
             this.txtTelefono.TabIndex = 11;
@@ -358,7 +358,7 @@
             this.txtDireccion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtDireccion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDireccion.Location = new System.Drawing.Point(17, 295);
-            this.txtDireccion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDireccion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(543, 30);
             this.txtDireccion.TabIndex = 14;
@@ -395,7 +395,7 @@
             this.txtPais.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtPais.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPais.Location = new System.Drawing.Point(568, 295);
-            this.txtPais.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPais.Margin = new System.Windows.Forms.Padding(4);
             this.txtPais.Name = "txtPais";
             this.txtPais.Size = new System.Drawing.Size(543, 30);
             this.txtPais.TabIndex = 32;
@@ -432,7 +432,7 @@
             this.txtCiudad.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtCiudad.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCiudad.Location = new System.Drawing.Point(17, 388);
-            this.txtCiudad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCiudad.Margin = new System.Windows.Forms.Padding(4);
             this.txtCiudad.Name = "txtCiudad";
             this.txtCiudad.Size = new System.Drawing.Size(543, 30);
             this.txtCiudad.TabIndex = 35;
@@ -468,7 +468,7 @@
             this.dtpFechaNacimiento.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtpFechaNacimiento.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFechaNacimiento.Location = new System.Drawing.Point(568, 388);
-            this.dtpFechaNacimiento.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpFechaNacimiento.Margin = new System.Windows.Forms.Padding(4);
             this.dtpFechaNacimiento.Name = "dtpFechaNacimiento";
             this.dtpFechaNacimiento.Size = new System.Drawing.Size(543, 30);
             this.dtpFechaNacimiento.TabIndex = 17;
@@ -505,7 +505,7 @@
             this.txtEmail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmail.Location = new System.Drawing.Point(17, 481);
-            this.txtEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtEmail.Margin = new System.Windows.Forms.Padding(4);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(543, 30);
             this.txtEmail.TabIndex = 20;
@@ -543,7 +543,7 @@
             this.cmbRol.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbRol.FormattingEnabled = true;
             this.cmbRol.Location = new System.Drawing.Point(568, 481);
-            this.cmbRol.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbRol.Margin = new System.Windows.Forms.Padding(4);
             this.cmbRol.Name = "cmbRol";
             this.cmbRol.Size = new System.Drawing.Size(543, 31);
             this.cmbRol.TabIndex = 29;
@@ -581,7 +581,7 @@
             this.txtContrasena.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtContrasena.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtContrasena.Location = new System.Drawing.Point(17, 574);
-            this.txtContrasena.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtContrasena.Margin = new System.Windows.Forms.Padding(4);
             this.txtContrasena.Name = "txtContrasena";
             this.txtContrasena.Size = new System.Drawing.Size(543, 30);
             this.txtContrasena.TabIndex = 23;
@@ -619,7 +619,7 @@
             this.txtConfirmarContrasena.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtConfirmarContrasena.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtConfirmarContrasena.Location = new System.Drawing.Point(568, 574);
-            this.txtConfirmarContrasena.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtConfirmarContrasena.Margin = new System.Windows.Forms.Padding(4);
             this.txtConfirmarContrasena.Name = "txtConfirmarContrasena";
             this.txtConfirmarContrasena.Size = new System.Drawing.Size(543, 30);
             this.txtConfirmarContrasena.TabIndex = 26;
@@ -645,7 +645,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1200, 922);
             this.Controls.Add(this.mainPanel);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormRegistrarUsuario";
             this.Text = "Registrar Usuario";
             this.Load += new System.EventHandler(this.FormRegistrarUsuario_Load);

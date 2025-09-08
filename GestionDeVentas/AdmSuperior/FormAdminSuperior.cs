@@ -152,5 +152,14 @@ namespace GestionDeVentas.AdmSuperior
             LoadForm(new FormBackup());
         }
 
+        private void lblListarVentas_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void sidePanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

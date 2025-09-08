@@ -25,6 +25,7 @@
             this.lblFecha = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.dgvDetalle = new System.Windows.Forms.DataGridView();
+            this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPrecio = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,7 +77,7 @@
             // 
             this.txtCliente.Location = new System.Drawing.Point(93, 91);
             this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(150, 22);
+            this.txtCliente.Size = new System.Drawing.Size(150, 20);
             this.txtCliente.TabIndex = 3;
             // 
             // lblDni
@@ -91,7 +92,7 @@
             // 
             this.txtDni.Location = new System.Drawing.Point(93, 121);
             this.txtDni.Name = "txtDni";
-            this.txtDni.Size = new System.Drawing.Size(150, 22);
+            this.txtDni.Size = new System.Drawing.Size(150, 20);
             this.txtDni.TabIndex = 5;
             // 
             // lblDireccion
@@ -106,7 +107,7 @@
             // 
             this.txtDireccion.Location = new System.Drawing.Point(93, 147);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(200, 22);
+            this.txtDireccion.Size = new System.Drawing.Size(200, 20);
             this.txtDireccion.TabIndex = 7;
             // 
             // lblFecha
@@ -121,13 +122,14 @@
             // 
             this.dtpFecha.Location = new System.Drawing.Point(93, 180);
             this.dtpFecha.Name = "dtpFecha";
-            this.dtpFecha.Size = new System.Drawing.Size(200, 22);
+            this.dtpFecha.Size = new System.Drawing.Size(200, 20);
             this.dtpFecha.TabIndex = 9;
             // 
             // dgvDetalle
             // 
             this.dgvDetalle.ColumnHeadersHeight = 29;
             this.dgvDetalle.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colProducto,
             this.colTipo,
             this.colCantidad,
             this.colPrecio,
@@ -138,33 +140,40 @@
             this.dgvDetalle.Size = new System.Drawing.Size(600, 200);
             this.dgvDetalle.TabIndex = 10;
             // 
+            // colProducto
+            // 
+            this.colProducto.HeaderText = "Nombre Producto";
+            this.colProducto.MinimumWidth = 6;
+            this.colProducto.Name = "colProducto";
+            this.colProducto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            // 
             // colTipo
             // 
             this.colTipo.HeaderText = "Tipo de Ropa";
             this.colTipo.MinimumWidth = 6;
             this.colTipo.Name = "colTipo";
-            this.colTipo.Width = 125;
+            this.colTipo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             // 
             // colCantidad
             // 
             this.colCantidad.HeaderText = "Cantidad";
             this.colCantidad.MinimumWidth = 6;
             this.colCantidad.Name = "colCantidad";
-            this.colCantidad.Width = 125;
+            this.colCantidad.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             // 
             // colPrecio
             // 
             this.colPrecio.HeaderText = "Precio Unitario";
             this.colPrecio.MinimumWidth = 6;
             this.colPrecio.Name = "colPrecio";
-            this.colPrecio.Width = 125;
+            this.colPrecio.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             // 
             // colSubtotal
             // 
             this.colSubtotal.HeaderText = "Subtotal";
             this.colSubtotal.MinimumWidth = 6;
             this.colSubtotal.Name = "colSubtotal";
-            this.colSubtotal.Width = 125;
+            this.colSubtotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             // 
             // btnAgregar
             // 
@@ -202,21 +211,21 @@
             // 
             this.txtSubtotal.Location = new System.Drawing.Point(480, 437);
             this.txtSubtotal.Name = "txtSubtotal";
-            this.txtSubtotal.Size = new System.Drawing.Size(100, 22);
+            this.txtSubtotal.Size = new System.Drawing.Size(100, 20);
             this.txtSubtotal.TabIndex = 13;
             // 
             // txtIVA
             // 
             this.txtIVA.Location = new System.Drawing.Point(480, 469);
             this.txtIVA.Name = "txtIVA";
-            this.txtIVA.Size = new System.Drawing.Size(100, 22);
+            this.txtIVA.Size = new System.Drawing.Size(100, 20);
             this.txtIVA.TabIndex = 15;
             // 
             // txtTotal
             // 
             this.txtTotal.Location = new System.Drawing.Point(480, 500);
             this.txtTotal.Name = "txtTotal";
-            this.txtTotal.Size = new System.Drawing.Size(100, 22);
+            this.txtTotal.Size = new System.Drawing.Size(100, 20);
             this.txtTotal.TabIndex = 17;
             // 
             // btnGenerar
@@ -282,7 +291,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -312,5 +320,6 @@
         private System.Windows.Forms.Button btnGenerar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProducto;
     }
 }

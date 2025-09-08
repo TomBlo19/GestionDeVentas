@@ -10,6 +10,7 @@ namespace GestionDeVentas.Gerente
     public partial class FormRegistrarCliente : Form
     {
         private List<Cliente> listaClientes = new List<Cliente>();
+        private int? clienteSeleccionadoId = null;
 
         public FormRegistrarCliente()
         {
@@ -25,28 +26,22 @@ namespace GestionDeVentas.Gerente
 
         private void FormRegistrarCliente_Load(object sender, EventArgs e)
         {
+            // Agregamos algunos clientes de ejemplo para que la tabla no esté vacía al iniciar.
+            listaClientes.Add(new Cliente { Nombre = "Juan", Apellido = "Pérez", Dni = "12345678", Telefono = "11223344", Direccion = "Calle Falsa 123", Pais = "Argentina", Ciudad = "Buenos Aires", FechaNacimiento = new DateTime(1990, 5, 15) });
+            listaClientes.Add(new Cliente { Nombre = "Maria", Apellido = "Gómez", Dni = "87654321", Telefono = "55667788", Direccion = "Avenida Siempreviva 742", Pais = "Argentina", Ciudad = "Rosario", FechaNacimiento = new DateTime(1985, 10, 20), Activo = false });
+            listaClientes.Add(new Cliente { Nombre = "Carlos", Apellido = "López", Dni = "99887766", Telefono = "99887766", Direccion = "Calle 10 555", Pais = "Chile", Ciudad = "Santiago", FechaNacimiento = new DateTime(1995, 3, 30) });
+
             ActualizarDataGridView();
-            dgvClientes.Visible = true;
         }
 
         private void ConfigurarDataGridView()
         {
+            // Las columnas se definen en el archivo .Designer.
             dgvClientes.AutoGenerateColumns = false;
             dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvClientes.AllowUserToResizeRows = false;
             dgvClientes.AllowUserToResizeColumns = true;
             dgvClientes.ReadOnly = true;
-
-            dgvClientes.Columns.Clear();
-            dgvClientes.Columns.Add("Id", "ID");
-            dgvClientes.Columns.Add("Nombre", "Nombre");
-            dgvClientes.Columns.Add("Apellido", "Apellido");
-            dgvClientes.Columns.Add("Dni", "DNI");
-            dgvClientes.Columns.Add("Telefono", "Teléfono");
-            dgvClientes.Columns.Add("Direccion", "Dirección");
-            dgvClientes.Columns.Add("Pais", "País");
-            dgvClientes.Columns.Add("Ciudad", "Ciudad");
-            dgvClientes.Columns.Add("FechaNacimiento", "Fecha de Nacimiento");
         }
 
         private void ActualizarDataGridView()
@@ -54,13 +49,14 @@ namespace GestionDeVentas.Gerente
             dgvClientes.Rows.Clear();
             foreach (var cliente in listaClientes)
             {
-                dgvClientes.Rows.Add(cliente.Id, cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.Telefono, cliente.Direccion, cliente.Pais, cliente.Ciudad, cliente.FechaNacimiento.ToShortDateString());
+                string estado = cliente.Activo ? "Activo" : "Inactivo";
+                dgvClientes.Rows.Add(cliente.Id, cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.Telefono, cliente.Direccion, cliente.Pais, cliente.Ciudad, cliente.FechaNacimiento.ToShortDateString(), estado);
             }
         }
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            if (ValidarCampos())
+            if (ValidarCampos(false))
             {
                 Cliente nuevoCliente = new Cliente
                 {
@@ -81,7 +77,59 @@ namespace GestionDeVentas.Gerente
             }
         }
 
-        private bool ValidarCampos()
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            if (clienteSeleccionadoId.HasValue && ValidarCampos(true))
+            {
+                var clienteAEditar = listaClientes.FirstOrDefault(c => c.Id == clienteSeleccionadoId.Value);
+                if (clienteAEditar != null)
+                {
+                    clienteAEditar.Nombre = txtNombre.Text;
+                    clienteAEditar.Apellido = txtApellido.Text;
+                    clienteAEditar.Dni = txtDni.Text;
+                    clienteAEditar.Telefono = txtTelefono.Text;
+                    clienteAEditar.Direccion = txtDireccion.Text;
+                    clienteAEditar.Pais = txtPais.Text;
+                    clienteAEditar.Ciudad = txtCiudad.Text;
+                    clienteAEditar.FechaNacimiento = dtpFechaNacimiento.Value;
+
+                    MessageBox.Show("Cliente editado correctamente!", "Edición Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LimpiarCampos();
+                    ActualizarDataGridView();
+                }
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (clienteSeleccionadoId.HasValue)
+            {
+                var clienteAEliminar = listaClientes.FirstOrDefault(c => c.Id == clienteSeleccionadoId.Value);
+                if (clienteAEliminar != null)
+                {
+                    if (clienteAEliminar.Activo)
+                    {
+                        clienteAEliminar.Activo = false;
+                        MessageBox.Show("Cliente eliminado (desactivado) correctamente.", "Eliminación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        clienteAEliminar.Activo = true;
+                        MessageBox.Show("Cliente activado correctamente.", "Activación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    LimpiarCampos();
+                    ActualizarDataGridView();
+                }
+            }
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarCampos();
+        }
+
+        private bool ValidarCampos(bool esEdicion)
         {
             bool esValido = true;
 
@@ -116,7 +164,7 @@ namespace GestionDeVentas.Gerente
                 lblErrorDni.Text = "El DNI solo puede contener números.";
                 esValido = false;
             }
-            else if (listaClientes.Any(c => c.Dni == txtDni.Text))
+            else if (listaClientes.Any(c => c.Dni == txtDni.Text && (esEdicion == false || c.Id != clienteSeleccionadoId)))
             {
                 lblErrorDni.Text = "Este DNI ya existe.";
                 esValido = false;
@@ -171,6 +219,12 @@ namespace GestionDeVentas.Gerente
             txtCiudad.Clear();
             dtpFechaNacimiento.Value = DateTime.Now;
             txtNombre.Focus();
+
+            clienteSeleccionadoId = null;
+            btnRegistrar.Visible = true;
+            btnEditar.Visible = false;
+            btnEliminar.Visible = false;
+            btnEliminar.Text = "Eliminar Cliente";
         }
 
         private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -178,6 +232,8 @@ namespace GestionDeVentas.Gerente
             if (e.RowIndex >= 0 && e.RowIndex < listaClientes.Count)
             {
                 var clienteSeleccionado = listaClientes[e.RowIndex];
+                clienteSeleccionadoId = clienteSeleccionado.Id;
+
                 txtNombre.Text = clienteSeleccionado.Nombre;
                 txtApellido.Text = clienteSeleccionado.Apellido;
                 txtDni.Text = clienteSeleccionado.Dni;
@@ -186,7 +242,23 @@ namespace GestionDeVentas.Gerente
                 txtPais.Text = clienteSeleccionado.Pais;
                 txtCiudad.Text = clienteSeleccionado.Ciudad;
                 dtpFechaNacimiento.Value = clienteSeleccionado.FechaNacimiento;
-                dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                btnRegistrar.Visible = false;
+                btnEditar.Visible = true;
+                btnEliminar.Visible = true;
+
+                if (clienteSeleccionado.Activo)
+                {
+                    btnEliminar.Text = "Eliminar Cliente";
+                }
+                else
+                {
+                    btnEliminar.Text = "Activar Cliente";
+                }
+            }
+            else
+            {
+                LimpiarCampos();
             }
         }
 
@@ -205,14 +277,16 @@ namespace GestionDeVentas.Gerente
                 e.Handled = true;
             }
         }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 
-
-    // La clase Cliente debe estar en un archivo separado para una mejor organización,
-    // pero para evitar el error de "diseño", la podemos dejar aquí, como en tu código de Usuario.
     public class Cliente
     {
-        public static int IdCounter = 0;
+        private static int IdCounter = 0;
         public int Id { get; private set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
@@ -222,6 +296,7 @@ namespace GestionDeVentas.Gerente
         public string Pais { get; set; }
         public string Ciudad { get; set; }
         public DateTime FechaNacimiento { get; set; }
+        public bool Activo { get; set; } = true;
 
         public Cliente()
         {

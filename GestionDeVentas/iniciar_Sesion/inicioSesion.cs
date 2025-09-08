@@ -36,7 +36,7 @@ namespace gestionDeVentas
         {
             InitializeComponent();
             this.AcceptButton = btnIngresar;
-           
+            // **¡AÑADE ESTA LÍNEA AQUÍ!**
             try
             {
                 this.logoTYV.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace GestionDeVentas.Admin
 {
@@ -18,68 +16,66 @@ namespace GestionDeVentas.Admin
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
-            this.AutoScroll = true; // Agregado para que se pueda desplazar
         }
 
         private void ListarProductos_Load(object sender, EventArgs e)
         {
-            CargarColumnas();
-            CargarDatosDeEjemplo();
-            CargarFiltros();
-            // Asegúrate de que el DataGridView ocupe el espacio restante
-            // Nota: El Dock en el diseñador ya hace esto, pero es bueno confirmarlo.
-            dataGridViewProductos.Dock = DockStyle.Fill;
-            dataGridViewProductos.BringToFront(); // Asegúrate de que esté encima
-        }
-
-        private void CargarColumnas()
-        {
-            dataTableProductos.Columns.Add("ID", typeof(int));
+            // La única configuración que necesitamos para el DataTable
+            // es agregar las columnas que vamos a usar en el código,
+            // incluyendo las de los filtros, para que el .DefaultView.RowFilter funcione.
+            dataTableProductos.Columns.Add("Código", typeof(string));
             dataTableProductos.Columns.Add("Nombre", typeof(string));
-            dataTableProductos.Columns.Add("Descripción", typeof(string));
+            dataTableProductos.Columns.Add("Marca", typeof(string));
+            dataTableProductos.Columns.Add("Stock", typeof(int));
             dataTableProductos.Columns.Add("Talle", typeof(string));
             dataTableProductos.Columns.Add("Categoría", typeof(string));
-            dataTableProductos.Columns.Add("Precio", typeof(decimal));
-            dataTableProductos.Columns.Add("Stock", typeof(int));
 
+            CargarDatosDeEjemplo();
+
+            // Asignamos el DataTable como origen de datos.
+            // Como AutoGenerateColumns es false, solo se llenarán las columnas
+            // que ya están en el diseñador.
             dataGridViewProductos.DataSource = dataTableProductos;
+
+            CargarFiltros();
+
+            dataGridViewProductos.Dock = DockStyle.Fill;
+            dataGridViewProductos.BringToFront();
         }
 
         private void CargarDatosDeEjemplo()
         {
             dataTableProductos.Rows.Clear();
-            dataTableProductos.Rows.Add(1, "Remera Blanca", "100% algodón", "M", "Remera", 15.99, 50);
-            dataTableProductos.Rows.Add(2, "Pantalón Jean", "Corte recto, azul", "L", "Pantalón", 45.00, 25);
-            dataTableProductos.Rows.Add(3, "Buzo Gris", "Con capucha, material suave", "S", "Buzo", 35.50, 15);
-            dataTableProductos.Rows.Add(4, "Zapatillas Deportivas", "Color negro, para correr", "42", "Calzado", 75.99, 10);
-            dataTableProductos.Rows.Add(5, "Camisa Cuadros", "Manga larga, estilo leñador", "M", "Camisa", 29.90, 30);
-            dataTableProductos.Rows.Add(6, "Pantalón Deportivo", "Material ligero, color negro", "XL", "Pantalón", 25.00, 40);
-            dataTableProductos.Rows.Add(7, "Remera Estampada", "Diseño gráfico", "L", "Remera", 18.50, 60);
+            dataTableProductos.Rows.Add("101", "Remera Algodón", "Nike", 50, "M", "Remera");
+            dataTableProductos.Rows.Add("102", "Pantalón Jean", "Levi's", 25, "L", "Pantalón");
+            dataTableProductos.Rows.Add("103", "Buzo con Capucha", "Adidas", 15, "S", "Buzo");
+            dataTableProductos.Rows.Add("104", "Zapatillas Running", "Puma", 10, "42", "Calzado");
+            dataTableProductos.Rows.Add("105", "Camisa Cuadros", "Zara", 30, "M", "Camisa");
+            dataTableProductos.Rows.Add("106", "Pantalón Deportivo", "Adidas", 40, "XL", "Pantalón");
+            dataTableProductos.Rows.Add("107", "Remera Estampada", "Nike", 60, "L", "Remera");
         }
 
         private void CargarFiltros()
         {
-            // Carga los talles únicos
             var talles = dataTableProductos.AsEnumerable()
-                                           .Select(row => row.Field<string>("Talle"))
-                                           .Distinct()
-                                           .ToList();
+                                             .Select(row => row.Field<string>("Talle"))
+                                             .Distinct()
+                                             .ToList();
             talles.Sort();
             cmbTalle.Items.Clear();
             cmbTalle.Items.Add("Todos");
             cmbTalle.Items.AddRange(talles.ToArray());
-            cmbTalle.SelectedIndex = 0; // Selecciona "Todos" por defecto
+            cmbTalle.SelectedIndex = 0;
 
-            // Carga las categorías únicas
             var categorias = dataTableProductos.AsEnumerable()
-                                               .Select(row => row.Field<string>("Categoría"))
-                                               .Distinct()
-                                               .ToList();
+                                                 .Select(row => row.Field<string>("Categoría"))
+                                                 .Distinct()
+                                                 .ToList();
             categorias.Sort();
             cmbCategoria.Items.Clear();
             cmbCategoria.Items.Add("Todas");
             cmbCategoria.Items.AddRange(categorias.ToArray());
-            cmbCategoria.SelectedIndex = 0; // Selecciona "Todas" por defecto
+            cmbCategoria.SelectedIndex = 0;
         }
 
         private void AplicarFiltros()
@@ -88,23 +84,19 @@ namespace GestionDeVentas.Admin
             string filtroTalle = cmbTalle.SelectedItem?.ToString();
             string filtroCategoria = cmbCategoria.SelectedItem?.ToString();
 
-            // Construye la cadena de filtro
             StringBuilder rowFilter = new StringBuilder();
 
-            // Filtro por nombre
             if (!string.IsNullOrEmpty(filtroNombre))
             {
                 rowFilter.Append($"Nombre LIKE '%{filtroNombre.Replace("'", "''")}%'");
             }
 
-            // Filtro por talle
             if (filtroTalle != "Todos" && !string.IsNullOrEmpty(filtroTalle))
             {
                 if (rowFilter.Length > 0) rowFilter.Append(" AND ");
                 rowFilter.Append($"Talle = '{filtroTalle.Replace("'", "''")}'");
             }
 
-            // Filtro por categoría
             if (filtroCategoria != "Todas" && !string.IsNullOrEmpty(filtroCategoria))
             {
                 if (rowFilter.Length > 0) rowFilter.Append(" AND ");
@@ -129,14 +121,9 @@ namespace GestionDeVentas.Admin
             this.Close();
         }
 
-        private void topPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void dataGridViewProductos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            // Código de evento
         }
     }
 }

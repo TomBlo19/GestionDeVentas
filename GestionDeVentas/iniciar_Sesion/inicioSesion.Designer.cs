@@ -89,6 +89,7 @@
             // logoTYV
             // 
             this.logoTYV.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.logoTYV.Image = global::GestionDeVentas.Properties.Resources.logoTYV;
             this.logoTYV.Location = new System.Drawing.Point(120, 17);
             this.logoTYV.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.logoTYV.Name = "logoTYV";

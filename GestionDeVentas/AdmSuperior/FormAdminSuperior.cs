@@ -161,5 +161,10 @@ namespace GestionDeVentas.AdmSuperior
         {
 
         }
+
+        private void pictureBoxLogo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

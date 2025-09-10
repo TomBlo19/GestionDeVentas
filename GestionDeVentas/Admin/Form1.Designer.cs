@@ -55,8 +55,9 @@
             this.logoPanel.Controls.Add(this.lblAdminPanel);
             this.logoPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.logoPanel.Location = new System.Drawing.Point(0, 0);
+            this.logoPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.logoPanel.Name = "logoPanel";
-            this.logoPanel.Size = new System.Drawing.Size(200, 75);
+            this.logoPanel.Size = new System.Drawing.Size(267, 92);
             this.logoPanel.TabIndex = 9;
             // 
             // lblAdminPanel
@@ -64,8 +65,9 @@
             this.lblAdminPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblAdminPanel.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAdminPanel.Location = new System.Drawing.Point(0, 0);
+            this.lblAdminPanel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAdminPanel.Name = "lblAdminPanel";
-            this.lblAdminPanel.Size = new System.Drawing.Size(200, 75);
+            this.lblAdminPanel.Size = new System.Drawing.Size(267, 92);
             this.lblAdminPanel.TabIndex = 0;
             this.lblAdminPanel.Text = "Admin Panel";
             this.lblAdminPanel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -82,8 +84,9 @@
             this.sidePanel.Controls.Add(this.logoPanel);
             this.sidePanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidePanel.Location = new System.Drawing.Point(0, 0);
+            this.sidePanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.sidePanel.Name = "sidePanel";
-            this.sidePanel.Size = new System.Drawing.Size(200, 450);
+            this.sidePanel.Size = new System.Drawing.Size(267, 554);
             this.sidePanel.TabIndex = 0;
             // 
             // lblCerrarSesion
@@ -93,10 +96,11 @@
             this.lblCerrarSesion.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblCerrarSesion.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCerrarSesion.ForeColor = System.Drawing.Color.Black;
-            this.lblCerrarSesion.Location = new System.Drawing.Point(0, 198);
+            this.lblCerrarSesion.Location = new System.Drawing.Point(0, 244);
+            this.lblCerrarSesion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCerrarSesion.Name = "lblCerrarSesion";
-            this.lblCerrarSesion.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblCerrarSesion.Size = new System.Drawing.Size(200, 30);
+            this.lblCerrarSesion.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblCerrarSesion.Size = new System.Drawing.Size(267, 37);
             this.lblCerrarSesion.TabIndex = 8;
             this.lblCerrarSesion.Text = "Cerrar sesión";
             this.lblCerrarSesion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -109,10 +113,11 @@
             this.lblGestionarPrendas.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblGestionarPrendas.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGestionarPrendas.ForeColor = System.Drawing.Color.Black;
-            this.lblGestionarPrendas.Location = new System.Drawing.Point(0, 168);
+            this.lblGestionarPrendas.Location = new System.Drawing.Point(0, 207);
+            this.lblGestionarPrendas.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGestionarPrendas.Name = "lblGestionarPrendas";
-            this.lblGestionarPrendas.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblGestionarPrendas.Size = new System.Drawing.Size(200, 30);
+            this.lblGestionarPrendas.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblGestionarPrendas.Size = new System.Drawing.Size(267, 37);
             this.lblGestionarPrendas.TabIndex = 3;
             this.lblGestionarPrendas.Text = "Gestionar Prendas";
             this.lblGestionarPrendas.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -125,10 +130,11 @@
             this.lblRegistrarPrenda.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblRegistrarPrenda.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRegistrarPrenda.ForeColor = System.Drawing.Color.Black;
-            this.lblRegistrarPrenda.Location = new System.Drawing.Point(0, 138);
+            this.lblRegistrarPrenda.Location = new System.Drawing.Point(0, 170);
+            this.lblRegistrarPrenda.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRegistrarPrenda.Name = "lblRegistrarPrenda";
-            this.lblRegistrarPrenda.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblRegistrarPrenda.Size = new System.Drawing.Size(200, 30);
+            this.lblRegistrarPrenda.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblRegistrarPrenda.Size = new System.Drawing.Size(267, 37);
             this.lblRegistrarPrenda.TabIndex = 2;
             this.lblRegistrarPrenda.Text = "Registrar Prenda";
             this.lblRegistrarPrenda.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -141,10 +147,11 @@
             this.lblListarProductos.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblListarProductos.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblListarProductos.ForeColor = System.Drawing.Color.Black;
-            this.lblListarProductos.Location = new System.Drawing.Point(0, 108);
+            this.lblListarProductos.Location = new System.Drawing.Point(0, 133);
+            this.lblListarProductos.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblListarProductos.Name = "lblListarProductos";
-            this.lblListarProductos.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblListarProductos.Size = new System.Drawing.Size(200, 30);
+            this.lblListarProductos.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblListarProductos.Size = new System.Drawing.Size(267, 37);
             this.lblListarProductos.TabIndex = 1;
             this.lblListarProductos.Text = "Listar Productos";
             this.lblListarProductos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -157,10 +164,11 @@
             this.lblInicio.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblInicio.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInicio.ForeColor = System.Drawing.Color.Black;
-            this.lblInicio.Location = new System.Drawing.Point(0, 75);
+            this.lblInicio.Location = new System.Drawing.Point(0, 92);
+            this.lblInicio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInicio.Name = "lblInicio";
-            this.lblInicio.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblInicio.Size = new System.Drawing.Size(200, 33);
+            this.lblInicio.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.lblInicio.Size = new System.Drawing.Size(267, 41);
             this.lblInicio.TabIndex = 0;
             this.lblInicio.Text = "Inicio";
             this.lblInicio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -171,17 +179,19 @@
             this.mainPanel.AutoScroll = true;
             this.mainPanel.Controls.Add(this.pictureBoxWelcome);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(200, 75);
+            this.mainPanel.Location = new System.Drawing.Point(267, 92);
+            this.mainPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(600, 375);
+            this.mainPanel.Size = new System.Drawing.Size(800, 462);
             this.mainPanel.TabIndex = 2;
             // 
             // pictureBoxWelcome
             // 
             this.pictureBoxWelcome.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.pictureBoxWelcome.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxWelcome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBoxWelcome.Name = "pictureBoxWelcome";
-            this.pictureBoxWelcome.Size = new System.Drawing.Size(600, 375);
+            this.pictureBoxWelcome.Size = new System.Drawing.Size(800, 462);
             this.pictureBoxWelcome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxWelcome.TabIndex = 0;
             this.pictureBoxWelcome.TabStop = false;
@@ -190,15 +200,18 @@
             // lblAdminWelcome
             // 
             this.lblAdminWelcome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblAdminWelcome.AutoSize = true;
             this.lblAdminWelcome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(224)))), ((int)(((byte)(215)))));
             this.lblAdminWelcome.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAdminWelcome.ForeColor = System.Drawing.Color.Black;
-            this.lblAdminWelcome.Location = new System.Drawing.Point(491, 27);
+            this.lblAdminWelcome.Location = new System.Drawing.Point(652, 33);
+            this.lblAdminWelcome.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAdminWelcome.Name = "lblAdminWelcome";
-            this.lblAdminWelcome.Size = new System.Drawing.Size(97, 23);
+            this.lblAdminWelcome.Size = new System.Drawing.Size(127, 22);
             this.lblAdminWelcome.TabIndex = 0;
             this.lblAdminWelcome.Text = "Administrador";
             this.lblAdminWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblAdminWelcome.Click += new System.EventHandler(this.lblAdminWelcome_Click_1);
             // 
             // topBarPanel
             // 
@@ -208,31 +221,35 @@
             this.topBarPanel.Controls.Add(this.pictureBoxLogo);
             this.topBarPanel.Controls.Add(this.lblAdminWelcome);
             this.topBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.topBarPanel.Location = new System.Drawing.Point(200, 0);
+            this.topBarPanel.Location = new System.Drawing.Point(267, 0);
+            this.topBarPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.topBarPanel.Name = "topBarPanel";
-            this.topBarPanel.Size = new System.Drawing.Size(600, 75);
+            this.topBarPanel.Size = new System.Drawing.Size(800, 92);
             this.topBarPanel.TabIndex = 1;
             // 
             // pictureBoxLogo
             // 
+            this.pictureBoxLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBoxLogo.ErrorImage = null;
             this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logoTYV;
-            this.pictureBoxLogo.Location = new System.Drawing.Point(268, 12);
+            this.pictureBoxLogo.Location = new System.Drawing.Point(349, 15);
+            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(50, 38);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(89, 73);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogo.TabIndex = 1;
             this.pictureBoxLogo.TabStop = false;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.topBarPanel);
             this.Controls.Add(this.sidePanel);
             this.IsMdiContainer = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Admin Panel";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -241,6 +258,7 @@
             this.mainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).EndInit();
             this.topBarPanel.ResumeLayout(false);
+            this.topBarPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             this.ResumeLayout(false);
 

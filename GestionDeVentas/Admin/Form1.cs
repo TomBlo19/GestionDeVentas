@@ -152,6 +152,11 @@ namespace GestionDeVentas.Admin
         {
 
         }
+
+        private void lblAdminWelcome_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 
     // Clases de Formulario de Ejemplo (mantén tus clases reales)

@@ -20,7 +20,6 @@ namespace GestionDeVentas.Admin
         {
             InitializeComponent();
             btnCancelarEdicion.Visible = false;
-            btnDesactivar.Visible = false;
         }
 
         private void FormRegistrarProducto_Load(object sender, EventArgs e)
@@ -50,10 +49,10 @@ namespace GestionDeVentas.Admin
             // Llenar la lista con datos de prueba si está vacía.
             if (productos.Count == 0)
             {
-                productos.Add(new { Id = nextId++, Nombre = "Remera Básica", Codigo = "REM001", Descripcion = "", Talle = "M", Categoria = "Remeras", Color = "Azul", Marca = "", Precio = 15.00m, Stock = 10, Estado = "Activo" });
-                productos.Add(new { Id = nextId++, Nombre = "Pantalón Cargo", Codigo = "PAN002", Descripcion = "", Talle = "L", Categoria = "Pantalones", Color = "Negro", Marca = "", Precio = 30.00m, Stock = 5, Estado = "Activo" });
-                productos.Add(new { Id = nextId++, Nombre = "Sudadera con Capucha", Codigo = "SUD003", Descripcion = "", Talle = "XL", Categoria = "Hobbies", Color = "Gris", Marca = "", Precio = 45.00m, Stock = 2, Estado = "Inactivo" });
-                productos.Add(new { Id = nextId++, Nombre = "Campera de Cuero", Codigo = "CAM004", Descripcion = "", Talle = "S", Categoria = "Camperas", Color = "Marrón", Marca = "", Precio = 80.00m, Stock = 8, Estado = "Activo" });
+                productos.Add(new { Id = nextId++, Nombre = "Remera Básica", Codigo = "REM001", Descripcion = "Remera de algodón", Talle = "M", Categoria = "Remeras", Color = "Azul", Marca = "MarcaX", Precio = 15.00m, Stock = 10, Estado = "Activo", Proveedor = "Proveedor A" });
+                productos.Add(new { Id = nextId++, Nombre = "Pantalón Cargo", Codigo = "PAN002", Descripcion = "Pantalón con varios bolsillos", Talle = "L", Categoria = "Pantalones", Color = "Negro", Marca = "MarcaY", Precio = 30.00m, Stock = 5, Estado = "Activo", Proveedor = "Proveedor B" });
+                productos.Add(new { Id = nextId++, Nombre = "Sudadera con Capucha", Codigo = "SUD003", Descripcion = "Sudadera de lana para invierno", Talle = "XL", Categoria = "Hobbies", Color = "Gris", Marca = "MarcaZ", Precio = 45.00m, Stock = 2, Estado = "Inactivo", Proveedor = "Proveedor A" });
+                productos.Add(new { Id = nextId++, Nombre = "Campera de Cuero", Codigo = "CAM004", Descripcion = "Campera de cuero sintético", Talle = "S", Categoria = "Camperas", Color = "Marrón", Marca = "MarcaX", Precio = 80.00m, Stock = 8, Estado = "Activo", Proveedor = "Proveedor C" });
             }
 
             // Llamar al método para mostrar los productos en el DataGridView
@@ -73,7 +72,8 @@ namespace GestionDeVentas.Admin
                     prod.Precio,
                     prod.Stock,
                     prod.Codigo,
-                    prod.Estado
+                    prod.Estado,
+                    prod.Proveedor
                 );
             }
         }
@@ -89,6 +89,7 @@ namespace GestionDeVentas.Admin
             txtMarca.Clear();
             txtPrecio.Clear();
             txtStock.Clear();
+            txtProveedor.Clear();
 
             // Limpiar errores
             lblErrorNombre.Text = "";
@@ -100,21 +101,123 @@ namespace GestionDeVentas.Admin
             lblErrorMarca.Text = "";
             lblErrorPrecio.Text = "";
             lblErrorStock.Text = "";
+            lblErrorProveedor.Text = "";
         }
 
         private bool ValidarCampos()
         {
             bool isValid = true;
-            // Validaciones básicas, puedes personalizarlas
-            if (string.IsNullOrWhiteSpace(txtNombreProducto.Text)) { lblErrorNombre.Text = "Campo obligatorio"; isValid = false; } else { lblErrorNombre.Text = ""; }
-            if (string.IsNullOrWhiteSpace(txtCodigo.Text)) { lblErrorCodigo.Text = "Campo obligatorio"; isValid = false; } else { lblErrorCodigo.Text = ""; }
-            if (string.IsNullOrWhiteSpace(txtDescripcion.Text)) { lblErrorDescripcion.Text = "Campo obligatorio"; isValid = false; } else { lblErrorDescripcion.Text = ""; }
-            if (cmbTalle.SelectedIndex == -1) { lblErrorTalle.Text = "Seleccione un talle"; isValid = false; } else { lblErrorTalle.Text = ""; }
-            if (cmbCategoria.SelectedIndex == -1) { lblErrorCategoria.Text = "Seleccione una categoría"; isValid = false; } else { lblErrorCategoria.Text = ""; }
-            if (string.IsNullOrWhiteSpace(txtColor.Text)) { lblErrorColor.Text = "Campo obligatorio"; isValid = false; } else { lblErrorColor.Text = ""; }
-            if (string.IsNullOrWhiteSpace(txtMarca.Text)) { lblErrorMarca.Text = "Campo obligatorio"; isValid = false; } else { lblErrorMarca.Text = ""; }
-            if (!decimal.TryParse(txtPrecio.Text, out _) || decimal.Parse(txtPrecio.Text) <= 0) { lblErrorPrecio.Text = "Precio inválido"; isValid = false; } else { lblErrorPrecio.Text = ""; }
-            if (!int.TryParse(txtStock.Text, out _) || int.Parse(txtStock.Text) < 0) { lblErrorStock.Text = "Stock inválido"; isValid = false; } else { lblErrorStock.Text = ""; }
+            // Validaciones de los campos
+            if (string.IsNullOrWhiteSpace(txtNombreProducto.Text))
+            {
+                lblErrorNombre.Text = "Campo obligatorio";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorNombre.Text = "";
+            }
+
+            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
+            {
+                lblErrorCodigo.Text = "Campo obligatorio";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorCodigo.Text = "";
+            }
+
+            // Validación de código duplicado solo si no estamos en modo edición o si el código ha cambiado
+            if (!isEditing || productos.FirstOrDefault(p => p.Id == currentProductId).Codigo != txtCodigo.Text)
+            {
+                if (productos.Any(p => p.Codigo == txtCodigo.Text))
+                {
+                    lblErrorCodigo.Text = "Este código ya existe";
+                    isValid = false;
+                }
+            }
+
+
+            if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
+            {
+                lblErrorDescripcion.Text = "Campo obligatorio";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorDescripcion.Text = "";
+            }
+
+            if (cmbTalle.SelectedIndex == -1)
+            {
+                lblErrorTalle.Text = "Seleccione un talle";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorTalle.Text = "";
+            }
+
+            if (cmbCategoria.SelectedIndex == -1)
+            {
+                lblErrorCategoria.Text = "Seleccione una categoría";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorCategoria.Text = "";
+            }
+
+            if (string.IsNullOrWhiteSpace(txtColor.Text))
+            {
+                lblErrorColor.Text = "Campo obligatorio";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorColor.Text = "";
+            }
+
+            if (string.IsNullOrWhiteSpace(txtMarca.Text))
+            {
+                lblErrorMarca.Text = "Campo obligatorio";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorMarca.Text = "";
+            }
+
+            if (!decimal.TryParse(txtPrecio.Text, out decimal precio) || precio <= 0)
+            {
+                lblErrorPrecio.Text = "Precio inválido";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorPrecio.Text = "";
+            }
+
+            if (!int.TryParse(txtStock.Text, out int stock) || stock < 0)
+            {
+                lblErrorStock.Text = "Stock inválido";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorStock.Text = "";
+            }
+
+            if (string.IsNullOrWhiteSpace(txtProveedor.Text))
+            {
+                lblErrorProveedor.Text = "Campo obligatorio";
+                isValid = false;
+            }
+            else
+            {
+                lblErrorProveedor.Text = "";
+            }
 
             return isValid;
         }
@@ -127,7 +230,7 @@ namespace GestionDeVentas.Admin
 
             // Filtrar la lista de productos
             var productosFiltrados = productos.Where(p =>
-                (string.IsNullOrWhiteSpace(filtroBusqueda) || p.Nombre.ToLower().Contains(filtroBusqueda) || p.Codigo.ToLower().Contains(filtroBusqueda)) &&
+                (string.IsNullOrWhiteSpace(filtroBusqueda) || p.Nombre.ToLower().Contains(filtroBusqueda) || p.Codigo.ToLower().Contains(filtroBusqueda) || p.Proveedor.ToLower().Contains(filtroBusqueda)) &&
                 (filtroCategoria == "Todos" || p.Categoria == filtroCategoria) &&
                 (filtroEstado == "Todos" || p.Estado == filtroEstado)
             ).ToList();
@@ -164,7 +267,6 @@ namespace GestionDeVentas.Admin
                 var productoAEditar = productos.FirstOrDefault(p => p.Id == currentProductId);
                 if (productoAEditar != null)
                 {
-                    // Usa reflexión para actualizar las propiedades de forma dinámica
                     var newProduct = new
                     {
                         Id = currentProductId,
@@ -177,9 +279,9 @@ namespace GestionDeVentas.Admin
                         Marca = txtMarca.Text,
                         Precio = decimal.Parse(txtPrecio.Text),
                         Stock = int.Parse(txtStock.Text),
-                        Estado = productoAEditar.Estado
+                        Estado = productoAEditar.Estado,
+                        Proveedor = txtProveedor.Text
                     };
-                    // Reemplaza el objeto anónimo en la lista.
                     productos[productos.IndexOf(productoAEditar)] = newProduct;
                 }
                 MessageBox.Show("Producto editado exitosamente.");
@@ -199,11 +301,47 @@ namespace GestionDeVentas.Admin
                     Marca = txtMarca.Text,
                     Precio = decimal.Parse(txtPrecio.Text),
                     Stock = int.Parse(txtStock.Text),
-                    Estado = "Activo"
+                    Estado = "Activo",
+                    Proveedor = txtProveedor.Text
                 };
                 productos.Add(nuevoProducto);
                 MessageBox.Show("Producto registrado exitosamente.");
             }
+            LimpiarCampos();
+            isEditing = false;
+            btnRegistrarProducto.Text = "Registrar Producto";
+            btnCancelarEdicion.Visible = false;
+            btnDesactivar.Visible = false;
+            AplicarFiltros();
+        }
+
+        private void btnDesactivar_Click(object sender, EventArgs e)
+        {
+            // Lógica para cambiar el estado del producto
+            var productoAfectado = productos.FirstOrDefault(p => p.Id == currentProductId);
+            if (productoAfectado != null)
+            {
+                string nuevoEstado = productoAfectado.Estado == "Activo" ? "Inactivo" : "Activo";
+
+                var updatedProduct = new
+                {
+                    productoAfectado.Id,
+                    productoAfectado.Nombre,
+                    productoAfectado.Codigo,
+                    productoAfectado.Descripcion,
+                    productoAfectado.Talle,
+                    productoAfectado.Categoria,
+                    productoAfectado.Color,
+                    productoAfectado.Marca,
+                    productoAfectado.Precio,
+                    productoAfectado.Stock,
+                    Estado = nuevoEstado,
+                    productoAfectado.Proveedor
+                };
+                productos[productos.IndexOf(productoAfectado)] = updatedProduct;
+                MessageBox.Show($"Producto {nuevoEstado.ToLower()} exitosamente.");
+            }
+
             LimpiarCampos();
             isEditing = false;
             btnRegistrarProducto.Text = "Registrar Producto";
@@ -219,40 +357,6 @@ namespace GestionDeVentas.Admin
             btnRegistrarProducto.Text = "Registrar Producto";
             btnCancelarEdicion.Visible = false;
             btnDesactivar.Visible = false;
-        }
-
-        private void btnDesactivar_Click(object sender, EventArgs e)
-        {
-            // Lógica para desactivar un producto.
-            var productoADesactivar = productos.FirstOrDefault(p => p.Id == currentProductId);
-            if (productoADesactivar != null)
-            {
-                // Para los objetos anónimos, no se pueden cambiar propiedades directamente.
-                // La solución es crear un nuevo objeto con el estado actualizado y reemplazarlo.
-                var updatedProduct = new
-                {
-                    productoADesactivar.Id,
-                    productoADesactivar.Nombre,
-                    productoADesactivar.Codigo,
-                    productoADesactivar.Descripcion,
-                    productoADesactivar.Talle,
-                    productoADesactivar.Categoria,
-                    productoADesactivar.Color,
-                    productoADesactivar.Marca,
-                    productoADesactivar.Precio,
-                    productoADesactivar.Stock,
-                    Estado = "Inactivo"
-                };
-                productos[productos.IndexOf(productoADesactivar)] = updatedProduct;
-                MessageBox.Show("Producto desactivado exitosamente.");
-            }
-
-            LimpiarCampos();
-            isEditing = false;
-            btnRegistrarProducto.Text = "Registrar Producto";
-            btnCancelarEdicion.Visible = false;
-            btnDesactivar.Visible = false;
-            AplicarFiltros();
         }
 
         private void dgvProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -274,11 +378,22 @@ namespace GestionDeVentas.Admin
                     txtMarca.Text = productoSeleccionado.Marca;
                     txtPrecio.Text = productoSeleccionado.Precio.ToString();
                     txtStock.Text = productoSeleccionado.Stock.ToString();
+                    txtProveedor.Text = productoSeleccionado.Proveedor;
 
                     isEditing = true;
                     btnRegistrarProducto.Text = "Guardar Cambios";
                     btnCancelarEdicion.Visible = true;
                     btnDesactivar.Visible = true;
+
+                    // Cambiar texto del botón de estado según el estado actual del producto
+                    if (productoSeleccionado.Estado == "Activo")
+                    {
+                        btnDesactivar.Text = "Desactivar Producto";
+                    }
+                    else
+                    {
+                        btnDesactivar.Text = "Activar Producto";
+                    }
                 }
             }
         }
@@ -296,6 +411,11 @@ namespace GestionDeVentas.Admin
         private void cmbFiltroCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
             AplicarFiltros();
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+            // Este evento está vacío, no hay problema.
         }
     }
 }

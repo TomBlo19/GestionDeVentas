@@ -134,7 +134,7 @@ namespace GestionDeVentas.Admin
 
         private void lblGestionarPrendas_Click(object sender, EventArgs e)
         {
-            LoadForm(new FormGestionarPrendas());
+            LoadForm(new FormGestionProductos());
         }
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)

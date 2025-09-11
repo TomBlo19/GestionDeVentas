@@ -12,6 +12,9 @@ namespace GestionDeVentas.Admin
         private bool isEditing = false;
         private int currentProductId;
 
+        // [TRACK] bandera para saber si hay cambios sin guardar en el formulario de edición/alta
+        private bool hayCambios = false;
+
         // Lista estática para almacenar los productos. Usamos un tipo anónimo para simular la estructura del objeto.
         private static List<dynamic> productos = new List<dynamic>();
         private int nextId = 1;
@@ -20,6 +23,12 @@ namespace GestionDeVentas.Admin
         {
             InitializeComponent();
             btnCancelarEdicion.Visible = false;
+
+            // [TRACK] aviso de cierre con cambios sin guardar
+            this.FormClosing += FormRegistrarProducto_FormClosing;
+
+            // [TRACK] enganchar eventos que marcan cambios
+            WireChangeTracking();
         }
 
         private void FormRegistrarProducto_Load(object sender, EventArgs e)
@@ -138,7 +147,6 @@ namespace GestionDeVentas.Admin
                 }
             }
 
-
             if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
             {
                 lblErrorDescripcion.Text = "Campo obligatorio";
@@ -241,16 +249,30 @@ namespace GestionDeVentas.Admin
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
+            // [CONFIRM] si hay cambios sin guardar, advertir al cerrar por el botón propio
+            if (hayCambios && !Confirm("Hay cambios sin guardar. ¿Deseas salir igualmente?", "Salir"))
+                return;
+
             this.Close();
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            // [CONFIRM] limpiar descarta cambios
+            if (hayCambios)
+            {
+                if (!Confirm("Vas a descartar los cambios realizados. ¿Continuar?", "Limpiar"))
+                    return;
+            }
+
             LimpiarCampos();
             isEditing = false;
             btnRegistrarProducto.Text = "Registrar Producto";
             btnCancelarEdicion.Visible = false;
             btnDesactivar.Visible = false;
+
+            // [TRACK]
+            hayCambios = false;
         }
 
         private void btnRegistrarProducto_Click(object sender, EventArgs e)
@@ -260,6 +282,11 @@ namespace GestionDeVentas.Admin
                 MessageBox.Show("Por favor, corrige los errores en el formulario.");
                 return;
             }
+
+            // [CONFIRM] confirmar alta o guardado de edición
+            string accion = isEditing ? "guardar los cambios del producto" : "registrar este nuevo producto";
+            if (!Confirm($"¿Estás seguro que deseas {accion}?", "Confirmación"))
+                return;
 
             if (isEditing)
             {
@@ -307,12 +334,16 @@ namespace GestionDeVentas.Admin
                 productos.Add(nuevoProducto);
                 MessageBox.Show("Producto registrado exitosamente.");
             }
+
             LimpiarCampos();
             isEditing = false;
             btnRegistrarProducto.Text = "Registrar Producto";
             btnCancelarEdicion.Visible = false;
             btnDesactivar.Visible = false;
             AplicarFiltros();
+
+            // [TRACK]
+            hayCambios = false;
         }
 
         private void btnDesactivar_Click(object sender, EventArgs e)
@@ -322,6 +353,11 @@ namespace GestionDeVentas.Admin
             if (productoAfectado != null)
             {
                 string nuevoEstado = productoAfectado.Estado == "Activo" ? "Inactivo" : "Activo";
+
+                // [CONFIRM] activar/desactivar
+                string accion = nuevoEstado == "Inactivo" ? "desactivar" : "activar";
+                if (!Confirm($"¿Seguro que deseas {accion} el producto \"{productoAfectado.Nombre}\"?", "Confirmación"))
+                    return;
 
                 var updatedProduct = new
                 {
@@ -348,15 +384,28 @@ namespace GestionDeVentas.Admin
             btnCancelarEdicion.Visible = false;
             btnDesactivar.Visible = false;
             AplicarFiltros();
+
+            // [TRACK]
+            hayCambios = false;
         }
 
         private void btnCancelarEdicion_Click(object sender, EventArgs e)
         {
+            // [CONFIRM] cancelar edición descarta cambios
+            if (hayCambios)
+            {
+                if (!Confirm("Se perderán los cambios no guardados. ¿Cancelar la edición?", "Cancelar edición"))
+                    return;
+            }
+
             LimpiarCampos();
             isEditing = false;
             btnRegistrarProducto.Text = "Registrar Producto";
             btnCancelarEdicion.Visible = false;
             btnDesactivar.Visible = false;
+
+            // [TRACK]
+            hayCambios = false;
         }
 
         private void dgvProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -394,6 +443,9 @@ namespace GestionDeVentas.Admin
                     {
                         btnDesactivar.Text = "Activar Producto";
                     }
+
+                    // [TRACK] cargar un producto no implica cambios aún
+                    hayCambios = false;
                 }
             }
         }
@@ -416,6 +468,62 @@ namespace GestionDeVentas.Admin
         private void lblTitulo_Click(object sender, EventArgs e)
         {
             // Este evento está vacío, no hay problema.
+        }
+
+        private void mainPanel_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        // =======================
+        // Helpers de confirmación y tracking
+        // =======================
+
+        // [CONFIRM] helper genérico
+        private bool Confirm(string mensaje, string titulo = "Confirmación")
+        {
+            return MessageBox.Show(
+                mensaje,
+                titulo,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            ) == DialogResult.Yes;
+        }
+
+        // [TRACK] engancha eventos de cambio a los controles de edición (no a los filtros)
+        private void WireChangeTracking()
+        {
+            // TextBox de edición
+            txtNombreProducto.TextChanged += MarcarCambio;
+            txtCodigo.TextChanged += MarcarCambio;
+            txtDescripcion.TextChanged += MarcarCambio;
+            txtColor.TextChanged += MarcarCambio;
+            txtMarca.TextChanged += MarcarCambio;
+            txtPrecio.TextChanged += MarcarCambio;
+            txtStock.TextChanged += MarcarCambio;
+            txtProveedor.TextChanged += MarcarCambio;
+
+            // ComboBox de edición
+            cmbTalle.SelectedIndexChanged += MarcarCambio;
+            cmbCategoria.SelectedIndexChanged += MarcarCambio;
+
+            // (No marcamos filtros: txtFiltroBusqueda/cmbFiltroCategoria/cmbFiltroEstado)
+        }
+
+        private void MarcarCambio(object sender, EventArgs e)
+        {
+            hayCambios = true;
+        }
+
+        // [CONFIRM] aviso si se cierra la ventana con cambios sin guardar
+        private void FormRegistrarProducto_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (hayCambios)
+            {
+                if (!Confirm("Hay cambios sin guardar. ¿Deseas cerrar igualmente?", "Salir"))
+                {
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

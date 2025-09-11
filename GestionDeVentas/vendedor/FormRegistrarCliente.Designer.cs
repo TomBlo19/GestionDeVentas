@@ -6,10 +6,7 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
@@ -65,241 +62,258 @@
             // 
             this.lblTitulo.BackColor = System.Drawing.Color.Blue;
             this.lblTitulo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblTitulo.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.ForeColor = System.Drawing.Color.White;
             this.lblTitulo.Location = new System.Drawing.Point(0, 0);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(800, 50);
+            this.lblTitulo.Size = new System.Drawing.Size(1067, 62);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Registrar Cliente";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click);
+            // 
+            // btnCerrar (X arriba derecha)
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.BackColor = System.Drawing.Color.Blue;  // mismo color que la franja
+            this.btnCerrar.FlatAppearance.BorderSize = 0;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.ForeColor = System.Drawing.Color.White;
+            this.btnCerrar.Location = new System.Drawing.Point(1015, 12); // 1067 ancho → 1067-52
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(40, 32);
+            this.btnCerrar.TabIndex = 30;
+            this.btnCerrar.Text = "X";
+            this.btnCerrar.UseVisualStyleBackColor = false;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombre.Location = new System.Drawing.Point(50, 80);
+            this.lblNombre.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblNombre.Location = new System.Drawing.Point(67, 98);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(64, 17);
+            this.lblNombre.Size = new System.Drawing.Size(83, 22);
             this.lblNombre.TabIndex = 1;
             this.lblNombre.Text = "Nombre:";
             // 
             // txtNombre
             // 
-            this.txtNombre.Location = new System.Drawing.Point(53, 100);
+            this.txtNombre.Location = new System.Drawing.Point(71, 123);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(200, 20);
+            this.txtNombre.Size = new System.Drawing.Size(265, 22);
             this.txtNombre.TabIndex = 2;
             // 
             // lblErrorNombre
             // 
             this.lblErrorNombre.AutoSize = true;
             this.lblErrorNombre.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorNombre.Location = new System.Drawing.Point(53, 123);
+            this.lblErrorNombre.Location = new System.Drawing.Point(71, 151);
             this.lblErrorNombre.Name = "lblErrorNombre";
-            this.lblErrorNombre.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorNombre.Size = new System.Drawing.Size(10, 16);
             this.lblErrorNombre.TabIndex = 3;
             this.lblErrorNombre.Text = " ";
             // 
             // lblApellido
             // 
             this.lblApellido.AutoSize = true;
-            this.lblApellido.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblApellido.Location = new System.Drawing.Point(300, 80);
+            this.lblApellido.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblApellido.Location = new System.Drawing.Point(400, 98);
             this.lblApellido.Name = "lblApellido";
-            this.lblApellido.Size = new System.Drawing.Size(62, 17);
+            this.lblApellido.Size = new System.Drawing.Size(84, 22);
             this.lblApellido.TabIndex = 4;
             this.lblApellido.Text = "Apellido:";
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(303, 100);
+            this.txtApellido.Location = new System.Drawing.Point(404, 123);
             this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(200, 20);
+            this.txtApellido.Size = new System.Drawing.Size(265, 22);
             this.txtApellido.TabIndex = 5;
             // 
             // lblErrorApellido
             // 
             this.lblErrorApellido.AutoSize = true;
             this.lblErrorApellido.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorApellido.Location = new System.Drawing.Point(303, 123);
+            this.lblErrorApellido.Location = new System.Drawing.Point(404, 151);
             this.lblErrorApellido.Name = "lblErrorApellido";
-            this.lblErrorApellido.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorApellido.Size = new System.Drawing.Size(10, 16);
             this.lblErrorApellido.TabIndex = 6;
             this.lblErrorApellido.Text = " ";
             // 
             // lblDni
             // 
             this.lblDni.AutoSize = true;
-            this.lblDni.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDni.Location = new System.Drawing.Point(50, 140);
+            this.lblDni.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblDni.Location = new System.Drawing.Point(67, 172);
             this.lblDni.Name = "lblDni";
-            this.lblDni.Size = new System.Drawing.Size(36, 17);
+            this.lblDni.Size = new System.Drawing.Size(48, 22);
             this.lblDni.TabIndex = 7;
             this.lblDni.Text = "DNI:";
             // 
             // txtDni
             // 
-            this.txtDni.Location = new System.Drawing.Point(53, 160);
+            this.txtDni.Location = new System.Drawing.Point(71, 197);
             this.txtDni.Name = "txtDni";
-            this.txtDni.Size = new System.Drawing.Size(200, 20);
+            this.txtDni.Size = new System.Drawing.Size(265, 22);
             this.txtDni.TabIndex = 8;
             // 
             // lblErrorDni
             // 
             this.lblErrorDni.AutoSize = true;
             this.lblErrorDni.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorDni.Location = new System.Drawing.Point(53, 183);
+            this.lblErrorDni.Location = new System.Drawing.Point(71, 225);
             this.lblErrorDni.Name = "lblErrorDni";
-            this.lblErrorDni.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorDni.Size = new System.Drawing.Size(10, 16);
             this.lblErrorDni.TabIndex = 9;
             this.lblErrorDni.Text = " ";
             // 
             // lblTelefono
             // 
             this.lblTelefono.AutoSize = true;
-            this.lblTelefono.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTelefono.Location = new System.Drawing.Point(300, 140);
+            this.lblTelefono.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblTelefono.Location = new System.Drawing.Point(400, 172);
             this.lblTelefono.Name = "lblTelefono";
-            this.lblTelefono.Size = new System.Drawing.Size(66, 17);
+            this.lblTelefono.Size = new System.Drawing.Size(89, 22);
             this.lblTelefono.TabIndex = 10;
             this.lblTelefono.Text = "Teléfono:";
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(303, 160);
+            this.txtTelefono.Location = new System.Drawing.Point(404, 197);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(200, 20);
+            this.txtTelefono.Size = new System.Drawing.Size(265, 22);
             this.txtTelefono.TabIndex = 11;
             // 
             // lblErrorTelefono
             // 
             this.lblErrorTelefono.AutoSize = true;
             this.lblErrorTelefono.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorTelefono.Location = new System.Drawing.Point(303, 183);
+            this.lblErrorTelefono.Location = new System.Drawing.Point(404, 225);
             this.lblErrorTelefono.Name = "lblErrorTelefono";
-            this.lblErrorTelefono.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorTelefono.Size = new System.Drawing.Size(10, 16);
             this.lblErrorTelefono.TabIndex = 12;
             this.lblErrorTelefono.Text = " ";
             // 
             // lblDireccion
             // 
             this.lblDireccion.AutoSize = true;
-            this.lblDireccion.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDireccion.Location = new System.Drawing.Point(50, 200);
+            this.lblDireccion.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblDireccion.Location = new System.Drawing.Point(67, 246);
             this.lblDireccion.Name = "lblDireccion";
-            this.lblDireccion.Size = new System.Drawing.Size(74, 17);
+            this.lblDireccion.Size = new System.Drawing.Size(95, 22);
             this.lblDireccion.TabIndex = 13;
             this.lblDireccion.Text = "Dirección:";
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(53, 220);
+            this.txtDireccion.Location = new System.Drawing.Point(71, 271);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(450, 20);
+            this.txtDireccion.Size = new System.Drawing.Size(599, 22);
             this.txtDireccion.TabIndex = 14;
             // 
             // lblErrorDireccion
             // 
             this.lblErrorDireccion.AutoSize = true;
             this.lblErrorDireccion.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorDireccion.Location = new System.Drawing.Point(53, 243);
+            this.lblErrorDireccion.Location = new System.Drawing.Point(71, 299);
             this.lblErrorDireccion.Name = "lblErrorDireccion";
-            this.lblErrorDireccion.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorDireccion.Size = new System.Drawing.Size(10, 16);
             this.lblErrorDireccion.TabIndex = 15;
             this.lblErrorDireccion.Text = " ";
             // 
             // lblPais
             // 
             this.lblPais.AutoSize = true;
-            this.lblPais.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPais.Location = new System.Drawing.Point(50, 260);
+            this.lblPais.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblPais.Location = new System.Drawing.Point(67, 320);
             this.lblPais.Name = "lblPais";
-            this.lblPais.Size = new System.Drawing.Size(41, 17);
+            this.lblPais.Size = new System.Drawing.Size(54, 22);
             this.lblPais.TabIndex = 16;
             this.lblPais.Text = "País:";
             // 
             // txtPais
             // 
-            this.txtPais.Location = new System.Drawing.Point(53, 280);
+            this.txtPais.Location = new System.Drawing.Point(71, 345);
             this.txtPais.Name = "txtPais";
-            this.txtPais.Size = new System.Drawing.Size(200, 20);
+            this.txtPais.Size = new System.Drawing.Size(265, 22);
             this.txtPais.TabIndex = 17;
             // 
             // lblErrorPais
             // 
             this.lblErrorPais.AutoSize = true;
             this.lblErrorPais.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorPais.Location = new System.Drawing.Point(53, 303);
+            this.lblErrorPais.Location = new System.Drawing.Point(71, 373);
             this.lblErrorPais.Name = "lblErrorPais";
-            this.lblErrorPais.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorPais.Size = new System.Drawing.Size(10, 16);
             this.lblErrorPais.TabIndex = 18;
             this.lblErrorPais.Text = " ";
             // 
             // lblCiudad
             // 
             this.lblCiudad.AutoSize = true;
-            this.lblCiudad.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCiudad.Location = new System.Drawing.Point(300, 260);
+            this.lblCiudad.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblCiudad.Location = new System.Drawing.Point(400, 320);
             this.lblCiudad.Name = "lblCiudad";
-            this.lblCiudad.Size = new System.Drawing.Size(58, 17);
+            this.lblCiudad.Size = new System.Drawing.Size(75, 22);
             this.lblCiudad.TabIndex = 19;
             this.lblCiudad.Text = "Ciudad:";
             // 
             // txtCiudad
             // 
-            this.txtCiudad.Location = new System.Drawing.Point(303, 280);
+            this.txtCiudad.Location = new System.Drawing.Point(404, 345);
             this.txtCiudad.Name = "txtCiudad";
-            this.txtCiudad.Size = new System.Drawing.Size(200, 20);
+            this.txtCiudad.Size = new System.Drawing.Size(265, 22);
             this.txtCiudad.TabIndex = 20;
             // 
             // lblErrorCiudad
             // 
             this.lblErrorCiudad.AutoSize = true;
             this.lblErrorCiudad.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorCiudad.Location = new System.Drawing.Point(303, 303);
+            this.lblErrorCiudad.Location = new System.Drawing.Point(404, 373);
             this.lblErrorCiudad.Name = "lblErrorCiudad";
-            this.lblErrorCiudad.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorCiudad.Size = new System.Drawing.Size(10, 16);
             this.lblErrorCiudad.TabIndex = 21;
             this.lblErrorCiudad.Text = " ";
             // 
             // lblFechaNacimiento
             // 
             this.lblFechaNacimiento.AutoSize = true;
-            this.lblFechaNacimiento.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaNacimiento.Location = new System.Drawing.Point(50, 320);
+            this.lblFechaNacimiento.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblFechaNacimiento.Location = new System.Drawing.Point(67, 394);
             this.lblFechaNacimiento.Name = "lblFechaNacimiento";
-            this.lblFechaNacimiento.Size = new System.Drawing.Size(150, 17);
+            this.lblFechaNacimiento.Size = new System.Drawing.Size(194, 22);
             this.lblFechaNacimiento.TabIndex = 22;
             this.lblFechaNacimiento.Text = "Fecha de Nacimiento:";
             // 
             // dtpFechaNacimiento
             // 
-            this.dtpFechaNacimiento.Location = new System.Drawing.Point(53, 340);
+            this.dtpFechaNacimiento.Location = new System.Drawing.Point(71, 418);
             this.dtpFechaNacimiento.Name = "dtpFechaNacimiento";
-            this.dtpFechaNacimiento.Size = new System.Drawing.Size(200, 20);
+            this.dtpFechaNacimiento.Size = new System.Drawing.Size(265, 22);
             this.dtpFechaNacimiento.TabIndex = 23;
             // 
             // lblErrorFechaNacimiento
             // 
             this.lblErrorFechaNacimiento.AutoSize = true;
             this.lblErrorFechaNacimiento.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorFechaNacimiento.Location = new System.Drawing.Point(53, 363);
+            this.lblErrorFechaNacimiento.Location = new System.Drawing.Point(71, 447);
             this.lblErrorFechaNacimiento.Name = "lblErrorFechaNacimiento";
-            this.lblErrorFechaNacimiento.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorFechaNacimiento.Size = new System.Drawing.Size(10, 16);
             this.lblErrorFechaNacimiento.TabIndex = 24;
             this.lblErrorFechaNacimiento.Text = " ";
             // 
             // btnRegistrar
             // 
-            this.btnRegistrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnRegistrar.BackColor = System.Drawing.Color.FromArgb(0, 192, 0);
             this.btnRegistrar.FlatAppearance.BorderSize = 0;
             this.btnRegistrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRegistrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegistrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnRegistrar.ForeColor = System.Drawing.Color.White;
-            this.btnRegistrar.Location = new System.Drawing.Point(53, 390);
+            this.btnRegistrar.Location = new System.Drawing.Point(71, 480);
             this.btnRegistrar.Name = "btnRegistrar";
-            this.btnRegistrar.Size = new System.Drawing.Size(150, 40);
+            this.btnRegistrar.Size = new System.Drawing.Size(200, 49);
             this.btnRegistrar.TabIndex = 25;
             this.btnRegistrar.Text = "Registrar Cliente";
             this.btnRegistrar.UseVisualStyleBackColor = false;
@@ -310,8 +324,8 @@
             this.dgvClientes.AllowUserToAddRows = false;
             this.dgvClientes.AllowUserToDeleteRows = false;
             this.dgvClientes.AllowUserToResizeRows = false;
-            this.dgvClientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvClientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvClientes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvClientes.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -327,85 +341,39 @@
             this.colCiudad,
             this.colFechaNacimiento,
             this.colEstado});
-            this.dgvClientes.Location = new System.Drawing.Point(10, 450);
+            this.dgvClientes.Location = new System.Drawing.Point(13, 554);
             this.dgvClientes.Name = "dgvClientes";
             this.dgvClientes.ReadOnly = true;
             this.dgvClientes.RowHeadersVisible = false;
+            this.dgvClientes.RowHeadersWidth = 51;
             this.dgvClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClientes.Size = new System.Drawing.Size(780, 190);
+            this.dgvClientes.Size = new System.Drawing.Size(1040, 234);
             this.dgvClientes.TabIndex = 26;
             this.dgvClientes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellClick);
             // 
-            // colId
+            // Columnas DGV
             // 
-            this.colId.HeaderText = "ID";
-            this.colId.Name = "colId";
-            this.colId.ReadOnly = true;
-            // 
-            // colNombre
-            // 
-            this.colNombre.HeaderText = "Nombre";
-            this.colNombre.Name = "colNombre";
-            this.colNombre.ReadOnly = true;
-            // 
-            // colApellido
-            // 
-            this.colApellido.HeaderText = "Apellido";
-            this.colApellido.Name = "colApellido";
-            this.colApellido.ReadOnly = true;
-            // 
-            // colDni
-            // 
-            this.colDni.HeaderText = "DNI";
-            this.colDni.Name = "colDni";
-            this.colDni.ReadOnly = true;
-            // 
-            // colTelefono
-            // 
-            this.colTelefono.HeaderText = "Teléfono";
-            this.colTelefono.Name = "colTelefono";
-            this.colTelefono.ReadOnly = true;
-            // 
-            // colDireccion
-            // 
-            this.colDireccion.HeaderText = "Dirección";
-            this.colDireccion.Name = "colDireccion";
-            this.colDireccion.ReadOnly = true;
-            // 
-            // colPais
-            // 
-            this.colPais.HeaderText = "País";
-            this.colPais.Name = "colPais";
-            this.colPais.ReadOnly = true;
-            // 
-            // colCiudad
-            // 
-            this.colCiudad.HeaderText = "Ciudad";
-            this.colCiudad.Name = "colCiudad";
-            this.colCiudad.ReadOnly = true;
-            // 
-            // colFechaNacimiento
-            // 
-            this.colFechaNacimiento.HeaderText = "Fecha de Nacimiento";
-            this.colFechaNacimiento.Name = "colFechaNacimiento";
-            this.colFechaNacimiento.ReadOnly = true;
-            // 
-            // colEstado
-            // 
-            this.colEstado.HeaderText = "Estado";
-            this.colEstado.Name = "colEstado";
-            this.colEstado.ReadOnly = true;
+            this.colId.HeaderText = "ID"; this.colId.MinimumWidth = 6; this.colId.Name = "colId"; this.colId.ReadOnly = true;
+            this.colNombre.HeaderText = "Nombre"; this.colNombre.MinimumWidth = 6; this.colNombre.Name = "colNombre"; this.colNombre.ReadOnly = true;
+            this.colApellido.HeaderText = "Apellido"; this.colApellido.MinimumWidth = 6; this.colApellido.Name = "colApellido"; this.colApellido.ReadOnly = true;
+            this.colDni.HeaderText = "DNI"; this.colDni.MinimumWidth = 6; this.colDni.Name = "colDni"; this.colDni.ReadOnly = true;
+            this.colTelefono.HeaderText = "Teléfono"; this.colTelefono.MinimumWidth = 6; this.colTelefono.Name = "colTelefono"; this.colTelefono.ReadOnly = true;
+            this.colDireccion.HeaderText = "Dirección"; this.colDireccion.MinimumWidth = 6; this.colDireccion.Name = "colDireccion"; this.colDireccion.ReadOnly = true;
+            this.colPais.HeaderText = "País"; this.colPais.MinimumWidth = 6; this.colPais.Name = "colPais"; this.colPais.ReadOnly = true;
+            this.colCiudad.HeaderText = "Ciudad"; this.colCiudad.MinimumWidth = 6; this.colCiudad.Name = "colCiudad"; this.colCiudad.ReadOnly = true;
+            this.colFechaNacimiento.HeaderText = "Fecha de Nacimiento"; this.colFechaNacimiento.MinimumWidth = 6; this.colFechaNacimiento.Name = "colFechaNacimiento"; this.colFechaNacimiento.ReadOnly = true;
+            this.colEstado.HeaderText = "Estado"; this.colEstado.MinimumWidth = 6; this.colEstado.Name = "colEstado"; this.colEstado.ReadOnly = true;
             // 
             // btnEditar
             // 
             this.btnEditar.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnEditar.FlatAppearance.BorderSize = 0;
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnEditar.ForeColor = System.Drawing.Color.White;
-            this.btnEditar.Location = new System.Drawing.Point(213, 390);
+            this.btnEditar.Location = new System.Drawing.Point(284, 480);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(150, 40);
+            this.btnEditar.Size = new System.Drawing.Size(200, 49);
             this.btnEditar.TabIndex = 27;
             this.btnEditar.Text = "Editar Cliente";
             this.btnEditar.UseVisualStyleBackColor = false;
@@ -417,11 +385,11 @@
             this.btnEliminar.BackColor = System.Drawing.Color.Red;
             this.btnEliminar.FlatAppearance.BorderSize = 0;
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEliminar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(373, 390);
+            this.btnEliminar.Location = new System.Drawing.Point(497, 480);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(150, 40);
+            this.btnEliminar.Size = new System.Drawing.Size(200, 49);
             this.btnEliminar.TabIndex = 28;
             this.btnEliminar.Text = "Eliminar Cliente";
             this.btnEliminar.UseVisualStyleBackColor = false;
@@ -433,33 +401,21 @@
             this.btnLimpiar.BackColor = System.Drawing.Color.Gray;
             this.btnLimpiar.FlatAppearance.BorderSize = 0;
             this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLimpiar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLimpiar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnLimpiar.ForeColor = System.Drawing.Color.White;
-            this.btnLimpiar.Location = new System.Drawing.Point(533, 390);
+            this.btnLimpiar.Location = new System.Drawing.Point(711, 480);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(150, 40);
+            this.btnLimpiar.Size = new System.Drawing.Size(200, 49);
             this.btnLimpiar.TabIndex = 29;
             this.btnLimpiar.Text = "Limpiar Campos";
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
-            // btnCerrar
-            // 
-            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCerrar.Location = new System.Drawing.Point(714, 65);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(74, 32);
-            this.btnCerrar.TabIndex = 30;
-            this.btnCerrar.Text = "x";
-            this.btnCerrar.UseVisualStyleBackColor = true;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
-            // 
             // FormRegistrarCliente
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 650);
+            this.ClientSize = new System.Drawing.Size(1067, 800);
             this.ControlBox = false;
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.btnLimpiar);
@@ -500,7 +456,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

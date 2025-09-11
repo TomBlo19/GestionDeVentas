@@ -125,5 +125,10 @@ namespace GestionDeVentas.Admin
         {
             // Código de evento
         }
+
+        private void topPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -133,7 +133,7 @@ namespace GestionDeVentas.AdmSuperior
 
         private void lblGestionarUsuarios_Click(object sender, EventArgs e)
         {
-            // Este método ahora está vacío
+            LoadForm(new FormGestionarUsuarios());
         }
 
        
@@ -152,10 +152,7 @@ namespace GestionDeVentas.AdmSuperior
             LoadForm(new FormBackup());
         }
 
-        private void lblListarVentas_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void sidePanel_Paint(object sender, PaintEventArgs e)
         {

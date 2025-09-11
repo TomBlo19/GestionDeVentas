@@ -79,6 +79,12 @@
     <Compile Include="AdmSuperior\FormBackUp.Designer.cs">
       <DependentUpon>FormBackUp.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdmSuperior\FormGestionUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdmSuperior\FormGestionUsuarios.Designer.cs">
+      <DependentUpon>FormGestionUsuarios.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdmSuperior\FormRegistrarUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AdmSuperior\FormBackUp.resx">
       <DependentUpon>FormBackUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdmSuperior\FormGestionUsuarios.resx">
+      <DependentUpon>FormGestionUsuarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdmSuperior\FormRegistrarUsuario.resx">
       <DependentUpon>FormRegistrarUsuario.cs</DependentUpon>

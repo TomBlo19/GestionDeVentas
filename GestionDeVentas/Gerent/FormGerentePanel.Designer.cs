@@ -213,7 +213,8 @@
             // pictureBoxLogo
             // 
             this.pictureBoxLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBoxLogo.ErrorImage = global::GestionDeVentas.Properties.Resources.logoTYV;
+            this.pictureBoxLogo.ErrorImage = null;
+            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logoTYV;
             this.pictureBoxLogo.Location = new System.Drawing.Point(349, 15);
             this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
@@ -221,6 +222,7 @@
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogo.TabIndex = 1;
             this.pictureBoxLogo.TabStop = false;
+            this.pictureBoxLogo.Click += new System.EventHandler(this.pictureBoxLogo_Click);
             // 
             // lblGerenteWelcome
             // 

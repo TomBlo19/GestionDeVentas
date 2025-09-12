@@ -1,176 +1,222 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
+using System.Linq;              // <- IMPORTANTE para Where/FirstOrDefault
 using System.Windows.Forms;
 
 namespace GestionDeVentas.AdmSuperior
 {
     public partial class FormGestionarUsuarios : Form
     {
-        private List<Usuario> usuarios = new List<Usuario>();
+        private readonly List<Usuario> usuarios = new List<Usuario>();
         private int nextId = 1;
+
+        private const string PLACEHOLDER = "Buscar por DNI o Apellido...";
 
         public FormGestionarUsuarios()
         {
             InitializeComponent();
+        }
 
-            // ✅ Placeholder manual
-            txtBusqueda.Text = "Buscar usuario...";
+        private void FormGestionarUsuarios_Load(object sender, EventArgs e)
+        {
+            // Placeholder manual
+            txtBusqueda.Text = PLACEHOLDER;
             txtBusqueda.ForeColor = Color.Gray;
 
-            txtBusqueda.Enter += (s, e) =>
-            {
-                if (txtBusqueda.Text == "Buscar usuario...")
-                {
-                    txtBusqueda.Text = "";
-                    txtBusqueda.ForeColor = Color.Black;
-                }
-            };
-
-            txtBusqueda.Leave += (s, e) =>
-            {
-                if (string.IsNullOrWhiteSpace(txtBusqueda.Text))
-                {
-                    txtBusqueda.Text = "Buscar usuario...";
-                    txtBusqueda.ForeColor = Color.Gray;
-                }
-            };
-
-            CargarDatosDePrueba();
-            CargarUsuariosEnDGV(usuarios);
-            cmbFiltroRol.SelectedIndex = 0;
+            // Estado por defecto
             cmbFiltroEstado.SelectedIndex = 0;
+
+            // Columnas
+            ConfigurarColumnas();
+
+            // Datos demo
+            CargarDatosDemo();
+
+            // Pintar
+            AplicarFiltros();
         }
 
-        private void CargarDatosDePrueba()
+        private void ConfigurarColumnas()
         {
-            if (usuarios.Count == 0)
+            dgvUsuarios.Columns.Clear();
+
+            // Columna ID (oculta)
+            var colId = new DataGridViewTextBoxColumn
             {
-                usuarios.Add(new Usuario { Id = nextId++, Nombre = "maria", Rol = "Vendedor", Estado = "Activo", UltimoAcceso = DateTime.Now.AddDays(-1) });
-                usuarios.Add(new Usuario { Id = nextId++, Nombre = "carlos", Rol = "Gerente", Estado = "Activo", UltimoAcceso = DateTime.Now.AddDays(-2) });
-                usuarios.Add(new Usuario { Id = nextId++, Nombre = "admin", Rol = "Administrador", Estado = "Activo", UltimoAcceso = DateTime.Now });
-                usuarios.Add(new Usuario { Id = nextId++, Nombre = "super", Rol = "Admin Superior", Estado = "Inactivo", UltimoAcceso = DateTime.Now.AddMonths(-1) });
-            }
+                Name = "Id",
+                HeaderText = "ID",
+                Visible = false
+            };
+            dgvUsuarios.Columns.Add(colId);
+
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Dni", HeaderText = "DNI" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Nombre", HeaderText = "Nombre" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Apellido", HeaderText = "Apellido" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Telefono", HeaderText = "Teléfono" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Correo", HeaderText = "Correo" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Estado", HeaderText = "Estado" });
         }
 
-        private void CargarUsuariosEnDGV(List<Usuario> lista)
+        private void CargarDatosDemo()
         {
-            dgvUsuarios.Rows.Clear();
-            foreach (var u in lista)
-            {
-                dgvUsuarios.Rows.Add(u.Id, u.Nombre, u.Rol, u.Estado, u.UltimoAcceso);
-            }
+            usuarios.Clear();
+            usuarios.Add(new Usuario { Id = nextId++, Dni = "12345678", Nombre = "María", Apellido = "González", Telefono = "11223344", Correo = "maria@mail.com", Estado = "Activo" });
+            usuarios.Add(new Usuario { Id = nextId++, Dni = "87654321", Nombre = "Carlos", Apellido = "López", Telefono = "22334455", Correo = "carlos@mail.com", Estado = "Inactivo" });
+            usuarios.Add(new Usuario { Id = nextId++, Dni = "45678912", Nombre = "Ana", Apellido = "Martínez", Telefono = "33445566", Correo = "ana@mail.com", Estado = "Activo" });
+            usuarios.Add(new Usuario { Id = nextId++, Dni = "11223344", Nombre = "Pedro", Apellido = "Suárez", Telefono = "44556677", Correo = "pedro@mail.com", Estado = "Activo" });
         }
 
         private void AplicarFiltros()
         {
-            string busqueda = txtBusqueda.Text.ToLower();
-            string rol = cmbFiltroRol.SelectedItem?.ToString();
-            string estado = cmbFiltroEstado.SelectedItem?.ToString();
+            string texto = txtBusqueda.Text.Trim().ToLower();
+            if (texto == PLACEHOLDER.ToLower()) texto = string.Empty;
+
+            string estado = cmbFiltroEstado.SelectedItem?.ToString() ?? "Todos";
 
             var filtrados = usuarios.Where(u =>
-                (string.IsNullOrWhiteSpace(busqueda) || u.Nombre.ToLower().Contains(busqueda)) &&
-                (rol == "Todos" || u.Rol == rol) &&
+                (string.IsNullOrEmpty(texto) ||
+                    u.Dni.ToLower().Contains(texto) ||
+                    u.Apellido.ToLower().Contains(texto)) &&
                 (estado == "Todos" || u.Estado == estado)
             ).ToList();
 
-            CargarUsuariosEnDGV(filtrados);
+            CargarEnGrid(filtrados);
         }
 
-        private bool ConfirmarAccion(string mensaje)
+        private void CargarEnGrid(List<Usuario> lista)
         {
-            return MessageBox.Show(mensaje, "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-        }
-
-        private void btnAgregar_Click(object sender, EventArgs e)
-        {
-            if (!ConfirmarAccion("¿Seguro que deseas agregar un nuevo usuario?")) return;
-
-            usuarios.Add(new Usuario { Id = nextId++, Nombre = "nuevoUser", Rol = "Vendedor", Estado = "Activo", UltimoAcceso = DateTime.Now });
-            CargarUsuariosEnDGV(usuarios);
-            MessageBox.Show("Usuario agregado.");
-        }
-
-        private void btnEditar_Click(object sender, EventArgs e)
-        {
-            if (dgvUsuarios.SelectedRows.Count > 0)
+            dgvUsuarios.Rows.Clear();
+            foreach (var u in lista)
             {
-                int id = (int)dgvUsuarios.SelectedRows[0].Cells["Id"].Value;
-                var user = usuarios.FirstOrDefault(x => x.Id == id);
-
-                if (user != null && ConfirmarAccion($"¿Seguro que deseas editar al usuario {user.Nombre}?"))
-                {
-                    MessageBox.Show($"Aquí deberías abrir el formulario de edición para: {user.Nombre}");
-                }
+                dgvUsuarios.Rows.Add(u.Id, u.Dni, u.Nombre, u.Apellido, u.Telefono, u.Correo, u.Estado);
             }
+
+            // Actualizar botón según selección actual
+            ActualizarBotonAccion();
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (dgvUsuarios.SelectedRows.Count > 0)
-            {
-                int id = (int)dgvUsuarios.SelectedRows[0].Cells["Id"].Value;
-                var user = usuarios.FirstOrDefault(x => x.Id == id);
-
-                if (user != null && ConfirmarAccion($"¿Seguro que deseas eliminar al usuario {user.Nombre}?"))
-                {
-                    usuarios.Remove(user);
-                    CargarUsuariosEnDGV(usuarios);
-                    MessageBox.Show("Usuario eliminado.");
-                }
-            }
-        }
-
-        private void btnEstado_Click(object sender, EventArgs e)
-        {
-            if (dgvUsuarios.SelectedRows.Count > 0)
-            {
-                int id = (int)dgvUsuarios.SelectedRows[0].Cells["Id"].Value;
-                var user = usuarios.FirstOrDefault(x => x.Id == id);
-
-                if (user != null)
-                {
-                    string nuevoEstado = user.Estado == "Activo" ? "Inactivo" : "Activo";
-                    if (ConfirmarAccion($"¿Seguro que deseas cambiar el estado de {user.Nombre} a {nuevoEstado}?"))
-                    {
-                        user.Estado = nuevoEstado;
-                        CargarUsuariosEnDGV(usuarios);
-                    }
-                }
-            }
-        }
-
-        private void btnResetClave_Click(object sender, EventArgs e)
-        {
-            if (dgvUsuarios.SelectedRows.Count > 0)
-            {
-                int id = (int)dgvUsuarios.SelectedRows[0].Cells["Id"].Value;
-                var user = usuarios.FirstOrDefault(x => x.Id == id);
-
-                if (user != null && ConfirmarAccion($"¿Seguro que deseas resetear la contraseña de {user.Nombre}?"))
-                {
-                    MessageBox.Show("Contraseña reseteada (clave temporal asignada).");
-                }
-            }
-        }
-
-        private void btnCerrar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        // ===================== Eventos UI =====================
 
         private void txtBusqueda_TextChanged(object sender, EventArgs e) => AplicarFiltros();
-        private void cmbFiltroRol_SelectedIndexChanged(object sender, EventArgs e) => AplicarFiltros();
+
+        private void txtBusqueda_Enter(object sender, EventArgs e)
+        {
+            if (txtBusqueda.Text == PLACEHOLDER)
+            {
+                txtBusqueda.Text = "";
+                txtBusqueda.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtBusqueda_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBusqueda.Text))
+            {
+                txtBusqueda.Text = PLACEHOLDER;
+                txtBusqueda.ForeColor = Color.Gray;
+            }
+        }
+
         private void cmbFiltroEstado_SelectedIndexChanged(object sender, EventArgs e) => AplicarFiltros();
+
+        private void dgvUsuarios_SelectionChanged(object sender, EventArgs e) => ActualizarBotonAccion();
+
+        private void btnAccion_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.SelectedRows.Count == 0) return;
+
+            int id = Convert.ToInt32(dgvUsuarios.SelectedRows[0].Cells["Id"].Value);
+            var user = usuarios.FirstOrDefault(x => x.Id == id);
+            if (user == null) return;
+
+            if (user.Estado == "Activo")
+            {
+                // Confirmación para DESACTIVAR
+                var ok = MessageBox.Show(
+                    $"¿Estás seguro de DESACTIVAR al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?",
+                    "Confirmar desactivación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (ok == DialogResult.Yes)
+                {
+                    user.Estado = "Inactivo";
+                    AplicarFiltros();
+                    MessageBox.Show("Cliente desactivado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                // Confirmación para ACTIVAR
+                var ok = MessageBox.Show(
+                    $"¿Activar nuevamente al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?",
+                    "Confirmar activación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (ok == DialogResult.Yes)
+                {
+                    user.Estado = "Activo";
+                    AplicarFiltros();
+                    MessageBox.Show("Cliente activado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void dgvUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvUsuarios.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+            {
+                if (string.Equals(e.Value.ToString(), "Inactivo", StringComparison.OrdinalIgnoreCase))
+                {
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                }
+                else
+                {
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e) => this.Close();
+
+        // ===================== Helpers =====================
+
+        private void ActualizarBotonAccion()
+        {
+            if (dgvUsuarios.SelectedRows.Count == 0)
+            {
+                btnAccion.Enabled = false;
+                btnAccion.Text = "Desactivar/Activar";
+                btnAccion.BackColor = Color.Gray;
+                return;
+            }
+
+            btnAccion.Enabled = true;
+
+            var estado = dgvUsuarios.SelectedRows[0].Cells["Estado"].Value?.ToString();
+            if (estado == "Inactivo")
+            {
+                btnAccion.Text = "Activar Cliente";
+                btnAccion.BackColor = Color.FromArgb(0, 160, 60);
+            }
+            else
+            {
+                btnAccion.Text = "Desactivar Cliente";
+                btnAccion.BackColor = Color.FromArgb(200, 0, 0);
+            }
+        }
     }
 
     public class Usuario
     {
         public int Id { get; set; }
+        public string Dni { get; set; }
         public string Nombre { get; set; }
-        public string Rol { get; set; }
-        public string Estado { get; set; }
-        public DateTime UltimoAcceso { get; set; }
+        public string Apellido { get; set; }
+        public string Telefono { get; set; }
+        public string Correo { get; set; }
+        public string Estado { get; set; }   // "Activo" | "Inactivo"
     }
 }

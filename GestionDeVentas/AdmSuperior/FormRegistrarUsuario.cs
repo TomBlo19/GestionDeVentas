@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace GestionDeVentas.Admin
 {
@@ -32,6 +32,7 @@ namespace GestionDeVentas.Admin
             this.cmbFiltrarRol.SelectedIndexChanged += new System.EventHandler(this.cmbFiltrarRol_SelectedIndexChanged);
             this.cmbFiltrarEstado.SelectedIndexChanged += new System.EventHandler(this.cmbFiltrarEstado_SelectedIndexChanged);
             this.dgvUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellDoubleClick);
+            this.dgvUsuarios.CellFormatting += new DataGridViewCellFormattingEventHandler(this.dgvUsuarios_CellFormatting);
         }
 
         private void FormRegistrarUsuario_Load(object sender, EventArgs e)
@@ -105,6 +106,14 @@ namespace GestionDeVentas.Admin
         {
             if (ValidarCampos())
             {
+                var confirmacion = MessageBox.Show(
+                    "¿Está seguro de guardar los cambios?",
+                    "Confirmar acción",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmacion == DialogResult.No) return;
+
                 if (usuarioSeleccionadoIndex != null)
                 {
                     var usuarioAEditar = listaUsuarios[usuarioSeleccionadoIndex.Value];
@@ -166,9 +175,19 @@ namespace GestionDeVentas.Admin
             if (usuarioSeleccionadoIndex != null)
             {
                 var usuario = listaUsuarios[usuarioSeleccionadoIndex.Value];
+
+                var confirmacion = MessageBox.Show(
+                    $"¿Está seguro de {(usuario.Activo ? "desactivar" : "activar")} a {usuario.Nombre}?",
+                    "Confirmar acción",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (confirmacion == DialogResult.No) return;
+
                 string nuevoEstado = usuario.Activo ? "inactivado" : "activado";
                 usuario.Activo = !usuario.Activo;
                 MessageBox.Show($"Usuario {usuario.Nombre} {nuevoEstado} correctamente.", "Estado de Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 LimpiarCampos();
                 ActualizarDataGridView();
                 usuarioSeleccionadoIndex = null;
@@ -178,12 +197,10 @@ namespace GestionDeVentas.Admin
             }
         }
 
-        // El código de edición de usuario corregido
         private void dgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                // CORRECCIÓN: Acceder a la celda por índice (0) en lugar de por nombre.
                 var dniSeleccionado = dgvUsuarios.Rows[e.RowIndex].Cells[0].Value.ToString();
                 var usuarioSeleccionado = listaUsuarios.FirstOrDefault(u => u.DNI == dniSeleccionado);
 
@@ -201,8 +218,9 @@ namespace GestionDeVentas.Admin
                     dtpFechaNacimiento.Value = usuarioSeleccionado.FechaNacimiento;
                     txtEmail.Text = usuarioSeleccionado.Email;
 
-                    txtContrasena.Clear();
-                    txtConfirmarContrasena.Clear();
+                    // Mostrar la contraseña al editar
+                    txtContrasena.Text = usuarioSeleccionado.Contrasena;
+                    txtConfirmarContrasena.Text = usuarioSeleccionado.Contrasena;
 
                     cmbRol.SelectedItem = usuarioSeleccionado.Rol;
 
@@ -214,22 +232,26 @@ namespace GestionDeVentas.Admin
             }
         }
 
-        private void txtFiltro_TextChanged(object sender, EventArgs e)
+        private void dgvUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            ActualizarDataGridView();
+            if (dgvUsuarios.Columns[e.ColumnIndex].HeaderText == "Estado")
+            {
+                var estado = dgvUsuarios.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+                if (estado == "Inactivo")
+                {
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                }
+                else
+                {
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
         }
 
-        private void cmbFiltrarRol_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ActualizarDataGridView();
-        }
+        private void txtFiltro_TextChanged(object sender, EventArgs e) => ActualizarDataGridView();
+        private void cmbFiltrarRol_SelectedIndexChanged(object sender, EventArgs e) => ActualizarDataGridView();
+        private void cmbFiltrarEstado_SelectedIndexChanged(object sender, EventArgs e) => ActualizarDataGridView();
 
-        private void cmbFiltrarEstado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ActualizarDataGridView();
-        }
-
-        // Métodos de Validación y Limpieza
         private bool ValidarCampos()
         {
             bool esValido = true;
@@ -355,6 +377,11 @@ namespace GestionDeVentas.Admin
                 e.Handled = true;
             }
         }
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
 
         private void txt_SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -364,12 +391,10 @@ namespace GestionDeVentas.Admin
             }
         }
 
-        private void lblTitulo_Click(object sender, EventArgs e) { }
-        private void txtCiudad_TextChanged(object sender, EventArgs e) { }
-        private void tableLayoutPanel_Paint(object sender, PaintEventArgs e) { }
-        private void panelLista_Paint(object sender, PaintEventArgs e) { }
-        private void panelFiltros_Paint(object sender, EventArgs e) { }
-        private void formPanel_Paint(object sender, EventArgs e) { }
+        private void formPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
     public class Usuario

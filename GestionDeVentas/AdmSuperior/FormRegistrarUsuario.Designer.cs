@@ -52,6 +52,7 @@
             this.txtFiltro = new System.Windows.Forms.TextBox();
             this.lblFiltro = new System.Windows.Forms.Label();
             this.formPanel = new System.Windows.Forms.Panel();
+            this.btnCerrar = new System.Windows.Forms.Button();
             this.lblErrorConfirmar = new System.Windows.Forms.Label();
             this.txtConfirmarContrasena = new System.Windows.Forms.TextBox();
             this.lblConfirmarContrasena = new System.Windows.Forms.Label();
@@ -329,6 +330,7 @@
             // 
             this.formPanel.AutoScroll = true;
             this.formPanel.BackColor = System.Drawing.Color.White;
+            this.formPanel.Controls.Add(this.btnCerrar);
             this.formPanel.Controls.Add(this.lblErrorConfirmar);
             this.formPanel.Controls.Add(this.txtConfirmarContrasena);
             this.formPanel.Controls.Add(this.lblConfirmarContrasena);
@@ -376,6 +378,22 @@
             this.formPanel.Size = new System.Drawing.Size(890, 422);
             this.formPanel.TabIndex = 0;
             this.formPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.formPanel_Paint);
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.BackColor = System.Drawing.Color.Transparent;
+            this.btnCerrar.FlatAppearance.BorderSize = 0;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.ForeColor = System.Drawing.Color.Firebrick;
+            this.btnCerrar.Location = new System.Drawing.Point(850, 5);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(30, 30);
+            this.btnCerrar.TabIndex = 50;
+            this.btnCerrar.Text = "X";
+            this.btnCerrar.UseVisualStyleBackColor = false;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // lblErrorConfirmar
             // 
@@ -899,5 +917,7 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn Email;
     private System.Windows.Forms.DataGridViewTextBoxColumn Rol;
     private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
-}
+    private System.Windows.Forms.Button btnCerrar;
+
+    }
 }

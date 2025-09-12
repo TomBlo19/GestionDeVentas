@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GestionDeVentas.Admin
@@ -31,11 +28,12 @@ namespace GestionDeVentas.Admin
 
         private void CargarColumnas()
         {
-            dataTableUsuarios.Columns.Add("ID", typeof(int));
+            dataTableUsuarios.Columns.Add("DNI", typeof(string));
             dataTableUsuarios.Columns.Add("Nombre", typeof(string));
             dataTableUsuarios.Columns.Add("Apellido", typeof(string));
-            dataTableUsuarios.Columns.Add("Email", typeof(string));
-            dataTableUsuarios.Columns.Add("Tipo", typeof(string)); // Administrador, Vendedor, Cliente
+            dataTableUsuarios.Columns.Add("Telefono", typeof(string));
+            dataTableUsuarios.Columns.Add("Rol", typeof(string));
+            dataTableUsuarios.Columns.Add("Estado", typeof(string));
 
             dataGridViewUsuarios.DataSource = dataTableUsuarios;
         }
@@ -43,47 +41,45 @@ namespace GestionDeVentas.Admin
         private void CargarDatosDeEjemplo()
         {
             dataTableUsuarios.Rows.Clear();
-            dataTableUsuarios.Rows.Add(1, "Ana", "Torres", "ana.t@email.com", "Vendedor");
-            dataTableUsuarios.Rows.Add(2, "Juan", "Pérez", "juan.p@email.com", "Vendedor");
-            dataTableUsuarios.Rows.Add(3, "Sofía", "García", "sofia.g@email.com", "Vendedor");
-            dataTableUsuarios.Rows.Add(4, "Carlos", "López", "carlos.l@email.com", "Cliente");
-            dataTableUsuarios.Rows.Add(5, "María", "González", "maria.g@email.com", "Cliente");
-            dataTableUsuarios.Rows.Add(6, "Pedro", "Rodríguez", "pedro.r@email.com", "Cliente");
-            dataTableUsuarios.Rows.Add(7, "Luis", "Martínez", "luis.m@email.com", "Administrador");
+            dataTableUsuarios.Rows.Add("12345678", "Ana", "Torres", "1122334455", "Vendedor", "Activo");
+            dataTableUsuarios.Rows.Add("87654321", "Juan", "Pérez", "2233445566", "Vendedor", "Activo");
+            dataTableUsuarios.Rows.Add("33445566", "Sofía", "García", "3344556677", "Vendedor", "Activo");
+            dataTableUsuarios.Rows.Add("44556677", "Carlos", "López", "4455667788", "Gerente", "Inactivo");
+            dataTableUsuarios.Rows.Add("55667788", "María", "González", "5566778899", "Cliente", "Activo");
+            dataTableUsuarios.Rows.Add("66778899", "Pedro", "Rodríguez", "6677889900", "Cliente", "Activo");
+            dataTableUsuarios.Rows.Add("77889900", "Luis", "Martínez", "7788990011", "Administrador", "Inactivo");
         }
 
         private void CargarFiltros()
         {
-            // Carga los tipos de usuario únicos (excluyendo Gerente)
-            var tiposUsuario = dataTableUsuarios.AsEnumerable()
-                                               .Select(row => row.Field<string>("Tipo"))
-                                               .Distinct()
-                                               .ToList();
-            tiposUsuario.Sort();
+            var roles = dataTableUsuarios.AsEnumerable()
+                                         .Select(row => row.Field<string>("Rol"))
+                                         .Distinct()
+                                         .ToList();
+            roles.Sort();
+
             cmbTipoUsuario.Items.Clear();
             cmbTipoUsuario.Items.Add("Todos");
-            cmbTipoUsuario.Items.AddRange(tiposUsuario.ToArray());
-            cmbTipoUsuario.SelectedIndex = 0; // Selecciona "Todos" por defecto
+            cmbTipoUsuario.Items.AddRange(roles.ToArray());
+            cmbTipoUsuario.SelectedIndex = 0;
         }
 
         private void AplicarFiltros()
         {
             string filtroNombre = txtBuscarNombre.Text.Trim();
-            string filtroTipoUsuario = cmbTipoUsuario.SelectedItem?.ToString();
+            string filtroRol = cmbTipoUsuario.SelectedItem?.ToString();
 
             StringBuilder rowFilter = new StringBuilder();
 
-            // Filtro por nombre o apellido
             if (!string.IsNullOrEmpty(filtroNombre))
             {
                 rowFilter.Append($"Nombre LIKE '%{filtroNombre.Replace("'", "''")}%' OR Apellido LIKE '%{filtroNombre.Replace("'", "''")}%'");
             }
 
-            // Filtro por tipo de usuario
-            if (filtroTipoUsuario != "Todos" && !string.IsNullOrEmpty(filtroTipoUsuario))
+            if (filtroRol != "Todos" && !string.IsNullOrEmpty(filtroRol))
             {
                 if (rowFilter.Length > 0) rowFilter.Append(" AND ");
-                rowFilter.Append($"Tipo = '{filtroTipoUsuario.Replace("'", "''")}'");
+                rowFilter.Append($"Rol = '{filtroRol.Replace("'", "''")}'");
             }
 
             dataTableUsuarios.DefaultView.RowFilter = rowFilter.Length > 0 ? rowFilter.ToString() : string.Empty;
@@ -102,6 +98,27 @@ namespace GestionDeVentas.Admin
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dataGridViewUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
+
+        private void dataGridViewUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridViewUsuarios.Columns[e.ColumnIndex].DataPropertyName == "Estado")
+            {
+                var estado = e.Value?.ToString()?.Trim();
+
+                if (string.Equals(estado, "Inactivo", StringComparison.OrdinalIgnoreCase))
+                {
+                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                }
+                else
+                {
+                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
         }
     }
 }

@@ -28,8 +28,8 @@ namespace GestionDeVentas.Gerente
 
         private void FormRegistrarCliente_Load(object sender, EventArgs e)
         {
-            // Asegurar que el botón X quede visible encima de la franja
             btnCerrar.BringToFront();
+           // btnEliminar.Visible = false; // 🚫 Vendedor no puede eliminar ni desactivar
 
             // Datos de ejemplo
             listaClientes.Add(new Cliente { Nombre = "Juan", Apellido = "Pérez", Dni = "12345678", Telefono = "11223344", Direccion = "Calle Falsa 123", Pais = "Argentina", Ciudad = "Buenos Aires", FechaNacimiento = new DateTime(1990, 5, 15) });
@@ -46,6 +46,8 @@ namespace GestionDeVentas.Gerente
             dgvClientes.AllowUserToResizeRows = false;
             dgvClientes.AllowUserToResizeColumns = true;
             dgvClientes.ReadOnly = true;
+
+            dgvClientes.CellFormatting += dgvClientes_CellFormatting;
         }
 
         private void ActualizarDataGridView()
@@ -54,11 +56,13 @@ namespace GestionDeVentas.Gerente
             foreach (var cliente in listaClientes)
             {
                 string estado = cliente.Activo ? "Activo" : "Inactivo";
-                dgvClientes.Rows.Add(cliente.Id, cliente.Nombre, cliente.Apellido, cliente.Dni, cliente.Telefono, cliente.Direccion, cliente.Pais, cliente.Ciudad, cliente.FechaNacimiento.ToShortDateString(), estado);
+                dgvClientes.Rows.Add(cliente.Id, cliente.Nombre, cliente.Apellido, cliente.Dni,
+                                      cliente.Telefono, cliente.Direccion, cliente.Pais,
+                                      cliente.Ciudad, cliente.FechaNacimiento.ToShortDateString(), estado);
             }
         }
 
-        // Helper de confirmación
+        // 🔹 Helper confirmación
         private bool Confirmar(string mensaje, string titulo = "Confirmación")
         {
             return MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
@@ -82,7 +86,7 @@ namespace GestionDeVentas.Gerente
             };
 
             listaClientes.Add(nuevoCliente);
-            MessageBox.Show("Cliente registrado correctamente.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Cliente registrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
             ActualizarDataGridView();
         }
@@ -105,31 +109,7 @@ namespace GestionDeVentas.Gerente
             clienteAEditar.Ciudad = txtCiudad.Text;
             clienteAEditar.FechaNacimiento = dtpFechaNacimiento.Value;
 
-            MessageBox.Show("Cliente editado correctamente.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            LimpiarCampos();
-            ActualizarDataGridView();
-        }
-
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (!clienteSeleccionadoId.HasValue) return;
-
-            var cliente = listaClientes.FirstOrDefault(c => c.Id == clienteSeleccionadoId.Value);
-            if (cliente == null) return;
-
-            if (cliente.Activo)
-            {
-                if (!Confirmar($"¿Seguro que deseas desactivar a {cliente.Nombre} {cliente.Apellido}?")) return;
-                cliente.Activo = false;
-                MessageBox.Show("Cliente desactivado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                if (!Confirmar($"¿Activar nuevamente a {cliente.Nombre} {cliente.Apellido}?")) return;
-                cliente.Activo = true;
-                MessageBox.Show("Cliente activado.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
+            MessageBox.Show("Cliente editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
             ActualizarDataGridView();
         }
@@ -188,8 +168,6 @@ namespace GestionDeVentas.Gerente
             clienteSeleccionadoId = null;
             btnRegistrar.Visible = true;
             btnEditar.Visible = false;
-            btnEliminar.Visible = false;
-            btnEliminar.Text = "Eliminar Cliente";
         }
 
         private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -210,12 +188,25 @@ namespace GestionDeVentas.Gerente
 
                 btnRegistrar.Visible = false;
                 btnEditar.Visible = true;
-                btnEliminar.Visible = true;
-                btnEliminar.Text = clienteSeleccionado.Activo ? "Eliminar Cliente" : "Activar Cliente";
             }
             else
             {
                 LimpiarCampos();
+            }
+        }
+
+        private void dgvClientes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvClientes.Columns[e.ColumnIndex].Name == "colEstado" && e.Value != null)
+            {
+                if (e.Value.ToString() == "Inactivo")
+                {
+                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                }
+                else
+                {
+                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                }
             }
         }
 

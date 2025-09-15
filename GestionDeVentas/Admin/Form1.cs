@@ -1,6 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using GestionDeVentas.AdmSuperior;
+using System;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace GestionDeVentas.Admin
 {
@@ -137,9 +138,9 @@ namespace GestionDeVentas.Admin
             LoadForm(new FormGestionProductos());
         }
 
-        private void lblCerrarSesion_Click(object sender, EventArgs e)
+        private void lbl_cliente(object sender, EventArgs e)
         {
-            this.Close();
+            LoadForm(new FormGestionUsuarios() );
         }
 
         // Mantén los métodos vacíos si son necesarios, pero elimina los clics que ya no tienen botón
@@ -157,6 +158,21 @@ namespace GestionDeVentas.Admin
         {
 
         }
+
+        private void lblCerrarSesion_Click(object sender, EventArgs e)
+        {
+            LoadForm(new FormGestionarUsuarios());
+        }
+
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+
+    internal class FormGestionUsuarios : Form
+    {
     }
 
     // Clases de Formulario de Ejemplo (mantén tus clases reales)

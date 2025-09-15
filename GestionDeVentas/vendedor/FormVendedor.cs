@@ -146,5 +146,10 @@ namespace GestionDeVentas.vendedor
         {
             // Este método está vacío, no se necesita acción aquí
         }
+
+        private void topBarPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

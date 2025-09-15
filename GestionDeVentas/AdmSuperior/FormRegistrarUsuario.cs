@@ -1,342 +1,311 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using GestionDeVentas.Datos;
+using GestionDeVentas.Modelos;
+using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
+
 
 namespace GestionDeVentas.Admin
 {
     public partial class FormRegistrarUsuario : Form
     {
-        private List<Usuario> listaUsuarios = new List<Usuario>();
-        private int? usuarioSeleccionadoIndex = null;
+        private UsuarioDatos usuarioDatos = new UsuarioDatos();
+        private int? usuarioSeleccionadoId = null;
 
         public FormRegistrarUsuario()
         {
             InitializeComponent();
             CargarRoles();
-            CargarDatosIniciales();
-            ConfigurarDataGridView();
-            ActualizarDataGridView();
-            btnDesactivar.Visible = false;
-
-            this.txtNombreUsuario.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
-            this.txtApellido.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
-            this.txtPais.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
-            this.txtCiudad.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
-            this.txtDNI.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
-            this.txtTelefono.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
-
-            this.txtFiltro.TextChanged += new System.EventHandler(this.txtFiltro_TextChanged);
-            this.cmbFiltrarRol.SelectedIndexChanged += new System.EventHandler(this.cmbFiltrarRol_SelectedIndexChanged);
-            this.cmbFiltrarEstado.SelectedIndexChanged += new System.EventHandler(this.cmbFiltrarEstado_SelectedIndexChanged);
-            this.dgvUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellDoubleClick);
-            this.dgvUsuarios.CellFormatting += new DataGridViewCellFormattingEventHandler(this.dgvUsuarios_CellFormatting);
         }
 
         private void FormRegistrarUsuario_Load(object sender, EventArgs e)
         {
+            // ✅ Configuración inicial del DataGridView
+            dgvUsuarios.AutoGenerateColumns = false; // No generar columnas automáticas
             dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            
+
+            // Usar la propiedad ActivoTexto en la columna "Estado"
+            Estado.DataPropertyName = "ActivoTexto";
+
+            // Cargar usuarios
+            dgvUsuarios.DataSource = usuarioDatos.ObtenerUsuarios();
+
+            // ✅ Eventos de filtros
+            txtFiltro.TextChanged += TxtFiltro_TextChanged;
+            cmbFiltrarRol.SelectedIndexChanged += CmbFiltrarRol_SelectedIndexChanged;
+            cmbFiltrarEstado.SelectedIndexChanged += CmbFiltrarEstado_SelectedIndexChanged;
+
+            // Doble click en fila → editar
+            dgvUsuarios.CellDoubleClick += dgvUsuarios_CellDoubleClick;
+            dgvUsuarios.CellFormatting += dgvUsuarios_CellFormatting;
+
+            // Restringir solo números en DNI y Teléfono
+            txtDNI.KeyPress += SoloNumeros_KeyPress;
+            txtTelefono.KeyPress += SoloNumeros_KeyPress;
         }
+
+        // ✅ Handlers de filtros
+        private void TxtFiltro_TextChanged(object sender, EventArgs e) => ActualizarDataGridView();
+        private void CmbFiltrarRol_SelectedIndexChanged(object sender, EventArgs e) => ActualizarDataGridView();
+        private void CmbFiltrarEstado_SelectedIndexChanged(object sender, EventArgs e) => ActualizarDataGridView();
 
         private void CargarRoles()
         {
-            string[] roles = { "Vendedor", "Administrador", "Administrador Superior", "Gerente" };
-            cmbRol.Items.AddRange(roles);
+            var roles = usuarioDatos.ObtenerRoles();
+
+            cmbRol.Items.Clear();
+            cmbRol.Items.AddRange(roles.ToArray());
+
+            cmbFiltrarRol.Items.Clear();
             cmbFiltrarRol.Items.Add("Todos");
-            cmbFiltrarRol.Items.AddRange(roles);
+            cmbFiltrarRol.Items.AddRange(roles.ToArray());
             cmbFiltrarRol.SelectedIndex = 0;
 
+            cmbFiltrarEstado.Items.Clear();
             cmbFiltrarEstado.Items.Add("Todos");
             cmbFiltrarEstado.Items.Add("Activo");
             cmbFiltrarEstado.Items.Add("Inactivo");
             cmbFiltrarEstado.SelectedIndex = 0;
         }
 
-        private void CargarDatosIniciales()
-        {
-            listaUsuarios.Add(new Usuario { Nombre = "Juan", Apellido = "Perez", DNI = "12345678", Telefono = "1122334455", Email = "juan.perez@mail.com", Rol = "Administrador", Activo = true, Direccion = "Calle Falsa 123", Pais = "Argentina", Ciudad = "Buenos Aires", FechaNacimiento = new DateTime(1985, 5, 10), Contrasena = "juan123" });
-            listaUsuarios.Add(new Usuario { Nombre = "Maria", Apellido = "Gomez", DNI = "87654321", Telefono = "9988776655", Email = "maria.gomez@mail.com", Rol = "Vendedor", Activo = true, Direccion = "Avenida Siempreviva 742", Pais = "Argentina", Ciudad = "Mendoza", FechaNacimiento = new DateTime(1990, 8, 20), Contrasena = "maria456" });
-            listaUsuarios.Add(new Usuario { Nombre = "Carlos", Apellido = "Lopez", DNI = "11223344", Telefono = "3344556677", Email = "carlos.lopez@mail.com", Rol = "Gerente", Activo = false, Direccion = "Calle 50 # 25-10", Pais = "Colombia", Ciudad = "Bogotá", FechaNacimiento = new DateTime(1975, 2, 28), Contrasena = "carlos789" });
-        }
-
-        private void ConfigurarDataGridView()
-        {
-            dgvUsuarios.AutoGenerateColumns = false;
-            dgvUsuarios.Columns.Clear();
-
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "DNI", DataPropertyName = "DNI" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Nombre", DataPropertyName = "Nombre" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Apellido", DataPropertyName = "Apellido" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Teléfono", DataPropertyName = "Telefono" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Email", DataPropertyName = "Email" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Rol", DataPropertyName = "Rol" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Estado", DataPropertyName = "Estado" });
-        }
-
+        // ✅ Aplicar filtros
         private void ActualizarDataGridView()
         {
             var filtroTexto = txtFiltro.Text.ToLower();
             var filtroRol = cmbFiltrarRol.SelectedItem?.ToString();
             var filtroEstado = cmbFiltrarEstado.SelectedItem?.ToString();
 
-            var usuariosFiltrados = listaUsuarios.Where(u =>
-                (filtroRol == "Todos" || filtroRol == null || u.Rol == filtroRol) &&
-                (filtroEstado == "Todos" || filtroEstado == null || u.ActivoTexto == filtroEstado) &&
-                (string.IsNullOrEmpty(filtroTexto) || u.Nombre.ToLower().Contains(filtroTexto) || u.DNI.Contains(filtroTexto) || u.Apellido.ToLower().Contains(filtroTexto) || u.Rol.ToLower().Contains(filtroTexto) || u.ActivoTexto.ToLower().Contains(filtroTexto))
-            ).ToList();
+            var usuariosFiltrados = usuarioDatos.ObtenerUsuarios()
+                .Where(u =>
+                    (string.IsNullOrEmpty(filtroTexto) ||
+                     u.Apellido.ToLower().Contains(filtroTexto) ||
+                     u.DNI.Contains(filtroTexto)) &&
+                    (filtroRol == "Todos" || u.Rol == filtroRol) &&
+                    (filtroEstado == "Todos" || u.ActivoTexto == filtroEstado)
+                )
+                .ToList();
 
-            var datosParaTabla = usuariosFiltrados.Select(u => new
-            {
-                u.DNI,
-                u.Nombre,
-                u.Apellido,
-                u.Telefono,
-                u.Email,
-                u.Rol,
-                Estado = u.ActivoTexto
-            }).ToList();
-
-            dgvUsuarios.DataSource = null;
-            dgvUsuarios.DataSource = datosParaTabla;
+            dgvUsuarios.DataSource = usuariosFiltrados;
         }
 
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
-            if (ValidarCampos())
+            if (!ValidarCampos()) return;
+
+            var usuario = new Usuario
             {
-                var confirmacion = MessageBox.Show(
-                    "¿Está seguro de guardar los cambios?",
-                    "Confirmar acción",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                Id = usuarioSeleccionadoId ?? 0,
+                Nombre = txtNombreUsuario.Text,
+                Apellido = txtApellido.Text,
+                DNI = txtDNI.Text,
+                Email = txtEmail.Text,
+                Telefono = txtTelefono.Text,
+                Direccion = txtDireccion.Text,
+                Pais = txtPais.Text,
+                Ciudad = txtCiudad.Text,
+                FechaNacimiento = dtpFechaNacimiento.Value,
+                Contrasena = txtContrasena.Text,
+                Rol = cmbRol.SelectedItem?.ToString(),
+                Activo = true
+            };
 
-                if (confirmacion == DialogResult.No) return;
-
-                if (usuarioSeleccionadoIndex != null)
+            if (usuarioSeleccionadoId == null) // Nuevo
+            {
+                if (usuarioDatos.ExisteDNI(usuario.DNI))
                 {
-                    var usuarioAEditar = listaUsuarios[usuarioSeleccionadoIndex.Value];
-                    usuarioAEditar.Nombre = txtNombreUsuario.Text;
-                    usuarioAEditar.Apellido = txtApellido.Text;
-                    usuarioAEditar.DNI = txtDNI.Text;
-                    usuarioAEditar.Telefono = txtTelefono.Text;
-                    usuarioAEditar.Direccion = txtDireccion.Text;
-                    usuarioAEditar.Pais = txtPais.Text;
-                    usuarioAEditar.Ciudad = txtCiudad.Text;
-                    usuarioAEditar.FechaNacimiento = dtpFechaNacimiento.Value;
-                    usuarioAEditar.Email = txtEmail.Text;
-                    usuarioAEditar.Contrasena = txtContrasena.Text;
-                    usuarioAEditar.Rol = cmbRol.SelectedItem.ToString();
-
-                    MessageBox.Show("Usuario editado correctamente!", "Edición Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    usuarioSeleccionadoIndex = null;
-                    btnRegistrarUsuario.Text = "Registrar Usuario";
-                    btnLimpiar.Text = "Limpiar";
-                    btnDesactivar.Visible = false;
+                    lblErrorDNI.Text = "El DNI ya existe.";
+                    return;
                 }
-                else
+                if (usuarioDatos.ExisteCorreo(usuario.Email))
                 {
-                    Usuario nuevoUsuario = new Usuario
-                    {
-                        Nombre = txtNombreUsuario.Text,
-                        Apellido = txtApellido.Text,
-                        DNI = txtDNI.Text,
-                        Telefono = txtTelefono.Text,
-                        Direccion = txtDireccion.Text,
-                        Pais = txtPais.Text,
-                        Ciudad = txtCiudad.Text,
-                        FechaNacimiento = dtpFechaNacimiento.Value,
-                        Email = txtEmail.Text,
-                        Contrasena = txtContrasena.Text,
-                        Rol = cmbRol.SelectedItem.ToString(),
-                        Activo = true
-                    };
-
-                    listaUsuarios.Add(nuevoUsuario);
-                    MessageBox.Show("Usuario registrado correctamente!", "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    lblErrorEmail.Text = "El correo ya existe.";
+                    return;
                 }
-                LimpiarCampos();
-                ActualizarDataGridView();
+
+                if (MessageBox.Show("¿Seguro que quieres registrar este usuario?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.No) return;
+
+                usuarioDatos.InsertarUsuario(usuario);
             }
-        }
+            else // Editar
+            {
+                if (usuarioDatos.ExisteDNI(usuario.DNI, usuario.Id))
+                {
+                    lblErrorDNI.Text = "El DNI ya está en uso.";
+                    return;
+                }
+                if (usuarioDatos.ExisteCorreo(usuario.Email, usuario.Id))
+                {
+                    lblErrorEmail.Text = "El correo ya está en uso.";
+                    return;
+                }
 
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
+                if (MessageBox.Show("¿Seguro que quieres editar este usuario?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.No) return;
+
+                usuarioDatos.EditarUsuario(usuario);
+            }
+
+            dgvUsuarios.DataSource = usuarioDatos.ObtenerUsuarios();
             LimpiarCampos();
-            usuarioSeleccionadoIndex = null;
-            btnRegistrarUsuario.Text = "Registrar Usuario";
-            btnLimpiar.Text = "Limpiar";
-            btnDesactivar.Visible = false;
         }
 
         private void btnDesactivar_Click(object sender, EventArgs e)
         {
-            if (usuarioSeleccionadoIndex != null)
-            {
-                var usuario = listaUsuarios[usuarioSeleccionadoIndex.Value];
+            if (usuarioSeleccionadoId == null) return;
 
-                var confirmacion = MessageBox.Show(
-                    $"¿Está seguro de {(usuario.Activo ? "desactivar" : "activar")} a {usuario.Nombre}?",
-                    "Confirmar acción",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
+            var usuario = usuarioDatos.ObtenerUsuarios().First(u => u.Id == usuarioSeleccionadoId);
 
-                if (confirmacion == DialogResult.No) return;
+            var confirm = MessageBox.Show($"¿Seguro que quieres {(usuario.Activo ? "desactivar" : "activar")} este usuario?",
+                "Confirmar", MessageBoxButtons.YesNo);
 
-                string nuevoEstado = usuario.Activo ? "inactivado" : "activado";
-                usuario.Activo = !usuario.Activo;
-                MessageBox.Show($"Usuario {usuario.Nombre} {nuevoEstado} correctamente.", "Estado de Usuario", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (confirm == DialogResult.No) return;
 
-                LimpiarCampos();
-                ActualizarDataGridView();
-                usuarioSeleccionadoIndex = null;
-                btnRegistrarUsuario.Text = "Registrar Usuario";
-                btnLimpiar.Text = "Limpiar";
-                btnDesactivar.Visible = false;
-            }
+            usuarioDatos.CambiarEstado(usuario.Id, !usuario.Activo);
+
+            dgvUsuarios.DataSource = usuarioDatos.ObtenerUsuarios();
+            LimpiarCampos();
         }
+
+        
 
         private void dgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                var dniSeleccionado = dgvUsuarios.Rows[e.RowIndex].Cells[0].Value.ToString();
-                var usuarioSeleccionado = listaUsuarios.FirstOrDefault(u => u.DNI == dniSeleccionado);
+                var usuario = (Usuario)dgvUsuarios.Rows[e.RowIndex].DataBoundItem;
+                usuarioSeleccionadoId = usuario.Id;
 
-                if (usuarioSeleccionado != null)
-                {
-                    usuarioSeleccionadoIndex = listaUsuarios.IndexOf(usuarioSeleccionado);
+                txtNombreUsuario.Text = usuario.Nombre;
+                txtApellido.Text = usuario.Apellido;
+                txtDNI.Text = usuario.DNI;
+                txtTelefono.Text = usuario.Telefono;
+                txtDireccion.Text = usuario.Direccion;
+                txtPais.Text = usuario.Pais;
+                txtCiudad.Text = usuario.Ciudad;
+                txtEmail.Text = usuario.Email;
+                txtContrasena.Text = usuario.Contrasena;
+                txtConfirmarContrasena.Text = usuario.Contrasena;
+                cmbRol.SelectedItem = usuario.Rol;
+                dtpFechaNacimiento.Value = usuario.FechaNacimiento;
 
-                    txtNombreUsuario.Text = usuarioSeleccionado.Nombre;
-                    txtApellido.Text = usuarioSeleccionado.Apellido;
-                    txtDNI.Text = usuarioSeleccionado.DNI;
-                    txtTelefono.Text = usuarioSeleccionado.Telefono;
-                    txtDireccion.Text = usuarioSeleccionado.Direccion;
-                    txtPais.Text = usuarioSeleccionado.Pais;
-                    txtCiudad.Text = usuarioSeleccionado.Ciudad;
-                    dtpFechaNacimiento.Value = usuarioSeleccionado.FechaNacimiento;
-                    txtEmail.Text = usuarioSeleccionado.Email;
-
-                    // Mostrar la contraseña al editar
-                    txtContrasena.Text = usuarioSeleccionado.Contrasena;
-                    txtConfirmarContrasena.Text = usuarioSeleccionado.Contrasena;
-
-                    cmbRol.SelectedItem = usuarioSeleccionado.Rol;
-
-                    btnRegistrarUsuario.Text = "Editar Usuario";
-                    btnLimpiar.Text = "Cancelar Edición";
-                    btnDesactivar.Visible = true;
-                    btnDesactivar.Text = usuarioSeleccionado.Activo ? "Desactivar" : "Activar";
-                }
+                btnRegistrarUsuario.Text = "Guardar Cambios";
+                btnDesactivar.Visible = true;
+                btnDesactivar.Text = usuario.Activo ? "Desactivar" : "Activar";
             }
         }
 
-        private void dgvUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dgvUsuarios.Columns[e.ColumnIndex].HeaderText == "Estado")
-            {
-                var estado = dgvUsuarios.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
-                if (estado == "Inactivo")
-                {
-                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
-                }
-                else
-                {
-                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                }
-            }
-        }
-
-        private void txtFiltro_TextChanged(object sender, EventArgs e) => ActualizarDataGridView();
-        private void cmbFiltrarRol_SelectedIndexChanged(object sender, EventArgs e) => ActualizarDataGridView();
-        private void cmbFiltrarEstado_SelectedIndexChanged(object sender, EventArgs e) => ActualizarDataGridView();
-
+        // ✅ Validaciones
         private bool ValidarCampos()
         {
             bool esValido = true;
-            lblErrorNombre.Text = lblErrorApellido.Text = lblErrorDNI.Text = lblErrorTelefono.Text = lblErrorDireccion.Text = " ";
-            lblErrorPais.Text = lblErrorCiudad.Text = lblErrorFechaNacimiento.Text = lblErrorEmail.Text = lblErrorContrasena.Text = lblErrorConfirmar.Text = lblErrorRol.Text = " ";
+
+            lblErrorNombre.Text = lblErrorApellido.Text = lblErrorDNI.Text = lblErrorTelefono.Text =
+                lblErrorDireccion.Text = lblErrorPais.Text = lblErrorCiudad.Text = lblErrorEmail.Text =
+                lblErrorContrasena.Text = lblErrorConfirmar.Text = lblErrorRol.Text = "";
 
             if (string.IsNullOrWhiteSpace(txtNombreUsuario.Text))
             {
                 lblErrorNombre.Text = "El nombre es obligatorio.";
                 esValido = false;
             }
-
             if (string.IsNullOrWhiteSpace(txtApellido.Text))
             {
                 lblErrorApellido.Text = "El apellido es obligatorio.";
                 esValido = false;
             }
-
-            if (string.IsNullOrWhiteSpace(txtDNI.Text) || !Regex.IsMatch(txtDNI.Text, @"^\d+$"))
+            if (string.IsNullOrWhiteSpace(txtDNI.Text))
             {
-                lblErrorDNI.Text = "DNI inválido.";
+                lblErrorDNI.Text = "El DNI es obligatorio.";
                 esValido = false;
             }
-
-            if (string.IsNullOrWhiteSpace(txtTelefono.Text) || !Regex.IsMatch(txtTelefono.Text, @"^\d+$"))
+            else if (!int.TryParse(txtDNI.Text, out _))
             {
-                lblErrorTelefono.Text = "Teléfono inválido.";
+                lblErrorDNI.Text = "El DNI debe ser numérico.";
                 esValido = false;
             }
-
+            if (string.IsNullOrWhiteSpace(txtTelefono.Text))
+            {
+                lblErrorTelefono.Text = "El teléfono es obligatorio.";
+                esValido = false;
+            }
             if (string.IsNullOrWhiteSpace(txtDireccion.Text))
             {
                 lblErrorDireccion.Text = "La dirección es obligatoria.";
                 esValido = false;
             }
-
             if (string.IsNullOrWhiteSpace(txtPais.Text))
             {
                 lblErrorPais.Text = "El país es obligatorio.";
                 esValido = false;
             }
-
             if (string.IsNullOrWhiteSpace(txtCiudad.Text))
             {
-                lblErrorCiudad.Text = "La ciudad es obligatoria.";
+                lblErrorCiudad.Text = "La ciudad es obligatorio.";
                 esValido = false;
             }
-
-            if (dtpFechaNacimiento.Value > DateTime.Now)
+            if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
-                lblErrorFechaNacimiento.Text = "Fecha de nacimiento inválida.";
+                lblErrorEmail.Text = "El correo es obligatorio.";
                 esValido = false;
             }
-
-            if (string.IsNullOrWhiteSpace(txtEmail.Text) || !EsEmailValido(txtEmail.Text))
-            {
-                lblErrorEmail.Text = "Email inválido.";
-                esValido = false;
-            }
-            else if (listaUsuarios.Any(u => u.Email.Equals(txtEmail.Text, StringComparison.OrdinalIgnoreCase) && (usuarioSeleccionadoIndex == null || listaUsuarios[usuarioSeleccionadoIndex.Value].Email != txtEmail.Text)))
-            {
-                lblErrorEmail.Text = "Este email ya está registrado.";
-                esValido = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtContrasena.Text) && usuarioSeleccionadoIndex == null)
-            {
-                lblErrorContrasena.Text = "La contraseña es obligatoria.";
-                esValido = false;
-            }
-
-            if (txtContrasena.Text != txtConfirmarContrasena.Text)
-            {
-                lblErrorConfirmar.Text = "Las contraseñas no coinciden.";
-                esValido = false;
-            }
-
             if (cmbRol.SelectedItem == null)
             {
-                lblErrorRol.Text = "Selecciona un rol.";
+                lblErrorRol.Text = "Debe seleccionar un rol.";
                 esValido = false;
+            }
+
+            if (usuarioSeleccionadoId == null) // solo en registro
+            {
+                if (string.IsNullOrWhiteSpace(txtContrasena.Text))
+                {
+                    lblErrorContrasena.Text = "La contraseña es obligatoria.";
+                    esValido = false;
+                }
+                if (txtContrasena.Text != txtConfirmarContrasena.Text)
+                {
+                    lblErrorConfirmar.Text = "Las contraseñas no coinciden.";
+                    esValido = false;
+                }
             }
 
             return esValido;
         }
+
+        // ✅ Restringir solo números
+        private void SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("¿Seguro que quieres limpiar los campos?",
+                                "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                LimpiarCampos();
+            }
+        }
+        private void dgvUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvUsuarios.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+            {
+                string estado = e.Value.ToString();
+
+                if (estado == "Inactivo")
+                {
+                    // Fondo rojo suave y letras negras
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = System.Drawing.Color.Red;
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+                }
+                else if (estado == "Activo")
+                {
+                    // Fondo blanco y letras negras
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = System.Drawing.Color.White;
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
+                }
+            }
+        }
+
 
         private void LimpiarCampos()
         {
@@ -347,70 +316,29 @@ namespace GestionDeVentas.Admin
             txtDireccion.Clear();
             txtPais.Clear();
             txtCiudad.Clear();
-            dtpFechaNacimiento.Value = DateTime.Now;
             txtEmail.Clear();
             txtContrasena.Clear();
             txtConfirmarContrasena.Clear();
             cmbRol.SelectedIndex = -1;
+            dtpFechaNacimiento.Value = DateTime.Now;
 
-            lblErrorNombre.Text = lblErrorApellido.Text = lblErrorDNI.Text = lblErrorTelefono.Text = lblErrorDireccion.Text = " ";
-            lblErrorPais.Text = lblErrorCiudad.Text = lblErrorFechaNacimiento.Text = lblErrorEmail.Text = lblErrorContrasena.Text = lblErrorConfirmar.Text = lblErrorRol.Text = " ";
+            usuarioSeleccionadoId = null;
+            btnRegistrarUsuario.Text = "Registrar Usuario";
+            btnDesactivar.Visible = false;
+
+            lblErrorNombre.Text = lblErrorApellido.Text = lblErrorDNI.Text = lblErrorTelefono.Text =
+                lblErrorDireccion.Text = lblErrorPais.Text = lblErrorCiudad.Text = lblErrorEmail.Text =
+                lblErrorContrasena.Text = lblErrorConfirmar.Text = lblErrorRol.Text = "";
         }
 
-        private bool EsEmailValido(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private void txt_SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-
-        private void txt_SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
-            {
-                e.Handled = true;
-            }
         }
 
         private void formPanel_Paint(object sender, PaintEventArgs e)
         {
 
         }
-    }
-
-    public class Usuario
-    {
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string DNI { get; set; }
-        public string Telefono { get; set; }
-        public string Direccion { get; set; }
-        public string Pais { get; set; }
-        public string Ciudad { get; set; }
-        public DateTime FechaNacimiento { get; set; }
-        public string Email { get; set; }
-        public string Contrasena { get; set; }
-        public string Rol { get; set; }
-        public bool Activo { get; set; }
-        public string ActivoTexto => Activo ? "Activo" : "Inactivo";
     }
 }

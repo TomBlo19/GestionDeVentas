@@ -1,15 +1,22 @@
-﻿using System;
+﻿using GestionDeVentas.Datos;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using GestionDeVentas.Modelos;   
+
+
+
 
 namespace GestionDeVentas.Admin
 {
     public partial class ListarUsuario : Form
     {
         private DataTable dataTableUsuarios = new DataTable();
+        private UsuarioDatos usuarioDatos = new UsuarioDatos();
 
         public ListarUsuario()
         {
@@ -20,7 +27,7 @@ namespace GestionDeVentas.Admin
         private void ListarUsuario_Load(object sender, EventArgs e)
         {
             CargarColumnas();
-            CargarDatosDeEjemplo();
+            CargarDatosDesdeBD(); // 👈 ahora traemos datos reales
             CargarFiltros();
             dataGridViewUsuarios.Dock = DockStyle.Fill;
             dataGridViewUsuarios.BringToFront();
@@ -28,6 +35,7 @@ namespace GestionDeVentas.Admin
 
         private void CargarColumnas()
         {
+            dataTableUsuarios.Columns.Clear();
             dataTableUsuarios.Columns.Add("DNI", typeof(string));
             dataTableUsuarios.Columns.Add("Nombre", typeof(string));
             dataTableUsuarios.Columns.Add("Apellido", typeof(string));
@@ -38,16 +46,23 @@ namespace GestionDeVentas.Admin
             dataGridViewUsuarios.DataSource = dataTableUsuarios;
         }
 
-        private void CargarDatosDeEjemplo()
+        private void CargarDatosDesdeBD()
         {
             dataTableUsuarios.Rows.Clear();
-            dataTableUsuarios.Rows.Add("12345678", "Ana", "Torres", "1122334455", "Vendedor", "Activo");
-            dataTableUsuarios.Rows.Add("87654321", "Juan", "Pérez", "2233445566", "Vendedor", "Activo");
-            dataTableUsuarios.Rows.Add("33445566", "Sofía", "García", "3344556677", "Vendedor", "Activo");
-            dataTableUsuarios.Rows.Add("44556677", "Carlos", "López", "4455667788", "Gerente", "Inactivo");
-            dataTableUsuarios.Rows.Add("55667788", "María", "González", "5566778899", "Cliente", "Activo");
-            dataTableUsuarios.Rows.Add("66778899", "Pedro", "Rodríguez", "6677889900", "Cliente", "Activo");
-            dataTableUsuarios.Rows.Add("77889900", "Luis", "Martínez", "7788990011", "Administrador", "Inactivo");
+
+            List<Usuario> usuarios = usuarioDatos.ObtenerUsuarios();
+
+            foreach (var u in usuarios)
+            {
+                dataTableUsuarios.Rows.Add(
+                    u.DNI,
+                    u.Nombre,
+                    u.Apellido,
+                    u.Telefono,
+                    u.Rol,
+                    u.ActivoTexto
+                );
+            }
         }
 
         private void CargarFiltros()
@@ -100,10 +115,6 @@ namespace GestionDeVentas.Admin
             this.Close();
         }
 
-        private void dataGridViewUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-
         private void dataGridViewUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dataGridViewUsuarios.Columns[e.ColumnIndex].DataPropertyName == "Estado")
@@ -112,13 +123,20 @@ namespace GestionDeVentas.Admin
 
                 if (string.Equals(estado, "Inactivo", StringComparison.OrdinalIgnoreCase))
                 {
-                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
                 }
                 else
                 {
+                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
                     dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
                 }
             }
+        }
+
+        private void topPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

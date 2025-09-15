@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;              // <- IMPORTANTE para Where/FirstOrDefault
+using System.Linq;
 using System.Windows.Forms;
 
-namespace GestionDeVentas.AdmSuperior
+namespace GestionDeVentas.Admin
 {
     public partial class FormGestionarUsuarios : Form
     {
-        private readonly List<Usuario> usuarios = new List<Usuario>();
+        private readonly List<ClienteDemo> usuarios = new List<ClienteDemo>();
         private int nextId = 1;
 
         private const string PLACEHOLDER = "Buscar por DNI o Apellido...";
@@ -61,10 +61,10 @@ namespace GestionDeVentas.AdmSuperior
         private void CargarDatosDemo()
         {
             usuarios.Clear();
-            usuarios.Add(new Usuario { Id = nextId++, Dni = "12345678", Nombre = "María", Apellido = "González", Telefono = "11223344", Correo = "maria@mail.com", Estado = "Activo" });
-            usuarios.Add(new Usuario { Id = nextId++, Dni = "87654321", Nombre = "Carlos", Apellido = "López", Telefono = "22334455", Correo = "carlos@mail.com", Estado = "Inactivo" });
-            usuarios.Add(new Usuario { Id = nextId++, Dni = "45678912", Nombre = "Ana", Apellido = "Martínez", Telefono = "33445566", Correo = "ana@mail.com", Estado = "Activo" });
-            usuarios.Add(new Usuario { Id = nextId++, Dni = "11223344", Nombre = "Pedro", Apellido = "Suárez", Telefono = "44556677", Correo = "pedro@mail.com", Estado = "Activo" });
+            usuarios.Add(new ClienteDemo { Id = nextId++, Dni = "12345678", Nombre = "María", Apellido = "González", Telefono = "11223344", Correo = "maria@mail.com", Estado = "Activo" });
+            usuarios.Add(new ClienteDemo { Id = nextId++, Dni = "87654321", Nombre = "Carlos", Apellido = "López", Telefono = "22334455", Correo = "carlos@mail.com", Estado = "Inactivo" });
+            usuarios.Add(new ClienteDemo { Id = nextId++, Dni = "45678912", Nombre = "Ana", Apellido = "Martínez", Telefono = "33445566", Correo = "ana@mail.com", Estado = "Activo" });
+            usuarios.Add(new ClienteDemo { Id = nextId++, Dni = "11223344", Nombre = "Pedro", Apellido = "Suárez", Telefono = "44556677", Correo = "pedro@mail.com", Estado = "Activo" });
         }
 
         private void AplicarFiltros()
@@ -84,7 +84,7 @@ namespace GestionDeVentas.AdmSuperior
             CargarEnGrid(filtrados);
         }
 
-        private void CargarEnGrid(List<Usuario> lista)
+        private void CargarEnGrid(List<ClienteDemo> lista)
         {
             dgvUsuarios.Rows.Clear();
             foreach (var u in lista)
@@ -207,9 +207,13 @@ namespace GestionDeVentas.AdmSuperior
                 btnAccion.BackColor = Color.FromArgb(200, 0, 0);
             }
         }
+
+        private void panelFiltros_Paint(object sender, PaintEventArgs e) { }
+        private void panelTop_Paint(object sender, PaintEventArgs e) { }
     }
 
-    public class Usuario
+    // 🔹 Clase auxiliar SOLO para este formulario
+    public class ClienteDemo
     {
         public int Id { get; set; }
         public string Dni { get; set; }

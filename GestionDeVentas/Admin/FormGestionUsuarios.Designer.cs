@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 
-namespace GestionDeVentas.AdmSuperior
+namespace GestionDeVentas.Admin
 {
     partial class FormGestionarUsuarios
     {
@@ -56,6 +56,7 @@ namespace GestionDeVentas.AdmSuperior
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(960, 50);
             this.panelTop.TabIndex = 3;
+            this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
             // 
             // lblTitulo
             // 
@@ -95,6 +96,7 @@ namespace GestionDeVentas.AdmSuperior
             this.panelFiltros.Name = "panelFiltros";
             this.panelFiltros.Size = new System.Drawing.Size(960, 48);
             this.panelFiltros.TabIndex = 2;
+            this.panelFiltros.Paint += new System.Windows.Forms.PaintEventHandler(this.panelFiltros_Paint);
             // 
             // txtBusqueda
             // 

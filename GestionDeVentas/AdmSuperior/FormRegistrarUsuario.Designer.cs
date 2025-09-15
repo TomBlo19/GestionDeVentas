@@ -1,4 +1,6 @@
-﻿namespace GestionDeVentas.Admin
+﻿using System;
+
+namespace GestionDeVentas.Admin
 {
     partial class FormRegistrarUsuario
 {
@@ -285,7 +287,6 @@
             this.cmbFiltrarEstado.Name = "cmbFiltrarEstado";
             this.cmbFiltrarEstado.Size = new System.Drawing.Size(215, 21);
             this.cmbFiltrarEstado.TabIndex = 4;
-            this.cmbFiltrarEstado.SelectedIndexChanged += new System.EventHandler(this.cmbFiltrarEstado_SelectedIndexChanged);
             // 
             // lblFiltrarRol
             // 
@@ -305,7 +306,6 @@
             this.cmbFiltrarRol.Name = "cmbFiltrarRol";
             this.cmbFiltrarRol.Size = new System.Drawing.Size(215, 21);
             this.cmbFiltrarRol.TabIndex = 2;
-            this.cmbFiltrarRol.SelectedIndexChanged += new System.EventHandler(this.cmbFiltrarRol_SelectedIndexChanged);
             // 
             // txtFiltro
             // 
@@ -313,7 +313,6 @@
             this.txtFiltro.Name = "txtFiltro";
             this.txtFiltro.Size = new System.Drawing.Size(215, 20);
             this.txtFiltro.TabIndex = 1;
-            this.txtFiltro.TextChanged += new System.EventHandler(this.txtFiltro_TextChanged);
             // 
             // lblFiltro
             // 
@@ -791,7 +790,7 @@
             this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLimpiar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnLimpiar.Location = new System.Drawing.Point(135, 381);
+            this.btnLimpiar.Location = new System.Drawing.Point(141, 381);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(120, 35);
             this.btnLimpiar.TabIndex = 1;
@@ -807,7 +806,7 @@
             this.btnDesactivar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesactivar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDesactivar.ForeColor = System.Drawing.Color.White;
-            this.btnDesactivar.Location = new System.Drawing.Point(260, 381);
+            this.btnDesactivar.Location = new System.Drawing.Point(267, 381);
             this.btnDesactivar.Name = "btnDesactivar";
             this.btnDesactivar.Size = new System.Drawing.Size(140, 35);
             this.btnDesactivar.TabIndex = 2;
@@ -919,5 +918,6 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
     private System.Windows.Forms.Button btnCerrar;
 
+      
     }
 }

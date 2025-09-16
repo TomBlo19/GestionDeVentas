@@ -195,6 +195,7 @@
             // 
             // lblVendedorWelcome
             // 
+            this.lblVendedorWelcome.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblVendedorWelcome.AutoSize = true;
             this.lblVendedorWelcome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(224)))), ((int)(((byte)(215)))));
             this.lblVendedorWelcome.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

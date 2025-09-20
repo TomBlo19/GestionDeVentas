@@ -324,4 +324,3 @@
         private System.Windows.Forms.TextBox txtSubtotal, txtIVA, txtTotal, txtMontoEntregado, txtVuelto;
     }
 }
-+

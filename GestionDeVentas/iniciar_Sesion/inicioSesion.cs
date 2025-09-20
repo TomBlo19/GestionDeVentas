@@ -1,7 +1,7 @@
 ﻿using GestionDeVentas.Admin;
 using GestionDeVentas.Gerent;
-using GestionDeVentas.AdmSuperior; 
-using GestionDeVentas.vendedor; 
+using GestionDeVentas.AdmSuperior;
+using GestionDeVentas.vendedor;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -36,7 +36,6 @@ namespace gestionDeVentas
         {
             InitializeComponent();
             this.AcceptButton = btnIngresar;
-            // **¡AÑADE ESTA LÍNEA AQUÍ!**
             try
             {
                 this.logoTYV.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
@@ -92,7 +91,12 @@ namespace gestionDeVentas
                 {
                     frm.Show();
                     this.Hide();
-                    frm.FormClosed += (s, args) => this.Close();
+                    // 🔹 al cerrar sesión en el panel, se limpian los campos y se muestra de nuevo el login
+                    frm.FormClosed += (s, args) =>
+                    {
+                        this.LimpiarCampos();
+                        this.Show();
+                    };
                 }
                 return;
             }
@@ -166,7 +170,18 @@ namespace gestionDeVentas
 
         private void inicioSesion_Load(object sender, EventArgs e)
         {
+            LimpiarCampos();
+        }
 
+        // 🔹 NUEVO MÉTODO PARA LIMPIAR CAMPOS
+        private void LimpiarCampos()
+        {
+            txtUsuario.Clear();
+            txtPassword.Clear();
+            chkVer.Checked = false;
+            txtPassword.PasswordChar = '•';
+            errorProvider1.Clear();
+            txtUsuario.Focus();
         }
     }
 }

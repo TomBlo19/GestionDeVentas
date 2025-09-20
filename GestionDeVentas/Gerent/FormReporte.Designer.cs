@@ -1,317 +1,307 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
-namespace GestionDeVentas.Gerent
+namespace GestionDeVentas.Gerente
 {
-    partial class FormReportes
+    partial class FormReportesGerente
     {
         private System.ComponentModel.IContainer components = null;
 
-        // Título
-        private Label lblTitulo;
-
-        // Filtros
-        private Panel panelFiltros;
-        private Label lblDesde;
-        private Label lblHasta;
-        private DateTimePicker dtpDesde;
-        private DateTimePicker dtpHasta;
-        private Label lblVendedor;
-        private ComboBox cboVendedor;
-        private Button btnAplicar;
-
-        // >>> NUEVO: Botón cerrar <<<
-        private Button btnCerrar;
-
-        // KPIs
-        private Panel panelKpis;
-        private Panel panelMonto;
-        private Panel panelUnidades;
-        private Panel panelPedidos;
-        private Label lblMonto;
-        private Label lblMontoValor;
-        private Label lblUnidades;
-        private Label lblUnidadesValor;
-        private Label lblPedidos;
-        private Label lblPedidosValor;
-
-        // Gráficos
-        private Panel panelGraficos;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartPorDia;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartPorProducto;
-
-        // Detalle + export
-        private Panel panelDetalle;
-        private DataGridView dgvDetalle;
-        private Panel panelExport;
-        private Button btnExportarCsv;
-        private Button btnExportarPng;
-
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-                components.Dispose();
+            if (disposing && (components != null)) components.Dispose();
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
+
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblTitulo = new System.Windows.Forms.Label();
-            this.panelFiltros = new System.Windows.Forms.Panel();
-            this.lblDesde = new System.Windows.Forms.Label();
-            this.lblHasta = new System.Windows.Forms.Label();
-            this.dtpDesde = new System.Windows.Forms.DateTimePicker();
-            this.dtpHasta = new System.Windows.Forms.DateTimePicker();
-            this.lblVendedor = new System.Windows.Forms.Label();
-            this.cboVendedor = new System.Windows.Forms.ComboBox();
-            this.btnAplicar = new System.Windows.Forms.Button();
-
-            // >>> NUEVO: botón cerrar
             this.btnCerrar = new System.Windows.Forms.Button();
-
-            this.panelKpis = new System.Windows.Forms.Panel();
-            this.panelMonto = new System.Windows.Forms.Panel();
-            this.lblMonto = new System.Windows.Forms.Label();
-            this.lblMontoValor = new System.Windows.Forms.Label();
-            this.panelUnidades = new System.Windows.Forms.Panel();
-            this.lblUnidades = new System.Windows.Forms.Label();
-            this.lblUnidadesValor = new System.Windows.Forms.Label();
-            this.panelPedidos = new System.Windows.Forms.Panel();
-            this.lblPedidos = new System.Windows.Forms.Label();
-            this.lblPedidosValor = new System.Windows.Forms.Label();
-
-            this.panelGraficos = new System.Windows.Forms.Panel();
-            this.chartPorDia = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chartPorProducto = new System.Windows.Forms.DataVisualization.Charting.Chart();
-
-            this.panelDetalle = new System.Windows.Forms.Panel();
-            this.panelExport = new System.Windows.Forms.Panel();
-            this.btnExportarCsv = new System.Windows.Forms.Button();
-            this.btnExportarPng = new System.Windows.Forms.Button();
-            this.dgvDetalle = new System.Windows.Forms.DataGridView();
-
-            ((System.ComponentModel.ISupportInitialize)(this.chartPorDia)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartPorProducto)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
+            this.lblFechaDesde = new System.Windows.Forms.Label();
+            this.dtpDesde = new System.Windows.Forms.DateTimePicker();
+            this.lblFechaHasta = new System.Windows.Forms.Label();
+            this.dtpHasta = new System.Windows.Forms.DateTimePicker();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.cmbCliente = new System.Windows.Forms.ComboBox();
+            this.lblVendedor = new System.Windows.Forms.Label();
+            this.cmbVendedor = new System.Windows.Forms.ComboBox();
+            this.lblMetodoPago = new System.Windows.Forms.Label();
+            this.cmbMetodoPago = new System.Windows.Forms.ComboBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.dgvFacturas = new System.Windows.Forms.DataGridView();
+            this.colNroFactura = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVendedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMetodoPago = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVerDetalle = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btnExportarPDF = new System.Windows.Forms.Button();
+            this.btnExportarExcel = new System.Windows.Forms.Button();
+            this.lblResultados = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFacturas)).BeginInit();
             this.SuspendLayout();
-
-            // ===== Form =====
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Reportes - Gerente";
-            this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(980, 640);
-            this.Load += new System.EventHandler(this.FormReportes_Load);
-
-            // ===== lblTitulo =====
-            this.lblTitulo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblTitulo.Height = 44;
-            this.lblTitulo.Text = "Reportes de Ventas";
-            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblTitulo.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
-
-            // ===== panelFiltros =====
-            this.panelFiltros.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelFiltros.Height = 48;
-            this.panelFiltros.BackColor = System.Drawing.Color.WhiteSmoke;
-
-            this.lblDesde.AutoSize = true;
-            this.lblDesde.Text = "Desde:";
-            this.lblDesde.Location = new System.Drawing.Point(12, 15);
-
-            this.dtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDesde.Location = new System.Drawing.Point(60, 12);
-            this.dtpDesde.Width = 95;
-
-            this.lblHasta.AutoSize = true;
-            this.lblHasta.Text = "Hasta:";
-            this.lblHasta.Location = new System.Drawing.Point(170, 15);
-
-            this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHasta.Location = new System.Drawing.Point(218, 12);
-            this.dtpHasta.Width = 95;
-
-            this.lblVendedor.AutoSize = true;
-            this.lblVendedor.Text = "Vendedor:";
-            this.lblVendedor.Location = new System.Drawing.Point(330, 15);
-
-            this.cboVendedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboVendedor.Location = new System.Drawing.Point(400, 12);
-            this.cboVendedor.Width = 140;
-
-            this.btnAplicar.Text = "Aplicar";
-            this.btnAplicar.Location = new System.Drawing.Point(560, 10);
-            this.btnAplicar.Size = new System.Drawing.Size(80, 26);
-            this.btnAplicar.Click += new System.EventHandler(this.btnAplicar_Click);
-
-            this.panelFiltros.Controls.Add(this.lblDesde);
-            this.panelFiltros.Controls.Add(this.dtpDesde);
-            this.panelFiltros.Controls.Add(this.lblHasta);
-            this.panelFiltros.Controls.Add(this.dtpHasta);
-            this.panelFiltros.Controls.Add(this.lblVendedor);
-            this.panelFiltros.Controls.Add(this.cboVendedor);
-            this.panelFiltros.Controls.Add(this.btnAplicar);
-
-            // ===== panelKpis =====
-            this.panelKpis.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelKpis.Height = 92;
-            this.panelKpis.Padding = new System.Windows.Forms.Padding(10);
-
-            // panelMonto
-            this.panelMonto.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelMonto.Width = 300;
-            this.panelMonto.BackColor = System.Drawing.Color.LightCoral;
-            this.panelMonto.Padding = new System.Windows.Forms.Padding(6);
-
-            this.lblMonto.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblMonto.Text = "Ventas ($)";
-            this.lblMonto.ForeColor = System.Drawing.Color.White;
-            this.lblMonto.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.lblMontoValor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMontoValor.Text = "$ 0";
-            this.lblMontoValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
-            this.lblMontoValor.ForeColor = System.Drawing.Color.White;
-            this.lblMontoValor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.panelMonto.Controls.Add(this.lblMontoValor);
-            this.panelMonto.Controls.Add(this.lblMonto);
-
-            // panelUnidades
-            this.panelUnidades.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelUnidades.Width = 300;
-            this.panelUnidades.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.panelUnidades.Padding = new System.Windows.Forms.Padding(6);
-
-            this.lblUnidades.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblUnidades.Text = "Productos Vendidos";
-            this.lblUnidades.ForeColor = System.Drawing.Color.White;
-            this.lblUnidades.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.lblUnidadesValor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblUnidadesValor.Text = "0";
-            this.lblUnidadesValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
-            this.lblUnidadesValor.ForeColor = System.Drawing.Color.White;
-            this.lblUnidadesValor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.panelUnidades.Controls.Add(this.lblUnidadesValor);
-            this.panelUnidades.Controls.Add(this.lblUnidades);
-
-            // panelPedidos
-            this.panelPedidos.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelPedidos.Width = 300;
-            this.panelPedidos.BackColor = System.Drawing.Color.SteelBlue;
-            this.panelPedidos.Padding = new System.Windows.Forms.Padding(6);
-
-            this.lblPedidos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblPedidos.Text = "Pedidos";
-            this.lblPedidos.ForeColor = System.Drawing.Color.White;
-            this.lblPedidos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.lblPedidosValor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblPedidosValor.Text = "0";
-            this.lblPedidosValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
-            this.lblPedidosValor.ForeColor = System.Drawing.Color.White;
-            this.lblPedidosValor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-            this.panelPedidos.Controls.Add(this.lblPedidosValor);
-            this.panelPedidos.Controls.Add(this.lblPedidos);
-
-            this.panelKpis.Controls.Add(this.panelPedidos);
-            this.panelKpis.Controls.Add(this.panelUnidades);
-            this.panelKpis.Controls.Add(this.panelMonto);
-
-            // ===== panelGraficos =====
-            this.panelGraficos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelGraficos.Height = 240;
-            this.panelGraficos.Padding = new System.Windows.Forms.Padding(10);
-            this.panelGraficos.BackColor = System.Drawing.Color.White;
-
-            // chartPorDia
-            var ca1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            ca1.Name = "ChartArea1";
-            ca1.AxisX.MajorGrid.Enabled = false;
-            this.chartPorDia.ChartAreas.Add(ca1);
-            var lg1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            lg1.Name = "Legend1";
-            this.chartPorDia.Legends.Add(lg1);
-            this.chartPorDia.Location = new System.Drawing.Point(10, 10);
-            this.chartPorDia.Name = "chartPorDia";
-            this.chartPorDia.Size = new System.Drawing.Size(450, 220);
-            this.chartPorDia.TabIndex = 0;
-
-            // chartPorProducto
-            var ca2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            ca2.Name = "ChartArea2";
-            this.chartPorProducto.ChartAreas.Add(ca2);
-            var lg2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            lg2.Name = "Legend2";
-            this.chartPorProducto.Legends.Add(lg2);
-            this.chartPorProducto.Location = new System.Drawing.Point(480, 10);
-            this.chartPorProducto.Name = "chartPorProducto";
-            this.chartPorProducto.Size = new System.Drawing.Size(470, 220);
-            this.chartPorProducto.TabIndex = 1;
-
-            this.panelGraficos.Controls.Add(this.chartPorDia);
-            this.panelGraficos.Controls.Add(this.chartPorProducto);
-
-            // ===== panelDetalle =====
-            this.panelDetalle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDetalle.Padding = new System.Windows.Forms.Padding(10, 0, 10, 10);
-
-            // panelExport
-            this.panelExport.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelExport.Height = 40;
-            this.panelExport.Padding = new System.Windows.Forms.Padding(10, 6, 10, 6);
-
-            this.btnExportarCsv.Text = "Exportar CSV";
-            this.btnExportarCsv.Width = 120;
-            this.btnExportarCsv.Location = new System.Drawing.Point(10, 6);
-            this.btnExportarCsv.Click += new System.EventHandler(this.btnExportarCsv_Click);
-
-            this.btnExportarPng.Text = "Exportar Gráficos (PNG)";
-            this.btnExportarPng.Width = 180;
-            this.btnExportarPng.Location = new System.Drawing.Point(140, 6);
-            this.btnExportarPng.Click += new System.EventHandler(this.btnExportarPng_Click);
-
-            this.panelExport.Controls.Add(this.btnExportarCsv);
-            this.panelExport.Controls.Add(this.btnExportarPng);
-
-            // dgvDetalle
-            this.dgvDetalle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvDetalle.BackgroundColor = System.Drawing.Color.White;
-            this.dgvDetalle.AllowUserToAddRows = false;
-            this.dgvDetalle.ReadOnly = true;
-            this.dgvDetalle.RowHeadersVisible = false;
-
-            this.panelDetalle.Controls.Add(this.dgvDetalle);
-            this.panelDetalle.Controls.Add(this.panelExport);
-
-            // ===== NUEVO: Botón Cerrar (✕) =====
-            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.FlatAppearance.BorderSize = 0;
-            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.Location = new System.Drawing.Point(940, 0); // 980 - 40
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo.Location = new System.Drawing.Point(20, 10);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(378, 47);
+            this.lblTitulo.TabIndex = 0;
+            this.lblTitulo.Text = "Reportes de Facturas";
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.Location = new System.Drawing.Point(760, 10);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(40, 40);
-            this.btnCerrar.TabIndex = 999;
-            this.btnCerrar.Text = "✕";
-            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.Size = new System.Drawing.Size(40, 30);
+            this.btnCerrar.TabIndex = 1;
+            this.btnCerrar.Text = "X";
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
-
-            // ===== Orden de agregado al Form =====
-            this.Controls.Add(this.btnCerrar);        // <- lo agrego al final para que quede arriba
-            this.Controls.Add(this.panelDetalle);
-            this.Controls.Add(this.panelGraficos);
-            this.Controls.Add(this.panelKpis);
-            this.Controls.Add(this.panelFiltros);
+            // 
+            // lblFechaDesde
+            // 
+            this.lblFechaDesde.Location = new System.Drawing.Point(20, 60);
+            this.lblFechaDesde.Name = "lblFechaDesde";
+            this.lblFechaDesde.Size = new System.Drawing.Size(100, 23);
+            this.lblFechaDesde.TabIndex = 2;
+            this.lblFechaDesde.Text = "Desde:";
+            // 
+            // dtpDesde
+            // 
+            this.dtpDesde.Location = new System.Drawing.Point(80, 60);
+            this.dtpDesde.Name = "dtpDesde";
+            this.dtpDesde.Size = new System.Drawing.Size(200, 22);
+            this.dtpDesde.TabIndex = 3;
+            // 
+            // lblFechaHasta
+            // 
+            this.lblFechaHasta.Location = new System.Drawing.Point(288, 62);
+            this.lblFechaHasta.Name = "lblFechaHasta";
+            this.lblFechaHasta.Size = new System.Drawing.Size(100, 23);
+            this.lblFechaHasta.TabIndex = 4;
+            this.lblFechaHasta.Text = "Hasta:";
+            // 
+            // dtpHasta
+            // 
+            this.dtpHasta.Location = new System.Drawing.Point(336, 60);
+            this.dtpHasta.Name = "dtpHasta";
+            this.dtpHasta.Size = new System.Drawing.Size(200, 22);
+            this.dtpHasta.TabIndex = 5;
+            // 
+            // lblCliente
+            // 
+            this.lblCliente.Location = new System.Drawing.Point(20, 90);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(100, 23);
+            this.lblCliente.TabIndex = 6;
+            this.lblCliente.Text = "Cliente:";
+            // 
+            // cmbCliente
+            // 
+            this.cmbCliente.Location = new System.Drawing.Point(80, 90);
+            this.cmbCliente.Name = "cmbCliente";
+            this.cmbCliente.Size = new System.Drawing.Size(150, 24);
+            this.cmbCliente.TabIndex = 7;
+            // 
+            // lblVendedor
+            // 
+            this.lblVendedor.Location = new System.Drawing.Point(250, 90);
+            this.lblVendedor.Name = "lblVendedor";
+            this.lblVendedor.Size = new System.Drawing.Size(100, 23);
+            this.lblVendedor.TabIndex = 8;
+            this.lblVendedor.Text = "Vendedor:";
+            // 
+            // cmbVendedor
+            // 
+            this.cmbVendedor.Location = new System.Drawing.Point(320, 90);
+            this.cmbVendedor.Name = "cmbVendedor";
+            this.cmbVendedor.Size = new System.Drawing.Size(150, 24);
+            this.cmbVendedor.TabIndex = 9;
+            // 
+            // lblMetodoPago
+            // 
+            this.lblMetodoPago.Location = new System.Drawing.Point(485, 93);
+            this.lblMetodoPago.Name = "lblMetodoPago";
+            this.lblMetodoPago.Size = new System.Drawing.Size(123, 23);
+            this.lblMetodoPago.TabIndex = 10;
+            this.lblMetodoPago.Text = "Método de Pago:";
+            // 
+            // cmbMetodoPago
+            // 
+            this.cmbMetodoPago.Location = new System.Drawing.Point(610, 90);
+            this.cmbMetodoPago.Name = "cmbMetodoPago";
+            this.cmbMetodoPago.Size = new System.Drawing.Size(120, 24);
+            this.cmbMetodoPago.TabIndex = 11;
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.Location = new System.Drawing.Point(740, 88);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(60, 28);
+            this.btnBuscar.TabIndex = 12;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(740, 58);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(80, 28);
+            this.btnReset.TabIndex = 13;
+            this.btnReset.Text = "Restablecer";
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // dgvFacturas
+            // 
+            this.dgvFacturas.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Beige;
+            this.dgvFacturas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvFacturas.ColumnHeadersHeight = 29;
+            this.dgvFacturas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colNroFactura,
+            this.colFecha,
+            this.colCliente,
+            this.colVendedor,
+            this.colMetodoPago,
+            this.colTotal,
+            this.colVerDetalle});
+            this.dgvFacturas.Location = new System.Drawing.Point(20, 130);
+            this.dgvFacturas.Name = "dgvFacturas";
+            this.dgvFacturas.RowHeadersVisible = false;
+            this.dgvFacturas.RowHeadersWidth = 51;
+            this.dgvFacturas.Size = new System.Drawing.Size(808, 350);
+            this.dgvFacturas.TabIndex = 14;
+            this.dgvFacturas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFacturas_CellContentClick);
+            // 
+            // colNroFactura
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colNroFactura.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colNroFactura.HeaderText = "N° Factura";
+            this.colNroFactura.MinimumWidth = 6;
+            this.colNroFactura.Name = "colNroFactura";
+            this.colNroFactura.Width = 125;
+            // 
+            // colFecha
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colFecha.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colFecha.HeaderText = "Fecha";
+            this.colFecha.MinimumWidth = 6;
+            this.colFecha.Name = "colFecha";
+            this.colFecha.Width = 125;
+            // 
+            // colCliente
+            // 
+            this.colCliente.HeaderText = "Cliente";
+            this.colCliente.MinimumWidth = 6;
+            this.colCliente.Name = "colCliente";
+            this.colCliente.Width = 125;
+            // 
+            // colVendedor
+            // 
+            this.colVendedor.HeaderText = "Vendedor";
+            this.colVendedor.MinimumWidth = 6;
+            this.colVendedor.Name = "colVendedor";
+            this.colVendedor.Width = 125;
+            // 
+            // colMetodoPago
+            // 
+            this.colMetodoPago.HeaderText = "Método Pago";
+            this.colMetodoPago.MinimumWidth = 6;
+            this.colMetodoPago.Name = "colMetodoPago";
+            this.colMetodoPago.Width = 125;
+            // 
+            // colTotal
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colTotal.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colTotal.HeaderText = "Total";
+            this.colTotal.MinimumWidth = 6;
+            this.colTotal.Name = "colTotal";
+            this.colTotal.Width = 125;
+            // 
+            // colVerDetalle
+            // 
+            this.colVerDetalle.HeaderText = "Detalle";
+            this.colVerDetalle.MinimumWidth = 6;
+            this.colVerDetalle.Name = "colVerDetalle";
+            this.colVerDetalle.Text = "Ver Detalle";
+            this.colVerDetalle.UseColumnTextForButtonValue = true;
+            this.colVerDetalle.Width = 125;
+            // 
+            // btnExportarPDF
+            // 
+            this.btnExportarPDF.Location = new System.Drawing.Point(20, 500);
+            this.btnExportarPDF.Name = "btnExportarPDF";
+            this.btnExportarPDF.Size = new System.Drawing.Size(100, 30);
+            this.btnExportarPDF.TabIndex = 15;
+            this.btnExportarPDF.Text = "Exportar PDF";
+            this.btnExportarPDF.Click += new System.EventHandler(this.btnExportarPDF_Click);
+            // 
+            // btnExportarExcel
+            // 
+            this.btnExportarExcel.Location = new System.Drawing.Point(140, 500);
+            this.btnExportarExcel.Name = "btnExportarExcel";
+            this.btnExportarExcel.Size = new System.Drawing.Size(120, 30);
+            this.btnExportarExcel.TabIndex = 16;
+            this.btnExportarExcel.Text = "Exportar Excel";
+            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
+            // 
+            // lblResultados
+            // 
+            this.lblResultados.Location = new System.Drawing.Point(600, 500);
+            this.lblResultados.Name = "lblResultados";
+            this.lblResultados.Size = new System.Drawing.Size(200, 30);
+            this.lblResultados.TabIndex = 17;
+            this.lblResultados.Text = "0 facturas encontradas";
+            // 
+            // FormReportesGerente
+            // 
+            this.ClientSize = new System.Drawing.Size(840, 550);
             this.Controls.Add(this.lblTitulo);
-
-            ((System.ComponentModel.ISupportInitialize)(this.chartPorDia)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartPorProducto)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).EndInit();
+            this.Controls.Add(this.btnCerrar);
+            this.Controls.Add(this.dtpDesde);
+            this.Controls.Add(this.dtpHasta);
+            this.Controls.Add(this.cmbCliente);
+            this.Controls.Add(this.cmbVendedor);
+            this.Controls.Add(this.lblMetodoPago);
+            this.Controls.Add(this.cmbMetodoPago);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.btnReset);
+            this.Controls.Add(this.dgvFacturas);
+            this.Controls.Add(this.btnExportarPDF);
+            this.Controls.Add(this.btnExportarExcel);
+            this.Controls.Add(this.lblResultados);
+            this.Controls.Add(this.lblFechaDesde);
+            this.Controls.Add(this.lblCliente);
+            this.Controls.Add(this.lblVendedor);
+            this.Controls.Add(this.lblFechaHasta);
+            this.Name = "FormReportesGerente";
+            this.Text = "Reportes de Facturas";
+            this.Load += new System.EventHandler(this.FormReportesGerente_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFacturas)).EndInit();
             this.ResumeLayout(false);
+
         }
+
+        #endregion
+
+        private System.Windows.Forms.Label lblTitulo, lblFechaDesde, lblFechaHasta, lblCliente, lblVendedor, lblMetodoPago, lblResultados;
+        private System.Windows.Forms.Button btnCerrar, btnBuscar, btnReset, btnExportarPDF, btnExportarExcel;
+        private System.Windows.Forms.DateTimePicker dtpDesde, dtpHasta;
+        private System.Windows.Forms.ComboBox cmbCliente, cmbVendedor, cmbMetodoPago;
+        private System.Windows.Forms.DataGridView dgvFacturas;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNroFactura, colFecha, colCliente, colVendedor, colMetodoPago, colTotal;
+        private System.Windows.Forms.DataGridViewButtonColumn colVerDetalle;
     }
 }

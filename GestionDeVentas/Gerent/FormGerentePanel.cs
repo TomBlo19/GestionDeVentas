@@ -1,4 +1,5 @@
 ﻿using GestionDeVentas.Admin;
+using GestionDeVentas.Gerente;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -121,7 +122,7 @@ namespace GestionDeVentas.Gerent
         private void lblReportes_Click(object sender, EventArgs e)
         {
             
-            LoadForm(new FormReportes());
+            LoadForm(new FormReportesGerente());
         }
 
         private void lblRendimientoVendedores_Click(object sender, EventArgs e)

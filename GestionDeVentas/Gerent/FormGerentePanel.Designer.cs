@@ -214,11 +214,11 @@
             // 
             this.pictureBoxLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBoxLogo.ErrorImage = null;
-            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logoTYV;
-            this.pictureBoxLogo.Location = new System.Drawing.Point(349, 15);
+            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logoFactura;
+            this.pictureBoxLogo.Location = new System.Drawing.Point(343, 8);
             this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(89, 69);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(111, 80);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogo.TabIndex = 1;
             this.pictureBoxLogo.TabStop = false;

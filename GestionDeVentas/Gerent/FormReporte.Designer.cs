@@ -59,8 +59,9 @@ namespace GestionDeVentas.Gerente
             // 
             // btnCerrar
             // 
+            this.btnCerrar.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.Location = new System.Drawing.Point(760, 10);
+            this.btnCerrar.Location = new System.Drawing.Point(741, 10);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(40, 30);
             this.btnCerrar.TabIndex = 1;
@@ -155,7 +156,7 @@ namespace GestionDeVentas.Gerente
             // 
             this.btnReset.Location = new System.Drawing.Point(740, 58);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(80, 28);
+            this.btnReset.Size = new System.Drawing.Size(88, 28);
             this.btnReset.TabIndex = 13;
             this.btnReset.Text = "Restablecer";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
@@ -174,11 +175,11 @@ namespace GestionDeVentas.Gerente
             this.colMetodoPago,
             this.colTotal,
             this.colVerDetalle});
-            this.dgvFacturas.Location = new System.Drawing.Point(20, 130);
+            this.dgvFacturas.Location = new System.Drawing.Point(7, 130);
             this.dgvFacturas.Name = "dgvFacturas";
             this.dgvFacturas.RowHeadersVisible = false;
             this.dgvFacturas.RowHeadersWidth = 51;
-            this.dgvFacturas.Size = new System.Drawing.Size(808, 350);
+            this.dgvFacturas.Size = new System.Drawing.Size(831, 350);
             this.dgvFacturas.TabIndex = 14;
             this.dgvFacturas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFacturas_CellContentClick);
             // 

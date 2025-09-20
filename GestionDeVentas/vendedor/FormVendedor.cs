@@ -134,8 +134,24 @@ namespace GestionDeVentas.vendedor
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
-            this.Close();
+            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?",
+                                            "Cerrar sesión",
+                                            MessageBoxButtons.YesNo,
+                                            MessageBoxIcon.Question);
+
+            if (confirmar == DialogResult.Yes)
+            {
+                // Mostrar nuevamente el login oculto
+                if (Application.OpenForms["inicioSesion"] != null)
+                {
+                    Application.OpenForms["inicioSesion"].Show();
+                }
+
+                // Cierra el formulario actual (el panel en el que estés)
+                this.Close();
+            }
         }
+
         //terminar
         private void lblFacturacion_Click(object sender, EventArgs e)
         {

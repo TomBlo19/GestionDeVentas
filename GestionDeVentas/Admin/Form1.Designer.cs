@@ -17,7 +17,6 @@
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.Windows.Forms.PictureBox pictureBoxWelcome;
 
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -32,7 +31,6 @@
             this.logoPanel = new System.Windows.Forms.Panel();
             this.lblAdminPanel = new System.Windows.Forms.Label();
             this.sidePanel = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.lblCerrarSesion = new System.Windows.Forms.Label();
             this.lblGestionarPrendas = new System.Windows.Forms.Label();
             this.lblRegistrarPrenda = new System.Windows.Forms.Label();
@@ -75,7 +73,6 @@
             // 
             this.sidePanel.AutoScroll = true;
             this.sidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(224)))), ((int)(((byte)(215)))));
-            this.sidePanel.Controls.Add(this.label1);
             this.sidePanel.Controls.Add(this.lblCerrarSesion);
             this.sidePanel.Controls.Add(this.lblGestionarPrendas);
             this.sidePanel.Controls.Add(this.lblRegistrarPrenda);
@@ -88,22 +85,6 @@
             this.sidePanel.Size = new System.Drawing.Size(200, 450);
             this.sidePanel.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(0, 228);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.label1.Size = new System.Drawing.Size(200, 30);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Cerrar sesión";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
             // lblCerrarSesion
             // 
             this.lblCerrarSesion.BackColor = System.Drawing.Color.Transparent;
@@ -111,12 +92,12 @@
             this.lblCerrarSesion.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblCerrarSesion.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCerrarSesion.ForeColor = System.Drawing.Color.Black;
-            this.lblCerrarSesion.Location = new System.Drawing.Point(0, 198);
+            this.lblCerrarSesion.Location = new System.Drawing.Point(0, 228);
             this.lblCerrarSesion.Name = "lblCerrarSesion";
             this.lblCerrarSesion.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.lblCerrarSesion.Size = new System.Drawing.Size(200, 30);
-            this.lblCerrarSesion.TabIndex = 8;
-            this.lblCerrarSesion.Text = "Cliente";
+            this.lblCerrarSesion.TabIndex = 10;
+            this.lblCerrarSesion.Text = "Cerrar sesión";
             this.lblCerrarSesion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCerrarSesion.Click += new System.EventHandler(this.lblCerrarSesion_Click);
             // 
@@ -127,7 +108,7 @@
             this.lblGestionarPrendas.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblGestionarPrendas.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGestionarPrendas.ForeColor = System.Drawing.Color.Black;
-            this.lblGestionarPrendas.Location = new System.Drawing.Point(0, 168);
+            this.lblGestionarPrendas.Location = new System.Drawing.Point(0, 198);
             this.lblGestionarPrendas.Name = "lblGestionarPrendas";
             this.lblGestionarPrendas.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.lblGestionarPrendas.Size = new System.Drawing.Size(200, 30);
@@ -143,7 +124,7 @@
             this.lblRegistrarPrenda.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblRegistrarPrenda.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRegistrarPrenda.ForeColor = System.Drawing.Color.Black;
-            this.lblRegistrarPrenda.Location = new System.Drawing.Point(0, 138);
+            this.lblRegistrarPrenda.Location = new System.Drawing.Point(0, 168);
             this.lblRegistrarPrenda.Name = "lblRegistrarPrenda";
             this.lblRegistrarPrenda.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.lblRegistrarPrenda.Size = new System.Drawing.Size(200, 30);
@@ -159,7 +140,7 @@
             this.lblListarProductos.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblListarProductos.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblListarProductos.ForeColor = System.Drawing.Color.Black;
-            this.lblListarProductos.Location = new System.Drawing.Point(0, 108);
+            this.lblListarProductos.Location = new System.Drawing.Point(0, 138);
             this.lblListarProductos.Name = "lblListarProductos";
             this.lblListarProductos.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             this.lblListarProductos.Size = new System.Drawing.Size(200, 30);
@@ -175,10 +156,10 @@
             this.lblInicio.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblInicio.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInicio.ForeColor = System.Drawing.Color.Black;
-            this.lblInicio.Location = new System.Drawing.Point(0, 75);
+            this.lblInicio.Location = new System.Drawing.Point(0, 108);
             this.lblInicio.Name = "lblInicio";
             this.lblInicio.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblInicio.Size = new System.Drawing.Size(200, 33);
+            this.lblInicio.Size = new System.Drawing.Size(200, 30);
             this.lblInicio.TabIndex = 0;
             this.lblInicio.Text = "Inicio";
             this.lblInicio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -267,7 +248,5 @@
             this.ResumeLayout(false);
 
         }
-
-        private System.Windows.Forms.Label label1;
     }
 }

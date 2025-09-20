@@ -161,7 +161,16 @@ namespace GestionDeVentas.Admin
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
-            LoadForm(new FormGestionarUsuarios());
+            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?",
+                                            "Cerrar sesión",
+                                            MessageBoxButtons.YesNo,
+                                            MessageBoxIcon.Question);
+
+            if (confirmar == DialogResult.Yes)
+            {
+                Application.OpenForms["inicioSesion"].Show(); // 🔹 Vuelve a mostrar el login
+                this.Close(); // 🔹 Cierra el panel actual
+            }
         }
 
 

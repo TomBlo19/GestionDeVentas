@@ -305,5 +305,14 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logoFactura.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logoFactura1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logoFac.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

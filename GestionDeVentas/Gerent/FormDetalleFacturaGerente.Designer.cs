@@ -43,7 +43,7 @@
             // 
             // lblTitulo
             // 
-            this.lblTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lblTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.Location = new System.Drawing.Point(20, 10);
@@ -70,7 +70,7 @@
             this.lblNroFactura.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNroFactura.Location = new System.Drawing.Point(20, 70);
             this.lblNroFactura.Name = "lblNroFactura";
-            this.lblNroFactura.Size = new System.Drawing.Size(71, 15);
+            this.lblNroFactura.Size = new System.Drawing.Size(69, 15);
             this.lblNroFactura.TabIndex = 2;
             this.lblNroFactura.Text = "N° Factura: ";
             // 
@@ -107,15 +107,15 @@
             this.lblMetodoPago.AutoSize = true;
             this.lblMetodoPago.Location = new System.Drawing.Point(20, 140);
             this.lblMetodoPago.Name = "lblMetodoPago";
-            this.lblMetodoPago.Size = new System.Drawing.Size(87, 13);
+            this.lblMetodoPago.Size = new System.Drawing.Size(89, 13);
             this.lblMetodoPago.TabIndex = 9;
             this.lblMetodoPago.Text = "Método de Pago:";
             // 
             // dgvProductos
             // 
             this.dgvProductos.AllowUserToAddRows = false;
-            this.dgvProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgvProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -209,7 +209,7 @@
             this.lblIVA.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblIVA.Location = new System.Drawing.Point(500, 480);
             this.lblIVA.Name = "lblIVA";
-            this.lblIVA.Size = new System.Drawing.Size(61, 15);
+            this.lblIVA.Size = new System.Drawing.Size(60, 15);
             this.lblIVA.TabIndex = 13;
             this.lblIVA.Text = "IVA (21%):";
             // 
@@ -229,7 +229,7 @@
             this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblTotal.Location = new System.Drawing.Point(500, 510);
             this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(43, 19);
+            this.lblTotal.Size = new System.Drawing.Size(46, 19);
             this.lblTotal.TabIndex = 15;
             this.lblTotal.Text = "Total:";
             // 
@@ -259,6 +259,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(820, 550);
+            this.ControlBox = false;
             this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.txtTotal);
             this.Controls.Add(this.lblTotal);

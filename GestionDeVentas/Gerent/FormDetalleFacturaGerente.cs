@@ -1,26 +1,59 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GestionDeVentas.Gerente
 {
+    // Asegúrate de que esta sea la primera clase en el archivo.
     public partial class FormDetalleFacturaGerente : Form
     {
-        public FormDetalleFacturaGerente()
+        private FormReportesGerente.Factura facturaActual;
+
+        public FormDetalleFacturaGerente(FormReportesGerente.Factura factura)
         {
             InitializeComponent();
+            this.facturaActual = factura;
         }
 
         private void FormDetalleFacturaGerente_Load(object sender, EventArgs e)
         {
-            // Simulación de datos en la factura
-            dgvProductos.Rows.Add("A123", "Camiseta Básica", "M", "2", "$20", "$40");
-            dgvProductos.Rows.Add("B456", "Jeans Slim Fit", "32", "1", "$50", "$50");
+            // Cargar los datos de la factura en la interfaz
+            CargarDatosFactura();
+        }
 
-            txtSubtotal.Text = "$90";
-            txtIVA.Text = "$18.90";
-            txtTotal.Text = "$108.90";
-            txtMontoEntregado.Text = "$120";
-            txtVuelto.Text = "$11.10";
+        private void CargarDatosFactura()
+        {
+            if (facturaActual == null) return;
+
+            // Actualizar la información de la factura
+            lblNroFactura.Text = $"N° Factura: {facturaActual.NroFactura}";
+            lblFecha.Text = $"Fecha: {facturaActual.Fecha.ToShortDateString()}";
+            lblCliente.Text = $"Cliente: {facturaActual.Cliente}";
+            lblVendedor.Text = $"Vendedor: {facturaActual.Vendedor}";
+            lblMetodoPago.Text = $"Método de Pago: {facturaActual.MetodoPago}";
+
+            // Llenar la tabla de productos
+            dgvProductos.Rows.Clear();
+            foreach (var producto in facturaActual.Productos)
+            {
+                dgvProductos.Rows.Add(
+                    producto.Codigo,
+                    producto.Nombre,
+                    producto.Talle,
+                    producto.Cantidad.ToString(),
+                    $"${producto.Precio:N2}",
+                    $"${producto.Subtotal:N2}"
+                );
+            }
+
+            // Calcular y mostrar los totales
+            decimal subtotal = facturaActual.Productos.Sum(p => p.Subtotal);
+            decimal iva = subtotal * 0.21m; // 21% de IVA
+            decimal total = subtotal + iva;
+
+            txtSubtotal.Text = $"${subtotal:N2}";
+            txtIVA.Text = $"${iva:N2}";
+            txtTotal.Text = $"${total:N2}";
         }
 
         private void btnCerrar_Click(object sender, EventArgs e) => this.Close();
@@ -28,11 +61,6 @@ namespace GestionDeVentas.Gerente
         private void btnImprimir_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Simulación de impresión de factura.", "Imprimir", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void lblNroFactura_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

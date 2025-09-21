@@ -82,6 +82,12 @@
     <Compile Include="Admin\FormRegistrarProducto.Designer.cs">
       <DependentUpon>FormRegistrarProducto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Admin\FormRegistrarProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin\FormRegistrarProveedor.Designer.cs">
+      <DependentUpon>FormRegistrarProveedor.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdmSuperior\FormAdminSuperior.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,6 +194,18 @@
     <Compile Include="vendedor\FormVendedor.Designer.cs">
       <DependentUpon>FormVendedor.cs</DependentUpon>
     </Compile>
+    <Compile Include="vendedor\FormVentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vendedor\FormVentas.Designer.cs">
+      <DependentUpon>FormVentas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vendedor\FormVisualizarFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vendedor\FormVisualizarFactura.Designer.cs">
+      <DependentUpon>FormVisualizarFactura.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Admin\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -196,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin\FormRegistrarProducto.resx">
       <DependentUpon>FormRegistrarProducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin\FormRegistrarProveedor.resx">
+      <DependentUpon>FormRegistrarProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AdmSuperior\FormAdminSuperior.resx">
       <DependentUpon>FormAdminSuperior.cs</DependentUpon>
@@ -259,6 +280,12 @@
       <DependentUpon>FormVendedor.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="barraLateral\UiStyles.cs" />
+    <EmbeddedResource Include="vendedor\FormVentas.resx">
+      <DependentUpon>FormVentas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vendedor\FormVisualizarFactura.resx">
+      <DependentUpon>FormVisualizarFactura.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

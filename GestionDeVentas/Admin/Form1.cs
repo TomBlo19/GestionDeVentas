@@ -1,4 +1,5 @@
 ﻿using GestionDeVentas.AdmSuperior;
+using GestionDeVentas.Gerente;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -177,6 +178,25 @@ namespace GestionDeVentas.Admin
         private void label1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?",
+                                           "Cerrar sesión",
+                                         MessageBoxButtons.YesNo,
+                                           MessageBoxIcon.Question);
+
+            if (confirmar == DialogResult.Yes)
+            {
+                Application.OpenForms["inicioSesion"].Show(); // 🔹 Vuelve a mostrar el login
+                this.Close(); // 🔹 Cierra el panel actual
+            }
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+            LoadForm(new FormRegistrarProveedor());
         }
     }
 

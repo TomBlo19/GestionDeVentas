@@ -121,10 +121,8 @@ namespace GestionDeVentas.vendedor
 
         private void lblListarVentas_Click(object sender, EventArgs e)
         {
-            // Carga un formulario vacío para pruebas
-            Form tempForm = new Form();
-            tempForm.Text = "Formulario de Listar Ventas (Vacío)";
-            LoadForm(tempForm);
+           
+            LoadForm(new FormVentas());
         }
 
         private void lblAñadirCliente_Click(object sender, EventArgs e)

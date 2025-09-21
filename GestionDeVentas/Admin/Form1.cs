@@ -198,6 +198,16 @@ namespace GestionDeVentas.Admin
         {
             LoadForm(new FormRegistrarProveedor());
         }
+
+        private void lblAdminPanel_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblAdminPanel_Click_2(object sender, EventArgs e)
+        {
+
+        }
     }
 
     internal class FormGestionUsuarios : Form

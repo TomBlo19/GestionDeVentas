@@ -16,6 +16,20 @@ namespace GestionDeVentas.vendedor
             InitializeComponent();
         }
 
+        private void EstilizarSidebar()
+        {
+            foreach (Control ctrl in this.sidePanel.Controls)
+            {
+                if (ctrl is Label lbl && lbl != this.lblVendedorPanel)
+                {
+                    lbl.ForeColor = Color.FromArgb(40, 40, 40);
+                    lbl.BackColor = Color.Transparent;
+                    lbl.MouseEnter += (s, e) => { lbl.BackColor = Color.FromArgb(210, 190, 170); };
+                    lbl.MouseLeave += (s, e) => { lbl.BackColor = Color.Transparent; };
+                }
+            }
+        }
+
         private void LoadForm(Form form)
         {
             if (isFormOpen)
@@ -44,17 +58,14 @@ namespace GestionDeVentas.vendedor
         private void FormVendedor_Load(object sender, EventArgs e)
         {
             this.ShowWelcomeView();
+            EstilizarSidebar();
 
             try
             {
-                // Carga tu logo aquí
                 this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
                 this.pictureBoxLogo.SizeMode = PictureBoxSizeMode.Zoom;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar el logo de la empresa: " + ex.Message, "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch { }
         }
 
         private void ShowWelcomeView()
@@ -64,8 +75,8 @@ namespace GestionDeVentas.vendedor
 
             Label welcomeLabel = new Label();
             welcomeLabel.Text = "¡Bienvenido al Panel de Ventas!";
-            welcomeLabel.Font = new Font("Arial", 20, FontStyle.Bold);
-            welcomeLabel.ForeColor = System.Drawing.Color.Gray;
+            welcomeLabel.Font = new Font("Segoe UI", 18, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.Gray;
             welcomeLabel.Dock = DockStyle.Top;
             welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
             welcomeLabel.Padding = new Padding(0, 30, 0, 0);
@@ -73,7 +84,7 @@ namespace GestionDeVentas.vendedor
 
             this.pictureBoxWelcome.Visible = true;
             this.pictureBoxWelcome.Dock = DockStyle.None;
-            this.pictureBoxWelcome.Size = new Size(250, 250);
+            this.pictureBoxWelcome.Size = new Size(200, 200);
             this.pictureBoxWelcome.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBoxWelcome.BackColor = Color.Transparent;
 
@@ -95,75 +106,32 @@ namespace GestionDeVentas.vendedor
 
             try
             {
-                // Carga tu imagen de bienvenida de vendedor
                 this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar la imagen de bienvenida: " + ex.Message, "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch { }
 
             lblVendedorWelcome.Text = "Vendedor";
-            lblVendedorWelcome.TextAlign = ContentAlignment.MiddleRight;
         }
 
-        // Métodos del menú lateral
-        private void lblInicio_Click(object sender, EventArgs e)
-        {
-            ShowWelcomeView();
-        }
+        private void lblInicio_Click(object sender, EventArgs e) => ShowWelcomeView();
+        private void lblListarProductos_Click(object sender, EventArgs e) => LoadForm(new ListarProductos());
+        private void lblListarVentas_Click(object sender, EventArgs e) => LoadForm(new FormVentas());
+        private void lblAñadirCliente_Click(object sender, EventArgs e) => LoadForm(new FormRegistrarCliente());
 
-        private void lblListarProductos_Click(object sender, EventArgs e)
-        {
-            // Carga el formulario de listar productos
-            LoadForm(new ListarProductos());
-        }
-
-        private void lblListarVentas_Click(object sender, EventArgs e)
-        {
-           
-            LoadForm(new FormVentas());
-        }
-
-        private void lblAñadirCliente_Click(object sender, EventArgs e)
-        {
-            LoadForm(new FormRegistrarCliente());
-        }
+        private void lblFacturacion_Click(object sender, EventArgs e) => LoadForm(new FormFactura());
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
-            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?",
-                                            "Cerrar sesión",
-                                            MessageBoxButtons.YesNo,
-                                            MessageBoxIcon.Question);
+            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?", "Cerrar sesión",
+                                            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (confirmar == DialogResult.Yes)
             {
-                // Mostrar nuevamente el login oculto
                 if (Application.OpenForms["inicioSesion"] != null)
-                {
                     Application.OpenForms["inicioSesion"].Show();
-                }
 
-                // Cierra el formulario actual (el panel en el que estés)
                 this.Close();
             }
-        }
-
-        //terminar
-        private void lblFacturacion_Click(object sender, EventArgs e)
-        {
-            LoadForm(new FormFactura());
-        }
-
-        private void pictureBoxWelcome_Click(object sender, EventArgs e)
-        {
-            // Este método está vacío, no se necesita acción aquí
-        }
-
-        private void topBarPanel_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

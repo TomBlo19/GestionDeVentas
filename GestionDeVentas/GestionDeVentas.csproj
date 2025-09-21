@@ -350,5 +350,29 @@
   <ItemGroup>
     <None Include="Resources\logoFac.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_sales.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_client.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_invoice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_products.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_manage.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

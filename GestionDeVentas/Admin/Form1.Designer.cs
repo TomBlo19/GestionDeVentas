@@ -63,6 +63,7 @@
             // 
             // lblAdminPanel
             // 
+            this.lblAdminPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(190)))), ((int)(((byte)(170)))));
             this.lblAdminPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblAdminPanel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.lblAdminPanel.Location = new System.Drawing.Point(0, 0);
@@ -268,7 +269,7 @@
             this.lblAdminWelcome.ForeColor = System.Drawing.Color.White;
             this.lblAdminWelcome.Location = new System.Drawing.Point(656, 28);
             this.lblAdminWelcome.Name = "lblAdminWelcome";
-            this.lblAdminWelcome.Size = new System.Drawing.Size(111, 20);
+            this.lblAdminWelcome.Size = new System.Drawing.Size(141, 25);
             this.lblAdminWelcome.TabIndex = 1;
             this.lblAdminWelcome.Text = "Administrador";
             // 

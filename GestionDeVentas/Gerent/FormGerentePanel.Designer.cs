@@ -61,6 +61,7 @@ namespace GestionDeVentas.Gerent
             // 
             // lblGerentePanel
             // 
+            this.lblGerentePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(190)))), ((int)(((byte)(170)))));
             this.lblGerentePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblGerentePanel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.lblGerentePanel.Location = new System.Drawing.Point(0, 0);
@@ -236,13 +237,13 @@ namespace GestionDeVentas.Gerent
             // 
             // lblGerenteWelcome
             // 
-            this.lblGerenteWelcome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblGerenteWelcome.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblGerenteWelcome.AutoSize = true;
             this.lblGerenteWelcome.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.lblGerenteWelcome.ForeColor = System.Drawing.Color.White;
-            this.lblGerenteWelcome.Location = new System.Drawing.Point(656, 28);
+            this.lblGerenteWelcome.Location = new System.Drawing.Point(705, 30);
             this.lblGerenteWelcome.Name = "lblGerenteWelcome";
-            this.lblGerenteWelcome.Size = new System.Drawing.Size(65, 20);
+            this.lblGerenteWelcome.Size = new System.Drawing.Size(83, 25);
             this.lblGerenteWelcome.TabIndex = 1;
             this.lblGerenteWelcome.Text = "Gerente";
             this.lblGerenteWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

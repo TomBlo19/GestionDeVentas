@@ -159,5 +159,10 @@ namespace GestionDeVentas.AdmSuperior
                 this.Close();
             }
         }
+
+        private void lblAdminPanel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

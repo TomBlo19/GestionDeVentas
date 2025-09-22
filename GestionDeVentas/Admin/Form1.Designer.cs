@@ -21,35 +21,35 @@
             this.logoPanel = new System.Windows.Forms.Panel();
             this.lblAdminPanel = new System.Windows.Forms.Label();
             this.sidePanel = new System.Windows.Forms.Panel();
+            this.iconCerrarSesion = new System.Windows.Forms.PictureBox();
             this.lblCerrarSesion = new System.Windows.Forms.Label();
+            this.iconRegistrarProveedor = new System.Windows.Forms.PictureBox();
             this.lblRegistrarProveedor = new System.Windows.Forms.Label();
+            this.iconGestionarPrendas = new System.Windows.Forms.PictureBox();
             this.lblGestionarPrendas = new System.Windows.Forms.Label();
+            this.iconRegistrarPrenda = new System.Windows.Forms.PictureBox();
             this.lblRegistrarPrenda = new System.Windows.Forms.Label();
+            this.iconListarProductos = new System.Windows.Forms.PictureBox();
             this.lblListarProductos = new System.Windows.Forms.Label();
+            this.iconInicio = new System.Windows.Forms.PictureBox();
             this.lblInicio = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
-            this.topBarPanel = new System.Windows.Forms.Panel();
-            this.lblAdminWelcome = new System.Windows.Forms.Label();
             this.pictureBoxWelcome = new System.Windows.Forms.PictureBox();
+            this.topBarPanel = new System.Windows.Forms.Panel();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.iconCerrarSesion = new System.Windows.Forms.PictureBox();
-            this.iconRegistrarProveedor = new System.Windows.Forms.PictureBox();
-            this.iconGestionarPrendas = new System.Windows.Forms.PictureBox();
-            this.iconRegistrarPrenda = new System.Windows.Forms.PictureBox();
-            this.iconListarProductos = new System.Windows.Forms.PictureBox();
-            this.iconInicio = new System.Windows.Forms.PictureBox();
+            this.lblAdminWelcome = new System.Windows.Forms.Label();
             this.logoPanel.SuspendLayout();
             this.sidePanel.SuspendLayout();
-            this.mainPanel.SuspendLayout();
-            this.topBarPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarProveedor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconGestionarPrendas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarPrenda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconListarProductos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconInicio)).BeginInit();
+            this.mainPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).BeginInit();
+            this.topBarPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // logoPanel
@@ -67,7 +67,7 @@
             this.lblAdminPanel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.lblAdminPanel.Location = new System.Drawing.Point(0, 0);
             this.lblAdminPanel.Name = "lblAdminPanel";
-            this.lblAdminPanel.Size = new System.Drawing.Size(100, 23);
+            this.lblAdminPanel.Size = new System.Drawing.Size(250, 80);
             this.lblAdminPanel.TabIndex = 0;
             this.lblAdminPanel.Text = "Admin Panel";
             this.lblAdminPanel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -95,6 +95,16 @@
             this.sidePanel.Size = new System.Drawing.Size(250, 600);
             this.sidePanel.TabIndex = 2;
             // 
+            // iconCerrarSesion
+            // 
+            this.iconCerrarSesion.Image = global::GestionDeVentas.Properties.Resources.icon_logout;
+            this.iconCerrarSesion.Location = new System.Drawing.Point(15, 300);
+            this.iconCerrarSesion.Name = "iconCerrarSesion";
+            this.iconCerrarSesion.Size = new System.Drawing.Size(24, 24);
+            this.iconCerrarSesion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconCerrarSesion.TabIndex = 0;
+            this.iconCerrarSesion.TabStop = false;
+            // 
             // lblCerrarSesion
             // 
             this.lblCerrarSesion.Font = new System.Drawing.Font("Segoe UI", 11F);
@@ -104,6 +114,16 @@
             this.lblCerrarSesion.TabIndex = 1;
             this.lblCerrarSesion.Text = "Cerrar sesión";
             this.lblCerrarSesion.Click += new System.EventHandler(this.lblCerrarSesion_Click);
+            // 
+            // iconRegistrarProveedor
+            // 
+            this.iconRegistrarProveedor.Image = global::GestionDeVentas.Properties.Resources.icon_client;
+            this.iconRegistrarProveedor.Location = new System.Drawing.Point(15, 260);
+            this.iconRegistrarProveedor.Name = "iconRegistrarProveedor";
+            this.iconRegistrarProveedor.Size = new System.Drawing.Size(24, 24);
+            this.iconRegistrarProveedor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconRegistrarProveedor.TabIndex = 2;
+            this.iconRegistrarProveedor.TabStop = false;
             // 
             // lblRegistrarProveedor
             // 
@@ -115,6 +135,16 @@
             this.lblRegistrarProveedor.Text = "Registrar Proveedor";
             this.lblRegistrarProveedor.Click += new System.EventHandler(this.label1_Click_1);
             // 
+            // iconGestionarPrendas
+            // 
+            this.iconGestionarPrendas.Image = ((System.Drawing.Image)(resources.GetObject("iconGestionarPrendas.Image")));
+            this.iconGestionarPrendas.Location = new System.Drawing.Point(15, 220);
+            this.iconGestionarPrendas.Name = "iconGestionarPrendas";
+            this.iconGestionarPrendas.Size = new System.Drawing.Size(24, 24);
+            this.iconGestionarPrendas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconGestionarPrendas.TabIndex = 4;
+            this.iconGestionarPrendas.TabStop = false;
+            // 
             // lblGestionarPrendas
             // 
             this.lblGestionarPrendas.Font = new System.Drawing.Font("Segoe UI", 11F);
@@ -124,6 +154,17 @@
             this.lblGestionarPrendas.TabIndex = 5;
             this.lblGestionarPrendas.Text = "Gestionar Prendas";
             this.lblGestionarPrendas.Click += new System.EventHandler(this.lblGestionarPrendas_Click);
+            // 
+            // iconRegistrarPrenda
+            // 
+            this.iconRegistrarPrenda.Image = ((System.Drawing.Image)(resources.GetObject("iconRegistrarPrenda.Image")));
+            this.iconRegistrarPrenda.Location = new System.Drawing.Point(15, 180);
+            this.iconRegistrarPrenda.Name = "iconRegistrarPrenda";
+            this.iconRegistrarPrenda.Size = new System.Drawing.Size(24, 24);
+            this.iconRegistrarPrenda.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconRegistrarPrenda.TabIndex = 6;
+            this.iconRegistrarPrenda.TabStop = false;
+            this.iconRegistrarPrenda.Click += new System.EventHandler(this.iconRegistrarPrenda_Click);
             // 
             // lblRegistrarPrenda
             // 
@@ -135,6 +176,16 @@
             this.lblRegistrarPrenda.Text = "Registrar Prenda";
             this.lblRegistrarPrenda.Click += new System.EventHandler(this.lblRegistrarPrenda_Click);
             // 
+            // iconListarProductos
+            // 
+            this.iconListarProductos.Image = global::GestionDeVentas.Properties.Resources.icon_sales;
+            this.iconListarProductos.Location = new System.Drawing.Point(15, 140);
+            this.iconListarProductos.Name = "iconListarProductos";
+            this.iconListarProductos.Size = new System.Drawing.Size(24, 24);
+            this.iconListarProductos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconListarProductos.TabIndex = 8;
+            this.iconListarProductos.TabStop = false;
+            // 
             // lblListarProductos
             // 
             this.lblListarProductos.Font = new System.Drawing.Font("Segoe UI", 11F);
@@ -144,6 +195,17 @@
             this.lblListarProductos.TabIndex = 9;
             this.lblListarProductos.Text = "Listar Productos";
             this.lblListarProductos.Click += new System.EventHandler(this.lblListarProductos_Click);
+            // 
+            // iconInicio
+            // 
+            this.iconInicio.Image = global::GestionDeVentas.Properties.Resources.icon_home;
+            this.iconInicio.Location = new System.Drawing.Point(15, 100);
+            this.iconInicio.Name = "iconInicio";
+            this.iconInicio.Size = new System.Drawing.Size(24, 24);
+            this.iconInicio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconInicio.TabIndex = 10;
+            this.iconInicio.TabStop = false;
+            this.iconInicio.Click += new System.EventHandler(this.iconInicio_Click);
             // 
             // lblInicio
             // 
@@ -164,6 +226,17 @@
             this.mainPanel.Size = new System.Drawing.Size(800, 520);
             this.mainPanel.TabIndex = 0;
             // 
+            // pictureBoxWelcome
+            // 
+            this.pictureBoxWelcome.BackColor = System.Drawing.Color.White;
+            this.pictureBoxWelcome.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxWelcome.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxWelcome.Name = "pictureBoxWelcome";
+            this.pictureBoxWelcome.Size = new System.Drawing.Size(800, 520);
+            this.pictureBoxWelcome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxWelcome.TabIndex = 0;
+            this.pictureBoxWelcome.TabStop = false;
+            // 
             // topBarPanel
             // 
             this.topBarPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(76)))), ((int)(((byte)(41)))));
@@ -174,6 +247,17 @@
             this.topBarPanel.Name = "topBarPanel";
             this.topBarPanel.Size = new System.Drawing.Size(800, 80);
             this.topBarPanel.TabIndex = 1;
+            // 
+            // pictureBoxLogo
+            // 
+            this.pictureBoxLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
+            this.pictureBoxLogo.Location = new System.Drawing.Point(350, 10);
+            this.pictureBoxLogo.Name = "pictureBoxLogo";
+            this.pictureBoxLogo.Size = new System.Drawing.Size(80, 60);
+            this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxLogo.TabIndex = 0;
+            this.pictureBoxLogo.TabStop = false;
             // 
             // lblAdminWelcome
             // 
@@ -187,88 +271,6 @@
             this.lblAdminWelcome.TabIndex = 1;
             this.lblAdminWelcome.Text = "Administrador";
             // 
-            // pictureBoxWelcome
-            // 
-            this.pictureBoxWelcome.BackColor = System.Drawing.Color.White;
-            this.pictureBoxWelcome.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxWelcome.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxWelcome.Name = "pictureBoxWelcome";
-            this.pictureBoxWelcome.Size = new System.Drawing.Size(100, 50);
-            this.pictureBoxWelcome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxWelcome.TabIndex = 0;
-            this.pictureBoxWelcome.TabStop = false;
-            // 
-            // pictureBoxLogo
-            // 
-            this.pictureBoxLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
-            this.pictureBoxLogo.Location = new System.Drawing.Point(350, 10);
-            this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(80, 60);
-            this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxLogo.TabIndex = 0;
-            this.pictureBoxLogo.TabStop = false;
-            // 
-            // iconCerrarSesion
-            // 
-            this.iconCerrarSesion.Image = ((System.Drawing.Image)(resources.GetObject("iconCerrarSesion.Image")));
-            this.iconCerrarSesion.Location = new System.Drawing.Point(15, 300);
-            this.iconCerrarSesion.Name = "iconCerrarSesion";
-            this.iconCerrarSesion.Size = new System.Drawing.Size(24, 24);
-            this.iconCerrarSesion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.iconCerrarSesion.TabIndex = 0;
-            this.iconCerrarSesion.TabStop = false;
-            // 
-            // iconRegistrarProveedor
-            // 
-            this.iconRegistrarProveedor.Image = ((System.Drawing.Image)(resources.GetObject("iconRegistrarProveedor.Image")));
-            this.iconRegistrarProveedor.Location = new System.Drawing.Point(15, 260);
-            this.iconRegistrarProveedor.Name = "iconRegistrarProveedor";
-            this.iconRegistrarProveedor.Size = new System.Drawing.Size(24, 24);
-            this.iconRegistrarProveedor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.iconRegistrarProveedor.TabIndex = 2;
-            this.iconRegistrarProveedor.TabStop = false;
-            // 
-            // iconGestionarPrendas
-            // 
-            this.iconGestionarPrendas.Image = global::GestionDeVentas.Properties.Resources.icon_manage;
-            this.iconGestionarPrendas.Location = new System.Drawing.Point(15, 220);
-            this.iconGestionarPrendas.Name = "iconGestionarPrendas";
-            this.iconGestionarPrendas.Size = new System.Drawing.Size(24, 24);
-            this.iconGestionarPrendas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.iconGestionarPrendas.TabIndex = 4;
-            this.iconGestionarPrendas.TabStop = false;
-            // 
-            // iconRegistrarPrenda
-            // 
-            this.iconRegistrarPrenda.Image = global::GestionDeVentas.Properties.Resources.icon_add;
-            this.iconRegistrarPrenda.Location = new System.Drawing.Point(15, 180);
-            this.iconRegistrarPrenda.Name = "iconRegistrarPrenda";
-            this.iconRegistrarPrenda.Size = new System.Drawing.Size(24, 24);
-            this.iconRegistrarPrenda.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.iconRegistrarPrenda.TabIndex = 6;
-            this.iconRegistrarPrenda.TabStop = false;
-            // 
-            // iconListarProductos
-            // 
-            this.iconListarProductos.Image = ((System.Drawing.Image)(resources.GetObject("iconListarProductos.Image")));
-            this.iconListarProductos.Location = new System.Drawing.Point(15, 140);
-            this.iconListarProductos.Name = "iconListarProductos";
-            this.iconListarProductos.Size = new System.Drawing.Size(24, 24);
-            this.iconListarProductos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.iconListarProductos.TabIndex = 8;
-            this.iconListarProductos.TabStop = false;
-            // 
-            // iconInicio
-            // 
-            this.iconInicio.Image = ((System.Drawing.Image)(resources.GetObject("iconInicio.Image")));
-            this.iconInicio.Location = new System.Drawing.Point(15, 100);
-            this.iconInicio.Name = "iconInicio";
-            this.iconInicio.Size = new System.Drawing.Size(24, 24);
-            this.iconInicio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.iconInicio.TabIndex = 10;
-            this.iconInicio.TabStop = false;
-            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1050, 600);
@@ -280,17 +282,17 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.logoPanel.ResumeLayout(false);
             this.sidePanel.ResumeLayout(false);
-            this.mainPanel.ResumeLayout(false);
-            this.topBarPanel.ResumeLayout(false);
-            this.topBarPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarProveedor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconGestionarPrendas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarPrenda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconListarProductos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconInicio)).EndInit();
+            this.mainPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).EndInit();
+            this.topBarPanel.ResumeLayout(false);
+            this.topBarPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
             this.ResumeLayout(false);
 
         }

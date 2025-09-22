@@ -208,6 +208,16 @@ namespace GestionDeVentas.Admin
         {
 
         }
+
+        private void iconInicio_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void iconRegistrarPrenda_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     internal class FormGestionUsuarios : Form

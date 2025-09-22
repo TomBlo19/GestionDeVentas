@@ -218,6 +218,11 @@ namespace GestionDeVentas.Admin
         {
 
         }
+
+        private void iconListarProductos_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     internal class FormGestionUsuarios : Form

@@ -1,9 +1,9 @@
-﻿using GestionDeVentas.Admin;
+﻿// FormAdminSuperior.cs
+using GestionDeVentas.Admin;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-// El namespace ahora es AdmSuperior para ser consistente con el login
 namespace GestionDeVentas.AdmSuperior
 {
     public partial class FormAdminSuperior : Form
@@ -13,10 +13,45 @@ namespace GestionDeVentas.AdmSuperior
         public FormAdminSuperior()
         {
             InitializeComponent();
+            EstilizarSidebar();
         }
 
-        // ... (el resto de tu código de FormAdminSuperior.cs) ...
-        // No necesitas cambiar nada más, solo el namespace de arriba
+        private void EstilizarSidebar()
+        {
+            // Aplica el efecto de hover a todos los PictureBox y Labels en el sidePanel.
+            foreach (Control ctrl in this.sidePanel.Controls)
+            {
+                // Si es un Label, le agregamos el evento de MouseEnter y MouseLeave
+                if (ctrl is Label lbl && lbl != this.lblAdminPanel)
+                {
+                    lbl.ForeColor = Color.FromArgb(40, 40, 40); // Color por defecto
+                    lbl.Cursor = Cursors.Hand;
+                    lbl.MouseEnter += (s, e) => { lbl.BackColor = Color.FromArgb(210, 190, 170); }; // Color al pasar el mouse
+                    lbl.MouseLeave += (s, e) => { lbl.BackColor = Color.Transparent; }; // Color al salir
+                }
+                // Si es un PictureBox (icono), le delegamos el evento al Label que tiene al lado.
+                // Esto asegura que ambos cambien de color al mismo tiempo.
+                else if (ctrl is PictureBox pb)
+                {
+                    pb.Cursor = Cursors.Hand;
+                    pb.MouseEnter += (s, e) => {
+                        // Buscamos el Label asociado y le cambiamos el color
+                        string lblName = "lbl" + pb.Name.Substring(4);
+                        if (this.sidePanel.Controls.ContainsKey(lblName))
+                        {
+                            this.sidePanel.Controls[lblName].BackColor = Color.FromArgb(210, 190, 170);
+                        }
+                    };
+                    pb.MouseLeave += (s, e) => {
+                        string lblName = "lbl" + pb.Name.Substring(4);
+                        if (this.sidePanel.Controls.ContainsKey(lblName))
+                        {
+                            this.sidePanel.Controls[lblName].BackColor = Color.Transparent;
+                        }
+                    };
+                }
+            }
+        }
 
         private void LoadForm(Form form)
         {
@@ -28,7 +63,6 @@ namespace GestionDeVentas.AdmSuperior
 
             isFormOpen = true;
             this.mainPanel.Controls.Clear();
-            this.pictureBoxWelcome.Visible = false;
 
             form.FormClosed += (s, e) => {
                 isFormOpen = false;
@@ -63,79 +97,51 @@ namespace GestionDeVentas.AdmSuperior
             this.mainPanel.Controls.Clear();
             isFormOpen = false;
 
-            Label welcomeLabel = new Label();
-            welcomeLabel.Text = "¡Bienvenido al Panel de Administración Superior!";
-            welcomeLabel.Font = new Font("Arial", 20, FontStyle.Bold);
-            welcomeLabel.ForeColor = System.Drawing.Color.Gray;
-            welcomeLabel.Dock = DockStyle.Top;
-            welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
-            welcomeLabel.Padding = new Padding(0, 30, 0, 0);
-            welcomeLabel.Height = 80;
-
+            // Configuramos el PictureBox de bienvenida
             this.pictureBoxWelcome.Visible = true;
-            this.pictureBoxWelcome.Dock = DockStyle.None;
-            this.pictureBoxWelcome.Size = new Size(250, 250);
+            this.pictureBoxWelcome.Dock = DockStyle.None; // Para centrarlo manualmente
+            this.pictureBoxWelcome.Size = new Size(200, 200);
             this.pictureBoxWelcome.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBoxWelcome.BackColor = Color.Transparent;
+            this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.logoAdm;
 
-            this.mainPanel.Controls.Add(welcomeLabel);
-            this.mainPanel.Controls.Add(this.pictureBoxWelcome);
-            welcomeLabel.BringToFront();
-
+            // Centramos la imagen de bienvenida
             this.pictureBoxWelcome.Location = new Point(
                 (this.mainPanel.Width - this.pictureBoxWelcome.Width) / 2,
                 (this.mainPanel.Height - this.pictureBoxWelcome.Height) / 2
             );
 
-            welcomeLabel.Location = new Point(
-                (this.mainPanel.Width - welcomeLabel.Width) / 2,
-                (this.mainPanel.Height - welcomeLabel.Height - this.pictureBoxWelcome.Height) / 2
-            );
+            // Reagregamos los controles
+            this.mainPanel.Controls.Add(this.pictureBoxWelcome);
+            this.pictureBoxWelcome.BringToFront();
 
-            this.mainPanel.Resize += (sender, e) => {
+            // Configuramos el Label de bienvenida
+            Label welcomeLabel = new Label();
+            welcomeLabel.Text = "¡Bienvenido al Panel de Administración Superior!";
+            welcomeLabel.Font = new Font("Arial", 18, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.Black;
+            welcomeLabel.Dock = DockStyle.Top;
+            welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
+            welcomeLabel.Padding = new Padding(0, 30, 0, 0);
+            welcomeLabel.Height = 80;
+            welcomeLabel.BackColor = Color.White;
+            this.mainPanel.Controls.Add(welcomeLabel);
+            welcomeLabel.BringToFront();
+
+            // Nos aseguramos de que se centre dinámicamente al cambiar el tamaño de la ventana
+            this.mainPanel.Resize += (sender, e) =>
+            {
                 this.pictureBoxWelcome.Location = new Point(
                     (this.mainPanel.Width - this.pictureBoxWelcome.Width) / 2,
                     (this.mainPanel.Height - this.pictureBoxWelcome.Height) / 2
                 );
-                welcomeLabel.Location = new Point(
-                    (this.mainPanel.Width - welcomeLabel.Width) / 2,
-                    (this.mainPanel.Height - welcomeLabel.Height - this.pictureBoxWelcome.Height) / 2
-                );
             };
-
-            try
-            {
-                this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.logoAdm;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar la imagen de bienvenida: " + ex.Message, "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            lblAdminWelcome.Text = "Administrador Superior";
-            lblAdminWelcome.TextAlign = ContentAlignment.MiddleRight;
         }
 
-        private void lblInicio_Click(object sender, EventArgs e)
-        {
-            ShowWelcomeView();
-        }
-
-        private void lblRegistrarUsuario_Click(object sender, EventArgs e)
-        {
-            LoadForm(new FormRegistrarUsuario());
-        }
-
-        private void lblListarUsuario_Click(object sender, EventArgs e)
-        {
-            LoadForm(new ListarUsuario());
-        }
-
-        private void lblGestionarUsuarios_Click(object sender, EventArgs e)
-        {
-            LoadForm(new FormGestionarUsuarios());
-        }
-
+        private void lblInicio_Click(object sender, EventArgs e) => ShowWelcomeView();
+        private void lblRegistrarUsuario_Click(object sender, EventArgs e) => LoadForm(new FormRegistrarUsuario());
+        private void lblListarUsuario_Click(object sender, EventArgs e) => LoadForm(new ListarUsuario());
+        private void lblBackup_Click(object sender, EventArgs e) => LoadForm(new FormBackup());
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
@@ -146,38 +152,12 @@ namespace GestionDeVentas.AdmSuperior
 
             if (confirmar == DialogResult.Yes)
             {
-                // Mostrar nuevamente el login oculto
                 if (Application.OpenForms["inicioSesion"] != null)
                 {
                     Application.OpenForms["inicioSesion"].Show();
                 }
-
-                // Cierra el formulario actual (el panel en el que estés)
                 this.Close();
             }
-        }
-
-
-        private void pictureBoxWelcome_Click(object sender, EventArgs e)
-        {
-            // Este método está vacío
-        }
-
-        private void lblBackup_Click(object sender, EventArgs e)
-        {
-            LoadForm(new FormBackup());
-        }
-
-       
-
-        private void sidePanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBoxLogo_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

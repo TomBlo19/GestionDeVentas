@@ -1,4 +1,7 @@
-﻿namespace GestionDeVentas.AdmSuperior
+﻿// FormAdminSuperior.Designer.cs
+using GestionDeVentas.Properties;
+
+namespace GestionDeVentas.AdmSuperior
 {
     partial class FormAdminSuperior
     {
@@ -21,17 +24,27 @@
             this.lblAdminPanel = new System.Windows.Forms.Label();
             this.sidePanel = new System.Windows.Forms.Panel();
             this.lblCerrarSesion = new System.Windows.Forms.Label();
+            this.iconCerrarSesion = new System.Windows.Forms.PictureBox();
             this.lblBackup = new System.Windows.Forms.Label();
+            this.iconBackup = new System.Windows.Forms.PictureBox();
             this.lblListarUsuario = new System.Windows.Forms.Label();
+            this.iconListarUsuario = new System.Windows.Forms.PictureBox();
             this.lblRegistrarUsuario = new System.Windows.Forms.Label();
+            this.iconRegistrarUsuario = new System.Windows.Forms.PictureBox();
             this.lblInicio = new System.Windows.Forms.Label();
+            this.iconInicio = new System.Windows.Forms.PictureBox();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.pictureBoxWelcome = new System.Windows.Forms.PictureBox();
-            this.lblAdminWelcome = new System.Windows.Forms.Label();
             this.topBarPanel = new System.Windows.Forms.Panel();
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
+            this.lblAdminWelcome = new System.Windows.Forms.Label();
             this.logoPanel.SuspendLayout();
             this.sidePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconBackup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconListarUsuario)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarUsuario)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconInicio)).BeginInit();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).BeginInit();
             this.topBarPanel.SuspendLayout();
@@ -40,180 +53,213 @@
             // 
             // logoPanel
             // 
+            this.logoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(190)))), ((int)(((byte)(170)))));
             this.logoPanel.Controls.Add(this.lblAdminPanel);
             this.logoPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.logoPanel.Location = new System.Drawing.Point(0, 0);
             this.logoPanel.Name = "logoPanel";
-            this.logoPanel.Size = new System.Drawing.Size(200, 75);
-            this.logoPanel.TabIndex = 9;
+            this.logoPanel.Size = new System.Drawing.Size(250, 80);
+            this.logoPanel.TabIndex = 12;
             // 
             // lblAdminPanel
             // 
-            this.lblAdminPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblAdminPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblAdminPanel.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAdminPanel.ForeColor = System.Drawing.Color.Black;
             this.lblAdminPanel.Location = new System.Drawing.Point(0, 0);
             this.lblAdminPanel.Name = "lblAdminPanel";
-            this.lblAdminPanel.Size = new System.Drawing.Size(200, 75);
+            this.lblAdminPanel.Size = new System.Drawing.Size(250, 80);
             this.lblAdminPanel.TabIndex = 0;
-            this.lblAdminPanel.Text = "Admin Superior";
+            this.lblAdminPanel.Text = "ADMINISTRADOR SUPERIOR";
             this.lblAdminPanel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // sidePanel
             // 
             this.sidePanel.AutoScroll = true;
-            this.sidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(224)))), ((int)(((byte)(215)))));
+            this.sidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(220)))), ((int)(((byte)(200)))));
             this.sidePanel.Controls.Add(this.lblCerrarSesion);
+            this.sidePanel.Controls.Add(this.iconCerrarSesion);
             this.sidePanel.Controls.Add(this.lblBackup);
+            this.sidePanel.Controls.Add(this.iconBackup);
             this.sidePanel.Controls.Add(this.lblListarUsuario);
+            this.sidePanel.Controls.Add(this.iconListarUsuario);
             this.sidePanel.Controls.Add(this.lblRegistrarUsuario);
+            this.sidePanel.Controls.Add(this.iconRegistrarUsuario);
             this.sidePanel.Controls.Add(this.lblInicio);
+            this.sidePanel.Controls.Add(this.iconInicio);
             this.sidePanel.Controls.Add(this.logoPanel);
             this.sidePanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidePanel.Location = new System.Drawing.Point(0, 0);
             this.sidePanel.Name = "sidePanel";
-            this.sidePanel.Size = new System.Drawing.Size(200, 450);
+            this.sidePanel.Size = new System.Drawing.Size(250, 450);
             this.sidePanel.TabIndex = 0;
-            this.sidePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.sidePanel_Paint);
             // 
             // lblCerrarSesion
             // 
-            this.lblCerrarSesion.BackColor = System.Drawing.Color.Transparent;
-            this.lblCerrarSesion.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCerrarSesion.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblCerrarSesion.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblCerrarSesion.ForeColor = System.Drawing.Color.Black;
-            this.lblCerrarSesion.Location = new System.Drawing.Point(0, 198);
+            this.lblCerrarSesion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.lblCerrarSesion.Location = new System.Drawing.Point(50, 260);
             this.lblCerrarSesion.Name = "lblCerrarSesion";
-            this.lblCerrarSesion.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblCerrarSesion.Size = new System.Drawing.Size(200, 30);
-            this.lblCerrarSesion.TabIndex = 8;
+            this.lblCerrarSesion.Size = new System.Drawing.Size(100, 23);
+            this.lblCerrarSesion.TabIndex = 13;
             this.lblCerrarSesion.Text = "Cerrar sesión";
-            this.lblCerrarSesion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCerrarSesion.Click += new System.EventHandler(this.lblCerrarSesion_Click);
+            // 
+            // iconCerrarSesion
+            // 
+            this.iconCerrarSesion.Image = global::GestionDeVentas.Properties.Resources.icon_logout;
+            this.iconCerrarSesion.Location = new System.Drawing.Point(15, 260);
+            this.iconCerrarSesion.Name = "iconCerrarSesion";
+            this.iconCerrarSesion.Size = new System.Drawing.Size(24, 24);
+            this.iconCerrarSesion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconCerrarSesion.TabIndex = 12;
+            this.iconCerrarSesion.TabStop = false;
+            this.iconCerrarSesion.Click += new System.EventHandler(this.lblCerrarSesion_Click);
             // 
             // lblBackup
             // 
-            this.lblBackup.BackColor = System.Drawing.Color.Transparent;
-            this.lblBackup.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblBackup.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblBackup.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblBackup.ForeColor = System.Drawing.Color.Black;
-            this.lblBackup.Location = new System.Drawing.Point(0, 168);
+            this.lblBackup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.lblBackup.Location = new System.Drawing.Point(50, 220);
             this.lblBackup.Name = "lblBackup";
-            this.lblBackup.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblBackup.Size = new System.Drawing.Size(200, 30);
-            this.lblBackup.TabIndex = 9;
+            this.lblBackup.Size = new System.Drawing.Size(100, 23);
+            this.lblBackup.TabIndex = 11;
             this.lblBackup.Text = "BackUp";
-            this.lblBackup.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblBackup.Click += new System.EventHandler(this.lblBackup_Click);
+            // 
+            // iconBackup
+            // 
+            this.iconBackup.Image = global::GestionDeVentas.Properties.Resources.icon_manage;
+            this.iconBackup.Location = new System.Drawing.Point(15, 220);
+            this.iconBackup.Name = "iconBackup";
+            this.iconBackup.Size = new System.Drawing.Size(24, 24);
+            this.iconBackup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconBackup.TabIndex = 10;
+            this.iconBackup.TabStop = false;
+            this.iconBackup.Click += new System.EventHandler(this.lblBackup_Click);
             // 
             // lblListarUsuario
             // 
-            this.lblListarUsuario.BackColor = System.Drawing.Color.Transparent;
-            this.lblListarUsuario.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblListarUsuario.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblListarUsuario.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblListarUsuario.ForeColor = System.Drawing.Color.Black;
-            this.lblListarUsuario.Location = new System.Drawing.Point(0, 138);
+            this.lblListarUsuario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.lblListarUsuario.Location = new System.Drawing.Point(50, 180);
             this.lblListarUsuario.Name = "lblListarUsuario";
-            this.lblListarUsuario.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblListarUsuario.Size = new System.Drawing.Size(200, 30);
-            this.lblListarUsuario.TabIndex = 12;
+            this.lblListarUsuario.Size = new System.Drawing.Size(100, 23);
+            this.lblListarUsuario.TabIndex = 9;
             this.lblListarUsuario.Text = "Listar Usuario";
-            this.lblListarUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblListarUsuario.Click += new System.EventHandler(this.lblListarUsuario_Click);
+            // 
+            // iconListarUsuario
+            // 
+            this.iconListarUsuario.Image = global::GestionDeVentas.Properties.Resources.icon_client;
+            this.iconListarUsuario.Location = new System.Drawing.Point(15, 180);
+            this.iconListarUsuario.Name = "iconListarUsuario";
+            this.iconListarUsuario.Size = new System.Drawing.Size(24, 24);
+            this.iconListarUsuario.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconListarUsuario.TabIndex = 8;
+            this.iconListarUsuario.TabStop = false;
+            this.iconListarUsuario.Click += new System.EventHandler(this.lblListarUsuario_Click);
             // 
             // lblRegistrarUsuario
             // 
-            this.lblRegistrarUsuario.BackColor = System.Drawing.Color.Transparent;
-            this.lblRegistrarUsuario.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblRegistrarUsuario.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblRegistrarUsuario.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblRegistrarUsuario.ForeColor = System.Drawing.Color.Black;
-            this.lblRegistrarUsuario.Location = new System.Drawing.Point(0, 108);
+            this.lblRegistrarUsuario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.lblRegistrarUsuario.Location = new System.Drawing.Point(50, 140);
             this.lblRegistrarUsuario.Name = "lblRegistrarUsuario";
-            this.lblRegistrarUsuario.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblRegistrarUsuario.Size = new System.Drawing.Size(200, 30);
-            this.lblRegistrarUsuario.TabIndex = 2;
+            this.lblRegistrarUsuario.Size = new System.Drawing.Size(130, 23);
+            this.lblRegistrarUsuario.TabIndex = 7;
             this.lblRegistrarUsuario.Text = "Registrar Usuario";
-            this.lblRegistrarUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblRegistrarUsuario.Click += new System.EventHandler(this.lblRegistrarUsuario_Click);
+            // 
+            // iconRegistrarUsuario
+            // 
+            this.iconRegistrarUsuario.Image = global::GestionDeVentas.Properties.Resources.icon_add;
+            this.iconRegistrarUsuario.Location = new System.Drawing.Point(15, 140);
+            this.iconRegistrarUsuario.Name = "iconRegistrarUsuario";
+            this.iconRegistrarUsuario.Size = new System.Drawing.Size(24, 24);
+            this.iconRegistrarUsuario.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconRegistrarUsuario.TabIndex = 6;
+            this.iconRegistrarUsuario.TabStop = false;
+            this.iconRegistrarUsuario.Click += new System.EventHandler(this.lblRegistrarUsuario_Click);
             // 
             // lblInicio
             // 
-            this.lblInicio.BackColor = System.Drawing.Color.Transparent;
-            this.lblInicio.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblInicio.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblInicio.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblInicio.ForeColor = System.Drawing.Color.Black;
-            this.lblInicio.Location = new System.Drawing.Point(0, 75);
+            this.lblInicio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.lblInicio.Location = new System.Drawing.Point(50, 100);
             this.lblInicio.Name = "lblInicio";
-            this.lblInicio.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
-            this.lblInicio.Size = new System.Drawing.Size(200, 33);
-            this.lblInicio.TabIndex = 0;
+            this.lblInicio.Size = new System.Drawing.Size(100, 23);
+            this.lblInicio.TabIndex = 5;
             this.lblInicio.Text = "Inicio";
-            this.lblInicio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblInicio.Click += new System.EventHandler(this.lblInicio_Click);
+            // 
+            // iconInicio
+            // 
+            this.iconInicio.Image = global::GestionDeVentas.Properties.Resources.icon_home;
+            this.iconInicio.Location = new System.Drawing.Point(15, 100);
+            this.iconInicio.Name = "iconInicio";
+            this.iconInicio.Size = new System.Drawing.Size(24, 24);
+            this.iconInicio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconInicio.TabIndex = 4;
+            this.iconInicio.TabStop = false;
+            this.iconInicio.Click += new System.EventHandler(this.lblInicio_Click);
             // 
             // mainPanel
             // 
             this.mainPanel.AutoScroll = true;
+            this.mainPanel.BackColor = System.Drawing.Color.White;
             this.mainPanel.Controls.Add(this.pictureBoxWelcome);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(200, 75);
+            this.mainPanel.Location = new System.Drawing.Point(250, 80);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(600, 375);
+            this.mainPanel.Size = new System.Drawing.Size(550, 370);
             this.mainPanel.TabIndex = 2;
             // 
             // pictureBoxWelcome
             // 
-            this.pictureBoxWelcome.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.pictureBoxWelcome.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxWelcome.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.logoAdm;
+            this.pictureBoxWelcome.Location = new System.Drawing.Point(175, 83);
             this.pictureBoxWelcome.Name = "pictureBoxWelcome";
-            this.pictureBoxWelcome.Size = new System.Drawing.Size(600, 375);
+            this.pictureBoxWelcome.Size = new System.Drawing.Size(201, 202);
             this.pictureBoxWelcome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxWelcome.TabIndex = 0;
             this.pictureBoxWelcome.TabStop = false;
-            this.pictureBoxWelcome.Click += new System.EventHandler(this.pictureBoxWelcome_Click);
-            // 
-            // lblAdminWelcome
-            // 
-            this.lblAdminWelcome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblAdminWelcome.AutoSize = true;
-            this.lblAdminWelcome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(224)))), ((int)(((byte)(215)))));
-            this.lblAdminWelcome.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblAdminWelcome.ForeColor = System.Drawing.Color.Black;
-            this.lblAdminWelcome.Location = new System.Drawing.Point(434, 27);
-            this.lblAdminWelcome.Name = "lblAdminWelcome";
-            this.lblAdminWelcome.Size = new System.Drawing.Size(157, 17);
-            this.lblAdminWelcome.TabIndex = 0;
-            this.lblAdminWelcome.Text = "Administrador Superior";
-            this.lblAdminWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // topBarPanel
             // 
-            this.topBarPanel.AutoScroll = true;
-            this.topBarPanel.BackColor = System.Drawing.Color.Black;
-            this.topBarPanel.BackgroundImage = global::GestionDeVentas.Properties.Resources.fondo;
+            this.topBarPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(76)))), ((int)(((byte)(41)))));
             this.topBarPanel.Controls.Add(this.pictureBoxLogo);
             this.topBarPanel.Controls.Add(this.lblAdminWelcome);
             this.topBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.topBarPanel.Location = new System.Drawing.Point(200, 0);
+            this.topBarPanel.Location = new System.Drawing.Point(250, 0);
             this.topBarPanel.Name = "topBarPanel";
-            this.topBarPanel.Size = new System.Drawing.Size(600, 75);
+            this.topBarPanel.Size = new System.Drawing.Size(550, 80);
             this.topBarPanel.TabIndex = 1;
             // 
             // pictureBoxLogo
             // 
             this.pictureBoxLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logoTYV;
-            this.pictureBoxLogo.Location = new System.Drawing.Point(269, 11);
+            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
+            this.pictureBoxLogo.Location = new System.Drawing.Point(235, 10);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(67, 56);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(80, 60);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxLogo.TabIndex = 1;
+            this.pictureBoxLogo.TabIndex = 0;
             this.pictureBoxLogo.TabStop = false;
-            this.pictureBoxLogo.Click += new System.EventHandler(this.pictureBoxLogo_Click);
+            // 
+            // lblAdminWelcome
+            // 
+            this.lblAdminWelcome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblAdminWelcome.AutoSize = true;
+            this.lblAdminWelcome.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAdminWelcome.ForeColor = System.Drawing.Color.White;
+            this.lblAdminWelcome.Location = new System.Drawing.Point(375, 30);
+            this.lblAdminWelcome.Name = "lblAdminWelcome";
+            this.lblAdminWelcome.Size = new System.Drawing.Size(172, 18);
+            this.lblAdminWelcome.TabIndex = 1;
+            this.lblAdminWelcome.Text = "Administrador Superior";
+            this.lblAdminWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FormAdminSuperior
             // 
@@ -223,12 +269,16 @@
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.topBarPanel);
             this.Controls.Add(this.sidePanel);
-            this.IsMdiContainer = true;
             this.Name = "FormAdminSuperior";
             this.Text = "Admin Panel Superior";
             this.Load += new System.EventHandler(this.FormAdminSuperior_Load);
             this.logoPanel.ResumeLayout(false);
             this.sidePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconBackup)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconListarUsuario)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarUsuario)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconInicio)).EndInit();
             this.mainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).EndInit();
             this.topBarPanel.ResumeLayout(false);
@@ -243,15 +293,20 @@
         private System.Windows.Forms.Panel logoPanel;
         private System.Windows.Forms.Label lblAdminPanel;
         private System.Windows.Forms.Panel sidePanel;
-        private System.Windows.Forms.Label lblCerrarSesion;
-        private System.Windows.Forms.Label lblRegistrarUsuario;
-        private System.Windows.Forms.Label lblInicio;
         private System.Windows.Forms.Panel mainPanel;
-        private System.Windows.Forms.PictureBox pictureBoxWelcome;
-        private System.Windows.Forms.Label lblAdminWelcome;
         private System.Windows.Forms.Panel topBarPanel;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
+        private System.Windows.Forms.Label lblAdminWelcome;
+        private System.Windows.Forms.PictureBox pictureBoxWelcome;
+        private System.Windows.Forms.Label lblInicio;
+        private System.Windows.Forms.PictureBox iconInicio;
+        private System.Windows.Forms.Label lblCerrarSesion;
+        private System.Windows.Forms.PictureBox iconCerrarSesion;
+        private System.Windows.Forms.Label lblBackup;
+        private System.Windows.Forms.PictureBox iconBackup;
         private System.Windows.Forms.Label lblListarUsuario;
-        private System.Windows.Forms.Label lblBackup;     // <-- NUEVO
+        private System.Windows.Forms.PictureBox iconListarUsuario;
+        private System.Windows.Forms.Label lblRegistrarUsuario;
+        private System.Windows.Forms.PictureBox iconRegistrarUsuario;
     }
 }

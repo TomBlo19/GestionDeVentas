@@ -185,6 +185,7 @@
             this.iconListarProductos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.iconListarProductos.TabIndex = 8;
             this.iconListarProductos.TabStop = false;
+            this.iconListarProductos.Click += new System.EventHandler(this.iconListarProductos_Click);
             // 
             // lblListarProductos
             // 
@@ -267,7 +268,7 @@
             this.lblAdminWelcome.ForeColor = System.Drawing.Color.White;
             this.lblAdminWelcome.Location = new System.Drawing.Point(656, 28);
             this.lblAdminWelcome.Name = "lblAdminWelcome";
-            this.lblAdminWelcome.Size = new System.Drawing.Size(141, 25);
+            this.lblAdminWelcome.Size = new System.Drawing.Size(111, 20);
             this.lblAdminWelcome.TabIndex = 1;
             this.lblAdminWelcome.Text = "Administrador";
             // 

@@ -13,6 +13,21 @@ namespace GestionDeVentas.Gerent
         public FormGerentePanel()
         {
             InitializeComponent();
+            EstilizarSidebar();
+        }
+
+        private void EstilizarSidebar()
+        {
+            foreach (Control ctrl in this.sidePanel.Controls)
+            {
+                if (ctrl is Label lbl && lbl != this.lblGerentePanel)
+                {
+                    lbl.ForeColor = Color.FromArgb(40, 40, 40);
+                    lbl.BackColor = Color.Transparent;
+                    lbl.MouseEnter += (s, e) => { lbl.BackColor = Color.FromArgb(210, 190, 170); };
+                    lbl.MouseLeave += (s, e) => { lbl.BackColor = Color.Transparent; };
+                }
+            }
         }
 
         private void LoadForm(Form form)
@@ -25,7 +40,6 @@ namespace GestionDeVentas.Gerent
 
             isFormOpen = true;
             this.mainPanel.Controls.Clear();
-            this.pictureBoxWelcome.Visible = false;
 
             form.FormClosed += (s, e) =>
             {
@@ -44,17 +58,14 @@ namespace GestionDeVentas.Gerent
         private void FormGerentePanel_Load(object sender, EventArgs e)
         {
             this.ShowWelcomeView();
+            EstilizarSidebar();
 
             try
             {
-                // Carga tu logo aquí
                 this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
                 this.pictureBoxLogo.SizeMode = PictureBoxSizeMode.Zoom;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar el logo de la empresa: " + ex.Message, "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch { }
         }
 
         private void ShowWelcomeView()
@@ -64,8 +75,8 @@ namespace GestionDeVentas.Gerent
 
             Label welcomeLabel = new Label();
             welcomeLabel.Text = "¡Bienvenido al Panel de Gerente!";
-            welcomeLabel.Font = new Font("Arial", 20, FontStyle.Bold);
-            welcomeLabel.ForeColor = System.Drawing.Color.Gray;
+            welcomeLabel.Font = new Font("Segoe UI", 18, FontStyle.Bold);
+            welcomeLabel.ForeColor = Color.Gray;
             welcomeLabel.Dock = DockStyle.Top;
             welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
             welcomeLabel.Padding = new Padding(0, 30, 0, 0);
@@ -73,7 +84,7 @@ namespace GestionDeVentas.Gerent
 
             this.pictureBoxWelcome.Visible = true;
             this.pictureBoxWelcome.Dock = DockStyle.None;
-            this.pictureBoxWelcome.Size = new Size(250, 250);
+            this.pictureBoxWelcome.Size = new Size(200, 200);
             this.pictureBoxWelcome.SizeMode = PictureBoxSizeMode.Zoom;
             this.pictureBoxWelcome.BackColor = Color.Transparent;
 
@@ -96,72 +107,33 @@ namespace GestionDeVentas.Gerent
 
             try
             {
-                // Carga tu imagen de bienvenida para el gerente
-                //this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.imagen_gerente_bienvenida;
+                this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar la imagen de bienvenida: " + ex.Message, "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch { }
 
             lblGerenteWelcome.Text = "Gerente";
-            lblGerenteWelcome.TextAlign = ContentAlignment.MiddleRight;
         }
 
-        // Métodos del menú lateral
-        private void lblInicio_Click(object sender, EventArgs e)
-        {
-            ShowWelcomeView();
-        }
-
-        private void lblDashboard_Click(object sender, EventArgs e)
-        {
-            LoadForm(new FormDashboard());
-        }
-
-        private void lblReportes_Click(object sender, EventArgs e)
-        {
-            
-            LoadForm(new FormReportesGerente());
-        }
-
-        private void lblRendimientoVendedores_Click(object sender, EventArgs e)
-        {
-            // Carga el formulario de Rendimiento de Vendedores
-            LoadForm(new FormRendimientoVendedores());
-        }
+        private void lblInicio_Click(object sender, EventArgs e) => ShowWelcomeView();
+        private void lblDashboard_Click(object sender, EventArgs e) => LoadForm(new FormDashboard());
+        private void lblReportes_Click(object sender, EventArgs e) => LoadForm(new FormReportesGerente());
+        private void lblRendimientoVendedores_Click(object sender, EventArgs e) => LoadForm(new FormRendimientoVendedores());
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
-            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?",
-                                            "Cerrar sesión",
-                                          MessageBoxButtons.YesNo,
-                                            MessageBoxIcon.Question);
+            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?", "Cerrar sesión",
+                                             MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (confirmar == DialogResult.Yes)
             {
-                Application.OpenForms["inicioSesion"].Show(); // 🔹 Vuelve a mostrar el login
-                this.Close(); // 🔹 Cierra el panel actual
+                if (Application.OpenForms["inicioSesion"] != null)
+                    Application.OpenForms["inicioSesion"].Show();
+
+                this.Close();
             }
         }
 
-
         private void pictureBoxWelcome_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void topBarPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void lblGerenteWelcome_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBoxLogo_Click(object sender, EventArgs e)
         {
 
         }

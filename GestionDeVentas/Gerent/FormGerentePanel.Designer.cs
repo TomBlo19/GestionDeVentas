@@ -1,4 +1,6 @@
-﻿namespace GestionDeVentas.Gerent
+﻿using GestionDeVentas.Properties;
+
+namespace GestionDeVentas.Gerent
 {
     partial class FormGerentePanel
     {
@@ -20,11 +22,15 @@
             this.logoPanel = new System.Windows.Forms.Panel();
             this.lblGerentePanel = new System.Windows.Forms.Label();
             this.sidePanel = new System.Windows.Forms.Panel();
+            this.iconCerrarSesion = new System.Windows.Forms.PictureBox();
             this.lblCerrarSesion = new System.Windows.Forms.Label();
+            this.iconRendimientoVendedores = new System.Windows.Forms.PictureBox();
             this.lblRendimientoVendedores = new System.Windows.Forms.Label();
-            this.lblListarVentas = new System.Windows.Forms.Label();
+            this.iconReportes = new System.Windows.Forms.PictureBox();
             this.lblReportes = new System.Windows.Forms.Label();
+            this.iconDashboard = new System.Windows.Forms.PictureBox();
             this.lblDashboard = new System.Windows.Forms.Label();
+            this.iconInicio = new System.Windows.Forms.PictureBox();
             this.lblInicio = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.pictureBoxWelcome = new System.Windows.Forms.PictureBox();
@@ -33,6 +39,11 @@
             this.lblGerenteWelcome = new System.Windows.Forms.Label();
             this.logoPanel.SuspendLayout();
             this.sidePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconRendimientoVendedores)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconReportes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconDashboard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconInicio)).BeginInit();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).BeginInit();
             this.topBarPanel.SuspendLayout();
@@ -44,217 +55,214 @@
             this.logoPanel.Controls.Add(this.lblGerentePanel);
             this.logoPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.logoPanel.Location = new System.Drawing.Point(0, 0);
-            this.logoPanel.Margin = new System.Windows.Forms.Padding(4);
             this.logoPanel.Name = "logoPanel";
-            this.logoPanel.Size = new System.Drawing.Size(267, 92);
-            this.logoPanel.TabIndex = 9;
+            this.logoPanel.Size = new System.Drawing.Size(250, 80);
+            this.logoPanel.TabIndex = 12;
             // 
             // lblGerentePanel
             // 
-            this.lblGerentePanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblGerentePanel.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGerentePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblGerentePanel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.lblGerentePanel.Location = new System.Drawing.Point(0, 0);
-            this.lblGerentePanel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblGerentePanel.Name = "lblGerentePanel";
-            this.lblGerentePanel.Size = new System.Drawing.Size(267, 92);
+            this.lblGerentePanel.Size = new System.Drawing.Size(250, 80);
             this.lblGerentePanel.TabIndex = 0;
-            this.lblGerentePanel.Text = "Panel de Gerente";
+            this.lblGerentePanel.Text = "Gerente Panel";
             this.lblGerentePanel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // sidePanel
             // 
-            this.sidePanel.AutoScroll = true;
-            this.sidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(224)))), ((int)(((byte)(215)))));
+            this.sidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(220)))), ((int)(((byte)(200)))));
+            this.sidePanel.Controls.Add(this.iconCerrarSesion);
             this.sidePanel.Controls.Add(this.lblCerrarSesion);
+            this.sidePanel.Controls.Add(this.iconRendimientoVendedores);
             this.sidePanel.Controls.Add(this.lblRendimientoVendedores);
-            this.sidePanel.Controls.Add(this.lblListarVentas);
+            this.sidePanel.Controls.Add(this.iconReportes);
             this.sidePanel.Controls.Add(this.lblReportes);
+            this.sidePanel.Controls.Add(this.iconDashboard);
             this.sidePanel.Controls.Add(this.lblDashboard);
+            this.sidePanel.Controls.Add(this.iconInicio);
             this.sidePanel.Controls.Add(this.lblInicio);
             this.sidePanel.Controls.Add(this.logoPanel);
             this.sidePanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidePanel.Location = new System.Drawing.Point(0, 0);
-            this.sidePanel.Margin = new System.Windows.Forms.Padding(4);
             this.sidePanel.Name = "sidePanel";
-            this.sidePanel.Size = new System.Drawing.Size(267, 554);
-            this.sidePanel.TabIndex = 0;
+            this.sidePanel.Size = new System.Drawing.Size(250, 600);
+            this.sidePanel.TabIndex = 2;
+            // 
+            // iconCerrarSesion
+            // 
+            this.iconCerrarSesion.Image = global::GestionDeVentas.Properties.Resources.icon_logout;
+            this.iconCerrarSesion.Location = new System.Drawing.Point(15, 260);
+            this.iconCerrarSesion.Name = "iconCerrarSesion";
+            this.iconCerrarSesion.Size = new System.Drawing.Size(24, 24);
+            this.iconCerrarSesion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconCerrarSesion.TabIndex = 0;
+            this.iconCerrarSesion.TabStop = false;
             // 
             // lblCerrarSesion
             // 
-            this.lblCerrarSesion.BackColor = System.Drawing.Color.Transparent;
-            this.lblCerrarSesion.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCerrarSesion.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblCerrarSesion.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCerrarSesion.ForeColor = System.Drawing.Color.Black;
-            this.lblCerrarSesion.Location = new System.Drawing.Point(0, 262);
-            this.lblCerrarSesion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCerrarSesion.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblCerrarSesion.Location = new System.Drawing.Point(50, 260);
             this.lblCerrarSesion.Name = "lblCerrarSesion";
-            this.lblCerrarSesion.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.lblCerrarSesion.Size = new System.Drawing.Size(267, 37);
-            this.lblCerrarSesion.TabIndex = 8;
+            this.lblCerrarSesion.Size = new System.Drawing.Size(100, 23);
+            this.lblCerrarSesion.TabIndex = 1;
             this.lblCerrarSesion.Text = "Cerrar sesión";
-            this.lblCerrarSesion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCerrarSesion.Click += new System.EventHandler(this.lblCerrarSesion_Click);
+            // 
+            // iconRendimientoVendedores
+            // 
+            this.iconRendimientoVendedores.Image = global::GestionDeVentas.Properties.Resources.icon_client;
+            this.iconRendimientoVendedores.Location = new System.Drawing.Point(15, 220);
+            this.iconRendimientoVendedores.Name = "iconRendimientoVendedores";
+            this.iconRendimientoVendedores.Size = new System.Drawing.Size(24, 24);
+            this.iconRendimientoVendedores.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconRendimientoVendedores.TabIndex = 2;
+            this.iconRendimientoVendedores.TabStop = false;
             // 
             // lblRendimientoVendedores
             // 
-            this.lblRendimientoVendedores.BackColor = System.Drawing.Color.Transparent;
-            this.lblRendimientoVendedores.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblRendimientoVendedores.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblRendimientoVendedores.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRendimientoVendedores.ForeColor = System.Drawing.Color.Black;
-            this.lblRendimientoVendedores.Location = new System.Drawing.Point(0, 207);
-            this.lblRendimientoVendedores.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRendimientoVendedores.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblRendimientoVendedores.Location = new System.Drawing.Point(50, 220);
             this.lblRendimientoVendedores.Name = "lblRendimientoVendedores";
-            this.lblRendimientoVendedores.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.lblRendimientoVendedores.Size = new System.Drawing.Size(267, 55);
-            this.lblRendimientoVendedores.TabIndex = 12;
-            this.lblRendimientoVendedores.Text = "Rendimiento de Vendedores";
-            this.lblRendimientoVendedores.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblRendimientoVendedores.Size = new System.Drawing.Size(194, 23);
+            this.lblRendimientoVendedores.TabIndex = 3;
+            this.lblRendimientoVendedores.Text = "Rendimiento Vendedores";
             this.lblRendimientoVendedores.Click += new System.EventHandler(this.lblRendimientoVendedores_Click);
             // 
-            // lblListarVentas
+            // iconReportes
             // 
-            this.lblListarVentas.Location = new System.Drawing.Point(0, 0);
-            this.lblListarVentas.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblListarVentas.Name = "lblListarVentas";
-            this.lblListarVentas.Size = new System.Drawing.Size(133, 28);
-            this.lblListarVentas.TabIndex = 13;
+            this.iconReportes.Image = global::GestionDeVentas.Properties.Resources.icon_sales;
+            this.iconReportes.Location = new System.Drawing.Point(15, 180);
+            this.iconReportes.Name = "iconReportes";
+            this.iconReportes.Size = new System.Drawing.Size(24, 24);
+            this.iconReportes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconReportes.TabIndex = 4;
+            this.iconReportes.TabStop = false;
             // 
             // lblReportes
             // 
-            this.lblReportes.BackColor = System.Drawing.Color.Transparent;
-            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblReportes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblReportes.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblReportes.ForeColor = System.Drawing.Color.Black;
-            this.lblReportes.Location = new System.Drawing.Point(0, 170);
-            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReportes.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblReportes.Location = new System.Drawing.Point(50, 180);
             this.lblReportes.Name = "lblReportes";
-            this.lblReportes.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.lblReportes.Size = new System.Drawing.Size(267, 37);
-            this.lblReportes.TabIndex = 10;
+            this.lblReportes.Size = new System.Drawing.Size(158, 23);
+            this.lblReportes.TabIndex = 5;
             this.lblReportes.Text = "Reportes";
-            this.lblReportes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblReportes.Click += new System.EventHandler(this.lblReportes_Click);
+            // 
+            // iconDashboard
+            // 
+            this.iconDashboard.Image = global::GestionDeVentas.Properties.Resources.icon_manage;
+            this.iconDashboard.Location = new System.Drawing.Point(15, 140);
+            this.iconDashboard.Name = "iconDashboard";
+            this.iconDashboard.Size = new System.Drawing.Size(24, 24);
+            this.iconDashboard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconDashboard.TabIndex = 6;
+            this.iconDashboard.TabStop = false;
             // 
             // lblDashboard
             // 
-            this.lblDashboard.BackColor = System.Drawing.Color.Transparent;
-            this.lblDashboard.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblDashboard.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblDashboard.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDashboard.ForeColor = System.Drawing.Color.Black;
-            this.lblDashboard.Location = new System.Drawing.Point(0, 133);
-            this.lblDashboard.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDashboard.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblDashboard.Location = new System.Drawing.Point(50, 140);
             this.lblDashboard.Name = "lblDashboard";
-            this.lblDashboard.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.lblDashboard.Size = new System.Drawing.Size(267, 37);
-            this.lblDashboard.TabIndex = 2;
+            this.lblDashboard.Size = new System.Drawing.Size(171, 23);
+            this.lblDashboard.TabIndex = 7;
             this.lblDashboard.Text = "Dashboard";
-            this.lblDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblDashboard.Click += new System.EventHandler(this.lblDashboard_Click);
+            // 
+            // iconInicio
+            // 
+            this.iconInicio.Image = global::GestionDeVentas.Properties.Resources.icon_home;
+            this.iconInicio.Location = new System.Drawing.Point(15, 100);
+            this.iconInicio.Name = "iconInicio";
+            this.iconInicio.Size = new System.Drawing.Size(24, 24);
+            this.iconInicio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconInicio.TabIndex = 8;
+            this.iconInicio.TabStop = false;
             // 
             // lblInicio
             // 
-            this.lblInicio.BackColor = System.Drawing.Color.Transparent;
-            this.lblInicio.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblInicio.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblInicio.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInicio.ForeColor = System.Drawing.Color.Black;
-            this.lblInicio.Location = new System.Drawing.Point(0, 92);
-            this.lblInicio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblInicio.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblInicio.Location = new System.Drawing.Point(50, 100);
             this.lblInicio.Name = "lblInicio";
-            this.lblInicio.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
-            this.lblInicio.Size = new System.Drawing.Size(267, 41);
-            this.lblInicio.TabIndex = 0;
+            this.lblInicio.Size = new System.Drawing.Size(100, 23);
+            this.lblInicio.TabIndex = 9;
             this.lblInicio.Text = "Inicio";
-            this.lblInicio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblInicio.Click += new System.EventHandler(this.lblInicio_Click);
             // 
             // mainPanel
             // 
-            this.mainPanel.AutoScroll = true;
             this.mainPanel.Controls.Add(this.pictureBoxWelcome);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(267, 92);
-            this.mainPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.mainPanel.Location = new System.Drawing.Point(250, 80);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(800, 462);
-            this.mainPanel.TabIndex = 2;
+            this.mainPanel.Size = new System.Drawing.Size(800, 520);
+            this.mainPanel.TabIndex = 0;
             // 
             // pictureBoxWelcome
             // 
-            this.pictureBoxWelcome.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.pictureBoxWelcome.BackColor = System.Drawing.Color.White;
+            this.pictureBoxWelcome.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.logoTYV;
             this.pictureBoxWelcome.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxWelcome.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxWelcome.Name = "pictureBoxWelcome";
-            this.pictureBoxWelcome.Size = new System.Drawing.Size(1001, 462);
-            this.pictureBoxWelcome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxWelcome.Size = new System.Drawing.Size(800, 520);
+            this.pictureBoxWelcome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxWelcome.TabIndex = 0;
             this.pictureBoxWelcome.TabStop = false;
             this.pictureBoxWelcome.Click += new System.EventHandler(this.pictureBoxWelcome_Click);
             // 
             // topBarPanel
             // 
-            this.topBarPanel.AutoScroll = true;
-            this.topBarPanel.BackColor = System.Drawing.Color.Black;
-            this.topBarPanel.BackgroundImage = global::GestionDeVentas.Properties.Resources.fondo;
+            this.topBarPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(76)))), ((int)(((byte)(41)))));
             this.topBarPanel.Controls.Add(this.pictureBoxLogo);
             this.topBarPanel.Controls.Add(this.lblGerenteWelcome);
             this.topBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.topBarPanel.Location = new System.Drawing.Point(267, 0);
-            this.topBarPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.topBarPanel.Location = new System.Drawing.Point(250, 0);
             this.topBarPanel.Name = "topBarPanel";
-            this.topBarPanel.Size = new System.Drawing.Size(800, 92);
+            this.topBarPanel.Size = new System.Drawing.Size(800, 80);
             this.topBarPanel.TabIndex = 1;
-            this.topBarPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.topBarPanel_Paint);
             // 
             // pictureBoxLogo
             // 
             this.pictureBoxLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBoxLogo.ErrorImage = null;
-            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logoFactura;
-            this.pictureBoxLogo.Location = new System.Drawing.Point(343, 8);
-            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
+            this.pictureBoxLogo.Location = new System.Drawing.Point(350, 10);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(111, 80);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(80, 60);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxLogo.TabIndex = 1;
+            this.pictureBoxLogo.TabIndex = 0;
             this.pictureBoxLogo.TabStop = false;
-            this.pictureBoxLogo.Click += new System.EventHandler(this.pictureBoxLogo_Click);
             // 
             // lblGerenteWelcome
             // 
             this.lblGerenteWelcome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblGerenteWelcome.AutoSize = true;
-            this.lblGerenteWelcome.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(224)))), ((int)(((byte)(215)))));
-            this.lblGerenteWelcome.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGerenteWelcome.ForeColor = System.Drawing.Color.Black;
-            this.lblGerenteWelcome.Location = new System.Drawing.Point(704, 33);
-            this.lblGerenteWelcome.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblGerenteWelcome.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.lblGerenteWelcome.ForeColor = System.Drawing.Color.White;
+            this.lblGerenteWelcome.Location = new System.Drawing.Point(656, 28);
             this.lblGerenteWelcome.Name = "lblGerenteWelcome";
-            this.lblGerenteWelcome.Size = new System.Drawing.Size(79, 22);
-            this.lblGerenteWelcome.TabIndex = 0;
+            this.lblGerenteWelcome.Size = new System.Drawing.Size(65, 20);
+            this.lblGerenteWelcome.TabIndex = 1;
             this.lblGerenteWelcome.Text = "Gerente";
             this.lblGerenteWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblGerenteWelcome.Click += new System.EventHandler(this.lblGerenteWelcome_Click);
             // 
             // FormGerentePanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(1050, 600);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.topBarPanel);
             this.Controls.Add(this.sidePanel);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormGerentePanel";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.Text = "Panel de Gerente";
+            this.Text = "Gerente Panel";
             this.Load += new System.EventHandler(this.FormGerentePanel_Load);
             this.logoPanel.ResumeLayout(false);
             this.sidePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconRendimientoVendedores)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconReportes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconDashboard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconInicio)).EndInit();
             this.mainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWelcome)).EndInit();
             this.topBarPanel.ResumeLayout(false);
@@ -269,16 +277,22 @@
         private System.Windows.Forms.Panel logoPanel;
         private System.Windows.Forms.Label lblGerentePanel;
         private System.Windows.Forms.Panel sidePanel;
-        private System.Windows.Forms.Label lblCerrarSesion;
-        private System.Windows.Forms.Label lblRendimientoVendedores;
-        private System.Windows.Forms.Label lblListarVentas;
-        private System.Windows.Forms.Label lblReportes;
-        private System.Windows.Forms.Label lblDashboard;
-        private System.Windows.Forms.Label lblInicio;
         private System.Windows.Forms.Panel mainPanel;
-        private System.Windows.Forms.PictureBox pictureBoxWelcome;
-        private System.Windows.Forms.Label lblGerenteWelcome;
         private System.Windows.Forms.Panel topBarPanel;
         private System.Windows.Forms.PictureBox pictureBoxLogo;
+        private System.Windows.Forms.Label lblGerenteWelcome;
+        private System.Windows.Forms.PictureBox pictureBoxWelcome;
+
+        private System.Windows.Forms.PictureBox iconInicio;
+        private System.Windows.Forms.PictureBox iconDashboard;
+        private System.Windows.Forms.PictureBox iconReportes;
+        private System.Windows.Forms.PictureBox iconRendimientoVendedores;
+        private System.Windows.Forms.PictureBox iconCerrarSesion;
+
+        private System.Windows.Forms.Label lblInicio;
+        private System.Windows.Forms.Label lblDashboard;
+        private System.Windows.Forms.Label lblReportes;
+        private System.Windows.Forms.Label lblRendimientoVendedores;
+        private System.Windows.Forms.Label lblCerrarSesion;
     }
 }

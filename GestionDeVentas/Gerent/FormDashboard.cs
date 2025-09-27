@@ -25,14 +25,9 @@ namespace GestionDeVentas.Gerent
             InitializeComponent();
         }
 
-        // =======================
-        //        EVENTOS
-        // =======================
-
-        // ¡OJO! El Designer debe enlazar: this.Load += FormDashboard_Load;
         private void FormDashboard_Load(object sender, EventArgs e)
         {
-            // Rango por defecto: 1° día del mes actual hasta hoy
+            
             var hoy = DateTime.Today;
             dtpDesde.Value = new DateTime(hoy.Year, hoy.Month, 1);
             dtpHasta.Value = hoy;
@@ -42,7 +37,7 @@ namespace GestionDeVentas.Gerent
         // Handler del botón ❌ (el Designer debe enlazar: this.btnCerrar.Click += btnCerrar_Click;)
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            this.Close(); // Cierra el formulario; el contenedor limpia y vuelve al Inicio
+            this.Close(); 
         }
 
         private void btnAplicar_Click(object sender, EventArgs e)
@@ -52,17 +47,15 @@ namespace GestionDeVentas.Gerent
 
         private void chartVentasPorProducto_Click(object sender, EventArgs e)
         {
-            // opcional
+            
         }
 
         private void lblTituloDashboard_Click(object sender, EventArgs e)
         {
-            // opcional
+            
         }
 
-        // =======================
-        //        LÓGICA
-        // =======================
+        
 
         private void AplicarFiltros()
         {
@@ -145,9 +138,7 @@ namespace GestionDeVentas.Gerent
             chartVentasPorProducto.Series.Add(serieVentas);
         }
 
-        // =======================
-        //   CLASE AUXILIAR
-        // =======================
+        
         private class RegistroMensual
         {
             public DateTime Mes { get; set; }
@@ -162,6 +153,11 @@ namespace GestionDeVentas.Gerent
                 ProductosVendidos = productosVendidos;
                 ClientesNuevos = clientesNuevos;
             }
+        }
+
+        private void chartIngresosMensuales_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

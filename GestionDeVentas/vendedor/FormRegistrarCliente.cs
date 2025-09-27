@@ -29,9 +29,9 @@ namespace GestionDeVentas.Gerente
         private void FormRegistrarCliente_Load(object sender, EventArgs e)
         {
             btnCerrar.BringToFront();
-           // btnEliminar.Visible = false; // 🚫 Vendedor no puede eliminar ni desactivar
+            // btnEliminar.Visible = false; 
+            dgvClientes.Columns["colId"].Visible = false;
 
-            // Datos de ejemplo
             listaClientes.Add(new Cliente { Nombre = "Juan", Apellido = "Pérez", Dni = "12345678", Telefono = "11223344", Direccion = "Calle Falsa 123", Pais = "Argentina", Ciudad = "Buenos Aires", FechaNacimiento = new DateTime(1990, 5, 15) });
             listaClientes.Add(new Cliente { Nombre = "Maria", Apellido = "Gómez", Dni = "87654321", Telefono = "55667788", Direccion = "Avenida Siempreviva 742", Pais = "Argentina", Ciudad = "Rosario", FechaNacimiento = new DateTime(1985, 10, 20), Activo = false });
             listaClientes.Add(new Cliente { Nombre = "Carlos", Apellido = "López", Dni = "99887766", Telefono = "99887766", Direccion = "Calle 10 555", Pais = "Chile", Ciudad = "Santiago", FechaNacimiento = new DateTime(1995, 3, 30) });

@@ -139,10 +139,7 @@ namespace GestionDeVentas.Admin
             LoadForm(new FormGestionProductos());
         }
 
-        private void lbl_cliente(object sender, EventArgs e)
-        {
-            LoadForm(new FormGestionUsuarios() );
-        }
+       
 
         // Mantén los métodos vacíos si son necesarios, pero elimina los clics que ya no tienen botón
         private void lblAdminWelcome_Click(object sender, EventArgs e) { }
@@ -162,16 +159,8 @@ namespace GestionDeVentas.Admin
 
         private void lblCerrarSesion_Click(object sender, EventArgs e)
         {
-            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?",
-                                            "Cerrar sesión",
-                                            MessageBoxButtons.YesNo,
-                                            MessageBoxIcon.Question);
+            LoadForm(new FormGestionarUsuarios());
 
-            if (confirmar == DialogResult.Yes)
-            {
-                Application.OpenForms["inicioSesion"].Show(); // 🔹 Vuelve a mostrar el login
-                this.Close(); // 🔹 Cierra el panel actual
-            }
         }
 
 
@@ -223,12 +212,23 @@ namespace GestionDeVentas.Admin
         {
 
         }
+
+        private void label1_Click_2(object sender, EventArgs e)
+        {
+            var confirmar = MessageBox.Show("¿Seguro que desea cerrar sesión?",
+                                           "Cerrar sesión",
+                                           MessageBoxButtons.YesNo,
+                                           MessageBoxIcon.Question);
+
+            if (confirmar == DialogResult.Yes)
+            {
+                Application.OpenForms["inicioSesion"].Show(); // 🔹 Vuelve a mostrar el login
+                this.Close(); // 🔹 Cierra el panel actual
+            }
+        }
     }
 
-    internal class FormGestionUsuarios : Form
-    {
-    }
-
+    
     // Clases de Formulario de Ejemplo (mantén tus clases reales)
 
     public class FormGestionarPrendas : Form { }

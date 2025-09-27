@@ -168,12 +168,19 @@ namespace GestionDeVentas.Vendedor
 
         private void dgvDetalle_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dgvDetalle.Columns["colEliminar"].Index && e.RowIndex >= 0)
+            if (e.RowIndex >= 0
+                && e.ColumnIndex == dgvDetalle.Columns["colEliminar"].Index
+                && dgvDetalle.Rows.Count > 0)
             {
-                dgvDetalle.Rows.RemoveAt(e.RowIndex);
-                CalcularTotales();
+                // Verifico que no sea la fila "nueva" de DataGridView
+                if (!dgvDetalle.Rows[e.RowIndex].IsNewRow)
+                {
+                    dgvDetalle.Rows.RemoveAt(e.RowIndex);
+                    CalcularTotales();
+                }
             }
         }
+
 
         private void txtMontoEntregado_TextChanged(object sender, EventArgs e)
         {

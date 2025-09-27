@@ -111,7 +111,7 @@
             this.lblEmpresa.Location = new System.Drawing.Point(300, 80);
             this.lblEmpresa.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmpresa.Name = "lblEmpresa";
-            this.lblEmpresa.Size = new System.Drawing.Size(69, 17);
+            this.lblEmpresa.Size = new System.Drawing.Size(72, 17);
             this.lblEmpresa.TabIndex = 4;
             this.lblEmpresa.Text = "Empresa:";
             // 
@@ -141,9 +141,10 @@
             this.lblDni.Location = new System.Drawing.Point(50, 140);
             this.lblDni.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDni.Name = "lblDni";
-            this.lblDni.Size = new System.Drawing.Size(81, 17);
+            this.lblDni.Size = new System.Drawing.Size(43, 17);
             this.lblDni.TabIndex = 7;
-            this.lblDni.Text = "DNI/CUIT:";
+            this.lblDni.Text = "CUIT:";
+            this.lblDni.Click += new System.EventHandler(this.lblDni_Click);
             // 
             // txtDni
             // 
@@ -291,7 +292,7 @@
             this.lblFechaInicioRelacion.Location = new System.Drawing.Point(50, 320);
             this.lblFechaInicioRelacion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFechaInicioRelacion.Name = "lblFechaInicioRelacion";
-            this.lblFechaInicioRelacion.Size = new System.Drawing.Size(149, 17);
+            this.lblFechaInicioRelacion.Size = new System.Drawing.Size(191, 17);
             this.lblFechaInicioRelacion.TabIndex = 22;
             this.lblFechaInicioRelacion.Text = "Fecha de Inicio de Relación:";
             // 
@@ -335,8 +336,8 @@
             this.dgvProveedores.AllowUserToAddRows = false;
             this.dgvProveedores.AllowUserToDeleteRows = false;
             this.dgvProveedores.AllowUserToResizeRows = false;
-            this.dgvProveedores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgvProveedores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProveedores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProveedores.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -482,9 +483,9 @@
             this.btnCerrar.Text = "X";
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
-            //
+            // 
             // btnActivar
-            //
+            // 
             this.btnActivar.BackColor = System.Drawing.Color.ForestGreen;
             this.btnActivar.FlatAppearance.BorderSize = 0;
             this.btnActivar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -498,9 +499,9 @@
             this.btnActivar.Text = "Activar";
             this.btnActivar.UseVisualStyleBackColor = false;
             this.btnActivar.Click += new System.EventHandler(this.btnActivar_Click);
-            //
+            // 
             // btnDesactivar
-            //
+            // 
             this.btnDesactivar.BackColor = System.Drawing.Color.Red;
             this.btnDesactivar.FlatAppearance.BorderSize = 0;
             this.btnDesactivar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -562,6 +563,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvProveedores)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

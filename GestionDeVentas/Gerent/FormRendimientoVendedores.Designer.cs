@@ -40,18 +40,16 @@ namespace GestionDeVentas.Gerent
             this.lblIngresosValor = new System.Windows.Forms.Label();
             this.lblIngresos = new System.Windows.Forms.Label();
             this.panelGraficos = new System.Windows.Forms.Panel();
-            this.chartIngresosMensuales = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartVentasPorProducto = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            // >>> NUEVO: botón cerrar
+            this.chartIngresosMensuales = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btnCerrar = new System.Windows.Forms.Button();
-
             this.panelFiltros.SuspendLayout();
             this.panelKPIs.SuspendLayout();
             this.panelVentasUnidades.SuspendLayout();
             this.panelIngresos.SuspendLayout();
             this.panelGraficos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartIngresosMensuales)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartVentasPorProducto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartIngresosMensuales)).BeginInit();
             this.SuspendLayout();
             // 
             // panelFiltros
@@ -119,6 +117,7 @@ namespace GestionDeVentas.Gerent
             this.dtpHasta.Name = "dtpHasta";
             this.dtpHasta.Size = new System.Drawing.Size(120, 20);
             this.dtpHasta.TabIndex = 3;
+            this.dtpHasta.ValueChanged += new System.EventHandler(this.dtpHasta_ValueChanged);
             // 
             // lblHasta
             // 
@@ -236,52 +235,51 @@ namespace GestionDeVentas.Gerent
             this.panelGraficos.Size = new System.Drawing.Size(800, 470);
             this.panelGraficos.TabIndex = 2;
             // 
-            // chartIngresosMensuales
+            // chartVentasPorProducto
             // 
             chartArea1.Name = "ChartArea1";
-            this.chartIngresosMensuales.ChartAreas.Add(chartArea1);
+            this.chartVentasPorProducto.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
-            this.chartIngresosMensuales.Legends.Add(legend1);
-            this.chartIngresosMensuales.Location = new System.Drawing.Point(10, 10);
-            this.chartIngresosMensuales.Name = "chartIngresosMensuales";
+            this.chartVentasPorProducto.Legends.Add(legend1);
+            this.chartVentasPorProducto.Location = new System.Drawing.Point(405, 10);
+            this.chartVentasPorProducto.Name = "chartVentasPorProducto";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
-            this.chartIngresosMensuales.Series.Add(series1);
-            this.chartIngresosMensuales.Size = new System.Drawing.Size(385, 450);
-            this.chartIngresosMensuales.TabIndex = 0;
-            this.chartIngresosMensuales.Text = "chart1";
-            // 
-            // chartVentasPorProducto
-            // 
-            chartArea2.Name = "ChartArea1";
-            this.chartVentasPorProducto.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chartVentasPorProducto.Legends.Add(legend2);
-            this.chartVentasPorProducto.Location = new System.Drawing.Point(405, 10);
-            this.chartVentasPorProducto.Name = "chartVentasPorProducto";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartVentasPorProducto.Series.Add(series2);
+            this.chartVentasPorProducto.Series.Add(series1);
             this.chartVentasPorProducto.Size = new System.Drawing.Size(385, 450);
             this.chartVentasPorProducto.TabIndex = 1;
             this.chartVentasPorProducto.Text = "chart2";
             // 
-            // >>> NUEVO: btnCerrar
+            // chartIngresosMensuales
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chartIngresosMensuales.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartIngresosMensuales.Legends.Add(legend2);
+            this.chartIngresosMensuales.Location = new System.Drawing.Point(10, 10);
+            this.chartIngresosMensuales.Name = "chartIngresosMensuales";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartIngresosMensuales.Series.Add(series2);
+            this.chartIngresosMensuales.Size = new System.Drawing.Size(385, 450);
+            this.chartIngresosMensuales.TabIndex = 0;
+            this.chartIngresosMensuales.Text = "chart1";
+            // 
+            // btnCerrar
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCerrar.FlatAppearance.BorderSize = 0;
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.Location = new System.Drawing.Point(760, 0); // 800 - 40
+            this.btnCerrar.Location = new System.Drawing.Point(760, 0);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(40, 40);
             this.btnCerrar.TabIndex = 999;
             this.btnCerrar.Text = "✕";
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
-
             // 
             // FormRendimientoVendedores
             // 
@@ -289,7 +287,7 @@ namespace GestionDeVentas.Gerent
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(800, 600);
-            this.Controls.Add(this.btnCerrar);                 // agregado arriba
+            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.panelGraficos);
             this.Controls.Add(this.panelKPIs);
             this.Controls.Add(this.panelFiltros);
@@ -302,9 +300,10 @@ namespace GestionDeVentas.Gerent
             this.panelVentasUnidades.ResumeLayout(false);
             this.panelIngresos.ResumeLayout(false);
             this.panelGraficos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chartIngresosMensuales)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartVentasPorProducto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartIngresosMensuales)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion

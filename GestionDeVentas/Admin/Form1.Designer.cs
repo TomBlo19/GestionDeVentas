@@ -21,7 +21,9 @@
             this.logoPanel = new System.Windows.Forms.Panel();
             this.lblAdminPanel = new System.Windows.Forms.Label();
             this.sidePanel = new System.Windows.Forms.Panel();
-            this.iconCerrarSesion = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblCerrarSesion = new System.Windows.Forms.Label();
             this.iconRegistrarProveedor = new System.Windows.Forms.PictureBox();
             this.lblRegistrarProveedor = new System.Windows.Forms.Label();
@@ -40,7 +42,8 @@
             this.lblAdminWelcome = new System.Windows.Forms.Label();
             this.logoPanel.SuspendLayout();
             this.sidePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarProveedor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconGestionarPrendas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarPrenda)).BeginInit();
@@ -77,7 +80,9 @@
             // sidePanel
             // 
             this.sidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(220)))), ((int)(((byte)(200)))));
-            this.sidePanel.Controls.Add(this.iconCerrarSesion);
+            this.sidePanel.Controls.Add(this.pictureBox2);
+            this.sidePanel.Controls.Add(this.pictureBox1);
+            this.sidePanel.Controls.Add(this.label1);
             this.sidePanel.Controls.Add(this.lblCerrarSesion);
             this.sidePanel.Controls.Add(this.iconRegistrarProveedor);
             this.sidePanel.Controls.Add(this.lblRegistrarProveedor);
@@ -96,15 +101,35 @@
             this.sidePanel.Size = new System.Drawing.Size(250, 600);
             this.sidePanel.TabIndex = 2;
             // 
-            // iconCerrarSesion
+            // pictureBox2
             // 
-            this.iconCerrarSesion.Image = global::GestionDeVentas.Properties.Resources.icon_logout;
-            this.iconCerrarSesion.Location = new System.Drawing.Point(15, 300);
-            this.iconCerrarSesion.Name = "iconCerrarSesion";
-            this.iconCerrarSesion.Size = new System.Drawing.Size(24, 24);
-            this.iconCerrarSesion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.iconCerrarSesion.TabIndex = 0;
-            this.iconCerrarSesion.TabStop = false;
+            this.pictureBox2.Image = global::GestionDeVentas.Properties.Resources.icon_client;
+            this.pictureBox2.Location = new System.Drawing.Point(15, 299);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(24, 24);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 15;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::GestionDeVentas.Properties.Resources.icon_logout;
+            this.pictureBox1.Location = new System.Drawing.Point(15, 345);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(24, 24);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 14;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.label1.Location = new System.Drawing.Point(50, 345);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Cerrar sesión";
+            this.label1.Click += new System.EventHandler(this.label1_Click_2);
             // 
             // lblCerrarSesion
             // 
@@ -113,7 +138,7 @@
             this.lblCerrarSesion.Name = "lblCerrarSesion";
             this.lblCerrarSesion.Size = new System.Drawing.Size(100, 23);
             this.lblCerrarSesion.TabIndex = 1;
-            this.lblCerrarSesion.Text = "Cerrar sesión";
+            this.lblCerrarSesion.Text = "Cliente";
             this.lblCerrarSesion.Click += new System.EventHandler(this.lblCerrarSesion_Click);
             // 
             // iconRegistrarProveedor
@@ -269,7 +294,7 @@
             this.lblAdminWelcome.ForeColor = System.Drawing.Color.White;
             this.lblAdminWelcome.Location = new System.Drawing.Point(656, 28);
             this.lblAdminWelcome.Name = "lblAdminWelcome";
-            this.lblAdminWelcome.Size = new System.Drawing.Size(141, 25);
+            this.lblAdminWelcome.Size = new System.Drawing.Size(111, 20);
             this.lblAdminWelcome.TabIndex = 1;
             this.lblAdminWelcome.Text = "Administrador";
             // 
@@ -284,7 +309,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.logoPanel.ResumeLayout(false);
             this.sidePanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarProveedor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconGestionarPrendas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarPrenda)).EndInit();
@@ -315,7 +341,6 @@
         private System.Windows.Forms.PictureBox iconRegistrarPrenda;
         private System.Windows.Forms.PictureBox iconGestionarPrendas;
         private System.Windows.Forms.PictureBox iconRegistrarProveedor;
-        private System.Windows.Forms.PictureBox iconCerrarSesion;
 
         private System.Windows.Forms.Label lblInicio;
         private System.Windows.Forms.Label lblListarProductos;
@@ -323,5 +348,8 @@
         private System.Windows.Forms.Label lblGestionarPrendas;
         private System.Windows.Forms.Label lblRegistrarProveedor;
         private System.Windows.Forms.Label lblCerrarSesion;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

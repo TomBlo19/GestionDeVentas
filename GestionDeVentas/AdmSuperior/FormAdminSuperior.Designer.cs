@@ -57,9 +57,8 @@ namespace GestionDeVentas.AdmSuperior
             this.logoPanel.Controls.Add(this.lblAdminPanel);
             this.logoPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.logoPanel.Location = new System.Drawing.Point(0, 0);
-            this.logoPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.logoPanel.Name = "logoPanel";
-            this.logoPanel.Size = new System.Drawing.Size(333, 98);
+            this.logoPanel.Size = new System.Drawing.Size(250, 80);
             this.logoPanel.TabIndex = 12;
             // 
             // lblAdminPanel
@@ -68,9 +67,8 @@ namespace GestionDeVentas.AdmSuperior
             this.lblAdminPanel.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAdminPanel.ForeColor = System.Drawing.Color.Black;
             this.lblAdminPanel.Location = new System.Drawing.Point(0, 0);
-            this.lblAdminPanel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblAdminPanel.Name = "lblAdminPanel";
-            this.lblAdminPanel.Size = new System.Drawing.Size(333, 98);
+            this.lblAdminPanel.Size = new System.Drawing.Size(250, 80);
             this.lblAdminPanel.TabIndex = 0;
             this.lblAdminPanel.Text = "Admin. superior panel";
             this.lblAdminPanel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -93,19 +91,17 @@ namespace GestionDeVentas.AdmSuperior
             this.sidePanel.Controls.Add(this.logoPanel);
             this.sidePanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidePanel.Location = new System.Drawing.Point(0, 0);
-            this.sidePanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.sidePanel.Name = "sidePanel";
-            this.sidePanel.Size = new System.Drawing.Size(333, 554);
+            this.sidePanel.Size = new System.Drawing.Size(250, 450);
             this.sidePanel.TabIndex = 0;
             // 
             // lblCerrarSesion
             // 
             this.lblCerrarSesion.Font = new System.Drawing.Font("Arial", 11.25F);
             this.lblCerrarSesion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.lblCerrarSesion.Location = new System.Drawing.Point(67, 320);
-            this.lblCerrarSesion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCerrarSesion.Location = new System.Drawing.Point(50, 260);
             this.lblCerrarSesion.Name = "lblCerrarSesion";
-            this.lblCerrarSesion.Size = new System.Drawing.Size(133, 28);
+            this.lblCerrarSesion.Size = new System.Drawing.Size(100, 23);
             this.lblCerrarSesion.TabIndex = 13;
             this.lblCerrarSesion.Text = "Cerrar sesión";
             this.lblCerrarSesion.Click += new System.EventHandler(this.lblCerrarSesion_Click);
@@ -113,10 +109,9 @@ namespace GestionDeVentas.AdmSuperior
             // iconCerrarSesion
             // 
             this.iconCerrarSesion.Image = global::GestionDeVentas.Properties.Resources.icon_logout;
-            this.iconCerrarSesion.Location = new System.Drawing.Point(20, 320);
-            this.iconCerrarSesion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconCerrarSesion.Location = new System.Drawing.Point(15, 260);
             this.iconCerrarSesion.Name = "iconCerrarSesion";
-            this.iconCerrarSesion.Size = new System.Drawing.Size(32, 30);
+            this.iconCerrarSesion.Size = new System.Drawing.Size(24, 24);
             this.iconCerrarSesion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.iconCerrarSesion.TabIndex = 12;
             this.iconCerrarSesion.TabStop = false;
@@ -126,10 +121,9 @@ namespace GestionDeVentas.AdmSuperior
             // 
             this.lblBackup.Font = new System.Drawing.Font("Arial", 11.25F);
             this.lblBackup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.lblBackup.Location = new System.Drawing.Point(67, 271);
-            this.lblBackup.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblBackup.Location = new System.Drawing.Point(50, 220);
             this.lblBackup.Name = "lblBackup";
-            this.lblBackup.Size = new System.Drawing.Size(133, 28);
+            this.lblBackup.Size = new System.Drawing.Size(100, 23);
             this.lblBackup.TabIndex = 11;
             this.lblBackup.Text = "BackUp";
             this.lblBackup.Click += new System.EventHandler(this.lblBackup_Click);
@@ -137,10 +131,9 @@ namespace GestionDeVentas.AdmSuperior
             // iconBackup
             // 
             this.iconBackup.Image = global::GestionDeVentas.Properties.Resources.icon_manage;
-            this.iconBackup.Location = new System.Drawing.Point(20, 271);
-            this.iconBackup.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconBackup.Location = new System.Drawing.Point(15, 220);
             this.iconBackup.Name = "iconBackup";
-            this.iconBackup.Size = new System.Drawing.Size(32, 30);
+            this.iconBackup.Size = new System.Drawing.Size(24, 24);
             this.iconBackup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.iconBackup.TabIndex = 10;
             this.iconBackup.TabStop = false;
@@ -150,10 +143,9 @@ namespace GestionDeVentas.AdmSuperior
             // 
             this.lblListarUsuario.Font = new System.Drawing.Font("Arial", 11.25F);
             this.lblListarUsuario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.lblListarUsuario.Location = new System.Drawing.Point(67, 222);
-            this.lblListarUsuario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblListarUsuario.Location = new System.Drawing.Point(50, 180);
             this.lblListarUsuario.Name = "lblListarUsuario";
-            this.lblListarUsuario.Size = new System.Drawing.Size(133, 28);
+            this.lblListarUsuario.Size = new System.Drawing.Size(100, 23);
             this.lblListarUsuario.TabIndex = 9;
             this.lblListarUsuario.Text = "Listar Usuario";
             this.lblListarUsuario.Click += new System.EventHandler(this.lblListarUsuario_Click);
@@ -161,10 +153,9 @@ namespace GestionDeVentas.AdmSuperior
             // iconListarUsuario
             // 
             this.iconListarUsuario.Image = global::GestionDeVentas.Properties.Resources.icon_client;
-            this.iconListarUsuario.Location = new System.Drawing.Point(20, 222);
-            this.iconListarUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconListarUsuario.Location = new System.Drawing.Point(15, 180);
             this.iconListarUsuario.Name = "iconListarUsuario";
-            this.iconListarUsuario.Size = new System.Drawing.Size(32, 30);
+            this.iconListarUsuario.Size = new System.Drawing.Size(24, 24);
             this.iconListarUsuario.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.iconListarUsuario.TabIndex = 8;
             this.iconListarUsuario.TabStop = false;
@@ -174,10 +165,9 @@ namespace GestionDeVentas.AdmSuperior
             // 
             this.lblRegistrarUsuario.Font = new System.Drawing.Font("Arial", 11.25F);
             this.lblRegistrarUsuario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.lblRegistrarUsuario.Location = new System.Drawing.Point(67, 172);
-            this.lblRegistrarUsuario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRegistrarUsuario.Location = new System.Drawing.Point(50, 140);
             this.lblRegistrarUsuario.Name = "lblRegistrarUsuario";
-            this.lblRegistrarUsuario.Size = new System.Drawing.Size(173, 28);
+            this.lblRegistrarUsuario.Size = new System.Drawing.Size(130, 23);
             this.lblRegistrarUsuario.TabIndex = 7;
             this.lblRegistrarUsuario.Text = "Registrar Usuario";
             this.lblRegistrarUsuario.Click += new System.EventHandler(this.lblRegistrarUsuario_Click);
@@ -185,10 +175,9 @@ namespace GestionDeVentas.AdmSuperior
             // iconRegistrarUsuario
             // 
             this.iconRegistrarUsuario.Image = global::GestionDeVentas.Properties.Resources.icon_add;
-            this.iconRegistrarUsuario.Location = new System.Drawing.Point(20, 172);
-            this.iconRegistrarUsuario.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconRegistrarUsuario.Location = new System.Drawing.Point(15, 140);
             this.iconRegistrarUsuario.Name = "iconRegistrarUsuario";
-            this.iconRegistrarUsuario.Size = new System.Drawing.Size(32, 30);
+            this.iconRegistrarUsuario.Size = new System.Drawing.Size(24, 24);
             this.iconRegistrarUsuario.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.iconRegistrarUsuario.TabIndex = 6;
             this.iconRegistrarUsuario.TabStop = false;
@@ -198,10 +187,9 @@ namespace GestionDeVentas.AdmSuperior
             // 
             this.lblInicio.Font = new System.Drawing.Font("Arial", 11.25F);
             this.lblInicio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.lblInicio.Location = new System.Drawing.Point(67, 123);
-            this.lblInicio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblInicio.Location = new System.Drawing.Point(50, 100);
             this.lblInicio.Name = "lblInicio";
-            this.lblInicio.Size = new System.Drawing.Size(133, 28);
+            this.lblInicio.Size = new System.Drawing.Size(100, 23);
             this.lblInicio.TabIndex = 5;
             this.lblInicio.Text = "Inicio";
             this.lblInicio.Click += new System.EventHandler(this.lblInicio_Click);
@@ -209,10 +197,9 @@ namespace GestionDeVentas.AdmSuperior
             // iconInicio
             // 
             this.iconInicio.Image = global::GestionDeVentas.Properties.Resources.icon_home;
-            this.iconInicio.Location = new System.Drawing.Point(20, 123);
-            this.iconInicio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iconInicio.Location = new System.Drawing.Point(15, 100);
             this.iconInicio.Name = "iconInicio";
-            this.iconInicio.Size = new System.Drawing.Size(32, 30);
+            this.iconInicio.Size = new System.Drawing.Size(24, 24);
             this.iconInicio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.iconInicio.TabIndex = 4;
             this.iconInicio.TabStop = false;
@@ -224,20 +211,19 @@ namespace GestionDeVentas.AdmSuperior
             this.mainPanel.BackColor = System.Drawing.Color.White;
             this.mainPanel.Controls.Add(this.pictureBoxWelcome);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(333, 98);
-            this.mainPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.mainPanel.Location = new System.Drawing.Point(250, 80);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(734, 456);
+            this.mainPanel.Size = new System.Drawing.Size(550, 370);
             this.mainPanel.TabIndex = 2;
+            this.mainPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPanel_Paint);
             // 
             // pictureBoxWelcome
             // 
             this.pictureBoxWelcome.BackColor = System.Drawing.Color.Transparent;
             this.pictureBoxWelcome.Image = global::GestionDeVentas.Properties.Resources.logoAdm;
-            this.pictureBoxWelcome.Location = new System.Drawing.Point(233, 102);
-            this.pictureBoxWelcome.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBoxWelcome.Location = new System.Drawing.Point(175, 83);
             this.pictureBoxWelcome.Name = "pictureBoxWelcome";
-            this.pictureBoxWelcome.Size = new System.Drawing.Size(268, 249);
+            this.pictureBoxWelcome.Size = new System.Drawing.Size(201, 202);
             this.pictureBoxWelcome.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxWelcome.TabIndex = 0;
             this.pictureBoxWelcome.TabStop = false;
@@ -248,20 +234,18 @@ namespace GestionDeVentas.AdmSuperior
             this.topBarPanel.Controls.Add(this.pictureBoxLogo);
             this.topBarPanel.Controls.Add(this.lblAdminWelcome);
             this.topBarPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.topBarPanel.Location = new System.Drawing.Point(333, 0);
-            this.topBarPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.topBarPanel.Location = new System.Drawing.Point(250, 0);
             this.topBarPanel.Name = "topBarPanel";
-            this.topBarPanel.Size = new System.Drawing.Size(734, 98);
+            this.topBarPanel.Size = new System.Drawing.Size(550, 80);
             this.topBarPanel.TabIndex = 1;
             // 
             // pictureBoxLogo
             // 
             this.pictureBoxLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBoxLogo.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
-            this.pictureBoxLogo.Location = new System.Drawing.Point(314, 12);
-            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBoxLogo.Location = new System.Drawing.Point(236, 10);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(107, 74);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(80, 60);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogo.TabIndex = 0;
             this.pictureBoxLogo.TabStop = false;
@@ -272,23 +256,21 @@ namespace GestionDeVentas.AdmSuperior
             this.lblAdminWelcome.AutoSize = true;
             this.lblAdminWelcome.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAdminWelcome.ForeColor = System.Drawing.Color.White;
-            this.lblAdminWelcome.Location = new System.Drawing.Point(501, 37);
-            this.lblAdminWelcome.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAdminWelcome.Location = new System.Drawing.Point(376, 30);
             this.lblAdminWelcome.Name = "lblAdminWelcome";
-            this.lblAdminWelcome.Size = new System.Drawing.Size(228, 22);
+            this.lblAdminWelcome.Size = new System.Drawing.Size(172, 18);
             this.lblAdminWelcome.TabIndex = 1;
             this.lblAdminWelcome.Text = "Administrador Superior";
             this.lblAdminWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FormAdminSuperior
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.topBarPanel);
             this.Controls.Add(this.sidePanel);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormAdminSuperior";
             this.Text = "Admin Panel Superior";
             this.Load += new System.EventHandler(this.FormAdminSuperior_Load);

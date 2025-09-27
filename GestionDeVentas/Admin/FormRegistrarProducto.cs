@@ -50,6 +50,8 @@ namespace GestionDeVentas.Admin
             cmbFiltroEstado.Items.Add("Inactivo");
             cmbFiltroEstado.SelectedIndex = 0;
 
+            dgvProductos.Columns["Id"].Visible = false;
+
             CargarDatosDePrueba();
         }
 

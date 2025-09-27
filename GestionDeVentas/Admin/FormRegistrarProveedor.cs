@@ -277,6 +277,11 @@ namespace GestionDeVentas.Gerente
         }
 
         private void lblTitulo_Click(object sender, EventArgs e) { }
+
+        private void lblDni_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class Proveedor

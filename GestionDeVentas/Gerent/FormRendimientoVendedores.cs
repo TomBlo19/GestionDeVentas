@@ -65,5 +65,10 @@ namespace GestionDeVentas.Gerent
         {
             this.Close();
         }
+
+        private void dtpHasta_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

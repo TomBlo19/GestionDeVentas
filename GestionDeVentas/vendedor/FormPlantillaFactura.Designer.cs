@@ -74,10 +74,10 @@
             // picLogo
             // 
             this.picLogo.Image = global::GestionDeVentas.Properties.Resources.logoFactura1;
-            this.picLogo.Location = new System.Drawing.Point(20, 20);
+            this.picLogo.Location = new System.Drawing.Point(18, 20);
             this.picLogo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(149, 70);
+            this.picLogo.Size = new System.Drawing.Size(196, 88);
             this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picLogo.TabIndex = 1;
             this.picLogo.TabStop = false;

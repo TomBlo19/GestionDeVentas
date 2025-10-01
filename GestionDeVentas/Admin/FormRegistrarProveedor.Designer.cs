@@ -36,9 +36,12 @@
             this.lblCiudad = new System.Windows.Forms.Label();
             this.txtCiudad = new System.Windows.Forms.TextBox();
             this.lblErrorCiudad = new System.Windows.Forms.Label();
-            this.lblFechaInicioRelacion = new System.Windows.Forms.Label();
-            this.dtpFechaInicioRelacion = new System.Windows.Forms.DateTimePicker();
-            this.lblErrorFechaInicioRelacion = new System.Windows.Forms.Label();
+
+            // ✅ CORREO REEMPLAZA FECHA
+            this.lblCorreo = new System.Windows.Forms.Label();
+            this.txtCorreo = new System.Windows.Forms.TextBox();
+            this.lblErrorCorreo = new System.Windows.Forms.Label();
+
             this.btnRegistrar = new System.Windows.Forms.Button();
             this.dgvProveedores = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,7 +52,10 @@
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPais = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCiudad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFechaInicioRelacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            // ✅ COLUMNA CORREO REEMPLAZA FECHA
+            this.colCorreo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
             this.colEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
@@ -284,36 +290,40 @@
             this.lblErrorCiudad.Size = new System.Drawing.Size(10, 13);
             this.lblErrorCiudad.TabIndex = 21;
             this.lblErrorCiudad.Text = " ";
+
+            // ✅ INICIO DE CORREO
             // 
-            // lblFechaInicioRelacion
+            // lblCorreo
             // 
-            this.lblFechaInicioRelacion.AutoSize = true;
-            this.lblFechaInicioRelacion.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblFechaInicioRelacion.Location = new System.Drawing.Point(50, 320);
-            this.lblFechaInicioRelacion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblFechaInicioRelacion.Name = "lblFechaInicioRelacion";
-            this.lblFechaInicioRelacion.Size = new System.Drawing.Size(191, 17);
-            this.lblFechaInicioRelacion.TabIndex = 22;
-            this.lblFechaInicioRelacion.Text = "Fecha de Inicio de Relación:";
+            this.lblCorreo.AutoSize = true;
+            this.lblCorreo.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblCorreo.Location = new System.Drawing.Point(50, 320); // Usando la posición de la antigua fecha
+            this.lblCorreo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCorreo.Name = "lblCorreo";
+            this.lblCorreo.Size = new System.Drawing.Size(56, 17);
+            this.lblCorreo.TabIndex = 22;
+            this.lblCorreo.Text = "Correo:";
             // 
-            // dtpFechaInicioRelacion
+            // txtCorreo
             // 
-            this.dtpFechaInicioRelacion.Location = new System.Drawing.Point(53, 340);
-            this.dtpFechaInicioRelacion.Margin = new System.Windows.Forms.Padding(2);
-            this.dtpFechaInicioRelacion.Name = "dtpFechaInicioRelacion";
-            this.dtpFechaInicioRelacion.Size = new System.Drawing.Size(200, 20);
-            this.dtpFechaInicioRelacion.TabIndex = 23;
+            this.txtCorreo.Location = new System.Drawing.Point(53, 340); // Usando la posición de la antigua fecha
+            this.txtCorreo.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCorreo.Name = "txtCorreo";
+            this.txtCorreo.Size = new System.Drawing.Size(250, 20); // Tamaño ajustado para correo
+            this.txtCorreo.TabIndex = 23;
             // 
-            // lblErrorFechaInicioRelacion
+            // lblErrorCorreo
             // 
-            this.lblErrorFechaInicioRelacion.AutoSize = true;
-            this.lblErrorFechaInicioRelacion.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorFechaInicioRelacion.Location = new System.Drawing.Point(53, 363);
-            this.lblErrorFechaInicioRelacion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblErrorFechaInicioRelacion.Name = "lblErrorFechaInicioRelacion";
-            this.lblErrorFechaInicioRelacion.Size = new System.Drawing.Size(10, 13);
-            this.lblErrorFechaInicioRelacion.TabIndex = 24;
-            this.lblErrorFechaInicioRelacion.Text = " ";
+            this.lblErrorCorreo.AutoSize = true;
+            this.lblErrorCorreo.ForeColor = System.Drawing.Color.Red;
+            this.lblErrorCorreo.Location = new System.Drawing.Point(53, 363); // Usando la posición de la antigua fecha
+            this.lblErrorCorreo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblErrorCorreo.Name = "lblErrorCorreo";
+            this.lblErrorCorreo.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorCorreo.TabIndex = 24;
+            this.lblErrorCorreo.Text = " ";
+            // ✅ FIN DE CORREO
+
             // 
             // btnRegistrar
             // 
@@ -336,8 +346,8 @@
             this.dgvProveedores.AllowUserToAddRows = false;
             this.dgvProveedores.AllowUserToDeleteRows = false;
             this.dgvProveedores.AllowUserToResizeRows = false;
-            this.dgvProveedores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvProveedores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProveedores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProveedores.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -351,7 +361,7 @@
             this.colDireccion,
             this.colPais,
             this.colCiudad,
-            this.colFechaInicioRelacion,
+            this.colCorreo, // ✅ CORREO
             this.colEstado});
             this.dgvProveedores.Location = new System.Drawing.Point(10, 450);
             this.dgvProveedores.Margin = new System.Windows.Forms.Padding(2);
@@ -420,12 +430,12 @@
             this.colCiudad.Name = "colCiudad";
             this.colCiudad.ReadOnly = true;
             // 
-            // colFechaInicioRelacion
+            // colCorreo
             // 
-            this.colFechaInicioRelacion.HeaderText = "Fecha de Inicio de Relación";
-            this.colFechaInicioRelacion.MinimumWidth = 6;
-            this.colFechaInicioRelacion.Name = "colFechaInicioRelacion";
-            this.colFechaInicioRelacion.ReadOnly = true;
+            this.colCorreo.HeaderText = "Correo"; // ✅ CORREO
+            this.colCorreo.MinimumWidth = 6;
+            this.colCorreo.Name = "colCorreo";
+            this.colCorreo.ReadOnly = true;
             // 
             // colEstado
             // 
@@ -529,9 +539,17 @@
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.dgvProveedores);
             this.Controls.Add(this.btnRegistrar);
-            this.Controls.Add(this.lblErrorFechaInicioRelacion);
-            this.Controls.Add(this.dtpFechaInicioRelacion);
-            this.Controls.Add(this.lblFechaInicioRelacion);
+
+            // ✅ CORREO REEMPLAZA FECHA
+            this.Controls.Add(this.lblErrorCorreo);
+            this.Controls.Add(this.txtCorreo);
+            this.Controls.Add(this.lblCorreo);
+
+            // 🗑️ ELIMINADO
+            // this.Controls.Add(this.lblErrorFechaInicioRelacion);
+            // this.Controls.Add(this.dtpFechaInicioRelacion);
+            // this.Controls.Add(this.lblFechaInicioRelacion);
+
             this.Controls.Add(this.lblErrorCiudad);
             this.Controls.Add(this.txtCiudad);
             this.Controls.Add(this.lblCiudad);
@@ -590,9 +608,16 @@
         private System.Windows.Forms.Label lblCiudad;
         private System.Windows.Forms.TextBox txtCiudad;
         private System.Windows.Forms.Label lblErrorCiudad;
-        private System.Windows.Forms.Label lblFechaInicioRelacion;
-        private System.Windows.Forms.DateTimePicker dtpFechaInicioRelacion;
-        private System.Windows.Forms.Label lblErrorFechaInicioRelacion;
+
+        // 🗑️ ELIMINADO: private System.Windows.Forms.Label lblFechaInicioRelacion;
+        // 🗑️ ELIMINADO: private System.Windows.Forms.DateTimePicker dtpFechaInicioRelacion;
+        // 🗑️ ELIMINADO: private System.Windows.Forms.Label lblErrorFechaInicioRelacion;
+
+        // ✅ AGREGADO
+        private System.Windows.Forms.Label lblCorreo;
+        private System.Windows.Forms.TextBox txtCorreo;
+        private System.Windows.Forms.Label lblErrorCorreo;
+
         private System.Windows.Forms.Button btnRegistrar;
         private System.Windows.Forms.DataGridView dgvProveedores;
         private System.Windows.Forms.Button btnEditar;
@@ -605,7 +630,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDireccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPais;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCiudad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFechaInicioRelacion;
+
+        // 🗑️ ELIMINADO: private System.Windows.Forms.DataGridViewTextBoxColumn colFechaInicioRelacion;
+        // ✅ AGREGADO
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCorreo;
+
         private System.Windows.Forms.DataGridViewTextBoxColumn colEstado;
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Button btnActivar;

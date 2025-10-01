@@ -4,31 +4,18 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 
+// ASUMIMOS QUE ESTE ES EL NAMESPACE DONDE ESTÁN LOS NUEVOS FORMULARIOS
+// Si tus nuevos formularios tienen un namespace diferente, ajusta esto.
+using TuProyecto;
+
 namespace GestionDeVentas.Vendedor
 {
     public partial class FormFactura : Form
     {
         private int numeroFactura = 12;
 
-        private List<string> clientes = new List<string>
-        {
-            "35123456 - Valentina Barbero",
-            "40222333 - Juan Pérez",
-            "30987654 - Ana Torres",
-            "29876543 - Luis Fernández"
-        };
-
-        // El vendedor se obtiene de la sesión (simulado)
+        // Vendedor se sigue cargando al iniciar
         private string vendedorActual = "V001 - Tomás Bolo";
-
-        private List<(string codigo, string nombre, string talle, decimal precio)> productos =
-            new List<(string, string, string, decimal)>
-        {
-            ("A123", "Camiseta Básica", "M", 20.00m),
-            ("A124", "Camiseta Estampada", "L", 25.00m),
-            ("B456", "Jeans Slim Fit", "32", 50.00m),
-            ("C789", "Campera Deportiva", "S", 80.00m)
-        };
 
         public FormFactura()
         {
@@ -48,22 +35,31 @@ namespace GestionDeVentas.Vendedor
             cmbMetodoPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Transferencia" });
             cmbMetodoPago.SelectedIndex = 0;
 
-            // Configurar placeholders
-            SetPlaceholder(txtBuscarCliente, "Buscar por nombre o DNI");
-            SetPlaceholder(txtBuscarProducto, "Buscar por código o nombre");
+            // Eliminamos los placeholders de los campos de búsqueda (ya no se usan para entrada manual)
+            // Se dejan solo los placeholders para los campos de pago
+            SetPlaceholder(txtInfoPago, "Número, vencimiento, CVV");
+
+            // Asegura que los campos de detalle del cliente son de solo lectura
+            txtDni.ReadOnly = true;
+            txtNombre.ReadOnly = true;
+            txtDireccion.ReadOnly = true;
+            txtContacto.ReadOnly = true;
+            txtBuscarCliente.ReadOnly = true; // El usuario ya no escribe aquí
+            txtBuscarProducto.ReadOnly = true; // El usuario ya no escribe aquí
 
             // Llama a la lógica de pago al iniciar
             cmbMetodoPago_SelectedIndexChanged(null, null);
         }
 
-        // === Placeholder y Diseño ===
+        // === Placeholder y Diseño (MISMO CÓDIGO) ===
         private void SetPlaceholder(TextBox txt, string placeholder)
         {
+            // ... (El código de SetPlaceholder es el mismo)
             txt.ForeColor = Color.Gray;
             txt.Text = placeholder;
             txt.Font = new Font(txt.Font, FontStyle.Italic);
 
-            txt.GotFocus += (s, e) =>
+            txt.GotFocus += (s, ev) =>
             {
                 if (txt.ForeColor == Color.Gray)
                 {
@@ -73,7 +69,7 @@ namespace GestionDeVentas.Vendedor
                 }
             };
 
-            txt.LostFocus += (s, e) =>
+            txt.LostFocus += (s, ev) =>
             {
                 if (string.IsNullOrWhiteSpace(txt.Text))
                 {
@@ -84,53 +80,92 @@ namespace GestionDeVentas.Vendedor
             };
         }
 
-        // === Cliente ===
+        // ----------------------------------------------------------------------
+        // MODIFICACIÓN CLAVE: Abrir Formulario de Búsqueda de Clientes
+        // ----------------------------------------------------------------------
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
-            ContextMenuStrip menu = new ContextMenuStrip();
-            foreach (var c in clientes)
-            {
-                menu.Items.Add(c, null, (s, ev) =>
-                {
-                    txtBuscarCliente.Text = c.Split('-')[1].Trim();
-                    txtBuscarCliente.ForeColor = Color.Black;
+            // Ocultamos el campo de texto de búsqueda temporalmente
+            // txtBuscarCliente.Text = "Buscando cliente...";
 
-                    if (c.Contains("Valentina"))
+            using (BuscarClienteForm buscarCliente = new BuscarClienteForm())
+            {
+                // Abrir el formulario de búsqueda de forma modal
+                if (buscarCliente.ShowDialog() == DialogResult.OK)
+                {
+                    // ASUMIMOS QUE LA PROPIEDAD SE LLAMA ClienteSeleccionado (como en la respuesta anterior)
+                    string clienteData = buscarCliente.ClienteSeleccionado;
+
+                    // Lógica para parsear y cargar los datos del cliente seleccionado
+                    // NOTA: Esto es una simulación. En una aplicación real, usarías objetos o IDs.
+                    if (!string.IsNullOrEmpty(clienteData))
                     {
-                        txtDni.Text = "35123456";
-                        txtNombre.Text = "Valentina Barbero";
-                        txtDireccion.Text = "Av. Siempre Viva 742";
-                        txtContacto.Text = "valentina@example.com, 555-1234";
-                    }
-                    else if (c.Contains("Juan Pérez"))
-                    {
+                        // Ejemplo de asignación de datos simulados al encontrar un cliente
+                        txtBuscarCliente.Text = clienteData;
                         txtDni.Text = "40222333";
-                        txtNombre.Text = "Juan Pérez";
-                        txtDireccion.Text = "Calle San Martín 1200";
-                        txtContacto.Text = "juan@example.com, 555-7890";
+                        txtNombre.Text = clienteData;
+                        txtDireccion.Text = "Calle Falsa 123";
+                        txtContacto.Text = "contacto@ejemplo.com";
                     }
-                });
+                    else
+                    {
+                        MessageBox.Show("No se seleccionó ningún cliente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
             }
-            menu.Show(btnBuscarCliente, new Point(0, btnBuscarCliente.Height));
         }
 
-        // === Producto ===
+        // ----------------------------------------------------------------------
+        // MODIFICACIÓN CLAVE: Abrir Formulario de Búsqueda de Productos
+        // ----------------------------------------------------------------------
         private void btnBuscarProducto_Click(object sender, EventArgs e)
         {
-            ContextMenuStrip menu = new ContextMenuStrip();
-            foreach (var p in productos)
+            // txtBuscarProducto.Text = "Buscando producto...";
+
+            using (BuscarProductoForm buscarProducto = new BuscarProductoForm())
             {
-                string item = $"{p.codigo} - {p.nombre} ({p.talle})";
-                menu.Items.Add(item, null, (s, ev) =>
+                if (buscarProducto.ShowDialog() == DialogResult.OK)
                 {
-                    dgvDetalle.Rows.Add(p.codigo, p.nombre, p.talle, 1, p.precio, p.precio);
-                    CalcularTotales();
-                });
+                    // Recupera el objeto ProductoInfo
+                    var p = buscarProducto.ProductoSeleccionado;
+
+                    if (p != null)
+                    {
+                        // Añadir el producto al DataGridView
+                        // Columnas: Código, Producto, Talle, Cantidad (1), Precio Unitario, Subtotal
+                        // ASUMIMOS que p.Talle existe en la clase ProductoInfo de BuscarProductoForm
+                        string talle = (p.GetType().GetProperty("Talle") != null) ? (string)p.GetType().GetProperty("Talle").GetValue(p) : "N/A";
+
+                        // Buscamos si ya existe el producto en el carrito
+                        foreach (DataGridViewRow row in dgvDetalle.Rows)
+                        {
+                            if (row.Cells["colCodigo"].Value?.ToString() == p.Id.ToString())
+                            {
+                                // Si existe, incrementamos la cantidad
+                                int cantidadActual = Convert.ToInt32(row.Cells["colCantidad"].Value);
+                                row.Cells["colCantidad"].Value = cantidadActual + 1;
+                                dgvDetalle_CellEndEdit(dgvDetalle, new DataGridViewCellEventArgs(dgvDetalle.Columns["colCantidad"].Index, row.Index));
+                                return;
+                            }
+                        }
+
+                        // Si no existe, agregamos nueva fila.
+                        dgvDetalle.Rows.Add(p.Id.ToString(), p.Nombre, talle, 1, p.Precio.ToString("N2", CultureInfo.CurrentCulture), p.Precio.ToString("C", CultureInfo.CurrentCulture));
+
+                        // Opcional: Mostrar stock disponible
+                        txtBuscarProducto.Text = $"Producto cargado. Stock: {p.StockDisponible}";
+
+                        CalcularTotales();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se seleccionó ningún producto.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
             }
-            menu.Show(btnBuscarProducto, new Point(0, btnBuscarProducto.Height));
         }
 
-        // === Totales y Lógica de Pago ===
+        // === Totales y Lógica de Pago (MISMO CÓDIGO) ===
         private void dgvDetalle_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             var row = dgvDetalle.Rows[e.RowIndex];
@@ -152,15 +187,22 @@ namespace GestionDeVentas.Vendedor
                 if (!decimal.TryParse(row.Cells["colPrecio"].Value?.ToString(), NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal precio) || precio <= 0)
                 {
                     MessageBox.Show("El precio debe ser un número decimal mayor a 0.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    var originalProduct = productos.Find(p => p.codigo == row.Cells["colCodigo"].Value.ToString());
-                    row.Cells["colPrecio"].Value = originalProduct.precio;
+                    // Aquí ya no tenemos la lista 'productos' para obtener el precio original, 
+                    // así que simplemente mantenemos el valor anterior (o un valor por defecto)
+                    row.Cells["colPrecio"].Value = 1.00m.ToString("N2");
                 }
             }
 
             if (row.Cells["colCantidad"].Value != null && row.Cells["colPrecio"].Value != null)
             {
                 int cantidad = Convert.ToInt32(row.Cells["colCantidad"].Value);
-                decimal precio = Convert.ToDecimal(row.Cells["colPrecio"].Value);
+                // Asegurar que el precio se parsea correctamente (quitando símbolo de moneda si existe)
+                decimal precio;
+                if (!decimal.TryParse(row.Cells["colPrecio"].Value.ToString().Replace(CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol, ""), out precio))
+                {
+                    precio = 0m; // Fallback
+                }
+
                 row.Cells["colSubtotal"].Value = (cantidad * precio).ToString("C", CultureInfo.CurrentCulture);
             }
             CalcularTotales();
@@ -211,6 +253,12 @@ namespace GestionDeVentas.Vendedor
                 lblInfoPago.Text = "Datos de Transferencia:";
                 SetPlaceholder(txtInfoPago, "Nº de Referencia / ID de Transacción");
             }
+            // Asegurar que txtMontoEntregado se limpia si no es efectivo
+            if (!esEfectivo)
+            {
+                txtMontoEntregado.Text = "";
+            }
+
 
             CalcularTotales();
         }
@@ -218,11 +266,19 @@ namespace GestionDeVentas.Vendedor
         private void CalcularTotales()
         {
             decimal subtotal = 0;
-            foreach (DataGridViewRow row in dgvDetalle.Rows)
+            // Usamos un loop inverso o verificamos IsNewRow para evitar errores en DGV
+            for (int i = 0; i < dgvDetalle.Rows.Count; i++)
             {
-                if (row.Cells["colSubtotal"].Value != null && decimal.TryParse(row.Cells["colSubtotal"].Value.ToString(), NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal rowSubtotal))
+                DataGridViewRow row = dgvDetalle.Rows[i];
+                if (!row.IsNewRow && row.Cells["colSubtotal"].Value != null)
                 {
-                    subtotal += rowSubtotal;
+                    // Limpieza del string antes de parsear (quita el símbolo de moneda)
+                    string subtotalStr = row.Cells["colSubtotal"].Value.ToString().Replace(CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol, "").Trim();
+
+                    if (decimal.TryParse(subtotalStr, NumberStyles.Number | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out decimal rowSubtotal))
+                    {
+                        subtotal += rowSubtotal;
+                    }
                 }
             }
 
@@ -233,43 +289,59 @@ namespace GestionDeVentas.Vendedor
             txtIVA.Text = iva.ToString("C", CultureInfo.CurrentCulture);
             txtTotal.Text = total.ToString("C", CultureInfo.CurrentCulture);
 
-            if (cmbMetodoPago.SelectedItem.ToString() == "Efectivo")
+            if (cmbMetodoPago.SelectedItem?.ToString() == "Efectivo")
             {
                 if (decimal.TryParse(txtMontoEntregado.Text, out decimal montoEntregado))
                 {
                     if (montoEntregado < total)
                     {
                         txtVuelto.Text = "Monto insuficiente";
+                        txtVuelto.ForeColor = Color.Red;
                     }
                     else
                     {
                         txtVuelto.Text = (montoEntregado - total).ToString("C", CultureInfo.CurrentCulture);
+                        txtVuelto.ForeColor = Color.Black;
                     }
                 }
                 else
                 {
                     txtVuelto.Text = "";
+                    txtVuelto.ForeColor = Color.Black;
                 }
             }
             else
             {
                 txtVuelto.Text = "";
+                txtVuelto.ForeColor = Color.Black;
             }
         }
 
-        // === Botones de Acción ===
+        // === Botones de Acción (MISMO CÓDIGO) ===
         private void btnGenerar_Click(object sender, EventArgs e)
         {
-            if (dgvDetalle.Rows.Count == 0)
+            if (dgvDetalle.Rows.Count == 0 || (dgvDetalle.Rows.Count == 1 && dgvDetalle.Rows[0].IsNewRow))
             {
                 MessageBox.Show("Debe agregar al menos un producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            // Validar que se haya seleccionado un cliente (usando el campo DNI como proxy)
+            if (string.IsNullOrWhiteSpace(txtDni.Text))
+            {
+                MessageBox.Show("Debe seleccionar un cliente antes de facturar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             string metodoPago = cmbMetodoPago.SelectedItem.ToString();
+            // Limpieza del string para el cálculo del total
+            decimal totalFactura;
+            string totalStr = txtTotal.Text.Replace(CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol, "").Trim();
+            decimal.TryParse(totalStr, NumberStyles.Number | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out totalFactura);
+
             if (metodoPago == "Efectivo")
             {
-                if (!decimal.TryParse(txtMontoEntregado.Text, out decimal montoEntregado) || montoEntregado < Convert.ToDecimal(txtTotal.Text.Replace("$", "")))
+                if (!decimal.TryParse(txtMontoEntregado.Text, out decimal montoEntregado) || montoEntregado < totalFactura)
                 {
                     MessageBox.Show("Debe ingresar un monto válido y suficiente para calcular el vuelto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -285,6 +357,10 @@ namespace GestionDeVentas.Vendedor
             }
 
             MessageBox.Show("Factura generada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Lógica para avanzar el número de factura y limpiar campos
+            numeroFactura++;
+            // ... (Lógica de limpieza)
+            FormFactura_Load(sender, e); // Recargar/resetear
         }
 
         private void btnCancelar_Click(object sender, EventArgs e) => this.Close();

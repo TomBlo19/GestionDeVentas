@@ -176,6 +176,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="vendedor\BuscarClienteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vendedor\BuscarClienteForm.Designer.cs">
+      <DependentUpon>BuscarClienteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="vendedor\BuscarProductoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vendedor\BuscarProductoForm.Designer.cs">
+      <DependentUpon>BuscarProductoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="vendedor\FormPlantillaFactura.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -270,6 +282,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="vendedor\BuscarClienteForm.resx">
+      <DependentUpon>BuscarClienteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vendedor\BuscarProductoForm.resx">
+      <DependentUpon>BuscarProductoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="vendedor\FormPlantillaFactura.resx">
       <DependentUpon>FormPlantillaFactura.cs</DependentUpon>
     </EmbeddedResource>

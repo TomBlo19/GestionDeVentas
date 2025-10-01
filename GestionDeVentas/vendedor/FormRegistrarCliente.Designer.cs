@@ -2,16 +2,30 @@
 {
     partial class FormRegistrarCliente
     {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
 
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
             this.lblTitulo = new System.Windows.Forms.Label();
@@ -36,9 +50,9 @@
             this.lblCiudad = new System.Windows.Forms.Label();
             this.txtCiudad = new System.Windows.Forms.TextBox();
             this.lblErrorCiudad = new System.Windows.Forms.Label();
-            this.lblFechaNacimiento = new System.Windows.Forms.Label();
-            this.dtpFechaNacimiento = new System.Windows.Forms.DateTimePicker();
-            this.lblErrorFechaNacimiento = new System.Windows.Forms.Label();
+            this.lblCorreo = new System.Windows.Forms.Label(); // << RENOMBRADO
+            this.txtCorreo = new System.Windows.Forms.TextBox(); // << CAMBIADO A TEXTBOX
+            this.lblErrorCorreo = new System.Windows.Forms.Label(); // << RENOMBRADO
             this.btnRegistrar = new System.Windows.Forms.Button();
             this.dgvClientes = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,7 +63,7 @@
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPais = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCiudad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFechaNacimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCorreo = new System.Windows.Forms.DataGridViewTextBoxColumn(); // << RENOMBRADO
             this.colEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
@@ -267,33 +281,33 @@
             this.lblErrorCiudad.TabIndex = 21;
             this.lblErrorCiudad.Text = " ";
             // 
-            // lblFechaNacimiento
+            // lblCorreo
             // 
-            this.lblFechaNacimiento.AutoSize = true;
-            this.lblFechaNacimiento.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblFechaNacimiento.Location = new System.Drawing.Point(67, 394);
-            this.lblFechaNacimiento.Name = "lblFechaNacimiento";
-            this.lblFechaNacimiento.Size = new System.Drawing.Size(194, 22);
-            this.lblFechaNacimiento.TabIndex = 22;
-            this.lblFechaNacimiento.Text = "Fecha de Nacimiento:";
+            this.lblCorreo.AutoSize = true;
+            this.lblCorreo.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblCorreo.Location = new System.Drawing.Point(67, 394);
+            this.lblCorreo.Name = "lblCorreo";
+            this.lblCorreo.Size = new System.Drawing.Size(167, 22);
+            this.lblCorreo.TabIndex = 22;
+            this.lblCorreo.Text = "Correo Electrónico:";
             // 
-            // dtpFechaNacimiento
+            // txtCorreo
             // 
-            this.dtpFechaNacimiento.Location = new System.Drawing.Point(71, 418);
-            this.dtpFechaNacimiento.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dtpFechaNacimiento.Name = "dtpFechaNacimiento";
-            this.dtpFechaNacimiento.Size = new System.Drawing.Size(265, 22);
-            this.dtpFechaNacimiento.TabIndex = 23;
+            this.txtCorreo.Location = new System.Drawing.Point(71, 418);
+            this.txtCorreo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtCorreo.Name = "txtCorreo";
+            this.txtCorreo.Size = new System.Drawing.Size(265, 22);
+            this.txtCorreo.TabIndex = 23;
             // 
-            // lblErrorFechaNacimiento
+            // lblErrorCorreo
             // 
-            this.lblErrorFechaNacimiento.AutoSize = true;
-            this.lblErrorFechaNacimiento.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorFechaNacimiento.Location = new System.Drawing.Point(71, 447);
-            this.lblErrorFechaNacimiento.Name = "lblErrorFechaNacimiento";
-            this.lblErrorFechaNacimiento.Size = new System.Drawing.Size(10, 16);
-            this.lblErrorFechaNacimiento.TabIndex = 24;
-            this.lblErrorFechaNacimiento.Text = " ";
+            this.lblErrorCorreo.AutoSize = true;
+            this.lblErrorCorreo.ForeColor = System.Drawing.Color.Red;
+            this.lblErrorCorreo.Location = new System.Drawing.Point(71, 447);
+            this.lblErrorCorreo.Name = "lblErrorCorreo";
+            this.lblErrorCorreo.Size = new System.Drawing.Size(10, 16);
+            this.lblErrorCorreo.TabIndex = 24;
+            this.lblErrorCorreo.Text = " ";
             // 
             // btnRegistrar
             // 
@@ -316,8 +330,8 @@
             this.dgvClientes.AllowUserToAddRows = false;
             this.dgvClientes.AllowUserToDeleteRows = false;
             this.dgvClientes.AllowUserToResizeRows = false;
-            this.dgvClientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvClientes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvClientes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvClientes.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -331,7 +345,7 @@
             this.colDireccion,
             this.colPais,
             this.colCiudad,
-            this.colFechaNacimiento,
+            this.colCorreo, // << COLUMNA DE CORREO
             this.colEstado});
             this.dgvClientes.Location = new System.Drawing.Point(13, 554);
             this.dgvClientes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -400,12 +414,12 @@
             this.colCiudad.Name = "colCiudad";
             this.colCiudad.ReadOnly = true;
             // 
-            // colFechaNacimiento
+            // colCorreo
             // 
-            this.colFechaNacimiento.HeaderText = "Fecha de Nacimiento";
-            this.colFechaNacimiento.MinimumWidth = 6;
-            this.colFechaNacimiento.Name = "colFechaNacimiento";
-            this.colFechaNacimiento.ReadOnly = true;
+            this.colCorreo.HeaderText = "Correo Electrónico"; // << TEXTO DE ENCABEZADO CORREGIDO
+            this.colCorreo.MinimumWidth = 6;
+            this.colCorreo.Name = "colCorreo";
+            this.colCorreo.ReadOnly = true;
             // 
             // colEstado
             // 
@@ -475,9 +489,9 @@
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.dgvClientes);
             this.Controls.Add(this.btnRegistrar);
-            this.Controls.Add(this.lblErrorFechaNacimiento);
-            this.Controls.Add(this.dtpFechaNacimiento);
-            this.Controls.Add(this.lblFechaNacimiento);
+            this.Controls.Add(this.lblErrorCorreo); // << CAMBIADO
+            this.Controls.Add(this.txtCorreo); // << CAMBIADO
+            this.Controls.Add(this.lblCorreo); // << CAMBIADO
             this.Controls.Add(this.lblErrorCiudad);
             this.Controls.Add(this.txtCiudad);
             this.Controls.Add(this.lblCiudad);
@@ -536,9 +550,9 @@
         private System.Windows.Forms.Label lblCiudad;
         private System.Windows.Forms.TextBox txtCiudad;
         private System.Windows.Forms.Label lblErrorCiudad;
-        private System.Windows.Forms.Label lblFechaNacimiento;
-        private System.Windows.Forms.DateTimePicker dtpFechaNacimiento;
-        private System.Windows.Forms.Label lblErrorFechaNacimiento;
+        private System.Windows.Forms.Label lblCorreo; // << RENOMBRADO
+        private System.Windows.Forms.TextBox txtCorreo; // << CAMBIADO
+        private System.Windows.Forms.Label lblErrorCorreo; // << RENOMBRADO
         private System.Windows.Forms.Button btnRegistrar;
         private System.Windows.Forms.DataGridView dgvClientes;
         private System.Windows.Forms.Button btnEditar;
@@ -551,7 +565,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDireccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPais;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCiudad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFechaNacimiento;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCorreo; // << RENOMBRADO
         private System.Windows.Forms.DataGridViewTextBoxColumn colEstado;
         private System.Windows.Forms.Button btnCerrar;
     }

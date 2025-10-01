@@ -17,24 +17,25 @@ namespace GestionDeVentas.Gerente
             InitializeComponent();
             ConfigurarDataGridView();
 
-            // Validaciones de tipeo
+            // Validaciones de tipeo (solo letras y números)
             this.txtNombre.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtApellido.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtPais.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtCiudad.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtDni.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
             this.txtTelefono.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
+            // El campo txtCorreo no tiene restricción de KeyPress
         }
 
         private void FormRegistrarCliente_Load(object sender, EventArgs e)
         {
             btnCerrar.BringToFront();
-            // btnEliminar.Visible = false; 
             dgvClientes.Columns["colId"].Visible = false;
 
-            listaClientes.Add(new Cliente { Nombre = "Juan", Apellido = "Pérez", Dni = "12345678", Telefono = "11223344", Direccion = "Calle Falsa 123", Pais = "Argentina", Ciudad = "Buenos Aires", FechaNacimiento = new DateTime(1990, 5, 15) });
-            listaClientes.Add(new Cliente { Nombre = "Maria", Apellido = "Gómez", Dni = "87654321", Telefono = "55667788", Direccion = "Avenida Siempreviva 742", Pais = "Argentina", Ciudad = "Rosario", FechaNacimiento = new DateTime(1985, 10, 20), Activo = false });
-            listaClientes.Add(new Cliente { Nombre = "Carlos", Apellido = "López", Dni = "99887766", Telefono = "99887766", Direccion = "Calle 10 555", Pais = "Chile", Ciudad = "Santiago", FechaNacimiento = new DateTime(1995, 3, 30) });
+            // Datos de prueba actualizados: CorreoElectronico en lugar de FechaNacimiento
+            listaClientes.Add(new Cliente { Nombre = "Juan", Apellido = "Pérez", Dni = "12345678", Telefono = "11223344", Direccion = "Calle Falsa 123", Pais = "Argentina", Ciudad = "Buenos Aires", CorreoElectronico = "juan.perez@example.com" });
+            listaClientes.Add(new Cliente { Nombre = "Maria", Apellido = "Gómez", Dni = "87654321", Telefono = "55667788", Direccion = "Avenida Siempreviva 742", Pais = "Argentina", Ciudad = "Rosario", CorreoElectronico = "maria.gomez@test.com", Activo = false });
+            listaClientes.Add(new Cliente { Nombre = "Carlos", Apellido = "López", Dni = "99887766", Telefono = "99887766", Direccion = "Calle 10 555", Pais = "Chile", Ciudad = "Santiago", CorreoElectronico = "carlos.lopez@dom.cl" });
 
             ActualizarDataGridView();
         }
@@ -46,7 +47,6 @@ namespace GestionDeVentas.Gerente
             dgvClientes.AllowUserToResizeRows = false;
             dgvClientes.AllowUserToResizeColumns = true;
             dgvClientes.ReadOnly = true;
-
             dgvClientes.CellFormatting += dgvClientes_CellFormatting;
         }
 
@@ -56,9 +56,10 @@ namespace GestionDeVentas.Gerente
             foreach (var cliente in listaClientes)
             {
                 string estado = cliente.Activo ? "Activo" : "Inactivo";
+                // Usamos colCorreo en lugar de colFechaNacimiento
                 dgvClientes.Rows.Add(cliente.Id, cliente.Nombre, cliente.Apellido, cliente.Dni,
-                                      cliente.Telefono, cliente.Direccion, cliente.Pais,
-                                      cliente.Ciudad, cliente.FechaNacimiento.ToShortDateString(), estado);
+                                     cliente.Telefono, cliente.Direccion, cliente.Pais,
+                                     cliente.Ciudad, cliente.CorreoElectronico, estado);
             }
         }
 
@@ -82,7 +83,7 @@ namespace GestionDeVentas.Gerente
                 Direccion = txtDireccion.Text,
                 Pais = txtPais.Text,
                 Ciudad = txtCiudad.Text,
-                FechaNacimiento = dtpFechaNacimiento.Value
+                CorreoElectronico = txtCorreo.Text // Usamos el nuevo TextBox
             };
 
             listaClientes.Add(nuevoCliente);
@@ -107,7 +108,7 @@ namespace GestionDeVentas.Gerente
             clienteAEditar.Direccion = txtDireccion.Text;
             clienteAEditar.Pais = txtPais.Text;
             clienteAEditar.Ciudad = txtCiudad.Text;
-            clienteAEditar.FechaNacimiento = dtpFechaNacimiento.Value;
+            clienteAEditar.CorreoElectronico = txtCorreo.Text; // Usamos el nuevo TextBox
 
             MessageBox.Show("Cliente editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
@@ -123,6 +124,8 @@ namespace GestionDeVentas.Gerente
         private bool ValidarCampos(bool esEdicion)
         {
             bool esValido = true;
+            // Patrón de validación de correo electrónico
+            string patronEmail = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
 
             lblErrorNombre.Text = " ";
             lblErrorApellido.Text = " ";
@@ -131,7 +134,7 @@ namespace GestionDeVentas.Gerente
             lblErrorDireccion.Text = " ";
             lblErrorPais.Text = " ";
             lblErrorCiudad.Text = " ";
-            lblErrorFechaNacimiento.Text = " ";
+            lblErrorCorreo.Text = " "; // Usamos la nueva etiqueta de error
 
             if (string.IsNullOrWhiteSpace(txtNombre.Text)) { lblErrorNombre.Text = "El nombre es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtApellido.Text)) { lblErrorApellido.Text = "El apellido es obligatorio."; esValido = false; }
@@ -148,7 +151,11 @@ namespace GestionDeVentas.Gerente
             if (string.IsNullOrWhiteSpace(txtPais.Text)) { lblErrorPais.Text = "El país es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtCiudad.Text)) { lblErrorCiudad.Text = "La ciudad es obligatoria."; esValido = false; }
 
-            if (dtpFechaNacimiento.Value > DateTime.Now) { lblErrorFechaNacimiento.Text = "La fecha de nacimiento no es válida."; esValido = false; }
+            // Nueva validación para Correo Electrónico
+            if (string.IsNullOrWhiteSpace(txtCorreo.Text)) { lblErrorCorreo.Text = "El correo es obligatorio."; esValido = false; }
+            else if (!Regex.IsMatch(txtCorreo.Text, patronEmail)) { lblErrorCorreo.Text = "Formato de correo inválido."; esValido = false; }
+            else if (listaClientes.Any(c => c.CorreoElectronico.Equals(txtCorreo.Text, StringComparison.OrdinalIgnoreCase) && (!esEdicion || c.Id != clienteSeleccionadoId)))
+            { lblErrorCorreo.Text = "Este correo ya está registrado."; esValido = false; }
 
             return esValido;
         }
@@ -162,7 +169,8 @@ namespace GestionDeVentas.Gerente
             txtDireccion.Clear();
             txtPais.Clear();
             txtCiudad.Clear();
-            dtpFechaNacimiento.Value = DateTime.Now;
+            txtCorreo.Clear(); // Limpiamos el nuevo campo de correo
+
             txtNombre.Focus();
 
             clienteSeleccionadoId = null;
@@ -184,7 +192,7 @@ namespace GestionDeVentas.Gerente
                 txtDireccion.Text = clienteSeleccionado.Direccion;
                 txtPais.Text = clienteSeleccionado.Pais;
                 txtCiudad.Text = clienteSeleccionado.Ciudad;
-                dtpFechaNacimiento.Value = clienteSeleccionado.FechaNacimiento;
+                txtCorreo.Text = clienteSeleccionado.CorreoElectronico; // Cargamos el correo
 
                 btnRegistrar.Visible = false;
                 btnEditar.Visible = true;
@@ -240,7 +248,8 @@ namespace GestionDeVentas.Gerente
         public string Direccion { get; set; }
         public string Pais { get; set; }
         public string Ciudad { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+        // Eliminado: public DateTime FechaNacimiento { get; set; }
+        public string CorreoElectronico { get; set; } // Agregado
         public bool Activo { get; set; } = true;
 
         public Cliente() { Id = ++IdCounter; }

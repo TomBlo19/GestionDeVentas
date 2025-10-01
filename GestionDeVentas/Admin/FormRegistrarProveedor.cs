@@ -17,23 +17,24 @@ namespace GestionDeVentas.Gerente
             InitializeComponent();
             ConfigurarDataGridView();
 
-            // Validaciones de tipeo
+            // Asignación de validaciones KeyPress
             this.txtNombre.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtEmpresa.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtPais.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtCiudad.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtDni.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
             this.txtTelefono.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
+            // txtCorreo no necesita validación KeyPress de solo números/letras
         }
 
         private void FormRegistrarProveedor_Load(object sender, EventArgs e)
         {
             btnCerrar.BringToFront();
 
-            // Datos de ejemplo
-            listaProveedores.Add(new Proveedor { Nombre = "Juan", Empresa = "Tech Solutions", Dni = "20-12345678-9", Telefono = "1133445566", Direccion = "Calle Proveedor 101", Pais = "Argentina", Ciudad = "Córdoba", FechaInicioRelacion = new DateTime(2020, 1, 15), Activo = true });
-            listaProveedores.Add(new Proveedor { Nombre = "Ana", Empresa = "Global Suministros", Dni = "30-98765432-1", Telefono = "1199887766", Direccion = "Avenida Industrial 500", Pais = "Brasil", Ciudad = "Sao Paulo", FechaInicioRelacion = new DateTime(2018, 5, 20), Activo = false });
-            listaProveedores.Add(new Proveedor { Nombre = "Pedro", Empresa = "Materiales del Sur", Dni = "27-55443322-3", Telefono = "1122334455", Direccion = "Ruta 3 Sur", Pais = "Chile", Ciudad = "Valparaíso", FechaInicioRelacion = new DateTime(2022, 10, 30), Activo = true });
+            // Datos de ejemplo: Correo reemplaza a FechaInicioRelacion
+            listaProveedores.Add(new Proveedor { Nombre = "Juan", Empresa = "Tech Solutions", Dni = "20-12345678-9", Telefono = "1133445566", Direccion = "Calle Proveedor 101", Pais = "Argentina", Ciudad = "Córdoba", Correo = "juan@tech.com", Activo = true });
+            listaProveedores.Add(new Proveedor { Nombre = "Ana", Empresa = "Global Suministros", Dni = "30-98765432-1", Telefono = "1199887766", Direccion = "Avenida Industrial 500", Pais = "Brasil", Ciudad = "Sao Paulo", Correo = "ana@global.net", Activo = false });
+            listaProveedores.Add(new Proveedor { Nombre = "Pedro", Empresa = "Materiales del Sur", Dni = "27-55443322-3", Telefono = "1122334455", Direccion = "Ruta 3 Sur", Pais = "Chile", Ciudad = "Valparaíso", Correo = "pedro@sur.cl", Activo = true });
 
             ActualizarDataGridView();
         }
@@ -55,9 +56,10 @@ namespace GestionDeVentas.Gerente
             foreach (var proveedor in listaProveedores)
             {
                 string estado = proveedor.Activo ? "Activo" : "Inactivo";
+                // Correo en lugar de FechaInicioRelacion
                 dgvProveedores.Rows.Add(proveedor.Id, proveedor.Nombre, proveedor.Empresa, proveedor.Dni,
                                          proveedor.Telefono, proveedor.Direccion, proveedor.Pais,
-                                         proveedor.Ciudad, proveedor.FechaInicioRelacion.ToShortDateString(), estado);
+                                         proveedor.Ciudad, proveedor.Correo, estado);
             }
         }
 
@@ -81,7 +83,8 @@ namespace GestionDeVentas.Gerente
                 Direccion = txtDireccion.Text,
                 Pais = txtPais.Text,
                 Ciudad = txtCiudad.Text,
-                FechaInicioRelacion = dtpFechaInicioRelacion.Value
+                // Campo Correo en lugar de FechaInicioRelacion
+                Correo = txtCorreo.Text // Usa el nuevo TextBox
             };
 
             listaProveedores.Add(nuevoProveedor);
@@ -106,7 +109,8 @@ namespace GestionDeVentas.Gerente
             proveedorAEditar.Direccion = txtDireccion.Text;
             proveedorAEditar.Pais = txtPais.Text;
             proveedorAEditar.Ciudad = txtCiudad.Text;
-            proveedorAEditar.FechaInicioRelacion = dtpFechaInicioRelacion.Value;
+            // Campo Correo en lugar de FechaInicioRelacion
+            proveedorAEditar.Correo = txtCorreo.Text;
 
             MessageBox.Show("Proveedor editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
@@ -177,6 +181,7 @@ namespace GestionDeVentas.Gerente
         {
             bool esValido = true;
 
+            // Limpiar errores
             lblErrorNombre.Text = " ";
             lblErrorEmpresa.Text = " ";
             lblErrorDni.Text = " ";
@@ -184,7 +189,8 @@ namespace GestionDeVentas.Gerente
             lblErrorDireccion.Text = " ";
             lblErrorPais.Text = " ";
             lblErrorCiudad.Text = " ";
-            lblErrorFechaInicioRelacion.Text = " ";
+            // 🗑️ ELIMINADO: lblErrorFechaInicioRelacion.Text = " ";
+            lblErrorCorreo.Text = " "; // ✅ Usamos el nuevo label de error
 
             if (string.IsNullOrWhiteSpace(txtNombre.Text)) { lblErrorNombre.Text = "El nombre es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtEmpresa.Text)) { lblErrorEmpresa.Text = "El nombre de la empresa es obligatorio."; esValido = false; }
@@ -198,7 +204,11 @@ namespace GestionDeVentas.Gerente
             if (string.IsNullOrWhiteSpace(txtDireccion.Text)) { lblErrorDireccion.Text = "La dirección es obligatoria."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtPais.Text)) { lblErrorPais.Text = "El país es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtCiudad.Text)) { lblErrorCiudad.Text = "La ciudad es obligatoria."; esValido = false; }
-            if (dtpFechaInicioRelacion.Value > DateTime.Now) { lblErrorFechaInicioRelacion.Text = "La fecha no es válida."; esValido = false; }
+
+            // ✅ VALIDACIÓN DE CORREO
+            if (string.IsNullOrWhiteSpace(txtCorreo.Text)) { lblErrorCorreo.Text = "El correo es obligatorio."; esValido = false; }
+            else if (!Regex.IsMatch(txtCorreo.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$")) { lblErrorCorreo.Text = "Formato de correo inválido."; esValido = false; }
+
 
             return esValido;
         }
@@ -212,7 +222,8 @@ namespace GestionDeVentas.Gerente
             txtDireccion.Clear();
             txtPais.Clear();
             txtCiudad.Clear();
-            dtpFechaInicioRelacion.Value = DateTime.Now;
+            txtCorreo.Clear(); // ✅ Limpiar el nuevo campo de correo
+            // 🗑️ ELIMINADO: dtpFechaInicioRelacion.Value = DateTime.Now;
             txtNombre.Focus();
 
             proveedorSeleccionadoId = null;
@@ -234,7 +245,8 @@ namespace GestionDeVentas.Gerente
                 txtDireccion.Text = proveedorSeleccionado.Direccion;
                 txtPais.Text = proveedorSeleccionado.Pais;
                 txtCiudad.Text = proveedorSeleccionado.Ciudad;
-                dtpFechaInicioRelacion.Value = proveedorSeleccionado.FechaInicioRelacion;
+                txtCorreo.Text = proveedorSeleccionado.Correo; // ✅ Cargar el Correo
+                // 🗑️ ELIMINADO: dtpFechaInicioRelacion.Value = proveedorSeleccionado.FechaInicioRelacion;
 
                 btnRegistrar.Visible = false;
                 btnEditar.Visible = true;
@@ -284,6 +296,7 @@ namespace GestionDeVentas.Gerente
         }
     }
 
+    // 💡 DEFINICIÓN DE LA CLASE PROVEEDOR CORREGIDA
     public class Proveedor
     {
         private static int IdCounter = 0;
@@ -295,7 +308,9 @@ namespace GestionDeVentas.Gerente
         public string Direccion { get; set; }
         public string Pais { get; set; }
         public string Ciudad { get; set; }
-        public DateTime FechaInicioRelacion { get; set; }
+        // 🗑️ ELIMINADO: public DateTime FechaInicioRelacion { get; set; }
+        // ✅ AGREGADO: Correo
+        public string Correo { get; set; }
         public bool Activo { get; set; } = true;
 
         public Proveedor() { Id = ++IdCounter; }

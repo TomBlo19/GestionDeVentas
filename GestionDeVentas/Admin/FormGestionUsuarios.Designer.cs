@@ -58,7 +58,7 @@ namespace GestionDeVentas.Admin
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(1280, 62);
             this.panelTop.TabIndex = 3;
-            this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
+//            this.panelTop.Paint += new System.Windows.Forms.PaintEventHandler(this.panelTop_Paint);
             // 
             // lblTitulo
             // 
@@ -102,7 +102,7 @@ namespace GestionDeVentas.Admin
             this.panelFiltros.Name = "panelFiltros";
             this.panelFiltros.Size = new System.Drawing.Size(1280, 59);
             this.panelFiltros.TabIndex = 2;
-            this.panelFiltros.Paint += new System.Windows.Forms.PaintEventHandler(this.panelFiltros_Paint);
+           // this.panelFiltros.Paint += new System.Windows.Forms.PaintEventHandler(this.panelFiltros_Paint);
             // 
             // txtBusqueda
             // 
@@ -200,7 +200,7 @@ namespace GestionDeVentas.Admin
             this.Estado.Size = new System.Drawing.Size(53, 16);
             this.Estado.TabIndex = 2;
             this.Estado.Text = "Estado:";
-            this.Estado.Click += new System.EventHandler(this.label1_Click);
+           // this.Estado.Click += new System.EventHandler(this.label1_Click);
             // 
             // FormGestionarUsuarios
             // 

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GestionDeVentas.Modelos;
+using GestionDeVentas.Datos;
+using System;
 using System.Drawing;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -9,7 +9,7 @@ namespace GestionDeVentas.Gerente
 {
     public partial class FormRegistrarProveedor : Form
     {
-        private List<Proveedor> listaProveedores = new List<Proveedor>();
+        private ProveedorDatos proveedorDatos = new ProveedorDatos();
         private int? proveedorSeleccionadoId = null;
 
         public FormRegistrarProveedor()
@@ -17,25 +17,21 @@ namespace GestionDeVentas.Gerente
             InitializeComponent();
             ConfigurarDataGridView();
 
-            // Asignación de validaciones KeyPress
+            // Validaciones KeyPress
             this.txtNombre.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtEmpresa.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtPais.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtCiudad.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtDni.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
             this.txtTelefono.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
-            // txtCorreo no necesita validación KeyPress de solo números/letras
+
+            btnActivar.Visible = false;
+            btnDesactivar.Visible = false;
         }
 
         private void FormRegistrarProveedor_Load(object sender, EventArgs e)
         {
             btnCerrar.BringToFront();
-
-            // Datos de ejemplo: Correo reemplaza a FechaInicioRelacion
-            listaProveedores.Add(new Proveedor { Nombre = "Juan", Empresa = "Tech Solutions", Dni = "20-12345678-9", Telefono = "1133445566", Direccion = "Calle Proveedor 101", Pais = "Argentina", Ciudad = "Córdoba", Correo = "juan@tech.com", Activo = true });
-            listaProveedores.Add(new Proveedor { Nombre = "Ana", Empresa = "Global Suministros", Dni = "30-98765432-1", Telefono = "1199887766", Direccion = "Avenida Industrial 500", Pais = "Brasil", Ciudad = "Sao Paulo", Correo = "ana@global.net", Activo = false });
-            listaProveedores.Add(new Proveedor { Nombre = "Pedro", Empresa = "Materiales del Sur", Dni = "27-55443322-3", Telefono = "1122334455", Direccion = "Ruta 3 Sur", Pais = "Chile", Ciudad = "Valparaíso", Correo = "pedro@sur.cl", Activo = true });
-
             ActualizarDataGridView();
         }
 
@@ -43,27 +39,37 @@ namespace GestionDeVentas.Gerente
         {
             dgvProveedores.AutoGenerateColumns = false;
             dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProveedores.ReadOnly = true;
             dgvProveedores.AllowUserToResizeRows = false;
             dgvProveedores.AllowUserToResizeColumns = true;
-            dgvProveedores.ReadOnly = true;
+            dgvProveedores.Columns.Clear();
 
-            dgvProveedores.CellFormatting += dgvProveedores_CellFormatting;
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colNombre", DataPropertyName = "Nombre", HeaderText = "Nombre", Width = 140 });
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colEmpresa", DataPropertyName = "Empresa", HeaderText = "Empresa", Width = 160 });
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCuit", DataPropertyName = "Cuit", HeaderText = "CUIT", Width = 130 });
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colTelefono", DataPropertyName = "Telefono", HeaderText = "Teléfono", Width = 110 });
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colDireccion", DataPropertyName = "Direccion", HeaderText = "Dirección", Width = 160 });
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCiudad", DataPropertyName = "Ciudad", HeaderText = "Ciudad", Width = 120 });
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colPais", DataPropertyName = "Pais", HeaderText = "País", Width = 100 });
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCorreo", DataPropertyName = "Correo", HeaderText = "Correo", Width = 170 });
+            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colEstado", DataPropertyName = "ActivoTexto", HeaderText = "Estado", Width = 100 });
+
+            dgvProveedores.RowPrePaint += dgvProveedores_RowPrePaint;
+        }
+
+        private void dgvProveedores_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var prov = dgvProveedores.Rows[e.RowIndex].DataBoundItem as Proveedor;
+            if (prov == null) return;
+
+            dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.ForeColor = prov.Activo ? Color.Black : Color.Red;
         }
 
         private void ActualizarDataGridView()
         {
-            dgvProveedores.Rows.Clear();
-            foreach (var proveedor in listaProveedores)
-            {
-                string estado = proveedor.Activo ? "Activo" : "Inactivo";
-                // Correo en lugar de FechaInicioRelacion
-                dgvProveedores.Rows.Add(proveedor.Id, proveedor.Nombre, proveedor.Empresa, proveedor.Dni,
-                                         proveedor.Telefono, proveedor.Direccion, proveedor.Pais,
-                                         proveedor.Ciudad, proveedor.Correo, estado);
-            }
+            dgvProveedores.DataSource = proveedorDatos.ObtenerProveedores();
         }
 
-        // 🔹 Helper confirmación
         private bool Confirmar(string mensaje, string titulo = "Confirmación")
         {
             return MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
@@ -72,22 +78,35 @@ namespace GestionDeVentas.Gerente
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos(false)) return;
-            if (!Confirmar("¿Deseas registrar este proveedor?")) return;
 
             var nuevoProveedor = new Proveedor
             {
-                Nombre = txtNombre.Text,
-                Empresa = txtEmpresa.Text,
-                Dni = txtDni.Text,
-                Telefono = txtTelefono.Text,
-                Direccion = txtDireccion.Text,
-                Pais = txtPais.Text,
-                Ciudad = txtCiudad.Text,
-                // Campo Correo en lugar de FechaInicioRelacion
-                Correo = txtCorreo.Text // Usa el nuevo TextBox
+                Nombre = txtNombre.Text.Trim(),
+                Empresa = txtEmpresa.Text.Trim(),
+                Cuit = txtDni.Text.Trim(),
+                Telefono = txtTelefono.Text.Trim(),
+                Direccion = txtDireccion.Text.Trim(),
+                Pais = txtPais.Text.Trim(),
+                Ciudad = txtCiudad.Text.Trim(),
+                Correo = txtCorreo.Text.Trim(),
+                Activo = true
             };
 
-            listaProveedores.Add(nuevoProveedor);
+            // Validaciones duplicados antes de confirmar
+            if (proveedorDatos.ExisteCuit(nuevoProveedor.Cuit))
+            {
+                lblErrorDni.Text = "El CUIT ya existe.";
+                return;
+            }
+            if (proveedorDatos.ExisteCorreo(nuevoProveedor.Correo))
+            {
+                lblErrorCorreo.Text = "El correo ya existe.";
+                return;
+            }
+
+            if (!Confirmar("¿Deseas registrar este proveedor?")) return;
+
+            proveedorDatos.InsertarProveedor(nuevoProveedor);
             MessageBox.Show("Proveedor registrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
             ActualizarDataGridView();
@@ -97,21 +116,33 @@ namespace GestionDeVentas.Gerente
         {
             if (!(proveedorSeleccionadoId.HasValue && ValidarCampos(true))) return;
 
-            var proveedorAEditar = listaProveedores.FirstOrDefault(p => p.Id == proveedorSeleccionadoId.Value);
-            if (proveedorAEditar == null) return;
+            var proveedorAEditar = new Proveedor
+            {
+                Id = proveedorSeleccionadoId.Value,
+                Nombre = txtNombre.Text.Trim(),
+                Empresa = txtEmpresa.Text.Trim(),
+                Cuit = txtDni.Text.Trim(),
+                Telefono = txtTelefono.Text.Trim(),
+                Direccion = txtDireccion.Text.Trim(),
+                Pais = txtPais.Text.Trim(),
+                Ciudad = txtCiudad.Text.Trim(),
+                Correo = txtCorreo.Text.Trim()
+            };
 
-            if (!Confirmar($"¿Guardar cambios para el proveedor {proveedorAEditar.Empresa}?")) return;
+            if (proveedorDatos.ExisteCuit(proveedorAEditar.Cuit, proveedorAEditar.Id))
+            {
+                lblErrorDni.Text = "El CUIT ya está en uso.";
+                return;
+            }
+            if (proveedorDatos.ExisteCorreo(proveedorAEditar.Correo, proveedorAEditar.Id))
+            {
+                lblErrorCorreo.Text = "El correo ya está en uso.";
+                return;
+            }
 
-            proveedorAEditar.Nombre = txtNombre.Text;
-            proveedorAEditar.Empresa = txtEmpresa.Text;
-            proveedorAEditar.Dni = txtDni.Text;
-            proveedorAEditar.Telefono = txtTelefono.Text;
-            proveedorAEditar.Direccion = txtDireccion.Text;
-            proveedorAEditar.Pais = txtPais.Text;
-            proveedorAEditar.Ciudad = txtCiudad.Text;
-            // Campo Correo en lugar de FechaInicioRelacion
-            proveedorAEditar.Correo = txtCorreo.Text;
+            if (!Confirmar($"¿Guardar cambios para {proveedorAEditar.Empresa}?")) return;
 
+            proveedorDatos.EditarProveedor(proveedorAEditar);
             MessageBox.Show("Proveedor editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
             ActualizarDataGridView();
@@ -125,63 +156,32 @@ namespace GestionDeVentas.Gerente
 
         private void btnActivar_Click(object sender, EventArgs e)
         {
-            if (proveedorSeleccionadoId.HasValue)
-            {
-                var proveedor = listaProveedores.FirstOrDefault(p => p.Id == proveedorSeleccionadoId.Value);
-                if (proveedor != null)
-                {
-                    if (proveedor.Activo)
-                    {
-                        MessageBox.Show("El proveedor ya está activo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                    if (Confirmar($"¿Deseas activar al proveedor {proveedor.Empresa}?"))
-                    {
-                        proveedor.Activo = true;
-                        MessageBox.Show("Proveedor activado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ActualizarDataGridView();
-                        LimpiarCampos();
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Selecciona un proveedor para activar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            if (!proveedorSeleccionadoId.HasValue) return;
+
+            if (!Confirmar("¿Deseas ACTIVAR este proveedor?")) return;
+
+            proveedorDatos.CambiarEstado(proveedorSeleccionadoId.Value, true);
+            ActualizarDataGridView();
+            btnActivar.Visible = false;
+            btnDesactivar.Visible = true;
         }
 
         private void btnDesactivar_Click(object sender, EventArgs e)
         {
-            if (proveedorSeleccionadoId.HasValue)
-            {
-                var proveedor = listaProveedores.FirstOrDefault(p => p.Id == proveedorSeleccionadoId.Value);
-                if (proveedor != null)
-                {
-                    if (!proveedor.Activo)
-                    {
-                        MessageBox.Show("El proveedor ya está inactivo.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                    if (Confirmar($"¿Deseas desactivar al proveedor {proveedor.Empresa}?"))
-                    {
-                        proveedor.Activo = false;
-                        MessageBox.Show("Proveedor desactivado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ActualizarDataGridView();
-                        LimpiarCampos();
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Selecciona un proveedor para desactivar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            if (!proveedorSeleccionadoId.HasValue) return;
+
+            if (!Confirmar("¿Deseas DESACTIVAR este proveedor?")) return;
+
+            proveedorDatos.CambiarEstado(proveedorSeleccionadoId.Value, false);
+            ActualizarDataGridView();
+            btnActivar.Visible = true;
+            btnDesactivar.Visible = false;
         }
 
         private bool ValidarCampos(bool esEdicion)
         {
             bool esValido = true;
 
-            // Limpiar errores
             lblErrorNombre.Text = " ";
             lblErrorEmpresa.Text = " ";
             lblErrorDni.Text = " ";
@@ -189,26 +189,24 @@ namespace GestionDeVentas.Gerente
             lblErrorDireccion.Text = " ";
             lblErrorPais.Text = " ";
             lblErrorCiudad.Text = " ";
-            // 🗑️ ELIMINADO: lblErrorFechaInicioRelacion.Text = " ";
-            lblErrorCorreo.Text = " "; // ✅ Usamos el nuevo label de error
+            lblErrorCorreo.Text = " ";
 
             if (string.IsNullOrWhiteSpace(txtNombre.Text)) { lblErrorNombre.Text = "El nombre es obligatorio."; esValido = false; }
-            if (string.IsNullOrWhiteSpace(txtEmpresa.Text)) { lblErrorEmpresa.Text = "El nombre de la empresa es obligatorio."; esValido = false; }
-            if (string.IsNullOrWhiteSpace(txtDni.Text)) { lblErrorDni.Text = "El DNI/CUIT es obligatorio."; esValido = false; }
-            else if (listaProveedores.Any(p => p.Dni == txtDni.Text && (!esEdicion || p.Id != proveedorSeleccionadoId)))
-            { lblErrorDni.Text = "Este DNI/CUIT ya existe."; esValido = false; }
+            if (string.IsNullOrWhiteSpace(txtEmpresa.Text)) { lblErrorEmpresa.Text = "La empresa es obligatoria."; esValido = false; }
+
+            // CUIT: formato 20-12345678-9
+            if (string.IsNullOrWhiteSpace(txtDni.Text)) { lblErrorDni.Text = "El CUIT es obligatorio."; esValido = false; }
+            else if (!Regex.IsMatch(txtDni.Text, @"^\d{2}-\d{8}-\d{1}$")) { lblErrorDni.Text = "Formato inválido. Ej: 20-12345678-9"; esValido = false; }
 
             if (string.IsNullOrWhiteSpace(txtTelefono.Text)) { lblErrorTelefono.Text = "El teléfono es obligatorio."; esValido = false; }
-            else if (!Regex.IsMatch(txtTelefono.Text, @"^\d+$")) { lblErrorTelefono.Text = "El teléfono solo puede contener números."; esValido = false; }
+            else if (!Regex.IsMatch(txtTelefono.Text, @"^[0-9\s-]+$")) { lblErrorTelefono.Text = "Solo números y guiones."; esValido = false; }
 
             if (string.IsNullOrWhiteSpace(txtDireccion.Text)) { lblErrorDireccion.Text = "La dirección es obligatoria."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtPais.Text)) { lblErrorPais.Text = "El país es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtCiudad.Text)) { lblErrorCiudad.Text = "La ciudad es obligatoria."; esValido = false; }
 
-            // ✅ VALIDACIÓN DE CORREO
             if (string.IsNullOrWhiteSpace(txtCorreo.Text)) { lblErrorCorreo.Text = "El correo es obligatorio."; esValido = false; }
-            else if (!Regex.IsMatch(txtCorreo.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$")) { lblErrorCorreo.Text = "Formato de correo inválido."; esValido = false; }
-
+            else if (!Regex.IsMatch(txtCorreo.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$")) { lblErrorCorreo.Text = "Correo inválido."; esValido = false; }
 
             return esValido;
         }
@@ -222,64 +220,50 @@ namespace GestionDeVentas.Gerente
             txtDireccion.Clear();
             txtPais.Clear();
             txtCiudad.Clear();
-            txtCorreo.Clear(); // ✅ Limpiar el nuevo campo de correo
-            // 🗑️ ELIMINADO: dtpFechaInicioRelacion.Value = DateTime.Now;
+            txtCorreo.Clear();
             txtNombre.Focus();
 
             proveedorSeleccionadoId = null;
             btnRegistrar.Visible = true;
             btnEditar.Visible = false;
+            btnActivar.Visible = false;
+            btnDesactivar.Visible = false;
         }
 
         private void dgvProveedores_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.RowIndex < listaProveedores.Count)
-            {
-                var proveedorSeleccionado = listaProveedores[e.RowIndex];
-                proveedorSeleccionadoId = proveedorSeleccionado.Id;
+            if (e.RowIndex < 0) return;
 
-                txtNombre.Text = proveedorSeleccionado.Nombre;
-                txtEmpresa.Text = proveedorSeleccionado.Empresa;
-                txtDni.Text = proveedorSeleccionado.Dni;
-                txtTelefono.Text = proveedorSeleccionado.Telefono;
-                txtDireccion.Text = proveedorSeleccionado.Direccion;
-                txtPais.Text = proveedorSeleccionado.Pais;
-                txtCiudad.Text = proveedorSeleccionado.Ciudad;
-                txtCorreo.Text = proveedorSeleccionado.Correo; // ✅ Cargar el Correo
-                // 🗑️ ELIMINADO: dtpFechaInicioRelacion.Value = proveedorSeleccionado.FechaInicioRelacion;
+            var prov = dgvProveedores.Rows[e.RowIndex].DataBoundItem as Proveedor;
+            if (prov == null) return;
 
-                btnRegistrar.Visible = false;
-                btnEditar.Visible = true;
-            }
-            else
-            {
-                LimpiarCampos();
-            }
-        }
+            proveedorSeleccionadoId = prov.Id;
 
-        private void dgvProveedores_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dgvProveedores.Columns[e.ColumnIndex].Name == "colEstado" && e.Value != null)
-            {
-                if (e.Value.ToString() == "Inactivo")
-                {
-                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
-                }
-                else
-                {
-                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                }
-            }
+            txtNombre.Text = prov.Nombre;
+            txtEmpresa.Text = prov.Empresa;
+            txtDni.Text = prov.Cuit;
+            txtTelefono.Text = prov.Telefono;
+            txtDireccion.Text = prov.Direccion;
+            txtPais.Text = prov.Pais;
+            txtCiudad.Text = prov.Ciudad;
+            txtCorreo.Text = prov.Correo;
+
+            btnRegistrar.Visible = false;
+            btnEditar.Visible = true;
+            btnActivar.Visible = !prov.Activo;
+            btnDesactivar.Visible = prov.Activo;
         }
 
         private void txt_SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-')) e.Handled = true;
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+                e.Handled = true;
         }
 
         private void txt_SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ') e.Handled = true;
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+                e.Handled = true;
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
@@ -288,31 +272,9 @@ namespace GestionDeVentas.Gerente
                 this.Close();
         }
 
-        private void lblTitulo_Click(object sender, EventArgs e) { }
-
-        private void lblDni_Click(object sender, EventArgs e)
+        private void dgvProveedores_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-    }
-
-    // 💡 DEFINICIÓN DE LA CLASE PROVEEDOR CORREGIDA
-    public class Proveedor
-    {
-        private static int IdCounter = 0;
-        public int Id { get; private set; }
-        public string Nombre { get; set; }
-        public string Empresa { get; set; }
-        public string Dni { get; set; }
-        public string Telefono { get; set; }
-        public string Direccion { get; set; }
-        public string Pais { get; set; }
-        public string Ciudad { get; set; }
-        // 🗑️ ELIMINADO: public DateTime FechaInicioRelacion { get; set; }
-        // ✅ AGREGADO: Correo
-        public string Correo { get; set; }
-        public bool Activo { get; set; } = true;
-
-        public Proveedor() { Id = ++IdCounter; }
     }
 }

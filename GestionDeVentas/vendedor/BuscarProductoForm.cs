@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows.Forms;
 
-namespace TuProyecto
+namespace GestionDeVentas
 {
     public partial class BuscarProductoForm : Form
     {
@@ -64,6 +64,11 @@ namespace TuProyecto
             {
                 MessageBox.Show("Por favor, seleccione un producto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void BuscarProductoForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

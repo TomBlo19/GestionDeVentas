@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GestionDeVentas.Modelos;
+using GestionDeVentas.Datos;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,7 +10,7 @@ namespace GestionDeVentas.Gerente
 {
     public partial class FormRegistrarCliente : Form
     {
-        private List<Cliente> listaClientes = new List<Cliente>();
+        private ClienteDatos clienteDatos = new ClienteDatos();
         private int? clienteSeleccionadoId = null;
 
         public FormRegistrarCliente()
@@ -17,26 +18,18 @@ namespace GestionDeVentas.Gerente
             InitializeComponent();
             ConfigurarDataGridView();
 
-            // Validaciones de tipeo (solo letras y números)
+            // Validaciones de tipeo
             this.txtNombre.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtApellido.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtPais.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtCiudad.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
             this.txtDni.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
             this.txtTelefono.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
-            // El campo txtCorreo no tiene restricción de KeyPress
         }
 
         private void FormRegistrarCliente_Load(object sender, EventArgs e)
         {
             btnCerrar.BringToFront();
-            dgvClientes.Columns["colId"].Visible = false;
-
-            // Datos de prueba actualizados: CorreoElectronico en lugar de FechaNacimiento
-            listaClientes.Add(new Cliente { Nombre = "Juan", Apellido = "Pérez", Dni = "12345678", Telefono = "11223344", Direccion = "Calle Falsa 123", Pais = "Argentina", Ciudad = "Buenos Aires", CorreoElectronico = "juan.perez@example.com" });
-            listaClientes.Add(new Cliente { Nombre = "Maria", Apellido = "Gómez", Dni = "87654321", Telefono = "55667788", Direccion = "Avenida Siempreviva 742", Pais = "Argentina", Ciudad = "Rosario", CorreoElectronico = "maria.gomez@test.com", Activo = false });
-            listaClientes.Add(new Cliente { Nombre = "Carlos", Apellido = "López", Dni = "99887766", Telefono = "99887766", Direccion = "Calle 10 555", Pais = "Chile", Ciudad = "Santiago", CorreoElectronico = "carlos.lopez@dom.cl" });
-
             ActualizarDataGridView();
         }
 
@@ -47,23 +40,27 @@ namespace GestionDeVentas.Gerente
             dgvClientes.AllowUserToResizeRows = false;
             dgvClientes.AllowUserToResizeColumns = true;
             dgvClientes.ReadOnly = true;
+            dgvClientes.Columns.Clear();
+
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Nombre", HeaderText = "Nombre" });
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Apellido", HeaderText = "Apellido" });
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Dni", HeaderText = "DNI" });
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Telefono", HeaderText = "Teléfono" });
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Direccion", HeaderText = "Dirección" });
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Pais", HeaderText = "País" });
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Ciudad", HeaderText = "Ciudad" });
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "CorreoElectronico", HeaderText = "Correo" });
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ActivoTexto", HeaderText = "Estado" });
+
             dgvClientes.CellFormatting += dgvClientes_CellFormatting;
         }
 
         private void ActualizarDataGridView()
         {
-            dgvClientes.Rows.Clear();
-            foreach (var cliente in listaClientes)
-            {
-                string estado = cliente.Activo ? "Activo" : "Inactivo";
-                // Usamos colCorreo en lugar de colFechaNacimiento
-                dgvClientes.Rows.Add(cliente.Id, cliente.Nombre, cliente.Apellido, cliente.Dni,
-                                     cliente.Telefono, cliente.Direccion, cliente.Pais,
-                                     cliente.Ciudad, cliente.CorreoElectronico, estado);
-            }
+            dgvClientes.DataSource = clienteDatos.ObtenerClientes();
         }
 
-        // 🔹 Helper confirmación
+        // 🔹 Confirmación
         private bool Confirmar(string mensaje, string titulo = "Confirmación")
         {
             return MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
@@ -72,6 +69,19 @@ namespace GestionDeVentas.Gerente
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos(false)) return;
+
+            // Validaciones únicas ANTES de confirmar
+            if (clienteDatos.ExisteDni(txtDni.Text))
+            {
+                lblErrorDni.Text = "El DNI ya existe.";
+                return;
+            }
+            if (clienteDatos.ExisteCorreo(txtCorreo.Text))
+            {
+                lblErrorCorreo.Text = "El correo ya existe.";
+                return;
+            }
+
             if (!Confirmar("¿Deseas registrar este cliente?")) return;
 
             var nuevoCliente = new Cliente
@@ -83,10 +93,11 @@ namespace GestionDeVentas.Gerente
                 Direccion = txtDireccion.Text,
                 Pais = txtPais.Text,
                 Ciudad = txtCiudad.Text,
-                CorreoElectronico = txtCorreo.Text // Usamos el nuevo TextBox
+                CorreoElectronico = txtCorreo.Text,
+                Activo = true
             };
 
-            listaClientes.Add(nuevoCliente);
+            clienteDatos.InsertarCliente(nuevoCliente);
             MessageBox.Show("Cliente registrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
             ActualizarDataGridView();
@@ -96,20 +107,34 @@ namespace GestionDeVentas.Gerente
         {
             if (!(clienteSeleccionadoId.HasValue && ValidarCampos(true))) return;
 
-            var clienteAEditar = listaClientes.FirstOrDefault(c => c.Id == clienteSeleccionadoId.Value);
-            if (clienteAEditar == null) return;
+            // Validaciones únicas
+            if (clienteDatos.ExisteDni(txtDni.Text, clienteSeleccionadoId.Value))
+            {
+                lblErrorDni.Text = "El DNI ya existe.";
+                return;
+            }
+            if (clienteDatos.ExisteCorreo(txtCorreo.Text, clienteSeleccionadoId.Value))
+            {
+                lblErrorCorreo.Text = "El correo ya existe.";
+                return;
+            }
 
-            if (!Confirmar($"¿Guardar cambios para {clienteAEditar.Nombre} {clienteAEditar.Apellido}?")) return;
+            if (!Confirmar("¿Guardar cambios para este cliente?")) return;
 
-            clienteAEditar.Nombre = txtNombre.Text;
-            clienteAEditar.Apellido = txtApellido.Text;
-            clienteAEditar.Dni = txtDni.Text;
-            clienteAEditar.Telefono = txtTelefono.Text;
-            clienteAEditar.Direccion = txtDireccion.Text;
-            clienteAEditar.Pais = txtPais.Text;
-            clienteAEditar.Ciudad = txtCiudad.Text;
-            clienteAEditar.CorreoElectronico = txtCorreo.Text; // Usamos el nuevo TextBox
+            var clienteAEditar = new Cliente
+            {
+                Id = clienteSeleccionadoId.Value,
+                Nombre = txtNombre.Text,
+                Apellido = txtApellido.Text,
+                Dni = txtDni.Text,
+                Telefono = txtTelefono.Text,
+                Direccion = txtDireccion.Text,
+                Pais = txtPais.Text,
+                Ciudad = txtCiudad.Text,
+                CorreoElectronico = txtCorreo.Text
+            };
 
+            clienteDatos.EditarCliente(clienteAEditar);
             MessageBox.Show("Cliente editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
             ActualizarDataGridView();
@@ -124,7 +149,6 @@ namespace GestionDeVentas.Gerente
         private bool ValidarCampos(bool esEdicion)
         {
             bool esValido = true;
-            // Patrón de validación de correo electrónico
             string patronEmail = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
 
             lblErrorNombre.Text = " ";
@@ -134,15 +158,13 @@ namespace GestionDeVentas.Gerente
             lblErrorDireccion.Text = " ";
             lblErrorPais.Text = " ";
             lblErrorCiudad.Text = " ";
-            lblErrorCorreo.Text = " "; // Usamos la nueva etiqueta de error
+            lblErrorCorreo.Text = " ";
 
             if (string.IsNullOrWhiteSpace(txtNombre.Text)) { lblErrorNombre.Text = "El nombre es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtApellido.Text)) { lblErrorApellido.Text = "El apellido es obligatorio."; esValido = false; }
 
             if (string.IsNullOrWhiteSpace(txtDni.Text)) { lblErrorDni.Text = "El DNI es obligatorio."; esValido = false; }
             else if (!Regex.IsMatch(txtDni.Text, @"^\d+$")) { lblErrorDni.Text = "El DNI solo puede contener números."; esValido = false; }
-            else if (listaClientes.Any(c => c.Dni == txtDni.Text && (!esEdicion || c.Id != clienteSeleccionadoId)))
-            { lblErrorDni.Text = "Este DNI ya existe."; esValido = false; }
 
             if (string.IsNullOrWhiteSpace(txtTelefono.Text)) { lblErrorTelefono.Text = "El teléfono es obligatorio."; esValido = false; }
             else if (!Regex.IsMatch(txtTelefono.Text, @"^\d+$")) { lblErrorTelefono.Text = "El teléfono solo puede contener números."; esValido = false; }
@@ -151,11 +173,8 @@ namespace GestionDeVentas.Gerente
             if (string.IsNullOrWhiteSpace(txtPais.Text)) { lblErrorPais.Text = "El país es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtCiudad.Text)) { lblErrorCiudad.Text = "La ciudad es obligatoria."; esValido = false; }
 
-            // Nueva validación para Correo Electrónico
             if (string.IsNullOrWhiteSpace(txtCorreo.Text)) { lblErrorCorreo.Text = "El correo es obligatorio."; esValido = false; }
             else if (!Regex.IsMatch(txtCorreo.Text, patronEmail)) { lblErrorCorreo.Text = "Formato de correo inválido."; esValido = false; }
-            else if (listaClientes.Any(c => c.CorreoElectronico.Equals(txtCorreo.Text, StringComparison.OrdinalIgnoreCase) && (!esEdicion || c.Id != clienteSeleccionadoId)))
-            { lblErrorCorreo.Text = "Este correo ya está registrado."; esValido = false; }
 
             return esValido;
         }
@@ -169,10 +188,9 @@ namespace GestionDeVentas.Gerente
             txtDireccion.Clear();
             txtPais.Clear();
             txtCiudad.Clear();
-            txtCorreo.Clear(); // Limpiamos el nuevo campo de correo
+            txtCorreo.Clear();
 
             txtNombre.Focus();
-
             clienteSeleccionadoId = null;
             btnRegistrar.Visible = true;
             btnEditar.Visible = false;
@@ -180,32 +198,30 @@ namespace GestionDeVentas.Gerente
 
         private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.RowIndex < listaClientes.Count)
+            if (e.RowIndex >= 0)
             {
-                var clienteSeleccionado = listaClientes[e.RowIndex];
-                clienteSeleccionadoId = clienteSeleccionado.Id;
+                var fila = dgvClientes.Rows[e.RowIndex].DataBoundItem as Cliente;
+                if (fila != null)
+                {
+                    clienteSeleccionadoId = fila.Id;
+                    txtNombre.Text = fila.Nombre;
+                    txtApellido.Text = fila.Apellido;
+                    txtDni.Text = fila.Dni;
+                    txtTelefono.Text = fila.Telefono;
+                    txtDireccion.Text = fila.Direccion;
+                    txtPais.Text = fila.Pais;
+                    txtCiudad.Text = fila.Ciudad;
+                    txtCorreo.Text = fila.CorreoElectronico;
 
-                txtNombre.Text = clienteSeleccionado.Nombre;
-                txtApellido.Text = clienteSeleccionado.Apellido;
-                txtDni.Text = clienteSeleccionado.Dni;
-                txtTelefono.Text = clienteSeleccionado.Telefono;
-                txtDireccion.Text = clienteSeleccionado.Direccion;
-                txtPais.Text = clienteSeleccionado.Pais;
-                txtCiudad.Text = clienteSeleccionado.Ciudad;
-                txtCorreo.Text = clienteSeleccionado.CorreoElectronico; // Cargamos el correo
-
-                btnRegistrar.Visible = false;
-                btnEditar.Visible = true;
-            }
-            else
-            {
-                LimpiarCampos();
+                    btnRegistrar.Visible = false;
+                    btnEditar.Visible = true;
+                }
             }
         }
 
         private void dgvClientes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dgvClientes.Columns[e.ColumnIndex].Name == "colEstado" && e.Value != null)
+            if (dgvClientes.Columns[e.ColumnIndex].Name == "ActivoTexto" && e.Value != null)
             {
                 if (e.Value.ToString() == "Inactivo")
                 {
@@ -233,25 +249,5 @@ namespace GestionDeVentas.Gerente
             if (Confirmar("¿Seguro que deseas cerrar esta ventana?", "Cerrar"))
                 this.Close();
         }
-
-        private void lblTitulo_Click(object sender, EventArgs e) { }
-    }
-
-    public class Cliente
-    {
-        private static int IdCounter = 0;
-        public int Id { get; private set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Dni { get; set; }
-        public string Telefono { get; set; }
-        public string Direccion { get; set; }
-        public string Pais { get; set; }
-        public string Ciudad { get; set; }
-        // Eliminado: public DateTime FechaNacimiento { get; set; }
-        public string CorreoElectronico { get; set; } // Agregado
-        public bool Activo { get; set; } = true;
-
-        public Cliente() { Id = ++IdCounter; }
     }
 }

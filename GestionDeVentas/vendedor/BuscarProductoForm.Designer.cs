@@ -1,4 +1,4 @@
-﻿namespace TuProyecto
+﻿namespace GestionDeVentas
 {
     partial class BuscarProductoForm
     {
@@ -80,6 +80,7 @@
             this.Controls.Add(this.txtBusqueda);
             this.Name = "BuscarProductoForm";
             this.Text = "BuscarProductoForm";
+            this.Load += new System.EventHandler(this.BuscarProductoForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProductos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

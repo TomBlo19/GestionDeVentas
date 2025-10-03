@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GestionDeVentas.Modelos;
+using GestionDeVentas.Datos;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,8 +10,8 @@ namespace GestionDeVentas.Admin
 {
     public partial class FormGestionarUsuarios : Form
     {
-        private readonly List<ClienteDemo> usuarios = new List<ClienteDemo>();
-        private int nextId = 1;
+        private readonly ClienteDatos clienteDatos = new ClienteDatos();
+        private List<Cliente> clientes = new List<Cliente>();
 
         private const string PLACEHOLDER = "Buscar por DNI o Apellido...";
 
@@ -20,20 +22,12 @@ namespace GestionDeVentas.Admin
 
         private void FormGestionarUsuarios_Load(object sender, EventArgs e)
         {
-            // Placeholder manual
             txtBusqueda.Text = PLACEHOLDER;
             txtBusqueda.ForeColor = Color.Gray;
-
-            // Estado por defecto
             cmbFiltroEstado.SelectedIndex = 0;
 
-            // Columnas
             ConfigurarColumnas();
-
-            // Datos demo
-            CargarDatosDemo();
-
-            // Pintar
+            CargarClientes();
             AplicarFiltros();
         }
 
@@ -41,7 +35,6 @@ namespace GestionDeVentas.Admin
         {
             dgvUsuarios.Columns.Clear();
 
-            // Columna ID (oculta)
             var colId = new DataGridViewTextBoxColumn
             {
                 Name = "Id",
@@ -58,13 +51,9 @@ namespace GestionDeVentas.Admin
             dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Estado", HeaderText = "Estado" });
         }
 
-        private void CargarDatosDemo()
+        private void CargarClientes()
         {
-            usuarios.Clear();
-            usuarios.Add(new ClienteDemo { Id = nextId++, Dni = "12345678", Nombre = "María", Apellido = "González", Telefono = "11223344", Correo = "maria@mail.com", Estado = "Activo" });
-            usuarios.Add(new ClienteDemo { Id = nextId++, Dni = "87654321", Nombre = "Carlos", Apellido = "López", Telefono = "22334455", Correo = "carlos@mail.com", Estado = "Inactivo" });
-            usuarios.Add(new ClienteDemo { Id = nextId++, Dni = "45678912", Nombre = "Ana", Apellido = "Martínez", Telefono = "33445566", Correo = "ana@mail.com", Estado = "Activo" });
-            usuarios.Add(new ClienteDemo { Id = nextId++, Dni = "11223344", Nombre = "Pedro", Apellido = "Suárez", Telefono = "44556677", Correo = "pedro@mail.com", Estado = "Activo" });
+            clientes = clienteDatos.ObtenerClientes();
         }
 
         private void AplicarFiltros()
@@ -72,27 +61,29 @@ namespace GestionDeVentas.Admin
             string texto = txtBusqueda.Text.Trim().ToLower();
             if (texto == PLACEHOLDER.ToLower()) texto = string.Empty;
 
-            string estado = cmbFiltroEstado.SelectedItem?.ToString() ?? "Todos";
+            string estadoFiltro = cmbFiltroEstado.SelectedItem?.ToString() ?? "Todos";
 
-            var filtrados = usuarios.Where(u =>
+            var filtrados = clientes.Where(u =>
                 (string.IsNullOrEmpty(texto) ||
                     u.Dni.ToLower().Contains(texto) ||
                     u.Apellido.ToLower().Contains(texto)) &&
-                (estado == "Todos" || u.Estado == estado)
+                (estadoFiltro == "Todos" ||
+                 (estadoFiltro == "Activo" && u.Activo) ||
+                 (estadoFiltro == "Inactivo" && !u.Activo))
             ).ToList();
 
             CargarEnGrid(filtrados);
         }
 
-        private void CargarEnGrid(List<ClienteDemo> lista)
+        private void CargarEnGrid(List<Cliente> lista)
         {
             dgvUsuarios.Rows.Clear();
             foreach (var u in lista)
             {
-                dgvUsuarios.Rows.Add(u.Id, u.Dni, u.Nombre, u.Apellido, u.Telefono, u.Correo, u.Estado);
+                string estado = u.Activo ? "Activo" : "Inactivo";
+                dgvUsuarios.Rows.Add(u.Id, u.Dni, u.Nombre, u.Apellido, u.Telefono, u.CorreoElectronico, estado);
             }
-
-            // Actualizar botón según selección actual
+            dgvUsuarios.ClearSelection();
             ActualizarBotonAccion();
         }
 
@@ -127,37 +118,37 @@ namespace GestionDeVentas.Admin
             if (dgvUsuarios.SelectedRows.Count == 0) return;
 
             int id = Convert.ToInt32(dgvUsuarios.SelectedRows[0].Cells["Id"].Value);
-            var user = usuarios.FirstOrDefault(x => x.Id == id);
+            var user = clientes.FirstOrDefault(x => x.Id == id);
             if (user == null) return;
 
-            if (user.Estado == "Activo")
+            if (user.Activo)
             {
-                // Confirmación para DESACTIVAR
                 var ok = MessageBox.Show(
-                    $"¿Estás seguro de DESACTIVAR al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?",
+                    $"¿Deseas DESACTIVAR al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?",
                     "Confirmar desactivación",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (ok == DialogResult.Yes)
                 {
-                    user.Estado = "Inactivo";
+                    clienteDatos.CambiarEstado(user.Id, false);
+                    user.Activo = false;
                     AplicarFiltros();
                     MessageBox.Show("Cliente desactivado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
             {
-                // Confirmación para ACTIVAR
                 var ok = MessageBox.Show(
-                    $"¿Activar nuevamente al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?",
+                    $"¿Deseas ACTIVAR nuevamente al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?",
                     "Confirmar activación",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
                 if (ok == DialogResult.Yes)
                 {
-                    user.Estado = "Activo";
+                    clienteDatos.CambiarEstado(user.Id, true);
+                    user.Activo = true;
                     AplicarFiltros();
                     MessageBox.Show("Cliente activado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -170,14 +161,17 @@ namespace GestionDeVentas.Admin
             {
                 if (string.Equals(e.Value.ToString(), "Inactivo", StringComparison.OrdinalIgnoreCase))
                 {
-                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White; // letras blancas sobre fondo rojo
                 }
                 else
                 {
+                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
                     dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
                 }
             }
         }
+
 
         private void btnCerrar_Click(object sender, EventArgs e) => this.Close();
 
@@ -194,7 +188,6 @@ namespace GestionDeVentas.Admin
             }
 
             btnAccion.Enabled = true;
-
             var estado = dgvUsuarios.SelectedRows[0].Cells["Estado"].Value?.ToString();
             if (estado == "Inactivo")
             {
@@ -207,25 +200,5 @@ namespace GestionDeVentas.Admin
                 btnAccion.BackColor = Color.FromArgb(200, 0, 0);
             }
         }
-
-        private void panelFiltros_Paint(object sender, PaintEventArgs e) { }
-        private void panelTop_Paint(object sender, PaintEventArgs e) { }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-    }
-
-    // 🔹 Clase auxiliar SOLO para este formulario
-    public class ClienteDemo
-    {
-        public int Id { get; set; }
-        public string Dni { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Telefono { get; set; }
-        public string Correo { get; set; }
-        public string Estado { get; set; }   // "Activo" | "Inactivo"
     }
 }

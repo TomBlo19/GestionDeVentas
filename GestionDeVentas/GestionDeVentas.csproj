@@ -130,8 +130,12 @@
     <Compile Include="AdmSuperior\ListarVentas.Designer.cs">
       <DependentUpon>ListarVentas.cs</DependentUpon>
     </Compile>
-    <Compile Include="AdmSuperior\Usuario.cs" />
-    <Compile Include="AdmSuperior\UsuarioDatos.cs" />
+    <Compile Include="Datos\ClienteDatos.cs" />
+    <Compile Include="Datos\ProveedorDatos.cs" />
+    <Compile Include="Modelos\Cliente.cs" />
+    <Compile Include="Modelos\Proveedor.cs" />
+    <Compile Include="Modelos\Usuario.cs" />
+    <Compile Include="Datos\UsuarioDatos.cs" />
     <Compile Include="Gerent\FormDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -297,7 +301,6 @@
     <EmbeddedResource Include="vendedor\FormVendedor.resx">
       <DependentUpon>FormVendedor.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="barraLateral\UiStyles.cs" />
     <EmbeddedResource Include="vendedor\FormVentas.resx">
       <DependentUpon>FormVentas.cs</DependentUpon>
     </EmbeddedResource>

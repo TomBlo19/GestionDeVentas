@@ -1,4 +1,4 @@
-﻿namespace TuProyecto
+﻿namespace GestionDeVentas
 {
     partial class BuscarClienteForm
     {
@@ -25,19 +25,20 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.dataGridViewClientes = new System.Windows.Forms.DataGridView();
             this.btnSeleccionar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClientes)).BeginInit();
             this.SuspendLayout();
             // 
             // txtBusqueda
             // 
-            this.txtBusqueda.Location = new System.Drawing.Point(12, 12);
+            this.txtBusqueda.Location = new System.Drawing.Point(190, 11);
             this.txtBusqueda.Name = "txtBusqueda";
             this.txtBusqueda.Size = new System.Drawing.Size(300, 20);
             this.txtBusqueda.TabIndex = 0;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(318, 10);
+            this.btnBuscar.Location = new System.Drawing.Point(523, 11);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 1;
@@ -69,17 +70,29 @@
             this.btnSeleccionar.UseVisualStyleBackColor = true;
             this.btnSeleccionar.Click += new System.EventHandler(this.btnSeleccionar_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(159, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "BUSCAR POR DNI/APELLIDO:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
             // BuscarClienteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(610, 347);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSeleccionar);
             this.Controls.Add(this.dataGridViewClientes);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtBusqueda);
             this.Name = "BuscarClienteForm";
             this.Text = "BuscarClienteForm";
+            this.Load += new System.EventHandler(this.BuscarClienteForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClientes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -87,5 +100,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Label label1;
     }
 }

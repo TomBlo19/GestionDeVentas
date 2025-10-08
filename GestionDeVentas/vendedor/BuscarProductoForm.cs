@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
+using Datos;
+using Modelos;
 
 namespace GestionDeVentas
 {
     public partial class BuscarProductoForm : Form
     {
-        // Propiedad compleja para almacenar la información completa del producto
+        private readonly ProductoDatos productoDatos = new ProductoDatos();
+
         public ProductoInfo ProductoSeleccionado { get; private set; }
 
         public BuscarProductoForm()
@@ -15,60 +20,110 @@ namespace GestionDeVentas
             this.Text = "Buscar y Seleccionar Producto";
         }
 
-        // Clase auxiliar para guardar los datos del producto (ID, Nombre, Precio, Stock, etc.)
         public class ProductoInfo
         {
             public int Id { get; set; }
             public string Nombre { get; set; }
+            public string TalleNombre { get; set; }     // ✅ agregado
             public decimal Precio { get; set; }
             public int StockDisponible { get; set; }
         }
 
-        // Evento para realizar la búsqueda
+        private void BuscarProductoForm_Load(object sender, EventArgs e)
+        {
+            CargarProductos();
+        }
+
+        private void CargarProductos(string filtro = "")
+        {
+            try
+            {
+                List<Producto> productos = productoDatos.ObtenerProductos();
+
+                // Solo productos activos
+                productos = productos
+                    .Where(p => string.Equals(p.Estado, "Activo", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                // Filtrar por texto
+                if (!string.IsNullOrWhiteSpace(filtro))
+                {
+                    filtro = filtro.ToLower();
+                    productos = productos
+                        .Where(p =>
+                            p.Nombre.ToLower().Contains(filtro) ||
+                            p.Codigo.ToLower().Contains(filtro))
+                        .ToList();
+                }
+
+                // Mostrar datos relevantes
+                var datosMostrar = productos.Select(p => new
+                {
+                    ID = p.Id,
+                    Nombre = p.Nombre,
+                    Talle = p.TalleNombre,   // ✅ mostramos el talle real
+                    Precio = p.Precio,
+                    Stock = p.Stock
+                }).ToList();
+
+                dataGridViewProductos.DataSource = datosMostrar;
+                dataGridViewProductos.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar productos: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             string textoBusqueda = txtBusqueda.Text.Trim();
-
-            // LÓGICA DE BÚSQUEDA REAL: 
-            // Aquí iría el código que llama a tu base de datos para llenar el 'dataGridViewProductos'.
-            // Asegúrate de traer las columnas: ID, Nombre, Precio y STOCK.
-
-            // EJEMPLO (Simulación de datos):
-            MessageBox.Show($"Buscando productos que coincidan con: {textoBusqueda}", "Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            // Asumiendo que el DataGridView se llenó correctamente.
+            CargarProductos(textoBusqueda);
         }
 
-        // Evento cuando se selecciona una fila y se confirma la selección
+        private void dataGridViewProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+                SeleccionarProducto();
+        }
+
         private void btnSeleccionar_Click(object sender, EventArgs e)
         {
-            if (dataGridViewProductos.SelectedRows.Count > 0)
-            {
-                DataGridViewRow row = dataGridViewProductos.SelectedRows[0];
-
-                // Se asume que las columnas están en un orden conocido o nombrado:
-                // Columna 0 = ID, Columna 1 = Nombre, Columna 2 = Precio, Columna 3 = Stock
-                ProductoSeleccionado = new ProductoInfo
-                {
-                    Id = Convert.ToInt32(row.Cells[0].Value),
-                    Nombre = row.Cells[1].Value.ToString(),
-                    Precio = Convert.ToDecimal(row.Cells[2].Value),
-                    StockDisponible = Convert.ToInt32(row.Cells[3].Value)
-                };
-
-                // Cierra la ventana, retornando el objeto ProductoSeleccionado a Form1
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Por favor, seleccione un producto.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            SeleccionarProducto();
         }
 
-        private void BuscarProductoForm_Load(object sender, EventArgs e)
+        private void SeleccionarProducto()
         {
+            if (dataGridViewProductos.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione un producto.", "Aviso",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            DataGridViewRow row = dataGridViewProductos.SelectedRows[0];
+
+            ProductoSeleccionado = new ProductoInfo
+            {
+                Id = Convert.ToInt32(row.Cells["ID"].Value),
+                Nombre = row.Cells["Nombre"].Value.ToString(),
+                TalleNombre = row.Cells["Talle"].Value?.ToString(),  // ✅ trae el talle real
+                Precio = Convert.ToDecimal(row.Cells["Precio"].Value),
+                StockDisponible = Convert.ToInt32(row.Cells["Stock"].Value)
+            };
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void txtBusqueda_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                btnBuscar.PerformClick();
+            }
         }
     }
 }

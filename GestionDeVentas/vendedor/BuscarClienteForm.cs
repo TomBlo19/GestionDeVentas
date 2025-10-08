@@ -2,6 +2,8 @@
 using GestionDeVentas.Modelos;
 using System;
 using System.Windows.Forms;
+using Modelos;
+using Datos;
 
 namespace GestionDeVentas
 {

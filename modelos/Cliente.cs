@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionDeVentas.Modelos
+namespace Modelos
 {
     public class Cliente
     {

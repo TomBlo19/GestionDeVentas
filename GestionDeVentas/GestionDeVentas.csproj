@@ -130,12 +130,6 @@
     <Compile Include="AdmSuperior\ListarVentas.Designer.cs">
       <DependentUpon>ListarVentas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Datos\ClienteDatos.cs" />
-    <Compile Include="Datos\ProveedorDatos.cs" />
-    <Compile Include="Modelos\Cliente.cs" />
-    <Compile Include="Modelos\Proveedor.cs" />
-    <Compile Include="Modelos\Usuario.cs" />
-    <Compile Include="Datos\UsuarioDatos.cs" />
     <Compile Include="Gerent\FormDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -394,6 +388,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon_add.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Datos\Datos.csproj">
+      <Project>{7fa9fead-68ce-4350-a64b-b5044c231f33}</Project>
+      <Name>Datos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modelos\Modelos.csproj">
+      <Project>{f7b01518-8649-4052-8fc5-424d03229467}</Project>
+      <Name>Modelos</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

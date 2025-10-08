@@ -254,19 +254,18 @@ namespace GestionDeVentas.Admin
                 esValido = false;
             }
 
-            if (usuarioSeleccionadoId == null) // solo en registro
+            // Validar contraseña tanto en registro como en edición
+            if (string.IsNullOrWhiteSpace(txtContrasena.Text))
             {
-                if (string.IsNullOrWhiteSpace(txtContrasena.Text))
-                {
-                    lblErrorContrasena.Text = "La contraseña es obligatoria.";
-                    esValido = false;
-                }
-                if (txtContrasena.Text != txtConfirmarContrasena.Text)
-                {
-                    lblErrorConfirmar.Text = "Las contraseñas no coinciden.";
-                    esValido = false;
-                }
+                lblErrorContrasena.Text = "La contraseña es obligatoria.";
+                esValido = false;
             }
+            else if (txtContrasena.Text != txtConfirmarContrasena.Text)
+            {
+                lblErrorConfirmar.Text = "Las contraseñas no coinciden.";
+                esValido = false;
+            }
+
 
             return esValido;
         }

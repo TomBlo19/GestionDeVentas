@@ -6,7 +6,8 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && (components != null))
+                components.Dispose();
             base.Dispose(disposing);
         }
 
@@ -31,7 +32,8 @@
             this.colCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMetodoPago = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnCerrar = new System.Windows.Forms.Button(); // Añadimos el nuevo botón
+            this.colVer = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btnCerrar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,7 +120,7 @@
             this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
             this.btnBuscar.FlatAppearance.BorderSize = 0;
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
             this.btnBuscar.Location = new System.Drawing.Point(420, 120);
             this.btnBuscar.Name = "btnBuscar";
@@ -158,7 +160,8 @@
             this.colFecha,
             this.colCliente,
             this.colMetodoPago,
-            this.colTotal});
+            this.colTotal,
+            this.colVer});
             this.dgvVentas.Location = new System.Drawing.Point(20, 230);
             this.dgvVentas.Name = "dgvVentas";
             this.dgvVentas.ReadOnly = true;
@@ -166,6 +169,7 @@
             this.dgvVentas.RowTemplate.Height = 24;
             this.dgvVentas.Size = new System.Drawing.Size(944, 529);
             this.dgvVentas.TabIndex = 11;
+            this.dgvVentas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVentas_CellContentClick);
             this.dgvVentas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVentas_CellDoubleClick);
             // 
             // colNroFactura
@@ -203,13 +207,23 @@
             this.colTotal.Name = "colTotal";
             this.colTotal.ReadOnly = true;
             // 
+            // colVer
+            // 
+            this.colVer.HeaderText = "";
+            this.colVer.MinimumWidth = 6;
+            this.colVer.Name = "colVer";
+            this.colVer.ReadOnly = true;
+            this.colVer.Text = "Ver factura";
+            this.colVer.UseColumnTextForButtonValue = true;
+            this.colVer.Width = 120;
+            // 
             // btnCerrar
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCerrar.BackColor = System.Drawing.Color.Crimson;
             this.btnCerrar.FlatAppearance.BorderSize = 0;
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
             this.btnCerrar.Location = new System.Drawing.Point(924, 10);
             this.btnCerrar.Name = "btnCerrar";
@@ -265,6 +279,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colCliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMetodoPago;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTotal;
-        private System.Windows.Forms.Button btnCerrar; // Declaro el nuevo botón
+        private System.Windows.Forms.DataGridViewButtonColumn colVer;
+        private System.Windows.Forms.Button btnCerrar;
     }
 }

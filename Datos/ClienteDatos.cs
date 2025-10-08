@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Modelos;
 
-namespace GestionDeVentas.Datos
+namespace Datos
 {
     public class ClienteDatos
     {
-        // Ajustá si tu instancia o base cambian
+        
         private readonly string connectionString =
             "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
 
-        // LISTAR
+
         public List<Cliente> ObtenerClientes()
         {
             var lista = new List<Cliente>();

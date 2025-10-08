@@ -2,10 +2,10 @@
 using GestionDeVentas.Gerent;
 using GestionDeVentas.AdmSuperior;
 using GestionDeVentas.vendedor;
+using Modelos; 
 using System;
-using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -16,33 +16,23 @@ namespace gestionDeVentas
         private const int MAX_INTENTOS = 5;
         private int intentos = 0;
 
-        private class Usuario
-        {
-            public string User { get; set; }
-            public string Pass { get; set; }
-            public string Rol { get; set; }
-        }
-
-        private readonly List<Usuario> usuariosDemo =
-            new List<Usuario>
-            {
-                new Usuario { User = "vendedor", Pass = "123456789", Rol = "Vendedor" },
-                new Usuario { User = "gerente", Pass = "123456789", Rol = "Gerente" },
-                new Usuario { User = "administrador", Pass = "123456789", Rol = "Admin" },
-                new Usuario { User = "administradorSuper", Pass = "123456789", Rol = "AdminSuperior" },
-            };
+        // 🔹 Cadena de conexión (ajustá si tu instancia es distinta)
+        private readonly string connectionString =
+            "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
 
         public inicioSesion()
         {
             InitializeComponent();
             this.AcceptButton = btnIngresar;
+
             try
             {
                 this.logoTYV.Image = global::GestionDeVentas.Properties.Resources.logo_empresa;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar el logo: " + ex.Message, "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar el logo: " + ex.Message,
+                    "Error de Imagen", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -56,53 +46,139 @@ namespace gestionDeVentas
             if (!ValidarFormulario()) return;
 
             if (Control.IsKeyLocked(Keys.CapsLock))
+            {
                 MessageBox.Show("Tienes activado CAPS LOCK. Verifica la contraseña.",
                     "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-            string usuario = txtUsuario.Text.Trim();
-            string pass = txtPassword.Text;
-
-            var usuarioEncontrado = usuariosDemo.FirstOrDefault(x =>
-                x.User.Equals(usuario, StringComparison.OrdinalIgnoreCase) && x.Pass == pass);
-
-            if (usuarioEncontrado != null)
-            {
-                MessageBox.Show($"Bienvenido {usuarioEncontrado.User} (Rol: {usuarioEncontrado.Rol})", "Login exitoso",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                Form frm = null;
-                switch (usuarioEncontrado.Rol)
-                {
-                    case "Vendedor":
-                        frm = new GestionDeVentas.vendedor.FormVendedor();
-                        break;
-                    case "Gerente":
-                        frm = new FormGerentePanel();
-                        break;
-                    case "Admin":
-                        frm = new Form1();
-                        break;
-                    case "AdminSuperior":
-                        frm = new GestionDeVentas.AdmSuperior.FormAdminSuperior();
-                        break;
-                }
-
-                if (frm != null)
-                {
-                    frm.Show();
-                    this.Hide();
-                    // 🔹 al cerrar sesión en el panel, se limpian los campos y se muestra de nuevo el login
-                    frm.FormClosed += (s, args) =>
-                    {
-                        this.LimpiarCampos();
-                        this.Show();
-                    };
-                }
-                return;
             }
 
+            string correoIngresado = txtUsuario.Text.Trim();
+            string contrasenaIngresada = txtPassword.Text.Trim();
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT u.id_usuario, u.nombre_usuario, u.apellido_usuario,
+                           u.contrasena_usuario, u.estado_usuario,
+                           t.nombre_tipo AS Rol
+                    FROM usuario u
+                    INNER JOIN tipo_usuario t ON u.id_tipo_usuario = t.id_tipo_usuario
+                    WHERE u.correo_usuario = @Correo;";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Correo", correoIngresado);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // ✅ Leemos todos los campos
+                            int idUsuario = Convert.ToInt32(reader["id_usuario"]);
+                            string contrasenaDB = reader["contrasena_usuario"].ToString();
+                            string estado = reader["estado_usuario"].ToString();
+                            string rol = reader["Rol"].ToString();
+                            string nombre = reader["nombre_usuario"].ToString();
+                            string apellido = reader["apellido_usuario"].ToString();
+
+                            // 🔹 Validar estado
+                            if (!string.Equals(estado, "activo", StringComparison.OrdinalIgnoreCase))
+                            {
+                                MessageBox.Show("El usuario está inactivo. No puede iniciar sesión.",
+                                    "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+
+                            // 🔹 Validar contraseña
+                            if (!string.Equals(contrasenaDB, contrasenaIngresada))
+                            {
+                                MessageBox.Show("La contraseña no coincide. Verifica los datos e intenta nuevamente.",
+                                    "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                IntentoFallido();
+                                return;
+                            }
+
+                            // ✅ Guardamos los datos de sesión
+                            SesionActual.IdUsuario = idUsuario;
+                            SesionActual.NombreCompleto = $"{nombre} {apellido}";
+                            SesionActual.Rol = rol;
+
+                            // ✅ Abrir panel según rol
+                            if (!AbrirFormularioPorRol(rol, nombre, apellido))
+                                return;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El correo ingresado no existe o es incorrecto.",
+                                "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            IntentoFallido();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Abre el formulario correspondiente al rol. Devuelve true si se abrió correctamente.
+        /// </summary>
+        private bool AbrirFormularioPorRol(string rolOriginal, string nombre, string apellido)
+        {
+            // Normalizamos el rol: minúsculas y sin espacios/guiones/puntos/guiones bajos
+            string key = Regex.Replace((rolOriginal ?? "").Trim(), @"[\s._-]+", "")
+                               .ToLowerInvariant();
+
+            Form frm = null;
+            switch (key)
+            {
+                case "vendedor":
+                    frm = new GestionDeVentas.vendedor.FormVendedor();
+                    break;
+
+                case "gerente":
+                    frm = new FormGerentePanel();
+                    break;
+
+                case "admin":
+                case "administrador":
+                    frm = new Form1();
+                    break;
+
+                case "adminsuperior":
+                case "administradorsuperior":
+                    frm = new GestionDeVentas.AdmSuperior.FormAdminSuperior();
+                    break;
+
+                default:
+                    MessageBox.Show(
+                        $"Rol desconocido o no asignado: \"{rolOriginal}\".\n" +
+                        "Contacte al administrador.",
+                        "Error de Rol", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+            }
+
+            // ✅ Mostramos bienvenida y abrimos panel
+            MessageBox.Show($"Bienvenido {nombre} {apellido}\nRol: {rolOriginal}",
+                "Inicio de sesión exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            frm.Show();
+            this.Hide();
+
+            frm.FormClosed += (s, args) =>
+            {
+                this.LimpiarCampos();
+                this.Show();
+            };
+
+            return true;
+        }
+
+        // 🔹 Intento fallido
+        private void IntentoFallido()
+        {
             intentos++;
             int restantes = MAX_INTENTOS - intentos;
+
             if (restantes <= 0)
             {
                 BloquearLogin();
@@ -111,34 +187,37 @@ namespace gestionDeVentas
 
             MessageBox.Show($"Usuario o contraseña inválidos. Intentos restantes: {restantes}",
                 "Error de inicio de sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             txtPassword.Clear();
             txtPassword.Focus();
         }
 
-        // Métodos de validación y estilo restantes...
-        private void btnIngresar_MouseEnter(object sender, EventArgs e)
+        // 🔹 Bloqueo de login tras varios intentos fallidos
+        private void BloquearLogin()
         {
-            btnIngresar.BackColor = Color.FromArgb(205, 151, 92);
+            txtUsuario.Enabled = false;
+            txtPassword.Enabled = false;
+            btnIngresar.Enabled = false;
+
+            MessageBox.Show(
+                "Has superado el máximo de intentos. El inicio de sesión queda bloqueado.\n" +
+                "Cierra y vuelve a abrir la aplicación para reintentar.",
+                "Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
-        private void btnIngresar_MouseLeave(object sender, EventArgs e)
-        {
-            btnIngresar.BackColor = Color.FromArgb(94, 64, 44);
-        }
+
+        // 🔹 Validaciones básicas
         private bool ValidarFormulario()
         {
             errorProvider1.Clear();
             bool ok = true;
+
             string u = txtUsuario.Text.Trim();
             if (string.IsNullOrWhiteSpace(u))
             {
-                errorProvider1.SetError(txtUsuario, "El usuario es obligatorio.");
+                errorProvider1.SetError(txtUsuario, "El correo es obligatorio.");
                 ok = false;
             }
-            else if (u.Length < 4 || u.Length > 30 || !Regex.IsMatch(u, @"^[A-Za-z0-9._-]+$"))
-            {
-                errorProvider1.SetError(txtUsuario, "4-30 caracteres. Solo letras, números y ._-");
-                ok = false;
-            }
+
             string p = txtPassword.Text;
             if (string.IsNullOrEmpty(p))
             {
@@ -150,22 +229,18 @@ namespace gestionDeVentas
                 errorProvider1.SetError(txtPassword, "Mínimo 4 caracteres.");
                 ok = false;
             }
+
             return ok;
         }
-        private void BloquearLogin()
+
+        private void btnIngresar_MouseEnter(object sender, EventArgs e)
         {
-            txtUsuario.Enabled = false;
-            txtPassword.Enabled = false;
-            btnIngresar.Enabled = false;
-            MessageBox.Show(
-                "Has superado el máximo de intentos. El inicio de sesión queda bloqueado.\n" +
-                "Cierra y vuelve a abrir la aplicación para reintentar.",
-                "Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            btnIngresar.BackColor = Color.FromArgb(205, 151, 92);
         }
 
-        private void table_Paint(object sender, PaintEventArgs e)
+        private void btnIngresar_MouseLeave(object sender, EventArgs e)
         {
-
+            btnIngresar.BackColor = Color.FromArgb(94, 64, 44);
         }
 
         private void inicioSesion_Load(object sender, EventArgs e)
@@ -173,7 +248,6 @@ namespace gestionDeVentas
             LimpiarCampos();
         }
 
-        // 🔹 NUEVO MÉTODO PARA LIMPIAR CAMPOS
         private void LimpiarCampos()
         {
             txtUsuario.Clear();
@@ -183,5 +257,8 @@ namespace gestionDeVentas
             errorProvider1.Clear();
             txtUsuario.Focus();
         }
+
+        private void table_Paint(object sender, PaintEventArgs e) { }
+        private void lblUsuario_Click(object sender, EventArgs e) { }
     }
 }

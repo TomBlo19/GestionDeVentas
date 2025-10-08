@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Modelos;
+using Datos;
 
 namespace GestionDeVentas.Admin
 {
@@ -199,6 +201,11 @@ namespace GestionDeVentas.Admin
                 btnAccion.Text = "Desactivar Cliente";
                 btnAccion.BackColor = Color.FromArgb(200, 0, 0);
             }
+        }
+
+        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

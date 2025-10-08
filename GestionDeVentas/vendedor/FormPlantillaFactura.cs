@@ -1,16 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
-using GestionDeVentas.Modelos; // 🔹 Para la clase Cliente
-using GestionDeVentas;         // 🔹 Donde está BuscarClienteForm y BuscarProductoForm
+using Datos;
+using Modelos;
 
 namespace GestionDeVentas.Vendedor
 {
     public partial class FormFactura : Form
     {
-        private int numeroFactura = 12;
-        private string vendedorActual = "V001 - Tomás Bolo";
+        private readonly FacturaDatos facturaDatos = new FacturaDatos();
+        private readonly DetalleFacturaDatos detalleDatos = new DetalleFacturaDatos();
+        private readonly MetodoPagoDatos metodoPagoDatos = new MetodoPagoDatos();
+        private readonly ProductoDatos productoDatos = new ProductoDatos();
+
+        private object productoSeleccionadoTmp = null;
+        private int? idClienteSeleccionado = null;
 
         public FormFactura()
         {
@@ -19,27 +26,22 @@ namespace GestionDeVentas.Vendedor
 
         private void FormFactura_Load(object sender, EventArgs e)
         {
-            lblNroFactura.Text = $"Nº Factura: {numeroFactura:D6}";
-            lblFecha.Text = $"Fecha: {DateTime.Now.ToShortDateString()}";
-            lblVendedorActual.Text = $"Vendedor: {vendedorActual}";
+            lblNroFactura.Text = "Nº Factura: (se genera al guardar)";
+            lblFecha.Text = $"Fecha: {DateTime.Now:dd/MM/yyyy}";
+            lblVendedorActual.Text = $"Vendedor: {SesionActual.NombreCompleto} (ID: {SesionActual.IdUsuario})";
 
-            cmbMetodoPago.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Transferencia" });
-            cmbMetodoPago.SelectedIndex = 0;
+            CargarMetodosPago();
 
-            SetPlaceholder(txtInfoPago, "Número, vencimiento, CVV");
+            txtDni.ReadOnly = txtNombre.ReadOnly = txtContacto.ReadOnly = true;
+            txtBuscarCliente.ReadOnly = txtBuscarProducto.ReadOnly = true;
 
-            // Campos del cliente solo lectura
-            txtDni.ReadOnly = true;
-            txtNombre.ReadOnly = true;
-            //txtDireccion.ReadOnly = true;
-            txtContacto.ReadOnly = true;
-            txtBuscarCliente.ReadOnly = true;
-            txtBuscarProducto.ReadOnly = true;
-
-            cmbMetodoPago_SelectedIndexChanged(null, null);
+            pnlSeleccionProducto.Visible = false;
+            SetPlaceholder(txtInfoPago, "—");
         }
 
-        // === Placeholders ===
+        // --------------------------
+        // PLACEHOLDERS
+        // --------------------------
         private void SetPlaceholder(TextBox txt, string placeholder)
         {
             txt.ForeColor = Color.Gray;
@@ -67,205 +69,390 @@ namespace GestionDeVentas.Vendedor
             };
         }
 
-        // ----------------------------------------------------------------------
-        // Buscar Cliente
-        // ----------------------------------------------------------------------
+        // --------------------------
+        // MÉTODOS DE PAGO
+        // --------------------------
+        private void CargarMetodosPago()
+        {
+            try
+            {
+                var metodos = metodoPagoDatos.ObtenerMetodosPago();
+                cmbMetodoPago.DataSource = metodos;
+                cmbMetodoPago.DisplayMember = "NombreMetodo";
+                cmbMetodoPago.ValueMember = "IdMetodoPago";
+                cmbMetodoPago.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar métodos de pago: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // --------------------------
+        // CLIENTE
+        // --------------------------
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
-            using (BuscarClienteForm buscarCliente = new BuscarClienteForm())
+            using (var frm = new BuscarClienteForm())
             {
-                if (buscarCliente.ShowDialog() == DialogResult.OK)
+                if (frm.ShowDialog() == DialogResult.OK && frm.ClienteSeleccionado != null)
                 {
-                    Cliente cliente = buscarCliente.ClienteSeleccionado; // 🔹 Es un objeto Cliente
-
-                    if (cliente != null)
-                    {
-                        // Cargo los datos del cliente en los textboxes
-                        txtBuscarCliente.Text = $"{cliente.Apellido}, {cliente.Nombre}";
-                        txtDni.Text = cliente.Dni;
-                        txtNombre.Text = $"{cliente.Nombre} {cliente.Apellido}";
-                        //txtDireccion.Text = cliente.Direccion;
-                        txtContacto.Text = cliente.CorreoElectronico;
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se seleccionó ningún cliente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    var c = frm.ClienteSeleccionado;
+                    idClienteSeleccionado = c.Id;
+                    txtBuscarCliente.Text = $"{c.Apellido}, {c.Nombre}";
+                    txtDni.Text = c.Dni;
+                    txtNombre.Text = $"{c.Nombre} {c.Apellido}";
+                    txtContacto.Text = c.CorreoElectronico;
                 }
             }
         }
 
-        // ----------------------------------------------------------------------
-        // Buscar Producto
-        // ----------------------------------------------------------------------
+        // --------------------------
+        // PRODUCTO
+        // --------------------------
         private void btnBuscarProducto_Click(object sender, EventArgs e)
         {
-            using (BuscarProductoForm buscarProducto = new BuscarProductoForm())
+            using (var frm = new BuscarProductoForm())
             {
-                if (buscarProducto.ShowDialog() == DialogResult.OK)
+                if (frm.ShowDialog() == DialogResult.OK && frm.ProductoSeleccionado != null)
                 {
-                    var p = buscarProducto.ProductoSeleccionado; // 🔹 Igual que Cliente, pero con Producto
+                    var p = frm.ProductoSeleccionado;
+                    productoSeleccionadoTmp = p;
 
-                    if (p != null)
-                    {
-                        string talle = (p.GetType().GetProperty("Talle") != null)
-                            ? (string)p.GetType().GetProperty("Talle").GetValue(p)
-                            : "N/A";
-
-                        foreach (DataGridViewRow row in dgvDetalle.Rows)
-                        {
-                            if (row.Cells["colCodigo"].Value?.ToString() == p.Id.ToString())
-                            {
-                                int cantidadActual = Convert.ToInt32(row.Cells["colCantidad"].Value);
-                                row.Cells["colCantidad"].Value = cantidadActual + 1;
-                                dgvDetalle_CellEndEdit(dgvDetalle, new DataGridViewCellEventArgs(dgvDetalle.Columns["colCantidad"].Index, row.Index));
-                                return;
-                            }
-                        }
-
-                        dgvDetalle.Rows.Add(
-                            p.Id.ToString(),
-                            p.Nombre,
-                            talle,
-                            1,
-                            p.Precio.ToString("N2", CultureInfo.CurrentCulture),
-                            p.Precio.ToString("C", CultureInfo.CurrentCulture)
-                        );
-
-                        txtBuscarProducto.Text = $"Producto cargado. Stock: {p.StockDisponible}";
-                        CalcularTotales();
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se seleccionó ningún producto.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    // ✅ Mostrar talle y stock real
+                    txtBuscarProducto.Text = $"{p.Nombre} | Talle: {p.TalleNombre} | Stock: {p.StockDisponible}";
+                    pnlSeleccionProducto.Visible = true;
+                    txtCantidadSeleccionada.Text = "1";
+                    txtCantidadSeleccionada.Focus();
                 }
             }
         }
 
-        // === Calcular totales ===
-        private void dgvDetalle_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void btnAgregarAlDetalle_Click(object sender, EventArgs e)
         {
-            var row = dgvDetalle.Rows[e.RowIndex];
-
-            if (e.ColumnIndex == dgvDetalle.Columns["colCantidad"].Index)
+            if (productoSeleccionadoTmp == null)
             {
-                if (!int.TryParse(row.Cells["colCantidad"].Value?.ToString(), out int cantidad) || cantidad <= 0)
+                MessageBox.Show("Seleccione un producto primero.", "Aviso",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            dynamic p = productoSeleccionadoTmp;
+
+            if (!int.TryParse(txtCantidadSeleccionada.Text, out int cantidad) || cantidad <= 0)
+            {
+                MessageBox.Show("Ingrese una cantidad válida (>0).", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtCantidadSeleccionada.Focus();
+                return;
+            }
+
+            if (cantidad > p.StockDisponible)
+            {
+                MessageBox.Show($"Stock insuficiente. Disponible: {p.StockDisponible}", "Aviso",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Si ya existe → sumar cantidad
+            foreach (DataGridViewRow row in dgvDetalle.Rows)
+            {
+                if (row.IsNewRow) continue;
+                if (row.Cells["colCodigo"].Value?.ToString() == p.Id.ToString())
                 {
-                    MessageBox.Show("La cantidad debe ser un número mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    row.Cells["colCantidad"].Value = 1;
+                    int actual = Convert.ToInt32(row.Cells["colCantidad"].Value);
+                    int nueva = actual + cantidad;
+                    if (nueva > p.StockDisponible)
+                    {
+                        MessageBox.Show("La cantidad total supera el stock disponible.", "Aviso",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    row.Cells["colCantidad"].Value = nueva;
+                    RecalcularFila(row);
+                    CalcularTotales();
+                    pnlSeleccionProducto.Visible = false;
+                    return;
                 }
             }
 
-            if (row.Cells["colCantidad"].Value != null && row.Cells["colPrecio"].Value != null)
-            {
-                int cantidad = Convert.ToInt32(row.Cells["colCantidad"].Value);
-                decimal.TryParse(row.Cells["colPrecio"].Value.ToString().Replace(CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol, ""), out decimal precio);
-                row.Cells["colSubtotal"].Value = (cantidad * precio).ToString("C", CultureInfo.CurrentCulture);
-            }
+            // ✅ Agregar producto con talle real
+            dgvDetalle.Rows.Add(
+                p.Id.ToString(),
+                p.Nombre,
+                p.TalleNombre,
+                cantidad,
+                p.Precio.ToString("N2"),
+                (cantidad * p.Precio).ToString("C")
+            );
 
+            pnlSeleccionProducto.Visible = false;
             CalcularTotales();
         }
 
-        private void dgvDetalle_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void RecalcularFila(DataGridViewRow row)
         {
-            if (e.RowIndex >= 0
-                && e.ColumnIndex == dgvDetalle.Columns["colEliminar"].Index
-                && !dgvDetalle.Rows[e.RowIndex].IsNewRow)
+            if (int.TryParse(row.Cells["colCantidad"].Value?.ToString(), out int cant) &&
+                decimal.TryParse(row.Cells["colPrecio"].Value?.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out decimal precio))
             {
-                dgvDetalle.Rows.RemoveAt(e.RowIndex);
-                CalcularTotales();
+                row.Cells["colSubtotal"].Value = (cant * precio).ToString("C");
             }
         }
 
-        private void txtMontoEntregado_TextChanged(object sender, EventArgs e) => CalcularTotales();
+        private void dgvDetalle_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (e.ColumnIndex != dgvDetalle.Columns["colEliminar"].Index) return;
 
+            var fila = dgvDetalle.Rows[e.RowIndex];
+            if (fila.IsNewRow || fila.Cells["colCodigo"].Value == null) return;
+
+            dgvDetalle.Rows.RemoveAt(e.RowIndex);
+            CalcularTotales();
+        }
+
+        // --------------------------
+        // TOTALES
+        // --------------------------
+        private void CalcularTotales()
+        {
+            decimal subtotal = 0m;
+
+            foreach (DataGridViewRow row in dgvDetalle.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                if (!int.TryParse(row.Cells["colCantidad"].Value?.ToString(), out int cant)) continue;
+                if (!decimal.TryParse(row.Cells["colPrecio"].Value?.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out decimal precio)) continue;
+
+                decimal linea = cant * precio;
+                row.Cells["colSubtotal"].Value = linea.ToString("C");
+                subtotal += linea;
+            }
+
+            decimal iva = subtotal * 0.21m;
+            decimal total = subtotal + iva;
+
+            txtSubtotal.Text = subtotal.ToString("C");
+            txtIVA.Text = iva.ToString("C");
+            txtTotal.Text = total.ToString("C");
+
+            txtMontoEntregado_TextChanged(null, null);
+        }
+
+        // --------------------------
+        // MÉTODO DE PAGO (UI)
+        // --------------------------
         private void cmbMetodoPago_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string metodoSeleccionado = cmbMetodoPago.SelectedItem.ToString();
-            bool esEfectivo = metodoSeleccionado == "Efectivo";
+            if (cmbMetodoPago.SelectedItem == null) return;
+
+            string metodo = ((MetodoPago)cmbMetodoPago.SelectedItem).NombreMetodo;
+
+            bool esEfectivo = metodo.Equals("Efectivo", StringComparison.OrdinalIgnoreCase);
+            bool esTarjeta = metodo.Equals("Tarjeta", StringComparison.OrdinalIgnoreCase);
+            bool esTransferencia = metodo.Equals("Transferencia", StringComparison.OrdinalIgnoreCase);
+
+            txtMontoEntregado.Text = "";
+            txtVuelto.Text = "";
+            txtInfoPago.Text = "";
+            txtInfoPago.ForeColor = Color.Black;
 
             lblMontoEntregado.Visible = esEfectivo;
             txtMontoEntregado.Visible = esEfectivo;
             lblVuelto.Visible = esEfectivo;
             txtVuelto.Visible = esEfectivo;
 
-            lblInfoPago.Visible = !esEfectivo;
-            txtInfoPago.Visible = !esEfectivo;
+            lblInfoPago.Visible = esTarjeta || esTransferencia;
+            txtInfoPago.Visible = esTarjeta || esTransferencia;
 
-            if (metodoSeleccionado == "Tarjeta")
+            if (esTarjeta)
             {
-                lblInfoPago.Text = "Datos de Tarjeta:";
-                SetPlaceholder(txtInfoPago, "Número, vencimiento, CVV");
+                lblInfoPago.Text = "Número de Tarjeta:";
+                SetPlaceholder(txtInfoPago, "Ej.: 4567-8901-2345-6789");
             }
-            else if (metodoSeleccionado == "Transferencia")
+            else if (esTransferencia)
             {
-                lblInfoPago.Text = "Datos de Transferencia:";
-                SetPlaceholder(txtInfoPago, "Nº de Referencia / ID de Transacción");
+                lblInfoPago.Text = "N°/ID de Transferencia:";
+                SetPlaceholder(txtInfoPago, "Ej.: TRANS-00123 / CBU");
             }
 
-            if (!esEfectivo) txtMontoEntregado.Text = "";
             CalcularTotales();
         }
 
-        private void CalcularTotales()
+        // --------------------------
+        // CÁLCULO DE VUELTO
+        // --------------------------
+        private void txtMontoEntregado_TextChanged(object sender, EventArgs e)
         {
-            decimal subtotal = 0;
-            foreach (DataGridViewRow row in dgvDetalle.Rows)
+            if (cmbMetodoPago.SelectedItem == null) return;
+
+            string metodo = ((MetodoPago)cmbMetodoPago.SelectedItem).NombreMetodo;
+            if (!metodo.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
             {
-                if (!row.IsNewRow && row.Cells["colSubtotal"].Value != null)
-                {
-                    string subtotalStr = row.Cells["colSubtotal"].Value.ToString().Replace(CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol, "").Trim();
-                    if (decimal.TryParse(subtotalStr, NumberStyles.Number | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out decimal rowSubtotal))
-                        subtotal += rowSubtotal;
-                }
+                txtVuelto.Text = "";
+                txtVuelto.ForeColor = Color.Black;
+                return;
             }
 
-            decimal iva = subtotal * 0.21m;
-            decimal total = subtotal + iva;
-
-            txtSubtotal.Text = subtotal.ToString("C", CultureInfo.CurrentCulture);
-            txtIVA.Text = iva.ToString("C", CultureInfo.CurrentCulture);
-            txtTotal.Text = total.ToString("C", CultureInfo.CurrentCulture);
-
-            if (cmbMetodoPago.SelectedItem?.ToString() == "Efectivo")
+            if (decimal.TryParse(txtTotal.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal total) &&
+                decimal.TryParse(txtMontoEntregado.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out decimal entregado))
             {
-                if (decimal.TryParse(txtMontoEntregado.Text, out decimal montoEntregado))
+                if (entregado < total)
                 {
-                    txtVuelto.Text = montoEntregado < total ? "Monto insuficiente" : (montoEntregado - total).ToString("C", CultureInfo.CurrentCulture);
-                    txtVuelto.ForeColor = montoEntregado < total ? Color.Red : Color.Black;
+                    txtVuelto.ForeColor = Color.Red;
+                    txtVuelto.Text = "Monto insuficiente";
                 }
                 else
                 {
-                    txtVuelto.Text = "";
+                    txtVuelto.ForeColor = Color.Black;
+                    txtVuelto.Text = (entregado - total).ToString("C", CultureInfo.CurrentCulture);
                 }
             }
             else
             {
                 txtVuelto.Text = "";
+                txtVuelto.ForeColor = Color.Black;
             }
         }
 
+        // --------------------------
+        // GENERAR FACTURA
+        // --------------------------
         private void btnGenerar_Click(object sender, EventArgs e)
         {
-            if (dgvDetalle.Rows.Count == 0 || (dgvDetalle.Rows.Count == 1 && dgvDetalle.Rows[0].IsNewRow))
+            if (idClienteSeleccionado == null)
             {
-                MessageBox.Show("Debe agregar al menos un producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Seleccione un cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (SesionActual.IdUsuario <= 0)
+            {
+                MessageBox.Show("Usuario no reconocido. Reinicie sesión.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (cmbMetodoPago.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione un método de pago.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (dgvDetalle.Rows.Cast<DataGridViewRow>().All(r => r.IsNewRow))
+            {
+                MessageBox.Show("Agregue al menos un producto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtDni.Text))
+            string metodo = ((MetodoPago)cmbMetodoPago.SelectedItem).NombreMetodo;
+
+            // Validaciones específicas
+            if (metodo.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show("Debe seleccionar un cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (!decimal.TryParse(txtMontoEntregado.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out decimal entregado))
+                {
+                    MessageBox.Show("Ingrese un monto válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                decimal total = decimal.Parse(txtTotal.Text, NumberStyles.Currency);
+                if (entregado < total)
+                {
+                    MessageBox.Show("El monto entregado no puede ser menor al total.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            else if ((metodo.Equals("Tarjeta", StringComparison.OrdinalIgnoreCase) ||
+                     metodo.Equals("Transferencia", StringComparison.OrdinalIgnoreCase)) &&
+                     (string.IsNullOrWhiteSpace(txtInfoPago.Text) || txtInfoPago.Text.StartsWith("Ej.:")))
+            {
+                MessageBox.Show($"Ingrese el dato correspondiente al método de pago ({metodo}).",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show("Factura generada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            numeroFactura++;
-            FormFactura_Load(sender, e);
+            try
+            {
+                var totalFactura = decimal.Parse(txtTotal.Text, NumberStyles.Currency);
+
+                var factura = new Factura
+                {
+                    IdCliente = idClienteSeleccionado.Value,
+                    IdUsuario = SesionActual.IdUsuario,
+                    IdMetodoPago = (int)cmbMetodoPago.SelectedValue,
+                    FechaFactura = DateTime.Now,
+                    TotalFactura = totalFactura,
+                    Activo = true
+                };
+
+                int idFactura = facturaDatos.InsertarFactura(factura);
+
+                var detalles = new List<DetalleFactura>();
+                foreach (DataGridViewRow row in dgvDetalle.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    if (!int.TryParse(row.Cells["colCodigo"].Value?.ToString(), out int idProd)) continue;
+                    if (!int.TryParse(row.Cells["colCantidad"].Value?.ToString(), out int cant)) continue;
+                    if (!decimal.TryParse(row.Cells["colPrecio"].Value?.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out decimal precio)) continue;
+
+                    detalles.Add(new DetalleFactura
+                    {
+                        IdFactura = idFactura,
+                        IdProducto = idProd,
+                        Cantidad = cant,
+                        PrecioUnitario = precio
+                    });
+                }
+
+                detalleDatos.InsertarDetalles(idFactura, detalles);
+
+                // 🔹 Actualizar stock
+                foreach (var det in detalles)
+                {
+                    try
+                    {
+                        productoDatos.ActualizarStock(det.IdProducto, det.Cantidad);
+                    }
+                    catch (Exception exStock)
+                    {
+                        MessageBox.Show($"Error al actualizar stock del producto ID {det.IdProducto}:\n{exStock.Message}",
+                            "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+
+                MessageBox.Show($"Factura N° {idFactura} generada correctamente.",
+                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                LimpiarPantalla();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al generar la factura:\n{ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e) => this.Close();
-        private void btnCerrar_Click(object sender, EventArgs e) => this.Close();
+        // --------------------------
+        // LIMPIAR
+        // --------------------------
+        private void LimpiarPantalla()
+        {
+            idClienteSeleccionado = null;
+            productoSeleccionadoTmp = null;
+
+            txtBuscarCliente.Clear();
+            txtDni.Clear();
+            txtNombre.Clear();
+            txtContacto.Clear();
+            txtBuscarProducto.Clear();
+
+            dgvDetalle.Rows.Clear();
+            txtSubtotal.Text = txtIVA.Text = txtTotal.Text = "";
+            cmbMetodoPago.SelectedIndex = -1;
+            pnlSeleccionProducto.Visible = false;
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e) => Close();
+        private void btnCerrar_Click(object sender, EventArgs e) => Close();
     }
 }

@@ -1,61 +1,92 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Globalization;
+using System.Linq;
+using System.Windows.Forms;
+using Modelos;
 
 namespace GestionDeVentas.Vendedor
 {
     public partial class FormVisualizarFactura : Form
     {
-        // La clase Factura ahora tendrá todos los detalles que necesitamos
-        private readonly FormVentas.Factura _factura;
+        private readonly Factura _factura;   
 
-        public FormVisualizarFactura(FormVentas.Factura factura)
+        public FormVisualizarFactura(Factura factura)
         {
             InitializeComponent();
-            _factura = factura;
+            _factura = factura ?? throw new ArgumentNullException(nameof(factura));
+        }
+
+        private void FormVisualizarFactura_Load(object sender, EventArgs e)
+        {
             CargarDatosFactura();
         }
 
         private void CargarDatosFactura()
         {
-            // Títulos y datos de la factura
-            lblTitulo.Text = $"Factura Nº {_factura.NroFactura.ToString("D6")}";
-            lblFecha.Text = $"Fecha: {_factura.Fecha.ToShortDateString()}";
-            lblVendedor.Text = $"Vendedor: {_factura.Vendedor}";
+            // ========= Encabezado =========
+            lblTitulo.Text = $"Factura Nº {_factura.IdFactura:D6}";
+            lblFecha.Text = $"Fecha: {_factura.FechaFactura:dd/MM/yyyy}";
+            lblVendedor.Text = $"Vendedor: {_factura.UsuarioNombre ?? "-"}";
 
-            // Datos del cliente
-            txtClienteNombre.Text = _factura.Cliente;
-            txtClienteDni.Text = _factura.DniCliente;
-            txtClienteDireccion.Text = _factura.DireccionCliente;
-            txtClienteContacto.Text = _factura.ContactoCliente;
+            // ========= Cliente =========
+            txtClienteNombre.Text = _factura.ClienteNombre ?? "-";
+            txtClienteDni.Text = _factura.ClienteDni ?? "-";
+            txtClienteDireccion.Text = _factura.ClienteDireccion ?? "-";
 
-            // Llenar el DataGridView con los productos
+            // 👇 Mostramos teléfono + correo juntos, más claro visualmente
+            if (!string.IsNullOrEmpty(_factura.ClienteTelefono) && !string.IsNullOrEmpty(_factura.ClienteCorreo))
+                txtClienteContacto.Text = $"{_factura.ClienteTelefono} | {_factura.ClienteCorreo}";
+            else if (!string.IsNullOrEmpty(_factura.ClienteTelefono))
+                txtClienteContacto.Text = _factura.ClienteTelefono;
+            else if (!string.IsNullOrEmpty(_factura.ClienteCorreo))
+                txtClienteContacto.Text = _factura.ClienteCorreo;
+            else
+                txtClienteContacto.Text = "-";
+
+            // ========= Detalle =========
             dgvProductos.Rows.Clear();
-            foreach (var detalle in _factura.Detalles)
+
+            if (_factura.Detalles != null && _factura.Detalles.Count > 0)
             {
-                dgvProductos.Rows.Add(
-                    detalle.Codigo,
-                    detalle.Producto,
-                    detalle.Talle,
-                    detalle.Cantidad,
-                    detalle.PrecioUnitario.ToString("C", CultureInfo.CurrentCulture),
-                    (detalle.Cantidad * detalle.PrecioUnitario).ToString("C", CultureInfo.CurrentCulture)
-                );
+                foreach (var d in _factura.Detalles)
+                {
+                    dgvProductos.Rows.Add(
+                        d.ProductoCodigo,
+                        d.ProductoNombre,
+                        d.TalleNombre ?? "-", 
+                        d.Cantidad,
+                        d.PrecioUnitario.ToString("C", CultureInfo.CurrentCulture),
+                        (d.Cantidad * d.PrecioUnitario).ToString("C", CultureInfo.CurrentCulture)
+                    );
+                }
             }
 
-            // Totales y Método de Pago
-            txtSubtotal.Text = _factura.Subtotal.ToString("C", CultureInfo.CurrentCulture);
-            txtIVA.Text = _factura.IVA.ToString("C", CultureInfo.CurrentCulture);
-            txtTotal.Text = _factura.Total.ToString("C", CultureInfo.CurrentCulture);
-            txtMetodoPago.Text = _factura.MetodoPago;
-            txtMontoEntregado.Text = _factura.MontoEntregado.ToString("C", CultureInfo.CurrentCulture);
-            txtVuelto.Text = _factura.Vuelto.ToString("C", CultureInfo.CurrentCulture);
+            // ========= Totales =========
+            decimal subtotal = _factura.Detalles?.Sum(x => x.Cantidad * x.PrecioUnitario) ?? 0m;
+            decimal iva = subtotal * 0.21m;
+            decimal total = _factura.TotalFactura > 0 ? _factura.TotalFactura : subtotal + iva;
+
+            txtSubtotal.Text = subtotal.ToString("C", CultureInfo.CurrentCulture);
+            txtIVA.Text = iva.ToString("C", CultureInfo.CurrentCulture);
+            txtTotal.Text = total.ToString("C", CultureInfo.CurrentCulture);
+
+            // ========= Método de pago =========
+            txtMetodoPago.Text = _factura.MetodoPagoNombre ?? "-";
+
+            // ========= Monto entregado / vuelto =========
+            txtMontoEntregado.Text = "-";
+            txtVuelto.Text = "-";
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        // Eventos vacíos (requeridos por el .Designer)
+        private void lblEmpresaDireccion_Click(object sender, EventArgs e) { }
+        private void lblEmpresaNombre_Click(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
     }
 }

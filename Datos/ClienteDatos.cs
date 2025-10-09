@@ -1,23 +1,22 @@
 ﻿using GestionDeVentas.Modelos;
+using Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using Modelos;
-
-namespace Datos
+// ✅ NUEVO: importación para acceder a la clase de conexión global (ConexionBD)
+namespace GestionDeVentas.Datos
 {
     public class ClienteDatos
     {
-        
-        private readonly string connectionString =
-            "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
-
-
+        // ❌ Se eliminó el campo connectionString que antes estaba declarado acá
         public List<Cliente> ObtenerClientes()
         {
             var lista = new List<Cliente>();
 
-            using (var conn = new SqlConnection(connectionString))
+            // ❌ Se eliminó el campo connectionString que antes estaba declarado acá
+            // usamos la clase centralizada ConexionBD que devuelve una conexión lista.
+
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
@@ -48,14 +47,15 @@ namespace Datos
                     }
                 }
             }
-
             return lista;
         }
+        // ✅ MISMO CAMBIO aplicado en todos los métodos siguientes:
+        // Reemplazamos "new SqlConnection(connectionString)" por "ConexionBD.ObtenerConexion()"
+        // para reutilizar la conexión global y mantener un único punto de configuración.
 
-        // INSERTAR
         public void InsertarCliente(Cliente c)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
@@ -81,10 +81,9 @@ namespace Datos
             }
         }
 
-        // EDITAR
         public void EditarCliente(Cliente c)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
@@ -115,10 +114,9 @@ namespace Datos
             }
         }
 
-        // CAMBIAR ESTADO (true = activo, false = inactivo)
         public void CambiarEstado(int idCliente, bool activar)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "UPDATE cliente SET estado_cliente=@Estado WHERE id_cliente=@Id;";
@@ -131,10 +129,9 @@ namespace Datos
             }
         }
 
-        // VALIDACIÓN: DNI único
         public bool ExisteDni(string dni, int? idExcluir = null)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT COUNT(*) FROM cliente WHERE dni_cliente=@Dni"
@@ -149,21 +146,20 @@ namespace Datos
             }
         }
 
-        // BUSCAR por DNI o Apellido
         public List<Cliente> BuscarClientes(string filtro)
         {
             var lista = new List<Cliente>();
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
-            SELECT id_cliente, nombre_cliente, apellido_cliente, dni_cliente,
-                   telefono_cliente, direccion_cliente, pais_cliente,
-                   ciudad_cliente, correo_cliente, estado_cliente
-            FROM cliente
-            WHERE dni_cliente LIKE @Filtro OR apellido_cliente LIKE @Filtro
-            ORDER BY apellido_cliente, nombre_cliente;";
+                    SELECT id_cliente, nombre_cliente, apellido_cliente, dni_cliente,
+                           telefono_cliente, direccion_cliente, pais_cliente,
+                           ciudad_cliente, correo_cliente, estado_cliente
+                    FROM cliente
+                    WHERE dni_cliente LIKE @Filtro OR apellido_cliente LIKE @Filtro
+                    ORDER BY apellido_cliente, nombre_cliente;";
 
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -190,15 +186,12 @@ namespace Datos
                     }
                 }
             }
-
             return lista;
         }
 
-
-        // VALIDACIÓN: Correo único
         public bool ExisteCorreo(string correo, int? idExcluir = null)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT COUNT(*) FROM cliente WHERE correo_cliente=@Correo"

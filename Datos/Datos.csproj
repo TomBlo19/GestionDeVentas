@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="conexionBD.cs" />
     <Compile Include="MetodoPagoDatos.cs" />
     <Compile Include="DetalleFacturaDatos.cs" />
     <Compile Include="FacturaDatos.cs" />

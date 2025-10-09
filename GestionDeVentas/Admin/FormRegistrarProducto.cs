@@ -1,9 +1,10 @@
 ﻿using Datos;
+using GestionDeVentas.Datos;
 using Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing; // Necesario para usar Color.Red, Color.White, etc.
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -15,6 +16,8 @@ namespace GestionDeVentas.Admin
         private int currentProductId;
         private bool hayCambios = false;
 
+        // La clase ProductoDatos ya no necesita una conexión en el constructor, 
+        // ya que la obtiene internamente de ConexionBD.
         private readonly ProductoDatos productoDatos = new ProductoDatos();
 
         public FormRegistrarProducto()
@@ -23,7 +26,6 @@ namespace GestionDeVentas.Admin
             btnCancelarEdicion.Visible = false;
             this.FormClosing += FormRegistrarProducto_FormClosing;
             WireChangeTracking();
-            // ✅ Conexión del evento para el formato condicional de las filas
             dgvProductos.CellFormatting += dgvProductos_CellFormatting;
         }
 
@@ -31,7 +33,7 @@ namespace GestionDeVentas.Admin
         {
             CargarCategorias();
             CargarProveedores();
-            ConfigurarDataGridView(); // Configuración visual del DGV
+            ConfigurarDataGridView();
             CargarProductosEnDGV();
             cmbTalle.Enabled = false;
         }
@@ -51,7 +53,6 @@ namespace GestionDeVentas.Admin
             dgvProductos.AllowUserToDeleteRows = false;
             dgvProductos.EnableHeadersVisualStyles = true;
 
-            // Establecer estilos universales (usando SystemColors para alternancia)
             dgvProductos.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
                 BackColor = SystemColors.Control,
@@ -70,7 +71,7 @@ namespace GestionDeVentas.Admin
 
             dgvProductos.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
             {
-                BackColor = SystemColors.ControlLight // Gris claro para filas alternas
+                BackColor = SystemColors.ControlLight
             };
         }
 
@@ -79,28 +80,23 @@ namespace GestionDeVentas.Admin
         // ========================
         private void dgvProductos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Solo necesitamos leer el valor de la columna 'Estado'
             if (dgvProductos.Columns[e.ColumnIndex].Name == "Estado" && e.RowIndex >= 0)
             {
-                // Obtenemos el valor del estado de la fila
                 string estado = dgvProductos.Rows[e.RowIndex].Cells["Estado"].Value?.ToString();
 
-                // Si el producto está Inactivo, aplicamos el estilo de color seguro
                 if (!string.IsNullOrEmpty(estado) && estado.Equals("Inactivo", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Fondo rojo (seguro) y texto blanco para alto contraste
                     dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = System.Drawing.Color.Red;
                     dgvProductos.Rows[e.RowIndex].DefaultCellStyle.ForeColor = System.Drawing.Color.White;
                     dgvProductos.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DarkRed;
                 }
                 else
                 {
-                    // Restablecer estilos para filas activas, respetando la alternancia
-                    if (e.RowIndex % 2 != 0) // Fila impar
+                    if (e.RowIndex % 2 != 0)
                     {
                         dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = SystemColors.ControlLight;
                     }
-                    else // Fila par
+                    else
                     {
                         dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = SystemColors.Window;
                     }
@@ -117,8 +113,8 @@ namespace GestionDeVentas.Admin
         private void CargarProveedores()
         {
             cmbProveedor.Items.Clear();
-
-            using (var conn = new SqlConnection(productoDatos.ConnectionString))
+            // ✅ CORRECCIÓN: Usar directamente ConexionBD.ObtenerConexion()
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
 
@@ -136,7 +132,7 @@ namespace GestionDeVentas.Admin
 
             if (cmbProveedor.Items.Count > 0)
             {
-                cmbProveedor.SelectedIndex = -1; // nada seleccionado por defecto
+                cmbProveedor.SelectedIndex = -1;
             }
             else
             {
@@ -145,11 +141,11 @@ namespace GestionDeVentas.Admin
             }
         }
 
-
         private void CargarCategorias()
         {
             cmbCategoria.Items.Clear();
-            using (var conn = new SqlConnection(productoDatos.ConnectionString))
+            // ✅ CORRECCIÓN: Usar directamente ConexionBD.ObtenerConexion()
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 var cmd = new SqlCommand("SELECT id_categoria, nombre_categoria FROM categoria", conn);
@@ -164,7 +160,8 @@ namespace GestionDeVentas.Admin
         private string ObtenerNombreTalle(int idTalle)
         {
             if (idTalle <= 0) return "-";
-            using (var conn = new SqlConnection(productoDatos.ConnectionString))
+            // ✅ CORRECCIÓN: Usar directamente ConexionBD.ObtenerConexion()
+            using (var conn = ConexionBD.ObtenerConexion())
             using (var cmd = new SqlCommand("SELECT nombre_talle FROM talle WHERE id_talle=@id", conn))
             {
                 conn.Open();
@@ -174,12 +171,11 @@ namespace GestionDeVentas.Admin
             }
         }
 
-
         private void CargarTallesPorCategoria(int idCategoria)
         {
             cmbTalle.Items.Clear();
-
-            using (var conn = new SqlConnection(productoDatos.ConnectionString))
+            // ✅ CORRECCIÓN: Usar directamente ConexionBD.ObtenerConexion()
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 var cmd = new SqlCommand("SELECT id_talle, nombre_talle FROM talle WHERE id_categoria = @id", conn);
@@ -209,49 +205,24 @@ namespace GestionDeVentas.Admin
         private void CargarProductosEnDGV()
         {
             dgvProductos.Rows.Clear();
-
+            // ✅ CORRECCIÓN: Usar el método de la clase ProductoDatos que ya se encarga de todo.
             var lista = productoDatos.ObtenerProductos();
 
-            using (var conn = new SqlConnection(productoDatos.ConnectionString))
+            foreach (var p in lista)
             {
-                conn.Open();
-                foreach (var p in lista)
-                {
-                    // Obtener el nombre del talle
-                    string nombreTalle = "-";
-                    using (var cmd = new SqlCommand("SELECT nombre_talle FROM talle WHERE id_talle = @id", conn))
-                    {
-                        cmd.Parameters.AddWithValue("@id", p.IdTalle);
-                        var result = cmd.ExecuteScalar();
-                        if (result != null)
-                            nombreTalle = result.ToString();
-                    }
-
-                    // Obtener el nombre del proveedor
-                    string nombreProveedor = "-";
-                    using (var cmd2 = new SqlCommand("SELECT nombre_proveedor FROM proveedor WHERE id_proveedor = @id", conn))
-                    {
-                        cmd2.Parameters.AddWithValue("@id", p.IdProveedor);
-                        var result2 = cmd2.ExecuteScalar();
-                        if (result2 != null)
-                            nombreProveedor = result2.ToString();
-                    }
-
-                    dgvProductos.Rows.Add(
-                        p.Id,
-                        p.Nombre,
-                        nombreTalle,
-                        p.Color,
-                        p.Precio,
-                        p.Stock,
-                        p.Codigo,
-                        p.Estado,
-                        nombreProveedor
-                    );
-                }
+                dgvProductos.Rows.Add(
+                    p.Id,
+                    p.Nombre,
+                    p.TalleNombre,      // Usar las propiedades de la clase Producto que ya vienen con los nombres
+                    p.Color,
+                    p.Precio,
+                    p.Stock,
+                    p.Codigo,
+                    p.Estado,
+                    p.ProveedorNombre   // Usar las propiedades de la clase Producto que ya vienen con los nombres
+                );
             }
 
-            // Ocultar ID (se repite por seguridad si la configuración inicial falló)
             if (dgvProductos.Columns.Contains("Id") && dgvProductos.Columns["Id"] != null)
                 dgvProductos.Columns["Id"].Visible = false;
         }
@@ -260,7 +231,6 @@ namespace GestionDeVentas.Admin
         // ========================
         // EVENTOS Y VALIDACIONES
         // ========================
-
         private void cmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
             MarcarCambio(sender, e);
@@ -301,7 +271,6 @@ namespace GestionDeVentas.Admin
         {
             bool isValid = true;
 
-            // Resetear errores
             lblErrorNombre.Text = lblErrorCodigo.Text = lblErrorDescripcion.Text =
             lblErrorTalle.Text = lblErrorCategoria.Text = lblErrorColor.Text =
             lblErrorMarca.Text = lblErrorPrecio.Text = lblErrorStock.Text =
@@ -329,7 +298,6 @@ namespace GestionDeVentas.Admin
             if (!(cmbCategoria.SelectedItem is ComboBoxItem))
             { lblErrorCategoria.Text = "Seleccione una categoría"; isValid = false; }
 
-            // Validación de talle: Debe estar habilitado y ser un ComboBoxItem válido
             if (!cmbTalle.Enabled || !(cmbTalle.SelectedItem is ComboBoxItem))
             { lblErrorTalle.Text = "Seleccione un talle"; isValid = false; }
 
@@ -434,7 +402,6 @@ namespace GestionDeVentas.Admin
             if (e.RowIndex < 0) return;
 
             DataGridViewRow row = dgvProductos.Rows[e.RowIndex];
-            // Aseguramos que la columna "Id" exista antes de accederla
             if (!dgvProductos.Columns.Contains("Id")) return;
 
             currentProductId = Convert.ToInt32(row.Cells["Id"].Value);
@@ -451,7 +418,6 @@ namespace GestionDeVentas.Admin
             txtStock.Text = producto.Stock.ToString();
 
             SeleccionarComboPorValor(cmbCategoria, producto.IdCategoria);
-            // El evento SelectedIndexChanged ya carga los talles, pero lo forzamos si no lo hace
             CargarTallesPorCategoria(producto.IdCategoria);
             SeleccionarComboPorValor(cmbTalle, producto.IdTalle);
             SeleccionarComboPorValor(cmbProveedor, producto.IdProveedor);
@@ -521,13 +487,11 @@ namespace GestionDeVentas.Admin
             }
         }
 
-        // Se unifican los clics a un solo método para evitar redundancia
         private void btnLimpiar_Click_1(object sender, EventArgs e) => btnLimpiar_Click(sender, e);
         private void btnLimpiar_Click_2(object sender, EventArgs e) => btnLimpiar_Click(sender, e);
 
         private void btnCancelarEdicion_Click(object sender, EventArgs e)
         {
-            // Este botón debería simplemente cancelar el modo de edición y limpiar, sin cerrar el formulario
             if (Confirm("¿Seguro que deseas cancelar la edición y limpiar el formulario?", "Confirmar cancelación"))
             {
                 LimpiarCampos();
@@ -540,13 +504,11 @@ namespace GestionDeVentas.Admin
             }
         }
 
-        // Se unifican los clics a un solo método para evitar redundancia
         private void btnCancelarEdicion_Click_1(object sender, EventArgs e) => btnCancelarEdicion_Click(sender, e);
         private void btnCancelarEdicion_Click_2(object sender, EventArgs e) => btnCancelarEdicion_Click(sender, e);
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            // La lógica de cierre con confirmación ya está en FormRegistrarProducto_FormClosing
             this.Close();
         }
 
@@ -569,7 +531,6 @@ namespace GestionDeVentas.Admin
 
         private void lblTitulo_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

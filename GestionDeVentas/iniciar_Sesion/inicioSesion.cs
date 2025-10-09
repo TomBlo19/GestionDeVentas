@@ -2,7 +2,8 @@
 using GestionDeVentas.Gerent;
 using GestionDeVentas.AdmSuperior;
 using GestionDeVentas.vendedor;
-using Modelos; 
+using GestionDeVentas.Datos; // ✅ Importante para usar ConexionBD
+using Modelos;
 using System;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -15,10 +16,6 @@ namespace gestionDeVentas
     {
         private const int MAX_INTENTOS = 5;
         private int intentos = 0;
-
-        // 🔹 Cadena de conexión (ajustá si tu instancia es distinta)
-        private readonly string connectionString =
-            "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
 
         public inicioSesion()
         {
@@ -54,7 +51,8 @@ namespace gestionDeVentas
             string correoIngresado = txtUsuario.Text.Trim();
             string contrasenaIngresada = txtPassword.Text.Trim();
 
-            using (var conn = new SqlConnection(connectionString))
+            // ✅ Ahora usamos la conexión centralizada
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
@@ -73,7 +71,6 @@ namespace gestionDeVentas
                     {
                         if (reader.Read())
                         {
-                            // ✅ Leemos todos los campos
                             int idUsuario = Convert.ToInt32(reader["id_usuario"]);
                             string contrasenaDB = reader["contrasena_usuario"].ToString();
                             string estado = reader["estado_usuario"].ToString();
@@ -81,7 +78,6 @@ namespace gestionDeVentas
                             string nombre = reader["nombre_usuario"].ToString();
                             string apellido = reader["apellido_usuario"].ToString();
 
-                            // 🔹 Validar estado
                             if (!string.Equals(estado, "activo", StringComparison.OrdinalIgnoreCase))
                             {
                                 MessageBox.Show("El usuario está inactivo. No puede iniciar sesión.",
@@ -89,7 +85,6 @@ namespace gestionDeVentas
                                 return;
                             }
 
-                            // 🔹 Validar contraseña
                             if (!string.Equals(contrasenaDB, contrasenaIngresada))
                             {
                                 MessageBox.Show("La contraseña no coincide. Verifica los datos e intenta nuevamente.",
@@ -98,12 +93,11 @@ namespace gestionDeVentas
                                 return;
                             }
 
-                            // ✅ Guardamos los datos de sesión
+                            // ✅ Guardamos datos de sesión
                             SesionActual.IdUsuario = idUsuario;
                             SesionActual.NombreCompleto = $"{nombre} {apellido}";
                             SesionActual.Rol = rol;
 
-                            // ✅ Abrir panel según rol
                             if (!AbrirFormularioPorRol(rol, nombre, apellido))
                                 return;
                         }
@@ -119,12 +113,8 @@ namespace gestionDeVentas
             }
         }
 
-        /// <summary>
-        /// Abre el formulario correspondiente al rol. Devuelve true si se abrió correctamente.
-        /// </summary>
         private bool AbrirFormularioPorRol(string rolOriginal, string nombre, string apellido)
         {
-            // Normalizamos el rol: minúsculas y sin espacios/guiones/puntos/guiones bajos
             string key = Regex.Replace((rolOriginal ?? "").Trim(), @"[\s._-]+", "")
                                .ToLowerInvariant();
 
@@ -157,7 +147,6 @@ namespace gestionDeVentas
                     return false;
             }
 
-            // ✅ Mostramos bienvenida y abrimos panel
             MessageBox.Show($"Bienvenido {nombre} {apellido}\nRol: {rolOriginal}",
                 "Inicio de sesión exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -173,7 +162,6 @@ namespace gestionDeVentas
             return true;
         }
 
-        // 🔹 Intento fallido
         private void IntentoFallido()
         {
             intentos++;
@@ -192,7 +180,6 @@ namespace gestionDeVentas
             txtPassword.Focus();
         }
 
-        // 🔹 Bloqueo de login tras varios intentos fallidos
         private void BloquearLogin()
         {
             txtUsuario.Enabled = false;
@@ -205,7 +192,6 @@ namespace gestionDeVentas
                 "Bloqueado", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         }
 
-        // 🔹 Validaciones básicas
         private bool ValidarFormulario()
         {
             errorProvider1.Clear();

@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using Modelos;
+using GestionDeVentas.Datos;
 
 namespace Datos
 {
     public class DetalleFacturaDatos
     {
-        private readonly string connectionString =
-            "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
-
         public void InsertarDetalles(int idFactura, List<DetalleFactura> detalles)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 foreach (var d in detalles)

@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Modelos;
+using GestionDeVentas.Datos;
 
 namespace Datos
 {
     public class FacturaDatos
     {
-        private readonly string connectionString =
-            "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
-
-        // ✅ INSERTAR FACTURA Y DEVOLVER SU ID
         public int InsertarFactura(Factura factura)
         {
             int idFacturaGenerada = 0;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
 
@@ -41,10 +38,9 @@ namespace Datos
             return idFacturaGenerada;
         }
 
-        // ✅ ACTIVAR / DESACTIVAR FACTURA
         public void CambiarEstadoFactura(int idFactura, bool activa)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "UPDATE factura SET activo = @Activo WHERE id_factura = @Id;";
@@ -57,12 +53,11 @@ namespace Datos
             }
         }
 
-        // ✅ OBTENER LISTA DE FACTURAS (con datos del cliente y vendedor activo)
         public List<Factura> ObtenerFacturasPorVendedor(int idUsuario)
         {
             var lista = new List<Factura>();
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
 
@@ -75,8 +70,6 @@ namespace Datos
                         f.fecha_factura,
                         f.total_factura,
                         f.activo,
-
-                        -- 🧍 CLIENTE
                         c.nombre_cliente,
                         c.apellido_cliente,
                         c.dni_cliente,
@@ -84,18 +77,13 @@ namespace Datos
                         c.direccion_cliente,
                         c.ciudad_cliente,
                         c.correo_cliente,
-
-                        -- 👨‍💼 USUARIO (vendedor)
                         u.nombre_usuario AS usuario_nombre,
-
-                        -- 💳 MÉTODO DE PAGO
                         ISNULL(mp.nombre_metodo,'Sin método') AS metodo_pago_nombre
-
                     FROM factura f
                     INNER JOIN cliente c ON f.id_cliente = c.id_cliente
                     INNER JOIN usuario u ON f.id_usuario = u.id_usuario
                     LEFT JOIN metodo_pago mp ON f.id_metodo_pago = mp.id_metodo_pago
-                    WHERE f.id_usuario = @IdUsuario  -- solo facturas del vendedor activo
+                    WHERE f.id_usuario = @IdUsuario
                     ORDER BY f.id_factura DESC;";
 
                 using (var cmd = new SqlCommand(query, conn))
@@ -115,19 +103,13 @@ namespace Datos
                                 FechaFactura = Convert.ToDateTime(reader["fecha_factura"]),
                                 TotalFactura = Convert.ToDecimal(reader["total_factura"]),
                                 Activo = Convert.ToBoolean(reader["activo"]),
-
-                                // Datos del cliente
                                 ClienteNombre = reader["nombre_cliente"].ToString() + " " + reader["apellido_cliente"].ToString(),
                                 ClienteDni = reader["dni_cliente"].ToString(),
                                 ClienteTelefono = reader["telefono_cliente"].ToString(),
                                 ClienteDireccion = reader["direccion_cliente"].ToString(),
                                 ClienteCiudad = reader["ciudad_cliente"].ToString(),
                                 ClienteCorreo = reader["correo_cliente"].ToString(),
-
-                                // Vendedor
                                 UsuarioNombre = reader["usuario_nombre"].ToString(),
-
-                                // Método de pago
                                 MetodoPagoNombre = reader["metodo_pago_nombre"].ToString()
                             });
                         }
@@ -138,12 +120,11 @@ namespace Datos
             return lista;
         }
 
-        // ✅ OBTENER DETALLES DE UNA FACTURA
         public List<DetalleFactura> ObtenerDetallesPorFactura(int idFactura)
         {
             var lista = new List<DetalleFactura>();
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
 
@@ -188,6 +169,5 @@ namespace Datos
 
             return lista;
         }
-
     }
 }

@@ -3,25 +3,17 @@ using Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using GestionDeVentas.Datos;
 
 namespace Datos
 {
     public class ProductoDatos
     {
-        // 🔗 Cadena de conexión
-        private readonly string connectionString =
-            "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
-
-        public string ConnectionString => connectionString;
-
-        // ================================================================
-        // 📘 OBTENER TODOS LOS PRODUCTOS
-        // ================================================================
         public List<Producto> ObtenerProductos()
         {
             var lista = new List<Producto>();
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
@@ -77,14 +69,11 @@ namespace Datos
             return lista;
         }
 
-        // ================================================================
-        // 📘 OBTENER NOMBRE DE TALLE
-        // ================================================================
         public string ObtenerNombreTalle(int idTalle)
         {
             if (idTalle <= 0) return "-";
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT nombre_talle FROM talle WHERE id_talle=@IdTalle;";
@@ -98,14 +87,11 @@ namespace Datos
             }
         }
 
-        // ================================================================
-        // 📘 OBTENER NOMBRE DE CATEGORÍA
-        // ================================================================
         public string ObtenerNombreCategoria(int idCategoria)
         {
             if (idCategoria <= 0) return "-";
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT nombre_categoria FROM categoria WHERE id_categoria=@IdCategoria;";
@@ -119,16 +105,11 @@ namespace Datos
             }
         }
 
-        // ================================================================
-        // 🔹 ACTUALIZAR STOCK DESPUÉS DE UNA VENTA
-        // ================================================================
         public void ActualizarStock(int idProducto, int cantidadVendida)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
-
-                // ✅ Usamos el nombre real de columna: stock_producto
                 string query = @"
                     UPDATE producto
                     SET stock_producto = CASE 
@@ -149,15 +130,12 @@ namespace Datos
             }
         }
 
-        // ================================================================
-        // 📘 INSERTAR NUEVO PRODUCTO
-        // ================================================================
         public void InsertarProducto(Producto producto)
         {
             if (ExisteCodigo(producto.Codigo))
                 throw new InvalidOperationException("El código ingresado ya existe. No se puede duplicar.");
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
@@ -190,15 +168,12 @@ namespace Datos
             }
         }
 
-        // ================================================================
-        // 📘 EDITAR PRODUCTO EXISTENTE
-        // ================================================================
         public void EditarProducto(Producto producto)
         {
             if (ExisteCodigo(producto.Codigo, producto.Id))
                 throw new InvalidOperationException("Ya existe otro producto con este código.");
 
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
@@ -232,12 +207,9 @@ namespace Datos
             }
         }
 
-        // ================================================================
-        // 📘 CAMBIAR ESTADO ACTIVO/INACTIVO
-        // ================================================================
         public void CambiarEstado(int idProducto, bool activar)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string nuevoEstado = activar ? "Activo" : "Inactivo";
@@ -252,12 +224,9 @@ namespace Datos
             }
         }
 
-        // ================================================================
-        // 📘 VERIFICAR CÓDIGO DUPLICADO
-        // ================================================================
         public bool ExisteCodigo(string codigo, int? idExcluir = null)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT COUNT(*) FROM producto WHERE codigo_producto=@Codigo";

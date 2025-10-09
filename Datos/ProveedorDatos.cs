@@ -2,18 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using GestionDeVentas.Datos;
 
 namespace GestionDeVentas.Datos
 {
     public class ProveedorDatos
     {
-        private readonly string connectionString =
-            "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
-
         public List<Proveedor> ObtenerProveedores()
         {
             var lista = new List<Proveedor>();
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"SELECT id_proveedor, nombre_proveedor, empresa_proveedor, cuit_proveedor,
@@ -47,7 +45,7 @@ namespace GestionDeVentas.Datos
 
         public void InsertarProveedor(Proveedor proveedor)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"INSERT INTO proveedor 
@@ -73,7 +71,7 @@ namespace GestionDeVentas.Datos
 
         public void EditarProveedor(Proveedor proveedor)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"UPDATE proveedor SET 
@@ -100,7 +98,7 @@ namespace GestionDeVentas.Datos
 
         public void CambiarEstado(int idProveedor, bool activar)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "UPDATE proveedor SET estado_proveedor=@Estado WHERE id_proveedor=@Id";
@@ -115,7 +113,7 @@ namespace GestionDeVentas.Datos
 
         public bool ExisteCuit(string cuit, int? idExcluir = null)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT COUNT(*) FROM proveedor WHERE cuit_proveedor=@Cuit" +
@@ -131,7 +129,7 @@ namespace GestionDeVentas.Datos
 
         public bool ExisteCorreo(string correo, int? idExcluir = null)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT COUNT(*) FROM proveedor WHERE correo_proveedor=@Correo" +

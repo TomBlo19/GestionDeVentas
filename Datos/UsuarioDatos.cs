@@ -2,17 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using GestionDeVentas.Datos;
 
 namespace GestionDeVentas.Datos
 {
     public class UsuarioDatos
     {
-        private readonly string connectionString = "Server=DESKTOP-QFPBC6S\\SQLEXPRESS;Database=bd_BarberoBolo;Trusted_Connection=True;";
-
         public List<Usuario> ObtenerUsuarios()
         {
             var lista = new List<Usuario>();
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"SELECT u.id_usuario, u.nombre_usuario, u.apellido_usuario, u.dni_usuario, 
@@ -51,7 +50,7 @@ namespace GestionDeVentas.Datos
 
         public void InsertarUsuario(Usuario usuario)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"INSERT INTO usuario 
@@ -81,7 +80,7 @@ namespace GestionDeVentas.Datos
 
         public void EditarUsuario(Usuario usuario)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"UPDATE usuario SET 
@@ -113,7 +112,7 @@ namespace GestionDeVentas.Datos
 
         public void CambiarEstado(int idUsuario, bool activar)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "UPDATE usuario SET estado_usuario=@Estado WHERE id_usuario=@Id";
@@ -128,7 +127,7 @@ namespace GestionDeVentas.Datos
 
         public bool ExisteDNI(string dni, int? idExcluir = null)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT COUNT(*) FROM usuario WHERE dni_usuario=@DNI" +
@@ -144,7 +143,7 @@ namespace GestionDeVentas.Datos
 
         public bool ExisteCorreo(string correo, int? idExcluir = null)
         {
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT COUNT(*) FROM usuario WHERE correo_usuario=@Correo" +
@@ -161,7 +160,7 @@ namespace GestionDeVentas.Datos
         public List<string> ObtenerRoles()
         {
             var roles = new List<string>();
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT nombre_tipo FROM tipo_usuario";

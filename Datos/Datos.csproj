@@ -50,6 +50,7 @@
     <Compile Include="ClienteDatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorDatos.cs" />
+    <Compile Include="reportes.cs" />
     <Compile Include="UsuarioDatos.cs" />
   </ItemGroup>
   <ItemGroup>

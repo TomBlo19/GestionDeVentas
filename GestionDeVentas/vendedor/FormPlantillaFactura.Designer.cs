@@ -30,7 +30,6 @@
         {
             this.lblTitulo = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
-            this.lblNroFactura = new System.Windows.Forms.Label();
             this.lblFecha = new System.Windows.Forms.Label();
             this.lblCliente = new System.Windows.Forms.Label();
             this.txtBuscarCliente = new System.Windows.Forms.TextBox();
@@ -101,22 +100,10 @@
             this.picLogo.TabIndex = 1;
             this.picLogo.TabStop = false;
             // 
-            // lblNroFactura
-            // 
-            this.lblNroFactura.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblNroFactura.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNroFactura.Location = new System.Drawing.Point(541, 14);
-            this.lblNroFactura.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblNroFactura.Name = "lblNroFactura";
-            this.lblNroFactura.Size = new System.Drawing.Size(112, 19);
-            this.lblNroFactura.TabIndex = 2;
-            this.lblNroFactura.Text = "Nº Factura: 000012";
-            this.lblNroFactura.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // lblFecha
             // 
             this.lblFecha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblFecha.Location = new System.Drawing.Point(541, 33);
+            this.lblFecha.Location = new System.Drawing.Point(525, 50);
             this.lblFecha.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFecha.Name = "lblFecha";
             this.lblFecha.Size = new System.Drawing.Size(112, 19);
@@ -220,6 +207,7 @@
             this.lblVendedorActual.TabIndex = 15;
             this.lblVendedorActual.Text = "Vendedor: [Nombre]";
             this.lblVendedorActual.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblVendedorActual.Click += new System.EventHandler(this.lblVendedorActual_Click);
             // 
             // lblProducto
             // 
@@ -301,6 +289,8 @@
             // 
             // dgvDetalle
             // 
+            this.dgvDetalle.AllowUserToAddRows = false;
+            this.dgvDetalle.AllowUserToDeleteRows = false;
             this.dgvDetalle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -317,6 +307,7 @@
             this.dgvDetalle.Location = new System.Drawing.Point(15, 365);
             this.dgvDetalle.Margin = new System.Windows.Forms.Padding(2);
             this.dgvDetalle.Name = "dgvDetalle";
+            this.dgvDetalle.ReadOnly = true;
             this.dgvDetalle.RowHeadersWidth = 51;
             this.dgvDetalle.Size = new System.Drawing.Size(698, 140);
             this.dgvDetalle.TabIndex = 20;
@@ -593,7 +584,6 @@
             this.Controls.Add(this.txtBuscarCliente);
             this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.lblFecha);
-            this.Controls.Add(this.lblNroFactura);
             this.Controls.Add(this.picLogo);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormFactura";
@@ -612,7 +602,6 @@
 
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.PictureBox picLogo;
-        private System.Windows.Forms.Label lblNroFactura;
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.TextBox txtBuscarCliente;

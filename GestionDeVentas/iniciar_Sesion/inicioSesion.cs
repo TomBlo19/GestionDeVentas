@@ -2,7 +2,7 @@
 using GestionDeVentas.Gerent;
 using GestionDeVentas.AdmSuperior;
 using GestionDeVentas.vendedor;
-using GestionDeVentas.Datos; // ✅ Importante para usar ConexionBD
+using GestionDeVentas.Datos; 
 using Modelos;
 using System;
 using System.Data.SqlClient;

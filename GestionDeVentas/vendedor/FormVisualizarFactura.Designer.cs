@@ -40,10 +40,6 @@
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.lblMetodoPago = new System.Windows.Forms.Label();
             this.txtMetodoPago = new System.Windows.Forms.TextBox();
-            this.lblMontoEntregado = new System.Windows.Forms.Label();
-            this.txtMontoEntregado = new System.Windows.Forms.TextBox();
-            this.lblVuelto = new System.Windows.Forms.Label();
-            this.txtVuelto = new System.Windows.Forms.TextBox();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.pnlDatosEmpresa = new System.Windows.Forms.Panel();
             this.pboxLogoEmpresa = new System.Windows.Forms.PictureBox();
@@ -52,6 +48,7 @@
             this.lblEmpresaDireccion = new System.Windows.Forms.Label();
             this.lblEmpresaNombre = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
             this.pnlDatosEmpresa.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pboxLogoEmpresa)).BeginInit();
@@ -277,7 +274,7 @@
             // 
             this.lblTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotal.Location = new System.Drawing.Point(562, 544);
+            this.lblTotal.Location = new System.Drawing.Point(549, 545);
             this.lblTotal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(75, 19);
@@ -289,11 +286,11 @@
             // 
             this.txtTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTotal.Location = new System.Drawing.Point(638, 544);
+            this.txtTotal.Location = new System.Drawing.Point(628, 544);
             this.txtTotal.Margin = new System.Windows.Forms.Padding(2);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
-            this.txtTotal.Size = new System.Drawing.Size(76, 29);
+            this.txtTotal.Size = new System.Drawing.Size(86, 29);
             this.txtTotal.TabIndex = 17;
             // 
             // lblMetodoPago
@@ -315,46 +312,6 @@
             this.txtMetodoPago.ReadOnly = true;
             this.txtMetodoPago.Size = new System.Drawing.Size(151, 20);
             this.txtMetodoPago.TabIndex = 19;
-            // 
-            // lblMontoEntregado
-            // 
-            this.lblMontoEntregado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblMontoEntregado.Location = new System.Drawing.Point(15, 520);
-            this.lblMontoEntregado.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblMontoEntregado.Name = "lblMontoEntregado";
-            this.lblMontoEntregado.Size = new System.Drawing.Size(90, 19);
-            this.lblMontoEntregado.TabIndex = 20;
-            this.lblMontoEntregado.Text = "Monto Entregado:";
-            // 
-            // txtMontoEntregado
-            // 
-            this.txtMontoEntregado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtMontoEntregado.Location = new System.Drawing.Point(105, 520);
-            this.txtMontoEntregado.Margin = new System.Windows.Forms.Padding(2);
-            this.txtMontoEntregado.Name = "txtMontoEntregado";
-            this.txtMontoEntregado.ReadOnly = true;
-            this.txtMontoEntregado.Size = new System.Drawing.Size(151, 20);
-            this.txtMontoEntregado.TabIndex = 21;
-            // 
-            // lblVuelto
-            // 
-            this.lblVuelto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblVuelto.Location = new System.Drawing.Point(15, 544);
-            this.lblVuelto.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblVuelto.Name = "lblVuelto";
-            this.lblVuelto.Size = new System.Drawing.Size(90, 19);
-            this.lblVuelto.TabIndex = 22;
-            this.lblVuelto.Text = "Vuelto:";
-            // 
-            // txtVuelto
-            // 
-            this.txtVuelto.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtVuelto.Location = new System.Drawing.Point(105, 544);
-            this.txtVuelto.Margin = new System.Windows.Forms.Padding(2);
-            this.txtVuelto.Name = "txtVuelto";
-            this.txtVuelto.ReadOnly = true;
-            this.txtVuelto.Size = new System.Drawing.Size(151, 20);
-            this.txtVuelto.TabIndex = 23;
             // 
             // btnCerrar
             // 
@@ -444,19 +401,27 @@
             this.label1.TabIndex = 4;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(484, 585);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(98, 32);
+            this.button1.TabIndex = 26;
+            this.button1.Text = "imprimir";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // FormVisualizarFactura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(738, 628);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pnlDatosEmpresa);
             this.Controls.Add(this.btnCerrar);
-            this.Controls.Add(this.txtVuelto);
-            this.Controls.Add(this.lblVuelto);
-            this.Controls.Add(this.txtMontoEntregado);
-            this.Controls.Add(this.lblMontoEntregado);
             this.Controls.Add(this.txtMetodoPago);
             this.Controls.Add(this.lblMetodoPago);
             this.Controls.Add(this.txtTotal);
@@ -517,10 +482,6 @@
         private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.Label lblMetodoPago;
         private System.Windows.Forms.TextBox txtMetodoPago;
-        private System.Windows.Forms.Label lblMontoEntregado;
-        private System.Windows.Forms.TextBox txtMontoEntregado;
-        private System.Windows.Forms.Label lblVuelto;
-        private System.Windows.Forms.TextBox txtVuelto;
         private System.Windows.Forms.Button btnCerrar;
 
         private System.Windows.Forms.Panel pnlDatosEmpresa;
@@ -531,5 +492,6 @@
         private System.Windows.Forms.Label label1;
         // 👇 AÑADIDO: Declaración de la PictureBox
         private System.Windows.Forms.PictureBox pboxLogoEmpresa;
+        private System.Windows.Forms.Button button1;
     }
 }

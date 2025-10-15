@@ -75,8 +75,8 @@ namespace GestionDeVentas.Vendedor
             txtMetodoPago.Text = _factura.MetodoPagoNombre ?? "-";
 
             // ========= Monto entregado / vuelto =========
-            txtMontoEntregado.Text = "-";
-            txtVuelto.Text = "-";
+           // txtMontoEntregado.Text = "-";
+          //  txtVuelto.Text = "-";
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)

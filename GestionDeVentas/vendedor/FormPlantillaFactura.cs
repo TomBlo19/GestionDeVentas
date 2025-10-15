@@ -26,7 +26,7 @@ namespace GestionDeVentas.Vendedor
 
         private void FormFactura_Load(object sender, EventArgs e)
         {
-            lblNroFactura.Text = "Nº Factura: (se genera al guardar)";
+            //lblNroFactura.Text = "Nº Factura: (se genera al guardar)";
             lblFecha.Text = $"Fecha: {DateTime.Now:dd/MM/yyyy}";
             lblVendedorActual.Text = $"Vendedor: {SesionActual.NombreCompleto} (ID: {SesionActual.IdUsuario})";
 
@@ -316,10 +316,6 @@ namespace GestionDeVentas.Vendedor
                 txtVuelto.ForeColor = Color.Black;
             }
         }
-
-        // --------------------------
-        // GENERAR FACTURA
-        // --------------------------
         private void btnGenerar_Click(object sender, EventArgs e)
         {
             if (idClienteSeleccionado == null)
@@ -346,7 +342,7 @@ namespace GestionDeVentas.Vendedor
 
             string metodo = ((MetodoPago)cmbMetodoPago.SelectedItem).NombreMetodo;
 
-            // Validaciones específicas
+            // --- Validaciones según el método de pago ---
             if (metodo.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
             {
                 if (!decimal.TryParse(txtMontoEntregado.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out decimal entregado))
@@ -372,8 +368,8 @@ namespace GestionDeVentas.Vendedor
 
             try
             {
+                // 1️⃣ Insertar la factura
                 var totalFactura = decimal.Parse(txtTotal.Text, NumberStyles.Currency);
-
                 var factura = new Factura
                 {
                     IdCliente = idClienteSeleccionado.Value,
@@ -386,6 +382,7 @@ namespace GestionDeVentas.Vendedor
 
                 int idFactura = facturaDatos.InsertarFactura(factura);
 
+                // 2️⃣ Insertar los detalles
                 var detalles = new List<DetalleFactura>();
                 foreach (DataGridViewRow row in dgvDetalle.Rows)
                 {
@@ -406,7 +403,7 @@ namespace GestionDeVentas.Vendedor
 
                 detalleDatos.InsertarDetalles(idFactura, detalles);
 
-                // 🔹 Actualizar stock
+                // 3️⃣ Actualizar stock
                 foreach (var det in detalles)
                 {
                     try
@@ -420,9 +417,40 @@ namespace GestionDeVentas.Vendedor
                     }
                 }
 
-                MessageBox.Show($"Factura N° {idFactura} generada correctamente.",
-                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // 4️⃣ Recuperar datos completos desde la base de datos
+                factura.IdFactura = idFactura;
+                factura.Detalles = facturaDatos.ObtenerDetallesPorFactura(idFactura);
 
+                // Cargar también los datos completos del cliente, vendedor y método de pago
+                var facturasVendedor = facturaDatos.ObtenerFacturasPorVendedor(SesionActual.IdUsuario);
+                var facturaCompleta = facturasVendedor.FirstOrDefault(f => f.IdFactura == idFactura);
+
+                if (facturaCompleta != null)
+                {
+                    factura.ClienteNombre = facturaCompleta.ClienteNombre;
+                    factura.ClienteDni = facturaCompleta.ClienteDni;
+                    factura.ClienteDireccion = facturaCompleta.ClienteDireccion;
+                    factura.ClienteTelefono = facturaCompleta.ClienteTelefono;
+                    factura.ClienteCorreo = facturaCompleta.ClienteCorreo;
+                    factura.UsuarioNombre = facturaCompleta.UsuarioNombre;
+                    factura.MetodoPagoNombre = facturaCompleta.MetodoPagoNombre;
+                }
+                else
+                {
+                    // fallback por si no se encontró
+                    factura.UsuarioNombre = SesionActual.NombreCompleto;
+                    factura.MetodoPagoNombre = metodo;
+                }
+
+                // 5️⃣ Abrir la visualización de factura
+                using (var formVista = new FormVisualizarFactura(factura))
+                {
+                    this.Hide();  // Oculta el form de carga
+                    formVista.ShowDialog();
+                    this.Show();
+                }
+
+                // 6️⃣ Limpiar la pantalla para la próxima venta
                 LimpiarPantalla();
             }
             catch (Exception ex)
@@ -431,6 +459,8 @@ namespace GestionDeVentas.Vendedor
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         // --------------------------
         // LIMPIAR
@@ -454,5 +484,10 @@ namespace GestionDeVentas.Vendedor
 
         private void btnCancelar_Click(object sender, EventArgs e) => Close();
         private void btnCerrar_Click(object sender, EventArgs e) => Close();
+
+       private void lblVendedorActual_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

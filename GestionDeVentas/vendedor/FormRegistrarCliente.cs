@@ -33,8 +33,13 @@ namespace GestionDeVentas.Gerente
         {
             btnCerrar.BringToFront();
             ActualizarDataGridView();
-        }
 
+            // 💡 Solución Final: Deseleccionar automáticamente al cargar el Formulario
+            // Esto asegura que la selección automática de la primera fila sea eliminada.
+            dgvClientes.ClearSelection();
+            dgvClientes.CurrentCell = null; // Establece la celda actual a nula
+        }
+        // --------------------------------------------------------------------------------------
         private void ConfigurarDataGridView()
         {
             dgvClientes.AutoGenerateColumns = false;
@@ -44,6 +49,7 @@ namespace GestionDeVentas.Gerente
             dgvClientes.ReadOnly = true;
             dgvClientes.Columns.Clear();
 
+            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Id", HeaderText = "ID" });
             dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Nombre", HeaderText = "Nombre" });
             dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Apellido", HeaderText = "Apellido" });
             dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Dni", HeaderText = "DNI" });
@@ -52,16 +58,20 @@ namespace GestionDeVentas.Gerente
             dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Pais", HeaderText = "País" });
             dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Ciudad", HeaderText = "Ciudad" });
             dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "CorreoElectronico", HeaderText = "Correo" });
-            dgvClientes.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ActivoTexto", HeaderText = "Estado" });
 
             dgvClientes.CellFormatting += dgvClientes_CellFormatting;
         }
-
+        // --------------------------------------------------------------------------------------
         private void ActualizarDataGridView()
         {
             dgvClientes.DataSource = clienteDatos.ObtenerClientes();
-        }
 
+            // 💡 Solución Adicional: Deseleccionar después de refrescar los datos.
+            // Esto es crucial para que no se seleccione al actualizar la grilla.
+            dgvClientes.ClearSelection();
+            dgvClientes.CurrentCell = null; // Establece la celda actual a nula
+        }
+        // --------------------------------------------------------------------------------------
         // 🔹 Confirmación
         private bool Confirmar(string mensaje, string titulo = "Confirmación")
         {
@@ -104,7 +114,7 @@ namespace GestionDeVentas.Gerente
             LimpiarCampos();
             ActualizarDataGridView();
         }
-
+        // --------------------------------------------------------------------------------------
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (!(clienteSeleccionadoId.HasValue && ValidarCampos(true))) return;
@@ -141,13 +151,13 @@ namespace GestionDeVentas.Gerente
             LimpiarCampos();
             ActualizarDataGridView();
         }
-
+        // --------------------------------------------------------------------------------------
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             if (!Confirmar("¿Deseas limpiar los campos?")) return;
             LimpiarCampos();
         }
-
+        // --------------------------------------------------------------------------------------
         private bool ValidarCampos(bool esEdicion)
         {
             bool esValido = true;
@@ -180,7 +190,7 @@ namespace GestionDeVentas.Gerente
 
             return esValido;
         }
-
+        // --------------------------------------------------------------------------------------
         private void LimpiarCampos()
         {
             txtNombre.Clear();
@@ -196,8 +206,12 @@ namespace GestionDeVentas.Gerente
             clienteSeleccionadoId = null;
             btnRegistrar.Visible = true;
             btnEditar.Visible = false;
-        }
 
+            // Deseleccionar al limpiar campos
+            dgvClientes.ClearSelection();
+            dgvClientes.CurrentCell = null; // Desactiva la celda actual
+        }
+        // --------------------------------------------------------------------------------------
         private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -220,22 +234,31 @@ namespace GestionDeVentas.Gerente
                 }
             }
         }
-
+        // --------------------------------------------------------------------------------------
         private void dgvClientes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dgvClientes.Columns[e.ColumnIndex].Name == "ActivoTexto" && e.Value != null)
+            // Verificamos que sea una fila de datos válida
+            if (e.RowIndex >= 0)
             {
-                if (e.Value.ToString() == "Inactivo")
+                // Obtenemos el objeto Cliente asociado a la fila
+                var cliente = dgvClientes.Rows[e.RowIndex].DataBoundItem as Cliente;
+
+                if (cliente != null && !cliente.Activo) // Si Activo es false (Inactivo)
                 {
-                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Red;
+                    // Aplicamos el color de fondo rojo a toda la fila
+                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    // Opcional: Cambiar el color del texto para que sea visible sobre el fondo rojo
+                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
                 }
                 else
                 {
-                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                    // Si el cliente está Activo, volvemos al color por defecto del DataGridView
+                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.BackColor = dgvClientes.DefaultCellStyle.BackColor;
+                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.ForeColor = dgvClientes.DefaultCellStyle.ForeColor;
                 }
             }
         }
-
+        // --------------------------------------------------------------------------------------
         private void txt_SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true;

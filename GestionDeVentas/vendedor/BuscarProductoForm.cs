@@ -22,9 +22,11 @@ namespace GestionDeVentas
 
         public class ProductoInfo
         {
-            public int Id { get; set; }
+           // public int Id { get; set; }
             public string Nombre { get; set; }
-            public string TalleNombre { get; set; }     // ✅ agregado
+            public string TalleNombre { get; set; }
+            public string Codigo { get; set; }
+
             public decimal Precio { get; set; }
             public int StockDisponible { get; set; }
         }
@@ -40,12 +42,10 @@ namespace GestionDeVentas
             {
                 List<Producto> productos = productoDatos.ObtenerProductos();
 
-                // Solo productos activos
                 productos = productos
                     .Where(p => string.Equals(p.Estado, "Activo", StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                // Filtrar por texto
                 if (!string.IsNullOrWhiteSpace(filtro))
                 {
                     filtro = filtro.ToLower();
@@ -56,17 +56,22 @@ namespace GestionDeVentas
                         .ToList();
                 }
 
-                // Mostrar datos relevantes
                 var datosMostrar = productos.Select(p => new
                 {
                     ID = p.Id,
+                    Codigo = p.Codigo,
                     Nombre = p.Nombre,
-                    Talle = p.TalleNombre,   // ✅ mostramos el talle real
+                    Talle = p.TalleNombre,
                     Precio = p.Precio,
                     Stock = p.Stock
                 }).ToList();
 
                 dataGridViewProductos.DataSource = datosMostrar;
+
+                // 👇 Esta línea oculta el ID visualmente
+                if (dataGridViewProductos.Columns.Contains("ID"))
+                    dataGridViewProductos.Columns["ID"].Visible = false;
+
                 dataGridViewProductos.ClearSelection();
             }
             catch (Exception ex)
@@ -75,6 +80,7 @@ namespace GestionDeVentas
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -106,7 +112,8 @@ namespace GestionDeVentas
 
             ProductoSeleccionado = new ProductoInfo
             {
-                Id = Convert.ToInt32(row.Cells["ID"].Value),
+               // Id = Convert.ToInt32(row.Cells["ID"].Value),
+                Codigo = row.Cells["Codigo"].Value.ToString(),
                 Nombre = row.Cells["Nombre"].Value.ToString(),
                 TalleNombre = row.Cells["Talle"].Value?.ToString(),  // ✅ trae el talle real
                 Precio = Convert.ToDecimal(row.Cells["Precio"].Value),

@@ -224,6 +224,22 @@ namespace Datos
             }
         }
 
+        public int ObtenerIdPorCodigo(string codigo)
+        {
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+                string query = "SELECT id_producto FROM producto WHERE codigo_producto = @Codigo";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Codigo", codigo);
+                    object result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : 0;
+                }
+            }
+        }
+
+
         public bool ExisteCodigo(string codigo, int? idExcluir = null)
         {
             using (var conn = ConexionBD.ObtenerConexion())

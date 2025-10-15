@@ -26,9 +26,8 @@ namespace GestionDeVentas.Vendedor
 
         private void FormFactura_Load(object sender, EventArgs e)
         {
-            //lblNroFactura.Text = "Nº Factura: (se genera al guardar)";
             lblFecha.Text = $"Fecha: {DateTime.Now:dd/MM/yyyy}";
-            lblVendedorActual.Text = $"Vendedor: {SesionActual.NombreCompleto} (ID: {SesionActual.IdUsuario})";
+            lblVendedorActual.Text = $"Vendedor: {SesionActual.NombreCompleto}";
 
             CargarMetodosPago();
 
@@ -120,7 +119,6 @@ namespace GestionDeVentas.Vendedor
                     var p = frm.ProductoSeleccionado;
                     productoSeleccionadoTmp = p;
 
-                    // ✅ Mostrar talle y stock real
                     txtBuscarProducto.Text = $"{p.Nombre} | Talle: {p.TalleNombre} | Stock: {p.StockDisponible}";
                     pnlSeleccionProducto.Visible = true;
                     txtCantidadSeleccionada.Text = "1";
@@ -155,31 +153,23 @@ namespace GestionDeVentas.Vendedor
                 return;
             }
 
-            // Si ya existe → sumar cantidad
+            // 🔹 Comprobar duplicado por Código
             foreach (DataGridViewRow row in dgvDetalle.Rows)
             {
                 if (row.IsNewRow) continue;
-                if (row.Cells["colCodigo"].Value?.ToString() == p.Id.ToString())
+                if (row.Cells["colCodigo"].Value?.ToString() == p.Codigo.ToString())
                 {
-                    int actual = Convert.ToInt32(row.Cells["colCantidad"].Value);
-                    int nueva = actual + cantidad;
-                    if (nueva > p.StockDisponible)
-                    {
-                        MessageBox.Show("La cantidad total supera el stock disponible.", "Aviso",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    row.Cells["colCantidad"].Value = nueva;
-                    RecalcularFila(row);
-                    CalcularTotales();
+                    MessageBox.Show("Este producto ya fue agregado al detalle.", "Aviso",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     pnlSeleccionProducto.Visible = false;
                     return;
                 }
             }
 
-            // ✅ Agregar producto con talle real
+
+            // ✅ Mostrar el Código (no el ID)
             dgvDetalle.Rows.Add(
-                p.Id.ToString(),
+                p.Codigo.ToString(),
                 p.Nombre,
                 p.TalleNombre,
                 cantidad,
@@ -316,6 +306,10 @@ namespace GestionDeVentas.Vendedor
                 txtVuelto.ForeColor = Color.Black;
             }
         }
+
+        // --------------------------
+        // GENERAR FACTURA
+        // --------------------------
         private void btnGenerar_Click(object sender, EventArgs e)
         {
             if (idClienteSeleccionado == null)
@@ -342,7 +336,6 @@ namespace GestionDeVentas.Vendedor
 
             string metodo = ((MetodoPago)cmbMetodoPago.SelectedItem).NombreMetodo;
 
-            // --- Validaciones según el método de pago ---
             if (metodo.Equals("Efectivo", StringComparison.OrdinalIgnoreCase))
             {
                 if (!decimal.TryParse(txtMontoEntregado.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out decimal entregado))
@@ -368,7 +361,6 @@ namespace GestionDeVentas.Vendedor
 
             try
             {
-                // 1️⃣ Insertar la factura
                 var totalFactura = decimal.Parse(txtTotal.Text, NumberStyles.Currency);
                 var factura = new Factura
                 {
@@ -382,13 +374,16 @@ namespace GestionDeVentas.Vendedor
 
                 int idFactura = facturaDatos.InsertarFactura(factura);
 
-                // 2️⃣ Insertar los detalles
+                // 🔹 Convertir Código → Id antes de insertar detalle
                 var detalles = new List<DetalleFactura>();
                 foreach (DataGridViewRow row in dgvDetalle.Rows)
                 {
                     if (row.IsNewRow) continue;
 
-                    if (!int.TryParse(row.Cells["colCodigo"].Value?.ToString(), out int idProd)) continue;
+                    string codigo = row.Cells["colCodigo"].Value?.ToString();
+                    int idProd = productoDatos.ObtenerIdPorCodigo(codigo); // ✅ cambio
+                    if (idProd == 0) continue;
+
                     if (!int.TryParse(row.Cells["colCantidad"].Value?.ToString(), out int cant)) continue;
                     if (!decimal.TryParse(row.Cells["colPrecio"].Value?.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out decimal precio)) continue;
 
@@ -403,7 +398,7 @@ namespace GestionDeVentas.Vendedor
 
                 detalleDatos.InsertarDetalles(idFactura, detalles);
 
-                // 3️⃣ Actualizar stock
+                // 🔹 Actualizar stock
                 foreach (var det in detalles)
                 {
                     try
@@ -417,11 +412,10 @@ namespace GestionDeVentas.Vendedor
                     }
                 }
 
-                // 4️⃣ Recuperar datos completos desde la base de datos
+                // 🔹 Obtener datos completos de la factura recién generada
                 factura.IdFactura = idFactura;
                 factura.Detalles = facturaDatos.ObtenerDetallesPorFactura(idFactura);
 
-                // Cargar también los datos completos del cliente, vendedor y método de pago
                 var facturasVendedor = facturaDatos.ObtenerFacturasPorVendedor(SesionActual.IdUsuario);
                 var facturaCompleta = facturasVendedor.FirstOrDefault(f => f.IdFactura == idFactura);
 
@@ -437,20 +431,17 @@ namespace GestionDeVentas.Vendedor
                 }
                 else
                 {
-                    // fallback por si no se encontró
                     factura.UsuarioNombre = SesionActual.NombreCompleto;
                     factura.MetodoPagoNombre = metodo;
                 }
 
-                // 5️⃣ Abrir la visualización de factura
                 using (var formVista = new FormVisualizarFactura(factura))
                 {
-                    this.Hide();  // Oculta el form de carga
+                    this.Hide();
                     formVista.ShowDialog();
                     this.Show();
                 }
 
-                // 6️⃣ Limpiar la pantalla para la próxima venta
                 LimpiarPantalla();
             }
             catch (Exception ex)
@@ -460,11 +451,6 @@ namespace GestionDeVentas.Vendedor
             }
         }
 
-
-
-        // --------------------------
-        // LIMPIAR
-        // --------------------------
         private void LimpiarPantalla()
         {
             idClienteSeleccionado = null;
@@ -484,10 +470,6 @@ namespace GestionDeVentas.Vendedor
 
         private void btnCancelar_Click(object sender, EventArgs e) => Close();
         private void btnCerrar_Click(object sender, EventArgs e) => Close();
-
-       private void lblVendedorActual_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void lblVendedorActual_Click(object sender, EventArgs e) { }
     }
 }

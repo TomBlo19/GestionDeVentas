@@ -36,6 +36,7 @@ namespace GestionDeVentas.Vendedor
 
             pnlSeleccionProducto.Visible = false;
             SetPlaceholder(txtInfoPago, "—");
+
         }
 
         // --------------------------
@@ -471,5 +472,10 @@ namespace GestionDeVentas.Vendedor
         private void btnCancelar_Click(object sender, EventArgs e) => Close();
         private void btnCerrar_Click(object sender, EventArgs e) => Close();
         private void lblVendedorActual_Click(object sender, EventArgs e) { }
+
+        private void lblFecha_Click(object sender, EventArgs e)
+        {
+            lblFecha.Text = $"Fecha: {DateTime.Now:dd/MM/yyyy}";
+        }
     }
 }

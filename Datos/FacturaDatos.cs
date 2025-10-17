@@ -38,6 +38,59 @@ namespace Datos
             return idFacturaGenerada;
         }
 
+
+        public Factura ObtenerFacturaPorId(int idFactura, int idUsuario)
+        {
+            Factura factura = null;
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+                string query = @"
+                    SELECT 
+                        f.id_factura, f.id_cliente, f.id_usuario, f.id_metodo_pago, f.fecha_factura, 
+                        f.total_factura, f.activo, c.nombre_cliente, c.apellido_cliente, c.dni_cliente, 
+                        c.telefono_cliente, c.direccion_cliente, c.ciudad_cliente, c.correo_cliente, 
+                        u.nombre_usuario AS usuario_nombre, ISNULL(mp.nombre_metodo,'Sin método') AS metodo_pago_nombre
+                    FROM factura f
+                    INNER JOIN cliente c ON f.id_cliente = c.id_cliente
+                    INNER JOIN usuario u ON f.id_usuario = u.id_usuario
+                    LEFT JOIN metodo_pago mp ON f.id_metodo_pago = mp.id_metodo_pago
+                    WHERE f.id_factura = @IdFactura AND f.id_usuario = @IdUsuario;";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@IdFactura", idFactura);
+                    cmd.Parameters.AddWithValue("@IdUsuario", idUsuario);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read()) // Usamos IF en lugar de WHILE porque esperamos un solo resultado
+                        {
+                            factura = new Factura
+                            {
+                                IdFactura = Convert.ToInt32(reader["id_factura"]),
+                                IdCliente = Convert.ToInt32(reader["id_cliente"]),
+                                IdUsuario = Convert.ToInt32(reader["id_usuario"]),
+                                IdMetodoPago = reader["id_metodo_pago"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["id_metodo_pago"]),
+                                FechaFactura = Convert.ToDateTime(reader["fecha_factura"]),
+                                TotalFactura = Convert.ToDecimal(reader["total_factura"]),
+                                Activo = Convert.ToBoolean(reader["activo"]),
+                                ClienteNombre = reader["nombre_cliente"].ToString() + " " + reader["apellido_cliente"].ToString(),
+                                ClienteDni = reader["dni_cliente"].ToString(),
+                                ClienteTelefono = reader["telefono_cliente"].ToString(),
+                                ClienteDireccion = reader["direccion_cliente"].ToString(),
+                                ClienteCiudad = reader["ciudad_cliente"].ToString(),
+                                ClienteCorreo = reader["correo_cliente"].ToString(),
+                                UsuarioNombre = reader["usuario_nombre"].ToString(),
+                                MetodoPagoNombre = reader["metodo_pago_nombre"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return factura;
+        }
+
         public void CambiarEstadoFactura(int idFactura, bool activa)
         {
             using (SqlConnection conn = ConexionBD.ObtenerConexion())

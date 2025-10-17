@@ -18,7 +18,7 @@
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblFiltros = new System.Windows.Forms.Label();
             this.lblBuscarCliente = new System.Windows.Forms.Label();
-            this.txtBuscarCliente = new System.Windows.Forms.TextBox();
+            this.txtBusquedaCliente = new System.Windows.Forms.TextBox();
             this.lblBuscarNroFactura = new System.Windows.Forms.Label();
             this.txtBuscarNroFactura = new System.Windows.Forms.TextBox();
             this.lblFecha = new System.Windows.Forms.Label();
@@ -34,13 +34,14 @@
             this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colVer = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnCerrar = new System.Windows.Forms.Button();
+            this.cboClienteCriterio = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVentas)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitulo
             // 
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(64, 64, 64);
+            this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.lblTitulo.Location = new System.Drawing.Point(20, 20);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(400, 40);
@@ -50,7 +51,7 @@
             // lblFiltros
             // 
             this.lblFiltros.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFiltros.ForeColor = System.Drawing.Color.FromArgb(80, 80, 80);
+            this.lblFiltros.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.lblFiltros.Location = new System.Drawing.Point(20, 80);
             this.lblFiltros.Name = "lblFiltros";
             this.lblFiltros.Size = new System.Drawing.Size(200, 23);
@@ -63,22 +64,31 @@
             this.lblBuscarCliente.Name = "lblBuscarCliente";
             this.lblBuscarCliente.Size = new System.Drawing.Size(120, 23);
             this.lblBuscarCliente.TabIndex = 2;
-            this.lblBuscarCliente.Text = "Cliente:";
+            this.lblBuscarCliente.Text = "Buscar Cliente por:";
             // 
-            // txtBuscarCliente
+            // cboClienteCriterio
             // 
-            this.txtBuscarCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtBuscarCliente.Location = new System.Drawing.Point(140, 120);
-            this.txtBuscarCliente.Name = "txtBuscarCliente";
-            this.txtBuscarCliente.Size = new System.Drawing.Size(200, 22);
-            this.txtBuscarCliente.TabIndex = 3;
+            this.cboClienteCriterio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboClienteCriterio.FormattingEnabled = true;
+            this.cboClienteCriterio.Location = new System.Drawing.Point(140, 119);
+            this.cboClienteCriterio.Name = "cboClienteCriterio";
+            this.cboClienteCriterio.Size = new System.Drawing.Size(100, 24);
+            this.cboClienteCriterio.TabIndex = 3;
+            // 
+            // txtBusquedaCliente
+            // 
+            this.txtBusquedaCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtBusquedaCliente.Location = new System.Drawing.Point(246, 120);
+            this.txtBusquedaCliente.Name = "txtBusquedaCliente";
+            this.txtBusquedaCliente.Size = new System.Drawing.Size(180, 22);
+            this.txtBusquedaCliente.TabIndex = 4;
             // 
             // lblBuscarNroFactura
             // 
             this.lblBuscarNroFactura.Location = new System.Drawing.Point(20, 150);
             this.lblBuscarNroFactura.Name = "lblBuscarNroFactura";
             this.lblBuscarNroFactura.Size = new System.Drawing.Size(120, 23);
-            this.lblBuscarNroFactura.TabIndex = 4;
+            this.lblBuscarNroFactura.TabIndex = 5;
             this.lblBuscarNroFactura.Text = "Nº de Factura:";
             // 
             // txtBuscarNroFactura
@@ -86,16 +96,16 @@
             this.txtBuscarNroFactura.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtBuscarNroFactura.Location = new System.Drawing.Point(140, 150);
             this.txtBuscarNroFactura.Name = "txtBuscarNroFactura";
-            this.txtBuscarNroFactura.Size = new System.Drawing.Size(200, 22);
-            this.txtBuscarNroFactura.TabIndex = 5;
+            this.txtBuscarNroFactura.Size = new System.Drawing.Size(286, 22);
+            this.txtBuscarNroFactura.TabIndex = 6;
             // 
             // lblFecha
             // 
             this.lblFecha.Location = new System.Drawing.Point(20, 180);
             this.lblFecha.Name = "lblFecha";
             this.lblFecha.Size = new System.Drawing.Size(120, 23);
-            this.lblFecha.TabIndex = 6;
-            this.lblFecha.Text = "Fecha:";
+            this.lblFecha.TabIndex = 7;
+            this.lblFecha.Text = "Rango de Fecha:";
             // 
             // dtpFechaInicio
             // 
@@ -103,43 +113,43 @@
             this.dtpFechaInicio.Location = new System.Drawing.Point(140, 180);
             this.dtpFechaInicio.Name = "dtpFechaInicio";
             this.dtpFechaInicio.ShowCheckBox = true;
-            this.dtpFechaInicio.Size = new System.Drawing.Size(120, 22);
-            this.dtpFechaInicio.TabIndex = 7;
+            this.dtpFechaInicio.Size = new System.Drawing.Size(130, 22);
+            this.dtpFechaInicio.TabIndex = 8;
             // 
             // dtpFechaFin
             // 
             this.dtpFechaFin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaFin.Location = new System.Drawing.Point(270, 180);
+            this.dtpFechaFin.Location = new System.Drawing.Point(276, 180);
             this.dtpFechaFin.Name = "dtpFechaFin";
             this.dtpFechaFin.ShowCheckBox = true;
-            this.dtpFechaFin.Size = new System.Drawing.Size(120, 22);
-            this.dtpFechaFin.TabIndex = 8;
+            this.dtpFechaFin.Size = new System.Drawing.Size(150, 22);
+            this.dtpFechaFin.TabIndex = 9;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(0, 122, 204);
+            this.btnBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
             this.btnBuscar.FlatAppearance.BorderSize = 0;
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(420, 120);
+            this.btnBuscar.Location = new System.Drawing.Point(450, 120);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(100, 40);
-            this.btnBuscar.TabIndex = 9;
+            this.btnBuscar.TabIndex = 10;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnLimpiarFiltros
             // 
-            this.btnLimpiarFiltros.BackColor = System.Drawing.Color.FromArgb(100, 100, 100);
+            this.btnLimpiarFiltros.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.btnLimpiarFiltros.FlatAppearance.BorderSize = 0;
             this.btnLimpiarFiltros.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiarFiltros.ForeColor = System.Drawing.Color.White;
-            this.btnLimpiarFiltros.Location = new System.Drawing.Point(530, 120);
+            this.btnLimpiarFiltros.Location = new System.Drawing.Point(560, 120);
             this.btnLimpiarFiltros.Name = "btnLimpiarFiltros";
             this.btnLimpiarFiltros.Size = new System.Drawing.Size(100, 40);
-            this.btnLimpiarFiltros.TabIndex = 10;
+            this.btnLimpiarFiltros.TabIndex = 11;
             this.btnLimpiarFiltros.Text = "Limpiar";
             this.btnLimpiarFiltros.UseVisualStyleBackColor = false;
             this.btnLimpiarFiltros.Click += new System.EventHandler(this.btnLimpiarFiltros_Click);
@@ -168,7 +178,7 @@
             this.dgvVentas.RowHeadersWidth = 51;
             this.dgvVentas.RowTemplate.Height = 24;
             this.dgvVentas.Size = new System.Drawing.Size(944, 529);
-            this.dgvVentas.TabIndex = 11;
+            this.dgvVentas.TabIndex = 12;
             this.dgvVentas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVentas_CellContentClick);
             this.dgvVentas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVentas_CellDoubleClick);
             // 
@@ -228,7 +238,7 @@
             this.btnCerrar.Location = new System.Drawing.Point(924, 10);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(50, 30);
-            this.btnCerrar.TabIndex = 12;
+            this.btnCerrar.TabIndex = 13;
             this.btnCerrar.Text = "X";
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
@@ -248,7 +258,8 @@
             this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.txtBuscarNroFactura);
             this.Controls.Add(this.lblBuscarNroFactura);
-            this.Controls.Add(this.txtBuscarCliente);
+            this.Controls.Add(this.txtBusquedaCliente);
+            this.Controls.Add(this.cboClienteCriterio);
             this.Controls.Add(this.lblBuscarCliente);
             this.Controls.Add(this.lblFiltros);
             this.Controls.Add(this.lblTitulo);
@@ -265,7 +276,7 @@
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblFiltros;
         private System.Windows.Forms.Label lblBuscarCliente;
-        private System.Windows.Forms.TextBox txtBuscarCliente;
+        private System.Windows.Forms.TextBox txtBusquedaCliente;
         private System.Windows.Forms.Label lblBuscarNroFactura;
         private System.Windows.Forms.TextBox txtBuscarNroFactura;
         private System.Windows.Forms.Label lblFecha;
@@ -281,5 +292,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTotal;
         private System.Windows.Forms.DataGridViewButtonColumn colVer;
         private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.ComboBox cboClienteCriterio;
     }
 }

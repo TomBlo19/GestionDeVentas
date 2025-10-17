@@ -12,28 +12,15 @@ namespace Datos
         public List<Producto> ObtenerProductos()
         {
             var lista = new List<Producto>();
-
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
                     SELECT 
-                        p.id_producto, 
-                        p.codigo_producto, 
-                        p.nombre_producto, 
-                        p.descripcion_producto,
-                        t.id_talle,
-                        t.nombre_talle,
-                        p.color_producto, 
-                        p.marca_producto, 
-                        p.precio_producto,
-                        p.stock_producto, 
-                        p.stock_minimo, 
-                        p.estado_producto,
-                        c.id_categoria,
-                        c.nombre_categoria,
-                        pr.id_proveedor,
-                        pr.nombre_proveedor
+                        p.id_producto, p.codigo_producto, p.nombre_producto, p.descripcion_producto,
+                        t.id_talle, t.nombre_talle, p.color_producto, p.marca_producto, p.precio_producto,
+                        p.stock_producto, p.stock_minimo, p.estado_producto, c.id_categoria, c.nombre_categoria,
+                        pr.id_proveedor, pr.nombre_proveedor
                     FROM producto p
                     INNER JOIN categoria c ON p.id_categoria = c.id_categoria
                     INNER JOIN proveedor pr ON p.id_proveedor = pr.id_proveedor
@@ -69,15 +56,65 @@ namespace Datos
             return lista;
         }
 
+        // <<<-------------------- INICIO: NUEVOS MÉTODOS NECESARIOS -------------------->>>
+
+        public List<string> ObtenerTodasCategorias()
+        {
+            var lista = new List<string>();
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+                string query = "SELECT nombre_categoria FROM categoria ORDER BY nombre_categoria;";
+                using (var cmd = new SqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        lista.Add(reader["nombre_categoria"].ToString());
+                    }
+                }
+            }
+            return lista;
+        }
+
+        public List<string> ObtenerTallesPorCategoria(string nombreCategoria)
+        {
+            var lista = new List<string>();
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+                string query = @"
+                    SELECT DISTINCT t.nombre_talle
+                    FROM talle t
+                    INNER JOIN producto p ON t.id_talle = p.id_talle
+                    INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+                    WHERE c.nombre_categoria = @NombreCategoria
+                    ORDER BY t.nombre_talle;";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@NombreCategoria", nombreCategoria);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(reader["nombre_talle"].ToString());
+                        }
+                    }
+                }
+            }
+            return lista;
+        }
+
+        // <<<-------------------- FIN: NUEVOS MÉTODOS -------------------->>>
+
         public string ObtenerNombreTalle(int idTalle)
         {
             if (idTalle <= 0) return "-";
-
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT nombre_talle FROM talle WHERE id_talle=@IdTalle;";
-
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@IdTalle", idTalle);
@@ -90,12 +127,10 @@ namespace Datos
         public string ObtenerNombreCategoria(int idCategoria)
         {
             if (idCategoria <= 0) return "-";
-
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = "SELECT nombre_categoria FROM categoria WHERE id_categoria=@IdCategoria;";
-
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@IdCategoria", idCategoria);
@@ -104,7 +139,6 @@ namespace Datos
                 }
             }
         }
-
         public void ActualizarStock(int idProducto, int cantidadVendida)
         {
             using (SqlConnection conn = ConexionBD.ObtenerConexion())

@@ -3,7 +3,7 @@ using Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-// ✅ NUEVO: importación para acceder a la clase de conexión global (ConexionBD)
+
 namespace GestionDeVentas.Datos
 {
     public class ClienteDatos
@@ -205,5 +205,82 @@ namespace GestionDeVentas.Datos
                 }
             }
         }
+
+        public List<Cliente> BuscarClientesPorDni(string dni)
+        {
+            var lista = new List<Cliente>();
+
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+                var cmd = new SqlCommand(
+                    "SELECT id_cliente, nombre_cliente, apellido_cliente, dni_cliente, telefono_cliente, direccion_cliente, pais_cliente, ciudad_cliente, correo_cliente, estado_cliente FROM cliente WHERE dni_cliente LIKE @dni + '%';",
+                    conn);
+
+                cmd.Parameters.AddWithValue("@dni", dni);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        lista.Add(new Cliente
+                        {
+                            Id = Convert.ToInt32(reader["id_cliente"]),
+                            Nombre = reader["nombre_cliente"].ToString(),
+                            Apellido = reader["apellido_cliente"].ToString(),
+                            Dni = reader["dni_cliente"].ToString(),
+                            Telefono = reader["telefono_cliente"].ToString(),
+                            Direccion = reader["direccion_cliente"].ToString(),
+                            Pais = reader["pais_cliente"].ToString(),
+                            Ciudad = reader["ciudad_cliente"].ToString(),
+                            CorreoElectronico = reader["correo_cliente"].ToString(),
+                            Activo = reader["estado_cliente"].ToString().Equals("activo", StringComparison.OrdinalIgnoreCase)
+                        });
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+
+        public List<Cliente> BuscarClientesPorApellido(string apellido)
+        {
+            var lista = new List<Cliente>();
+
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+                var cmd = new SqlCommand(
+                    "SELECT id_cliente, nombre_cliente, apellido_cliente, dni_cliente, telefono_cliente, direccion_cliente, pais_cliente, ciudad_cliente, correo_cliente, estado_cliente FROM cliente WHERE apellido_cliente LIKE '%' + @apellido + '%';",
+                    conn);
+
+                cmd.Parameters.AddWithValue("@apellido", apellido);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        lista.Add(new Cliente
+                        {
+                            Id = Convert.ToInt32(reader["id_cliente"]),
+                            Nombre = reader["nombre_cliente"].ToString(),
+                            Apellido = reader["apellido_cliente"].ToString(),
+                            Dni = reader["dni_cliente"].ToString(),
+                            Telefono = reader["telefono_cliente"].ToString(),
+                            Direccion = reader["direccion_cliente"].ToString(),
+                            Pais = reader["pais_cliente"].ToString(),
+                            Ciudad = reader["ciudad_cliente"].ToString(),
+                            CorreoElectronico = reader["correo_cliente"].ToString(),
+                            Activo = reader["estado_cliente"].ToString().Equals("activo", StringComparison.OrdinalIgnoreCase)
+                        });
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+
     }
 }

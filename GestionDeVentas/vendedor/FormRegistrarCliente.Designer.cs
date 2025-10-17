@@ -50,9 +50,9 @@
             this.lblCiudad = new System.Windows.Forms.Label();
             this.txtCiudad = new System.Windows.Forms.TextBox();
             this.lblErrorCiudad = new System.Windows.Forms.Label();
-            this.lblCorreo = new System.Windows.Forms.Label(); // << RENOMBRADO
-            this.txtCorreo = new System.Windows.Forms.TextBox(); // << CAMBIADO A TEXTBOX
-            this.lblErrorCorreo = new System.Windows.Forms.Label(); // << RENOMBRADO
+            this.lblCorreo = new System.Windows.Forms.Label();
+            this.txtCorreo = new System.Windows.Forms.TextBox();
+            this.lblErrorCorreo = new System.Windows.Forms.Label();
             this.btnRegistrar = new System.Windows.Forms.Button();
             this.dgvClientes = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,11 +63,16 @@
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPais = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCiudad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCorreo = new System.Windows.Forms.DataGridViewTextBoxColumn(); // << RENOMBRADO
+            this.colCorreo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
+            this.lblBuscarPor = new System.Windows.Forms.Label();
+            this.cboBuscarPor = new System.Windows.Forms.ComboBox();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnLimpiarBusqueda = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClientes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,7 +88,6 @@
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Registrar Cliente";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-          //  this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click);
             // 
             // lblNombre
             // 
@@ -345,16 +349,16 @@
             this.colDireccion,
             this.colPais,
             this.colCiudad,
-            this.colCorreo, // << COLUMNA DE CORREO
+            this.colCorreo,
             this.colEstado});
-            this.dgvClientes.Location = new System.Drawing.Point(13, 554);
+            this.dgvClientes.Location = new System.Drawing.Point(13, 589);
             this.dgvClientes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvClientes.Name = "dgvClientes";
             this.dgvClientes.ReadOnly = true;
             this.dgvClientes.RowHeadersVisible = false;
             this.dgvClientes.RowHeadersWidth = 51;
             this.dgvClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClientes.Size = new System.Drawing.Size(1040, 234);
+            this.dgvClientes.Size = new System.Drawing.Size(1040, 188);
             this.dgvClientes.TabIndex = 26;
             this.dgvClientes.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellClick);
             // 
@@ -416,7 +420,7 @@
             // 
             // colCorreo
             // 
-            this.colCorreo.HeaderText = "Correo Electrónico"; // << TEXTO DE ENCABEZADO CORREGIDO
+            this.colCorreo.HeaderText = "Correo Electrónico";
             this.colCorreo.MinimumWidth = 6;
             this.colCorreo.Name = "colCorreo";
             this.colCorreo.ReadOnly = true;
@@ -478,20 +482,82 @@
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
+            // lblBuscarPor
+            // 
+            this.lblBuscarPor.AutoSize = true;
+            this.lblBuscarPor.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblBuscarPor.Location = new System.Drawing.Point(13, 555);
+            this.lblBuscarPor.Name = "lblBuscarPor";
+            this.lblBuscarPor.Size = new System.Drawing.Size(108, 22);
+            this.lblBuscarPor.TabIndex = 31;
+            this.lblBuscarPor.Text = "Buscar por:";
+            // 
+            // cboBuscarPor
+            // 
+            this.cboBuscarPor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBuscarPor.FormattingEnabled = true;
+            this.cboBuscarPor.Location = new System.Drawing.Point(127, 555);
+            this.cboBuscarPor.Name = "cboBuscarPor";
+            this.cboBuscarPor.Size = new System.Drawing.Size(180, 24);
+            this.cboBuscarPor.TabIndex = 32;
+            // 
+            // txtBusqueda
+            // 
+            this.txtBusqueda.Location = new System.Drawing.Point(313, 556);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.Size = new System.Drawing.Size(250, 22);
+            this.txtBusqueda.TabIndex = 33;
+            this.txtBusqueda.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBusqueda_KeyPress);
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnBuscar.FlatAppearance.BorderSize = 0;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.btnBuscar.ForeColor = System.Drawing.Color.White;
+            this.btnBuscar.Location = new System.Drawing.Point(569, 552);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(90, 30);
+            this.btnBuscar.TabIndex = 34;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // btnLimpiarBusqueda
+            // 
+            this.btnLimpiarBusqueda.BackColor = System.Drawing.Color.OrangeRed;
+            this.btnLimpiarBusqueda.FlatAppearance.BorderSize = 0;
+            this.btnLimpiarBusqueda.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLimpiarBusqueda.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.btnLimpiarBusqueda.ForeColor = System.Drawing.Color.White;
+            this.btnLimpiarBusqueda.Location = new System.Drawing.Point(665, 552);
+            this.btnLimpiarBusqueda.Name = "btnLimpiarBusqueda";
+            this.btnLimpiarBusqueda.Size = new System.Drawing.Size(90, 30);
+            this.btnLimpiarBusqueda.TabIndex = 35;
+            this.btnLimpiarBusqueda.Text = "Limpiar";
+            this.btnLimpiarBusqueda.UseVisualStyleBackColor = false;
+            this.btnLimpiarBusqueda.Click += new System.EventHandler(this.btnLimpiarBusqueda_Click);
+            // 
             // FormRegistrarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 788);
             this.ControlBox = false;
+            this.Controls.Add(this.btnLimpiarBusqueda);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.txtBusqueda);
+            this.Controls.Add(this.cboBuscarPor);
+            this.Controls.Add(this.lblBuscarPor);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.dgvClientes);
             this.Controls.Add(this.btnRegistrar);
-            this.Controls.Add(this.lblErrorCorreo); // << CAMBIADO
-            this.Controls.Add(this.txtCorreo); // << CAMBIADO
-            this.Controls.Add(this.lblCorreo); // << CAMBIADO
+            this.Controls.Add(this.lblErrorCorreo);
+            this.Controls.Add(this.txtCorreo);
+            this.Controls.Add(this.lblCorreo);
             this.Controls.Add(this.lblErrorCiudad);
             this.Controls.Add(this.txtCiudad);
             this.Controls.Add(this.lblCiudad);
@@ -550,9 +616,9 @@
         private System.Windows.Forms.Label lblCiudad;
         private System.Windows.Forms.TextBox txtCiudad;
         private System.Windows.Forms.Label lblErrorCiudad;
-        private System.Windows.Forms.Label lblCorreo; // << RENOMBRADO
-        private System.Windows.Forms.TextBox txtCorreo; // << CAMBIADO
-        private System.Windows.Forms.Label lblErrorCorreo; // << RENOMBRADO
+        private System.Windows.Forms.Label lblCorreo;
+        private System.Windows.Forms.TextBox txtCorreo;
+        private System.Windows.Forms.Label lblErrorCorreo;
         private System.Windows.Forms.Button btnRegistrar;
         private System.Windows.Forms.DataGridView dgvClientes;
         private System.Windows.Forms.Button btnEditar;
@@ -565,8 +631,13 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDireccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPais;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCiudad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCorreo; // << RENOMBRADO
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCorreo;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEstado;
         private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.Label lblBuscarPor;
+        private System.Windows.Forms.ComboBox cboBuscarPor;
+        private System.Windows.Forms.TextBox txtBusqueda;
+        private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.Button btnLimpiarBusqueda;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using GestionDeVentas.Modelos;
 using GestionDeVentas.Datos;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -34,18 +35,20 @@ namespace GestionDeVentas.Gerente
             btnCerrar.BringToFront();
             ActualizarDataGridView();
 
-            // 💡 Solución Final: Deseleccionar automáticamente al cargar el Formulario
-            // Esto asegura que la selección automática de la primera fila sea eliminada.
+            // Configurar ComboBox de búsqueda
+            cboBuscarPor.Items.Add("DNI");
+            cboBuscarPor.Items.Add("Apellido");
+            cboBuscarPor.SelectedIndex = 0;
+
             dgvClientes.ClearSelection();
-            dgvClientes.CurrentCell = null; // Establece la celda actual a nula
+            dgvClientes.CurrentCell = null;
         }
+
         // --------------------------------------------------------------------------------------
         private void ConfigurarDataGridView()
         {
             dgvClientes.AutoGenerateColumns = false;
             dgvClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvClientes.AllowUserToResizeRows = false;
-            dgvClientes.AllowUserToResizeColumns = true;
             dgvClientes.ReadOnly = true;
             dgvClientes.Columns.Clear();
 
@@ -61,28 +64,100 @@ namespace GestionDeVentas.Gerente
 
             dgvClientes.CellFormatting += dgvClientes_CellFormatting;
         }
+
         // --------------------------------------------------------------------------------------
         private void ActualizarDataGridView()
         {
-            dgvClientes.DataSource = clienteDatos.ObtenerClientes();
-
-            // 💡 Solución Adicional: Deseleccionar después de refrescar los datos.
-            // Esto es crucial para que no se seleccione al actualizar la grilla.
-            dgvClientes.ClearSelection();
-            dgvClientes.CurrentCell = null; // Establece la celda actual a nula
+            try
+            {
+                dgvClientes.DataSource = clienteDatos.ObtenerClientes();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los clientes: {ex.Message}", "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                dgvClientes.ClearSelection();
+                dgvClientes.CurrentCell = null;
+            }
         }
+
         // --------------------------------------------------------------------------------------
-        // 🔹 Confirmación
         private bool Confirmar(string mensaje, string titulo = "Confirmación")
         {
             return MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
         }
 
+        // =======================================================================================
+        // MÉTODOS DE BÚSQUEDA (CONECTADOS A LA BASE DE DATOS)
+        // =======================================================================================
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            // <<< CAMBIO PRINCIPAL: AHORA CONSULTA DIRECTAMENTE A LA BASE DE DATOS >>>
+
+            string criterio = cboBuscarPor.SelectedItem.ToString();
+            string valorBusqueda = txtBusqueda.Text.Trim();
+
+            if (string.IsNullOrEmpty(valorBusqueda))
+            {
+                ActualizarDataGridView(); // Si no hay texto, muestra todos los clientes
+                return;
+            }
+
+            try
+            {
+                List<Cliente> clientesFiltrados;
+
+                // Llama al método específico de la capa de datos según el criterio
+                if (criterio == "DNI")
+                {
+                    clientesFiltrados = clienteDatos.BuscarClientesPorDni(valorBusqueda);
+                }
+                else // Apellido
+                {
+                    clientesFiltrados = clienteDatos.BuscarClientesPorApellido(valorBusqueda);
+                }
+
+                // Actualiza la grilla con los resultados de la base de datos
+                dgvClientes.DataSource = clientesFiltrados;
+            }
+            catch (Exception ex)
+            {
+                // Maneja cualquier error que pueda ocurrir durante la conexión o consulta
+                MessageBox.Show($"Ocurrió un error al buscar los clientes: {ex.Message}",
+                                "Error de Búsqueda", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                dgvClientes.ClearSelection();
+            }
+        }
+
+        private void btnLimpiarBusqueda_Click(object sender, EventArgs e)
+        {
+            txtBusqueda.Clear();
+            ActualizarDataGridView(); // Recarga la lista completa de clientes
+        }
+
+        private void txtBusqueda_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnBuscar.PerformClick(); // Simula un clic en el botón de buscar
+                e.Handled = true;         // Evita el sonido "ding"
+            }
+        }
+
+        // =======================================================================================
+        // MÉTODOS CRUD (SIN CAMBIOS)
+        // =======================================================================================
+
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos(false)) return;
 
-            // Validaciones únicas ANTES de confirmar
             if (clienteDatos.ExisteDni(txtDni.Text))
             {
                 lblErrorDni.Text = "El DNI ya existe.";
@@ -114,12 +189,11 @@ namespace GestionDeVentas.Gerente
             LimpiarCampos();
             ActualizarDataGridView();
         }
-        // --------------------------------------------------------------------------------------
+
         private void btnEditar_Click(object sender, EventArgs e)
         {
             if (!(clienteSeleccionadoId.HasValue && ValidarCampos(true))) return;
 
-            // Validaciones únicas
             if (clienteDatos.ExisteDni(txtDni.Text, clienteSeleccionadoId.Value))
             {
                 lblErrorDni.Text = "El DNI ya existe.";
@@ -151,114 +225,94 @@ namespace GestionDeVentas.Gerente
             LimpiarCampos();
             ActualizarDataGridView();
         }
-        // --------------------------------------------------------------------------------------
+
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             if (!Confirmar("¿Deseas limpiar los campos?")) return;
             LimpiarCampos();
         }
-        // --------------------------------------------------------------------------------------
+
+        // =======================================================================================
+        // MÉTODOS AUXILIARES Y DE VALIDACIÓN (SIN CAMBIOS)
+        // =======================================================================================
+
         private bool ValidarCampos(bool esEdicion)
         {
             bool esValido = true;
             string patronEmail = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
 
-            lblErrorNombre.Text = " ";
-            lblErrorApellido.Text = " ";
-            lblErrorDni.Text = " ";
-            lblErrorTelefono.Text = " ";
-            lblErrorDireccion.Text = " ";
-            lblErrorPais.Text = " ";
-            lblErrorCiudad.Text = " ";
-            lblErrorCorreo.Text = " ";
+            lblErrorNombre.Text = " "; lblErrorApellido.Text = " "; lblErrorDni.Text = " ";
+            lblErrorTelefono.Text = " "; lblErrorDireccion.Text = " "; lblErrorPais.Text = " ";
+            lblErrorCiudad.Text = " "; lblErrorCorreo.Text = " ";
 
             if (string.IsNullOrWhiteSpace(txtNombre.Text)) { lblErrorNombre.Text = "El nombre es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtApellido.Text)) { lblErrorApellido.Text = "El apellido es obligatorio."; esValido = false; }
-
             if (string.IsNullOrWhiteSpace(txtDni.Text)) { lblErrorDni.Text = "El DNI es obligatorio."; esValido = false; }
-            else if (!Regex.IsMatch(txtDni.Text, @"^\d+$")) { lblErrorDni.Text = "El DNI solo puede contener números."; esValido = false; }
-
+            else if (!Regex.IsMatch(txtDni.Text, @"^\d+$")) { lblErrorDni.Text = "El DNI solo debe contener números."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtTelefono.Text)) { lblErrorTelefono.Text = "El teléfono es obligatorio."; esValido = false; }
-            else if (!Regex.IsMatch(txtTelefono.Text, @"^\d+$")) { lblErrorTelefono.Text = "El teléfono solo puede contener números."; esValido = false; }
-
+            else if (!Regex.IsMatch(txtTelefono.Text, @"^\d+$")) { lblErrorTelefono.Text = "El teléfono solo debe contener números."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtDireccion.Text)) { lblErrorDireccion.Text = "La dirección es obligatoria."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtPais.Text)) { lblErrorPais.Text = "El país es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtCiudad.Text)) { lblErrorCiudad.Text = "La ciudad es obligatoria."; esValido = false; }
-
             if (string.IsNullOrWhiteSpace(txtCorreo.Text)) { lblErrorCorreo.Text = "El correo es obligatorio."; esValido = false; }
             else if (!Regex.IsMatch(txtCorreo.Text, patronEmail)) { lblErrorCorreo.Text = "Formato de correo inválido."; esValido = false; }
 
             return esValido;
         }
-        // --------------------------------------------------------------------------------------
+
         private void LimpiarCampos()
         {
-            txtNombre.Clear();
-            txtApellido.Clear();
-            txtDni.Clear();
-            txtTelefono.Clear();
-            txtDireccion.Clear();
-            txtPais.Clear();
-            txtCiudad.Clear();
-            txtCorreo.Clear();
-
+            txtNombre.Clear(); txtApellido.Clear(); txtDni.Clear();
+            txtTelefono.Clear(); txtDireccion.Clear(); txtPais.Clear();
+            txtCiudad.Clear(); txtCorreo.Clear();
             txtNombre.Focus();
+
             clienteSeleccionadoId = null;
             btnRegistrar.Visible = true;
             btnEditar.Visible = false;
 
-            // Deseleccionar al limpiar campos
+            btnLimpiarBusqueda_Click(null, null);
+
             dgvClientes.ClearSelection();
-            dgvClientes.CurrentCell = null; // Desactiva la celda actual
+            dgvClientes.CurrentCell = null;
         }
-        // --------------------------------------------------------------------------------------
+
         private void dgvClientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && dgvClientes.Rows[e.RowIndex].DataBoundItem is Cliente fila)
             {
-                var fila = dgvClientes.Rows[e.RowIndex].DataBoundItem as Cliente;
-                if (fila != null)
-                {
-                    clienteSeleccionadoId = fila.Id;
-                    txtNombre.Text = fila.Nombre;
-                    txtApellido.Text = fila.Apellido;
-                    txtDni.Text = fila.Dni;
-                    txtTelefono.Text = fila.Telefono;
-                    txtDireccion.Text = fila.Direccion;
-                    txtPais.Text = fila.Pais;
-                    txtCiudad.Text = fila.Ciudad;
-                    txtCorreo.Text = fila.CorreoElectronico;
+                clienteSeleccionadoId = fila.Id;
+                txtNombre.Text = fila.Nombre;
+                txtApellido.Text = fila.Apellido;
+                txtDni.Text = fila.Dni;
+                txtTelefono.Text = fila.Telefono;
+                txtDireccion.Text = fila.Direccion;
+                txtPais.Text = fila.Pais;
+                txtCiudad.Text = fila.Ciudad;
+                txtCorreo.Text = fila.CorreoElectronico;
 
-                    btnRegistrar.Visible = false;
-                    btnEditar.Visible = true;
-                }
+                btnRegistrar.Visible = false;
+                btnEditar.Visible = true;
             }
         }
-        // --------------------------------------------------------------------------------------
+
         private void dgvClientes_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Verificamos que sea una fila de datos válida
-            if (e.RowIndex >= 0)
+            if (e.RowIndex >= 0 && dgvClientes.Rows[e.RowIndex].DataBoundItem is Cliente cliente)
             {
-                // Obtenemos el objeto Cliente asociado a la fila
-                var cliente = dgvClientes.Rows[e.RowIndex].DataBoundItem as Cliente;
-
-                if (cliente != null && !cliente.Activo) // Si Activo es false (Inactivo)
+                if (cliente != null && !cliente.Activo)
                 {
-                    // Aplicamos el color de fondo rojo a toda la fila
-                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
-                    // Opcional: Cambiar el color del texto para que sea visible sobre el fondo rojo
-                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                    e.CellStyle.BackColor = Color.Red;
+                    e.CellStyle.ForeColor = Color.White;
                 }
                 else
                 {
-                    // Si el cliente está Activo, volvemos al color por defecto del DataGridView
-                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.BackColor = dgvClientes.DefaultCellStyle.BackColor;
-                    dgvClientes.Rows[e.RowIndex].DefaultCellStyle.ForeColor = dgvClientes.DefaultCellStyle.ForeColor;
+                    e.CellStyle.BackColor = dgvClientes.DefaultCellStyle.BackColor;
+                    e.CellStyle.ForeColor = dgvClientes.DefaultCellStyle.ForeColor;
                 }
             }
         }
-        // --------------------------------------------------------------------------------------
+
         private void txt_SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true;

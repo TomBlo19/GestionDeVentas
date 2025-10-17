@@ -103,13 +103,14 @@
             // lblFecha
             // 
             this.lblFecha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblFecha.Location = new System.Drawing.Point(525, 50);
+            this.lblFecha.Location = new System.Drawing.Point(290, 33);
             this.lblFecha.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFecha.Name = "lblFecha";
-            this.lblFecha.Size = new System.Drawing.Size(112, 19);
+            this.lblFecha.Size = new System.Drawing.Size(317, 19);
             this.lblFecha.TabIndex = 3;
             this.lblFecha.Text = "Fecha: --/--/----";
             this.lblFecha.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblFecha.Click += new System.EventHandler(this.lblFecha_Click);
             // 
             // lblCliente
             // 
@@ -200,7 +201,7 @@
             // 
             this.lblVendedorActual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVendedorActual.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVendedorActual.Location = new System.Drawing.Point(369, 69);
+            this.lblVendedorActual.Location = new System.Drawing.Point(346, 52);
             this.lblVendedorActual.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblVendedorActual.Name = "lblVendedorActual";
             this.lblVendedorActual.Size = new System.Drawing.Size(312, 19);
@@ -339,12 +340,14 @@
             this.colCantidad.HeaderText = "Cantidad";
             this.colCantidad.MinimumWidth = 6;
             this.colCantidad.Name = "colCantidad";
+            this.colCantidad.ReadOnly = true;
             // 
             // colPrecio
             // 
             this.colPrecio.HeaderText = "Precio Unit.";
             this.colPrecio.MinimumWidth = 6;
             this.colPrecio.Name = "colPrecio";
+            this.colPrecio.ReadOnly = true;
             // 
             // colSubtotal
             // 
@@ -358,6 +361,7 @@
             this.colEliminar.HeaderText = "Eliminar";
             this.colEliminar.MinimumWidth = 6;
             this.colEliminar.Name = "colEliminar";
+            this.colEliminar.ReadOnly = true;
             this.colEliminar.Text = "❌";
             this.colEliminar.UseColumnTextForButtonValue = true;
             // 
@@ -551,6 +555,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(738, 609);
+            this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGenerar);
@@ -583,7 +588,6 @@
             this.Controls.Add(this.btnBuscarCliente);
             this.Controls.Add(this.txtBuscarCliente);
             this.Controls.Add(this.lblCliente);
-            this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.picLogo);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormFactura";

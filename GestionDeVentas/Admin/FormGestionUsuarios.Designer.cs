@@ -7,17 +7,16 @@ namespace GestionDeVentas.Admin
     {
         private System.ComponentModel.IContainer components = null;
 
-        // UI
         private Panel panelTop;
         private Label lblTitulo;
         private Button btnCerrar;
-
         private Panel panelFiltros;
         private TextBox txtBusqueda;
         private ComboBox cmbFiltroEstado;
-
+        private ComboBox cboBuscarPor;
+        private Label lblBuscarPor;
+        private Label lblEstado;
         private DataGridView dgvUsuarios;
-
         private Panel panelBottom;
         private Button btnAccion;
 
@@ -35,7 +34,9 @@ namespace GestionDeVentas.Admin
             this.lblTitulo = new System.Windows.Forms.Label();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.panelFiltros = new System.Windows.Forms.Panel();
-            this.Estado = new System.Windows.Forms.Label();
+            this.lblBuscarPor = new System.Windows.Forms.Label();
+            this.cboBuscarPor = new System.Windows.Forms.ComboBox();
+            this.lblEstado = new System.Windows.Forms.Label();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.cmbFiltroEstado = new System.Windows.Forms.ComboBox();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
@@ -60,16 +61,15 @@ namespace GestionDeVentas.Admin
             // 
             // lblTitulo
             // 
-            this.lblTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.ForeColor = System.Drawing.Color.White;
-            this.lblTitulo.Location = new System.Drawing.Point(275, 0);
+            this.lblTitulo.Location = new System.Drawing.Point(0, 0);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
-            this.lblTitulo.Size = new System.Drawing.Size(204, 50);
+            this.lblTitulo.Size = new System.Drawing.Size(920, 50);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Gestión de Clientes";
-            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnCerrar
             // 
@@ -89,7 +89,9 @@ namespace GestionDeVentas.Admin
             // panelFiltros
             // 
             this.panelFiltros.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panelFiltros.Controls.Add(this.Estado);
+            this.panelFiltros.Controls.Add(this.lblBuscarPor);
+            this.panelFiltros.Controls.Add(this.cboBuscarPor);
+            this.panelFiltros.Controls.Add(this.lblEstado);
             this.panelFiltros.Controls.Add(this.txtBusqueda);
             this.panelFiltros.Controls.Add(this.cmbFiltroEstado);
             this.panelFiltros.Dock = System.Windows.Forms.DockStyle.Top;
@@ -98,21 +100,45 @@ namespace GestionDeVentas.Admin
             this.panelFiltros.Size = new System.Drawing.Size(960, 48);
             this.panelFiltros.TabIndex = 2;
             // 
-            // Estado
+            // lblBuscarPor
             // 
-            this.Estado.AutoSize = true;
-            this.Estado.Location = new System.Drawing.Point(294, 17);
-            this.Estado.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.Estado.Name = "Estado";
-            this.Estado.Size = new System.Drawing.Size(43, 13);
-            this.Estado.TabIndex = 2;
-            this.Estado.Text = "Estado:";
+            this.lblBuscarPor.AutoSize = true;
+            this.lblBuscarPor.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.lblBuscarPor.Location = new System.Drawing.Point(27, 16);
+            this.lblBuscarPor.Name = "lblBuscarPor";
+            this.lblBuscarPor.Size = new System.Drawing.Size(77, 16);
+            this.lblBuscarPor.TabIndex = 3;
+            this.lblBuscarPor.Text = "Buscar por:";
+            // 
+            // cboBuscarPor
+            // 
+            this.cboBuscarPor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBuscarPor.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.cboBuscarPor.FormattingEnabled = true;
+            this.cboBuscarPor.Location = new System.Drawing.Point(110, 12);
+            this.cboBuscarPor.Name = "cboBuscarPor";
+            this.cboBuscarPor.Size = new System.Drawing.Size(140, 24);
+            this.cboBuscarPor.TabIndex = 4;
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEstado.AutoSize = true;
+            this.lblEstado.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.lblEstado.Location = new System.Drawing.Point(744, 16);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(51, 16);
+            this.lblEstado.TabIndex = 2;
+            this.lblEstado.Text = "Estado:";
             // 
             // txtBusqueda
             // 
-            this.txtBusqueda.Location = new System.Drawing.Point(30, 15);
+            this.txtBusqueda.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBusqueda.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.txtBusqueda.Location = new System.Drawing.Point(256, 13);
             this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(260, 20);
+            this.txtBusqueda.Size = new System.Drawing.Size(482, 22);
             this.txtBusqueda.TabIndex = 0;
             this.txtBusqueda.TextChanged += new System.EventHandler(this.txtBusqueda_TextChanged);
             this.txtBusqueda.Enter += new System.EventHandler(this.txtBusqueda_Enter);
@@ -120,14 +146,17 @@ namespace GestionDeVentas.Admin
             // 
             // cmbFiltroEstado
             // 
+            this.cmbFiltroEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbFiltroEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFiltroEstado.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.cmbFiltroEstado.FormattingEnabled = true;
             this.cmbFiltroEstado.Items.AddRange(new object[] {
             "Todos",
             "Activo",
             "Inactivo"});
-            this.cmbFiltroEstado.Location = new System.Drawing.Point(340, 12);
+            this.cmbFiltroEstado.Location = new System.Drawing.Point(801, 12);
             this.cmbFiltroEstado.Name = "cmbFiltroEstado";
-            this.cmbFiltroEstado.Size = new System.Drawing.Size(140, 21);
+            this.cmbFiltroEstado.Size = new System.Drawing.Size(140, 24);
             this.cmbFiltroEstado.TabIndex = 1;
             this.cmbFiltroEstado.SelectedIndexChanged += new System.EventHandler(this.cmbFiltroEstado_SelectedIndexChanged);
             // 
@@ -159,11 +188,11 @@ namespace GestionDeVentas.Admin
             this.dgvUsuarios.MultiSelect = false;
             this.dgvUsuarios.Name = "dgvUsuarios";
             this.dgvUsuarios.ReadOnly = true;
+            this.dgvUsuarios.RowHeadersVisible = false;
             this.dgvUsuarios.RowHeadersWidth = 51;
             this.dgvUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUsuarios.Size = new System.Drawing.Size(960, 398);
             this.dgvUsuarios.TabIndex = 0;
-            this.dgvUsuarios.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuarios_CellContentClick);
             this.dgvUsuarios.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvUsuarios_CellFormatting);
             this.dgvUsuarios.SelectionChanged += new System.EventHandler(this.dgvUsuarios_SelectionChanged);
             // 
@@ -214,7 +243,5 @@ namespace GestionDeVentas.Admin
             this.ResumeLayout(false);
 
         }
-
-        private Label Estado;
     }
 }

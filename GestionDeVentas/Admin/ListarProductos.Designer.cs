@@ -47,6 +47,7 @@
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(800, 80);
             this.topPanel.TabIndex = 0;
+            this.topPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.topPanel_Paint_1);
             // 
             // tableLayoutPanelFiltros
             // 

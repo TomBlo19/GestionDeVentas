@@ -2,41 +2,78 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using GestionDeVentas.Datos;
+using System.Text; // Necesario para StringBuilder
 
 namespace GestionDeVentas.Datos
 {
     public class ProveedorDatos
     {
-        public List<Proveedor> ObtenerProveedores()
+        /// <summary>
+        /// Obtiene una lista de proveedores, opcionalmente filtrada por los parámetros proporcionados.
+        /// </summary>
+        /// <param name="cuit">Filtra por CUIT del proveedor (búsqueda parcial).</param>
+        /// <param name="nombre">Filtra por nombre del proveedor (búsqueda parcial).</param>
+        /// <param name="empresa">Filtra por nombre de la empresa (búsqueda parcial).</param>
+        /// <param name="estado">Filtra por estado ('activo' o 'desactivado', búsqueda exacta).</param>
+        /// <returns>Una lista de objetos Proveedor.</returns>
+        public List<Proveedor> ObtenerProveedores(string cuit = null, string nombre = null, string empresa = null, string estado = null)
         {
             var lista = new List<Proveedor>();
+
+            // Usamos StringBuilder para construir la consulta dinámicamente
+            var query = new StringBuilder(@"SELECT id_proveedor, nombre_proveedor, empresa_proveedor, cuit_proveedor,
+                                                 telefono_proveedor, direccion_proveedor, pais_proveedor,
+                                                 ciudad_proveedor, correo_proveedor, estado_proveedor
+                                            FROM proveedor WHERE 1=1");
+
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
-                string query = @"SELECT id_proveedor, nombre_proveedor, empresa_proveedor, cuit_proveedor,
-                                        telefono_proveedor, direccion_proveedor, pais_proveedor,
-                                        ciudad_proveedor, correo_proveedor, estado_proveedor
-                                 FROM proveedor";
-
-                using (var cmd = new SqlCommand(query, conn))
-                using (var reader = cmd.ExecuteReader())
+                using (var cmd = new SqlCommand())
                 {
-                    while (reader.Read())
+                    // Se añaden las condiciones de filtro si los parámetros no son nulos o vacíos
+                    if (!string.IsNullOrEmpty(cuit))
                     {
-                        lista.Add(new Proveedor
+                        query.Append(" AND cuit_proveedor LIKE @Cuit");
+                        cmd.Parameters.AddWithValue("@Cuit", $"%{cuit}%");
+                    }
+                    if (!string.IsNullOrEmpty(nombre))
+                    {
+                        query.Append(" AND nombre_proveedor LIKE @Nombre");
+                        cmd.Parameters.AddWithValue("@Nombre", $"%{nombre}%");
+                    }
+                    if (!string.IsNullOrEmpty(empresa))
+                    {
+                        query.Append(" AND empresa_proveedor LIKE @Empresa");
+                        cmd.Parameters.AddWithValue("@Empresa", $"%{empresa}%");
+                    }
+                    if (!string.IsNullOrEmpty(estado))
+                    {
+                        query.Append(" AND estado_proveedor = @Estado");
+                        cmd.Parameters.AddWithValue("@Estado", estado);
+                    }
+
+                    cmd.CommandText = query.ToString();
+                    cmd.Connection = conn;
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
                         {
-                            Id = Convert.ToInt32(reader["id_proveedor"]),
-                            Nombre = reader["nombre_proveedor"].ToString(),
-                            Empresa = reader["empresa_proveedor"].ToString(),
-                            Cuit = reader["cuit_proveedor"].ToString(),
-                            Telefono = reader["telefono_proveedor"].ToString(),
-                            Direccion = reader["direccion_proveedor"].ToString(),
-                            Pais = reader["pais_proveedor"].ToString(),
-                            Ciudad = reader["ciudad_proveedor"].ToString(),
-                            Correo = reader["correo_proveedor"].ToString(),
-                            Activo = reader["estado_proveedor"].ToString().ToLower() == "activo"
-                        });
+                            lista.Add(new Proveedor
+                            {
+                                Id = Convert.ToInt32(reader["id_proveedor"]),
+                                Nombre = reader["nombre_proveedor"].ToString(),
+                                Empresa = reader["empresa_proveedor"].ToString(),
+                                Cuit = reader["cuit_proveedor"].ToString(),
+                                Telefono = reader["telefono_proveedor"].ToString(),
+                                Direccion = reader["direccion_proveedor"].ToString(),
+                                Pais = reader["pais_proveedor"].ToString(),
+                                Ciudad = reader["ciudad_proveedor"].ToString(),
+                                Correo = reader["correo_proveedor"].ToString(),
+                                Activo = reader["estado_proveedor"].ToString().Equals("activo", StringComparison.OrdinalIgnoreCase)
+                            });
+                        }
                     }
                 }
             }
@@ -49,10 +86,10 @@ namespace GestionDeVentas.Datos
             {
                 conn.Open();
                 string query = @"INSERT INTO proveedor 
-                                (nombre_proveedor, empresa_proveedor, cuit_proveedor, telefono_proveedor,
-                                 direccion_proveedor, pais_proveedor, ciudad_proveedor, correo_proveedor, estado_proveedor)
-                                VALUES (@Nombre, @Empresa, @Cuit, @Telefono, @Direccion,
-                                        @Pais, @Ciudad, @Correo, 'activo')";
+                                 (nombre_proveedor, empresa_proveedor, cuit_proveedor, telefono_proveedor,
+                                  direccion_proveedor, pais_proveedor, ciudad_proveedor, correo_proveedor, estado_proveedor)
+                                 VALUES (@Nombre, @Empresa, @Cuit, @Telefono, @Direccion,
+                                         @Pais, @Ciudad, @Correo, 'activo')";
 
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -75,10 +112,10 @@ namespace GestionDeVentas.Datos
             {
                 conn.Open();
                 string query = @"UPDATE proveedor SET 
-                                nombre_proveedor=@Nombre, empresa_proveedor=@Empresa, cuit_proveedor=@Cuit,
-                                telefono_proveedor=@Telefono, direccion_proveedor=@Direccion,
-                                pais_proveedor=@Pais, ciudad_proveedor=@Ciudad, correo_proveedor=@Correo
-                                WHERE id_proveedor=@Id";
+                                 nombre_proveedor=@Nombre, empresa_proveedor=@Empresa, cuit_proveedor=@Cuit,
+                                 telefono_proveedor=@Telefono, direccion_proveedor=@Direccion,
+                                 pais_proveedor=@Pais, ciudad_proveedor=@Ciudad, correo_proveedor=@Correo
+                                 WHERE id_proveedor=@Id";
 
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -104,7 +141,7 @@ namespace GestionDeVentas.Datos
                 string query = "UPDATE proveedor SET estado_proveedor=@Estado WHERE id_proveedor=@Id";
                 using (var cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Estado", activar ? "activo" : "desactivado");
+                    cmd.Parameters.AddWithValue("@Estado", activar ? "activo" : "inactivo"); // Corregido a "inactivo"
                     cmd.Parameters.AddWithValue("@Id", idProveedor);
                     cmd.ExecuteNonQuery();
                 }

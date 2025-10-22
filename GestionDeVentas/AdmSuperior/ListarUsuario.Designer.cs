@@ -21,10 +21,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.topPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanelFiltros = new System.Windows.Forms.TableLayoutPanel();
-            this.lblTipoUsuario = new System.Windows.Forms.Label();
-            this.lblBuscarNombre = new System.Windows.Forms.Label();
-            this.txtBuscarNombre = new System.Windows.Forms.TextBox();
-            this.cmbTipoUsuario = new System.Windows.Forms.ComboBox();
+            this.lblBuscarPor = new System.Windows.Forms.Label();
+            this.cboBuscarPor = new System.Windows.Forms.ComboBox();
+            this.txtFiltro = new System.Windows.Forms.TextBox();
+            this.lblFiltrarRol = new System.Windows.Forms.Label();
+            this.cmbFiltrarRol = new System.Windows.Forms.ComboBox();
+            this.lblFiltrarEstado = new System.Windows.Forms.Label();
+            this.cmbFiltrarEstado = new System.Windows.Forms.ComboBox();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.dataGridViewUsuarios = new System.Windows.Forms.DataGridView();
@@ -44,81 +47,120 @@
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(800, 80);
             this.topPanel.TabIndex = 0;
-            this.topPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.topPanel_Paint);
             // 
             // tableLayoutPanelFiltros
             // 
             this.tableLayoutPanelFiltros.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelFiltros.ColumnCount = 4;
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelFiltros.Controls.Add(this.lblTipoUsuario, 2, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.lblBuscarNombre, 0, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.txtBuscarNombre, 1, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.cmbTipoUsuario, 3, 0);
-            this.tableLayoutPanelFiltros.Location = new System.Drawing.Point(120, 40);
+            this.tableLayoutPanelFiltros.ColumnCount = 7;
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblBuscarPor, 0, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cboBuscarPor, 1, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.txtFiltro, 2, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblFiltrarRol, 3, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cmbFiltrarRol, 4, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblFiltrarEstado, 5, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cmbFiltrarEstado, 6, 0);
+            this.tableLayoutPanelFiltros.Location = new System.Drawing.Point(25, 40);
             this.tableLayoutPanelFiltros.Name = "tableLayoutPanelFiltros";
             this.tableLayoutPanelFiltros.RowCount = 1;
             this.tableLayoutPanelFiltros.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelFiltros.Size = new System.Drawing.Size(630, 30);
+            this.tableLayoutPanelFiltros.Size = new System.Drawing.Size(750, 30);
             this.tableLayoutPanelFiltros.TabIndex = 1;
             // 
-            // lblTipoUsuario
+            // lblBuscarPor
             // 
-            this.lblTipoUsuario.AutoSize = true;
-            this.lblTipoUsuario.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTipoUsuario.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblTipoUsuario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblTipoUsuario.Location = new System.Drawing.Point(303, 0);
-            this.lblTipoUsuario.Name = "lblTipoUsuario";
-            this.lblTipoUsuario.Size = new System.Drawing.Size(94, 30);
-            this.lblTipoUsuario.TabIndex = 5;
-            this.lblTipoUsuario.Text = "Rol:";
-            this.lblTipoUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblBuscarPor.AutoSize = true;
+            this.lblBuscarPor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblBuscarPor.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblBuscarPor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblBuscarPor.Location = new System.Drawing.Point(3, 0);
+            this.lblBuscarPor.Name = "lblBuscarPor";
+            this.lblBuscarPor.Size = new System.Drawing.Size(74, 30);
+            this.lblBuscarPor.TabIndex = 1;
+            this.lblBuscarPor.Text = "Buscar por:";
+            this.lblBuscarPor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblBuscarNombre
+            // cboBuscarPor
             // 
-            this.lblBuscarNombre.AutoSize = true;
-            this.lblBuscarNombre.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblBuscarNombre.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblBuscarNombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblBuscarNombre.Location = new System.Drawing.Point(3, 0);
-            this.lblBuscarNombre.Name = "lblBuscarNombre";
-            this.lblBuscarNombre.Size = new System.Drawing.Size(64, 30);
-            this.lblBuscarNombre.TabIndex = 1;
-            this.lblBuscarNombre.Text = "Nombre:";
-            this.lblBuscarNombre.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cboBuscarPor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cboBuscarPor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBuscarPor.Font = new System.Drawing.Font("Arial", 10F);
+            this.cboBuscarPor.FormattingEnabled = true;
+            this.cboBuscarPor.Location = new System.Drawing.Point(83, 3);
+            this.cboBuscarPor.Name = "cboBuscarPor";
+            this.cboBuscarPor.Size = new System.Drawing.Size(114, 24);
+            this.cboBuscarPor.TabIndex = 8;
             // 
-            // txtBuscarNombre
+            // txtFiltro
             // 
-            this.txtBuscarNombre.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBuscarNombre.Font = new System.Drawing.Font("Arial", 10F);
-            this.txtBuscarNombre.Location = new System.Drawing.Point(73, 3);
-            this.txtBuscarNombre.Name = "txtBuscarNombre";
-            this.txtBuscarNombre.Size = new System.Drawing.Size(224, 23);
-            this.txtBuscarNombre.TabIndex = 2;
-            this.txtBuscarNombre.TextChanged += new System.EventHandler(this.txtBuscarNombre_TextChanged);
+            this.txtFiltro.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtFiltro.Font = new System.Drawing.Font("Arial", 10F);
+            this.txtFiltro.Location = new System.Drawing.Point(203, 3);
+            this.txtFiltro.Name = "txtFiltro";
+            this.txtFiltro.Size = new System.Drawing.Size(204, 23);
+            this.txtFiltro.TabIndex = 2;
             // 
-            // cmbTipoUsuario
+            // lblFiltrarRol
             // 
-            this.cmbTipoUsuario.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbTipoUsuario.Font = new System.Drawing.Font("Arial", 10F);
-            this.cmbTipoUsuario.FormattingEnabled = true;
-            this.cmbTipoUsuario.Location = new System.Drawing.Point(403, 3);
-            this.cmbTipoUsuario.Name = "cmbTipoUsuario";
-            this.cmbTipoUsuario.Size = new System.Drawing.Size(224, 24);
-            this.cmbTipoUsuario.TabIndex = 6;
-            this.cmbTipoUsuario.SelectedIndexChanged += new System.EventHandler(this.cmbFiltro_SelectedIndexChanged);
+            this.lblFiltrarRol.AutoSize = true;
+            this.lblFiltrarRol.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblFiltrarRol.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblFiltrarRol.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblFiltrarRol.Location = new System.Drawing.Point(413, 0);
+            this.lblFiltrarRol.Name = "lblFiltrarRol";
+            this.lblFiltrarRol.Size = new System.Drawing.Size(34, 30);
+            this.lblFiltrarRol.TabIndex = 5;
+            this.lblFiltrarRol.Text = "Rol:";
+            this.lblFiltrarRol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cmbFiltrarRol
+            // 
+            this.cmbFiltrarRol.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbFiltrarRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFiltrarRol.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbFiltrarRol.FormattingEnabled = true;
+            this.cmbFiltrarRol.Location = new System.Drawing.Point(453, 3);
+            this.cmbFiltrarRol.Name = "cmbFiltrarRol";
+            this.cmbFiltrarRol.Size = new System.Drawing.Size(114, 24);
+            this.cmbFiltrarRol.TabIndex = 6;
+            // 
+            // lblFiltrarEstado
+            // 
+            this.lblFiltrarEstado.AutoSize = true;
+            this.lblFiltrarEstado.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblFiltrarEstado.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblFiltrarEstado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblFiltrarEstado.Location = new System.Drawing.Point(573, 0);
+            this.lblFiltrarEstado.Name = "lblFiltrarEstado";
+            this.lblFiltrarEstado.Size = new System.Drawing.Size(54, 30);
+            this.lblFiltrarEstado.TabIndex = 9;
+            this.lblFiltrarEstado.Text = "Estado:";
+            this.lblFiltrarEstado.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // cmbFiltrarEstado
+            // 
+            this.cmbFiltrarEstado.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbFiltrarEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFiltrarEstado.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbFiltrarEstado.FormattingEnabled = true;
+            this.cmbFiltrarEstado.Location = new System.Drawing.Point(633, 3);
+            this.cmbFiltrarEstado.Name = "cmbFiltrarEstado";
+            this.cmbFiltrarEstado.Size = new System.Drawing.Size(114, 24);
+            this.cmbFiltrarEstado.TabIndex = 10;
             // 
             // lblTitulo
             // 
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(52)))), ((int)(((byte)(54)))));
-            this.lblTitulo.Location = new System.Drawing.Point(20, 15);
+            this.lblTitulo.Location = new System.Drawing.Point(20, 9);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(210, 26);
             this.lblTitulo.TabIndex = 0;
@@ -132,7 +174,7 @@
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
-            this.btnCerrar.Location = new System.Drawing.Point(760, 10);
+            this.btnCerrar.Location = new System.Drawing.Point(760, 5);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(30, 30);
             this.btnCerrar.TabIndex = 7;
@@ -167,13 +209,12 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewUsuarios.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridViewUsuarios.Location = new System.Drawing.Point(20, 100);
+            this.dataGridViewUsuarios.Location = new System.Drawing.Point(12, 86);
             this.dataGridViewUsuarios.Name = "dataGridViewUsuarios";
             this.dataGridViewUsuarios.ReadOnly = true;
             this.dataGridViewUsuarios.RowHeadersVisible = false;
-            this.dataGridViewUsuarios.RowHeadersWidth = 51;
             this.dataGridViewUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewUsuarios.Size = new System.Drawing.Size(760, 330);
+            this.dataGridViewUsuarios.Size = new System.Drawing.Size(776, 352);
             this.dataGridViewUsuarios.TabIndex = 1;
             this.dataGridViewUsuarios.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewUsuarios_CellFormatting);
             // 
@@ -204,10 +245,13 @@
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.DataGridView dataGridViewUsuarios;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFiltros;
-        private System.Windows.Forms.Label lblTipoUsuario;
-        private System.Windows.Forms.Label lblBuscarNombre;
-        private System.Windows.Forms.TextBox txtBuscarNombre;
-        private System.Windows.Forms.ComboBox cmbTipoUsuario;
         private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.TextBox txtFiltro;
+        private System.Windows.Forms.Label lblFiltrarRol;
+        private System.Windows.Forms.ComboBox cmbFiltrarRol;
+        private System.Windows.Forms.Label lblBuscarPor;
+        private System.Windows.Forms.ComboBox cboBuscarPor;
+        private System.Windows.Forms.Label lblFiltrarEstado;
+        private System.Windows.Forms.ComboBox cmbFiltrarEstado;
     }
 }

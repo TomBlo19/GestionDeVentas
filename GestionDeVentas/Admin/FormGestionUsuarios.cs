@@ -6,16 +6,15 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Modelos;
-using Datos;
 
 namespace GestionDeVentas.Admin
 {
     public partial class FormGestionarUsuarios : Form
     {
         private readonly ClienteDatos clienteDatos = new ClienteDatos();
-        private List<Cliente> clientes = new List<Cliente>();
+        private List<Cliente> _listaMaestraClientes;
 
-        private const string PLACEHOLDER = "Buscar por DNI o Apellido...";
+        private const string PLACEHOLDER = "Escriba para buscar...";
 
         public FormGestionarUsuarios()
         {
@@ -26,72 +25,102 @@ namespace GestionDeVentas.Admin
         {
             txtBusqueda.Text = PLACEHOLDER;
             txtBusqueda.ForeColor = Color.Gray;
-            cmbFiltroEstado.SelectedIndex = 0;
 
+            // ✅ CORRECCIÓN EN EL ORDEN DE CARGA
+            // 1. Cargar los datos PRIMERO para que la lista maestra no sea nula.
+            _listaMaestraClientes = clienteDatos.ObtenerClientes();
+
+            // 2. Configurar todos los controles.
             ConfigurarColumnas();
-            CargarClientes();
+            CargarFiltros();
+
+            // 3. Conectar los eventos DESPUÉS de que los combos ya tienen un valor.
+            ConectarEventosDeFiltro();
+
+            // 4. Aplicar el filtro inicial con los datos ya cargados.
             AplicarFiltros();
         }
 
         private void ConfigurarColumnas()
         {
+            dgvUsuarios.AutoGenerateColumns = false;
             dgvUsuarios.Columns.Clear();
 
-            var colId = new DataGridViewTextBoxColumn
-            {
-                Name = "Id",
-                HeaderText = "ID",
-                Visible = false
-            };
-            dgvUsuarios.Columns.Add(colId);
-
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Dni", HeaderText = "DNI" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Nombre", HeaderText = "Nombre" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Apellido", HeaderText = "Apellido" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Telefono", HeaderText = "Teléfono" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Correo", HeaderText = "Correo" });
-            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Estado", HeaderText = "Estado" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Id", DataPropertyName = "Id", HeaderText = "ID", Visible = false });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Dni", DataPropertyName = "Dni", HeaderText = "DNI" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Nombre", DataPropertyName = "Nombre", HeaderText = "Nombre" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Apellido", DataPropertyName = "Apellido", HeaderText = "Apellido" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Telefono", DataPropertyName = "Telefono", HeaderText = "Teléfono" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Correo", DataPropertyName = "CorreoElectronico", HeaderText = "Correo" });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Estado", DataPropertyName = "ActivoTexto", HeaderText = "Estado" });
         }
 
-        private void CargarClientes()
+        private void CargarFiltros()
         {
-            clientes = clienteDatos.ObtenerClientes();
+            cboBuscarPor.Items.Add("Apellido");
+            cboBuscarPor.Items.Add("DNI");
+            cboBuscarPor.SelectedIndex = 0;
+
+            cmbFiltroEstado.SelectedIndex = 0;
+        }
+
+        private void ConectarEventosDeFiltro()
+        {
+            txtBusqueda.TextChanged += (s, e) => AplicarFiltros();
+            cboBuscarPor.SelectedIndexChanged += (s, e) => AplicarFiltros();
+            cmbFiltroEstado.SelectedIndexChanged += (s, e) => AplicarFiltros();
         }
 
         private void AplicarFiltros()
         {
-            string texto = txtBusqueda.Text.Trim().ToLower();
-            if (texto == PLACEHOLDER.ToLower()) texto = string.Empty;
+            // ✅ GUARDA DE SEGURIDAD: Si por alguna razón este método se llama antes de
+            // que la lista esté cargada, simplemente no hace nada y evita el error.
+            if (_listaMaestraClientes == null) return;
 
+            string textoBusqueda = (txtBusqueda.Text == PLACEHOLDER) ? string.Empty : txtBusqueda.Text.Trim();
             string estadoFiltro = cmbFiltroEstado.SelectedItem?.ToString() ?? "Todos";
+            string criterioBusqueda = cboBuscarPor.SelectedItem?.ToString() ?? "Apellido";
 
-            var filtrados = clientes.Where(u =>
-                (string.IsNullOrEmpty(texto) ||
-                    u.Dni.ToLower().Contains(texto) ||
-                    u.Apellido.ToLower().Contains(texto)) &&
-                (estadoFiltro == "Todos" ||
-                 (estadoFiltro == "Activo" && u.Activo) ||
-                 (estadoFiltro == "Inactivo" && !u.Activo))
-            ).ToList();
+            List<Cliente> clientesDesdeBD;
 
-            CargarEnGrid(filtrados);
+            if (string.IsNullOrEmpty(textoBusqueda))
+            {
+                clientesDesdeBD = _listaMaestraClientes;
+            }
+            else
+            {
+                if (criterioBusqueda == "DNI")
+                {
+                    clientesDesdeBD = clienteDatos.BuscarClientesPorDni(textoBusqueda);
+                }
+                else
+                {
+                    clientesDesdeBD = clienteDatos.BuscarClientesPorApellido(textoBusqueda);
+                }
+            }
+
+            IEnumerable<Cliente> clientesFiltrados = clientesDesdeBD;
+            if (estadoFiltro != "Todos")
+            {
+                bool buscarActivos = (estadoFiltro == "Activo");
+                clientesFiltrados = clientesFiltrados.Where(c => c.Activo == buscarActivos);
+            }
+
+            CargarEnGrid(clientesFiltrados.ToList());
         }
 
         private void CargarEnGrid(List<Cliente> lista)
         {
-            dgvUsuarios.Rows.Clear();
-            foreach (var u in lista)
-            {
-                string estado = u.Activo ? "Activo" : "Inactivo";
-                dgvUsuarios.Rows.Add(u.Id, u.Dni, u.Nombre, u.Apellido, u.Telefono, u.CorreoElectronico, estado);
-            }
+            dgvUsuarios.DataSource = null;
+            dgvUsuarios.DataSource = lista;
             dgvUsuarios.ClearSelection();
             ActualizarBotonAccion();
         }
 
-        // ===================== Eventos UI =====================
+        #region Eventos UI
 
         private void txtBusqueda_TextChanged(object sender, EventArgs e) => AplicarFiltros();
+        private void cmbFiltroEstado_SelectedIndexChanged(object sender, EventArgs e) => AplicarFiltros();
 
         private void txtBusqueda_Enter(object sender, EventArgs e)
         {
@@ -111,8 +140,6 @@ namespace GestionDeVentas.Admin
             }
         }
 
-        private void cmbFiltroEstado_SelectedIndexChanged(object sender, EventArgs e) => AplicarFiltros();
-
         private void dgvUsuarios_SelectionChanged(object sender, EventArgs e) => ActualizarBotonAccion();
 
         private void btnAccion_Click(object sender, EventArgs e)
@@ -120,78 +147,70 @@ namespace GestionDeVentas.Admin
             if (dgvUsuarios.SelectedRows.Count == 0) return;
 
             int id = Convert.ToInt32(dgvUsuarios.SelectedRows[0].Cells["Id"].Value);
-            var user = clientes.FirstOrDefault(x => x.Id == id);
+            var user = _listaMaestraClientes.FirstOrDefault(x => x.Id == id);
             if (user == null) return;
 
-            if (user.Activo)
-            {
-                var ok = MessageBox.Show(
-                    $"¿Deseas DESACTIVAR al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?",
-                    "Confirmar desactivación",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
+            bool accionEsActivar = !user.Activo;
+            string accionTexto = accionEsActivar ? "ACTIVAR" : "DESACTIVAR";
+            string confirmacionMsg = $"¿Deseas {accionTexto} al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?";
 
-                if (ok == DialogResult.Yes)
-                {
-                    clienteDatos.CambiarEstado(user.Id, false);
-                    user.Activo = false;
-                    AplicarFiltros();
-                    MessageBox.Show("Cliente desactivado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            else
-            {
-                var ok = MessageBox.Show(
-                    $"¿Deseas ACTIVAR nuevamente al cliente {user.Apellido}, {user.Nombre} (DNI {user.Dni})?",
-                    "Confirmar activación",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+            var result = MessageBox.Show(confirmacionMsg, $"Confirmar {accionTexto.ToLower()}",
+                                         MessageBoxButtons.YesNo,
+                                         accionEsActivar ? MessageBoxIcon.Question : MessageBoxIcon.Warning);
 
-                if (ok == DialogResult.Yes)
-                {
-                    clienteDatos.CambiarEstado(user.Id, true);
-                    user.Activo = true;
-                    AplicarFiltros();
-                    MessageBox.Show("Cliente activado.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+            if (result == DialogResult.Yes)
+            {
+                clienteDatos.CambiarEstado(user.Id, accionEsActivar);
+                user.Activo = accionEsActivar;
+
+                _listaMaestraClientes = clienteDatos.ObtenerClientes();
+                AplicarFiltros();
+
+                MessageBox.Show($"Cliente {(accionEsActivar ? "activado" : "desactivado")}.", "Hecho", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void dgvUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dgvUsuarios.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+            if (e.RowIndex < 0) return;
+
+            var cliente = dgvUsuarios.Rows[e.RowIndex].DataBoundItem as Cliente;
+            if (cliente != null)
             {
-                if (string.Equals(e.Value.ToString(), "Inactivo", StringComparison.OrdinalIgnoreCase))
+                e.CellStyle.BackColor = SystemColors.Window;
+                e.CellStyle.ForeColor = SystemColors.ControlText;
+                e.CellStyle.SelectionBackColor = SystemColors.Highlight;
+                e.CellStyle.SelectionForeColor = SystemColors.HighlightText;
+
+                if (!cliente.Activo)
                 {
-                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
-                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White; // letras blancas sobre fondo rojo
-                }
-                else
-                {
-                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
-                    dgvUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                    e.CellStyle.BackColor = Color.LightCoral;
+                    e.CellStyle.ForeColor = Color.White;
+                    e.CellStyle.SelectionBackColor = Color.DarkRed;
+                    e.CellStyle.SelectionForeColor = Color.White;
                 }
             }
         }
 
-
         private void btnCerrar_Click(object sender, EventArgs e) => this.Close();
 
-        // ===================== Helpers =====================
+        #endregion
+
+        #region Helpers
 
         private void ActualizarBotonAccion()
         {
             if (dgvUsuarios.SelectedRows.Count == 0)
             {
                 btnAccion.Enabled = false;
-                btnAccion.Text = "Desactivar/Activar";
+                btnAccion.Text = "Seleccione un cliente";
                 btnAccion.BackColor = Color.Gray;
                 return;
             }
 
             btnAccion.Enabled = true;
-            var estado = dgvUsuarios.SelectedRows[0].Cells["Estado"].Value?.ToString();
-            if (estado == "Inactivo")
+            var clienteSeleccionado = dgvUsuarios.SelectedRows[0].DataBoundItem as Cliente;
+            if (clienteSeleccionado != null && !clienteSeleccionado.Activo)
             {
                 btnAccion.Text = "Activar Cliente";
                 btnAccion.BackColor = Color.FromArgb(0, 160, 60);
@@ -203,9 +222,6 @@ namespace GestionDeVentas.Admin
             }
         }
 
-        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        #endregion
     }
 }

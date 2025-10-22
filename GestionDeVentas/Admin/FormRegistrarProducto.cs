@@ -16,9 +16,10 @@ namespace GestionDeVentas.Admin
         private int currentProductId;
         private bool hayCambios = false;
 
-        // La clase ProductoDatos ya no necesita una conexión en el constructor, 
-        // ya que la obtiene internamente de ConexionBD.
         private readonly ProductoDatos productoDatos = new ProductoDatos();
+
+        // Lista para guardar todos los productos y filtrar sobre ella para mejor rendimiento.
+        private List<Producto> _todosLosProductos;
 
         public FormRegistrarProducto()
         {
@@ -31,11 +32,21 @@ namespace GestionDeVentas.Admin
 
         private void FormRegistrarProducto_Load(object sender, EventArgs e)
         {
+            // Carga de datos para el formulario de registro
             CargarCategorias();
             CargarProveedores();
-            ConfigurarDataGridView();
-            CargarProductosEnDGV();
             cmbTalle.Enabled = false;
+
+            // Configuración del DataGridView
+            ConfigurarDataGridView();
+
+            // Carga inicial de datos en la lista maestra y en la grilla
+            _todosLosProductos = productoDatos.ObtenerProductos();
+            CargarProductosEnDGV(_todosLosProductos);
+
+            // Cargar y configurar los nuevos filtros
+            CargarControlesDeFiltro();
+            ConectarEventosDeFiltro();
         }
 
         // ========================
@@ -75,9 +86,6 @@ namespace GestionDeVentas.Admin
             };
         }
 
-        // ========================
-        // FORMATO CONDICIONAL (Para pintar Inactivos)
-        // ========================
         private void dgvProductos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dgvProductos.Columns[e.ColumnIndex].Name == "Estado" && e.RowIndex >= 0)
@@ -106,6 +114,105 @@ namespace GestionDeVentas.Admin
             }
         }
 
+        // ===================================
+        // LÓGICA DE FILTROS
+        // ===================================
+
+        private void CargarControlesDeFiltro()
+        {
+            // Cargar ComboBox "Buscar por"
+            cboFiltroBuscarPor.Items.Clear();
+            cboFiltroBuscarPor.Items.Add("Nombre");
+            cboFiltroBuscarPor.Items.Add("Código");
+            // Se quitó la opción "Marca" de aquí
+            cboFiltroBuscarPor.SelectedIndex = 0;
+
+            // Cargar ComboBox de Categorías para el filtro
+            cmbFiltroCategoria.Items.Clear();
+            cmbFiltroCategoria.Items.Add(new ComboBoxItem("Todas", 0));
+            var categorias = _todosLosProductos.Select(p => new { Id = p.IdCategoria, Nombre = p.CategoriaNombre }).Distinct().ToList();
+            foreach (var cat in categorias)
+            {
+                cmbFiltroCategoria.Items.Add(new ComboBoxItem(cat.Nombre, cat.Id));
+            }
+            cmbFiltroCategoria.SelectedIndex = 0;
+
+            CargarTallesFiltro();
+        }
+
+        private void CargarTallesFiltro(int idCategoria = 0)
+        {
+            cmbFiltroTalle.Items.Clear();
+            cmbFiltroTalle.Items.Add(new ComboBoxItem("Todos", 0));
+
+            var talles = (idCategoria == 0
+                ? _todosLosProductos
+                : _todosLosProductos.Where(p => p.IdCategoria == idCategoria))
+                .Select(p => new { Id = p.IdTalle, Nombre = p.TalleNombre })
+                .Where(t => t.Id > 0)
+                .Distinct()
+                .OrderBy(t => t.Nombre)
+                .ToList();
+
+            foreach (var talle in talles)
+            {
+                cmbFiltroTalle.Items.Add(new ComboBoxItem(talle.Nombre, talle.Id));
+            }
+            cmbFiltroTalle.SelectedIndex = 0;
+        }
+
+
+        private void ConectarEventosDeFiltro()
+        {
+            txtFiltroBusqueda.TextChanged += (s, e) => AplicarFiltros();
+            cboFiltroBuscarPor.SelectedIndexChanged += (s, e) => AplicarFiltros();
+            cmbFiltroTalle.SelectedIndexChanged += (s, e) => AplicarFiltros();
+
+            cmbFiltroCategoria.SelectedIndexChanged += (s, e) => {
+                var selectedCat = cmbFiltroCategoria.SelectedItem as ComboBoxItem;
+                if (selectedCat != null)
+                {
+                    CargarTallesFiltro(selectedCat.Value);
+                }
+                AplicarFiltros();
+            };
+        }
+
+        private void AplicarFiltros()
+        {
+            IEnumerable<Producto> productosFiltrados = _todosLosProductos;
+
+            var textoBusqueda = txtFiltroBusqueda.Text.ToLower().Trim();
+            if (!string.IsNullOrEmpty(textoBusqueda))
+            {
+                var campoBusqueda = cboFiltroBuscarPor.SelectedItem.ToString();
+                switch (campoBusqueda)
+                {
+                    case "Nombre":
+                        productosFiltrados = productosFiltrados.Where(p => p.Nombre.ToLower().Contains(textoBusqueda));
+                        break;
+                    case "Código":
+                        productosFiltrados = productosFiltrados.Where(p => p.Codigo.ToLower().Contains(textoBusqueda));
+                        break;
+                        // Se quitó el case "Marca" de aquí
+                }
+            }
+
+            var categoriaSeleccionada = cmbFiltroCategoria.SelectedItem as ComboBoxItem;
+            if (categoriaSeleccionada != null && categoriaSeleccionada.Value != 0)
+            {
+                productosFiltrados = productosFiltrados.Where(p => p.IdCategoria == categoriaSeleccionada.Value);
+            }
+
+            var talleSeleccionado = cmbFiltroTalle.SelectedItem as ComboBoxItem;
+            if (talleSeleccionado != null && talleSeleccionado.Value != 0)
+            {
+                productosFiltrados = productosFiltrados.Where(p => p.IdTalle == talleSeleccionado.Value);
+            }
+
+            CargarProductosEnDGV(productosFiltrados.ToList());
+        }
+
         // ========================
         // CARGA DE COMBOS Y DGV
         // ========================
@@ -113,7 +220,6 @@ namespace GestionDeVentas.Admin
         private void CargarProveedores()
         {
             cmbProveedor.Items.Clear();
-            // ✅ CORRECCIÓN: Usar directamente ConexionBD.ObtenerConexion()
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
@@ -144,7 +250,6 @@ namespace GestionDeVentas.Admin
         private void CargarCategorias()
         {
             cmbCategoria.Items.Clear();
-            // ✅ CORRECCIÓN: Usar directamente ConexionBD.ObtenerConexion()
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
@@ -157,24 +262,9 @@ namespace GestionDeVentas.Admin
             }
         }
 
-        private string ObtenerNombreTalle(int idTalle)
-        {
-            if (idTalle <= 0) return "-";
-            // ✅ CORRECCIÓN: Usar directamente ConexionBD.ObtenerConexion()
-            using (var conn = ConexionBD.ObtenerConexion())
-            using (var cmd = new SqlCommand("SELECT nombre_talle FROM talle WHERE id_talle=@id", conn))
-            {
-                conn.Open();
-                cmd.Parameters.AddWithValue("@id", idTalle);
-                var r = cmd.ExecuteScalar();
-                return r?.ToString() ?? "-";
-            }
-        }
-
         private void CargarTallesPorCategoria(int idCategoria)
         {
             cmbTalle.Items.Clear();
-            // ✅ CORRECCIÓN: Usar directamente ConexionBD.ObtenerConexion()
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
@@ -197,29 +287,26 @@ namespace GestionDeVentas.Admin
                     }
                 }
             }
-
             cmbTalle.Enabled = true;
             cmbTalle.SelectedIndex = -1;
         }
 
-        private void CargarProductosEnDGV()
+        private void CargarProductosEnDGV(List<Producto> lista)
         {
             dgvProductos.Rows.Clear();
-            // ✅ CORRECCIÓN: Usar el método de la clase ProductoDatos que ya se encarga de todo.
-            var lista = productoDatos.ObtenerProductos();
 
             foreach (var p in lista)
             {
                 dgvProductos.Rows.Add(
                     p.Id,
                     p.Nombre,
-                    p.TalleNombre,      // Usar las propiedades de la clase Producto que ya vienen con los nombres
+                    p.TalleNombre,
                     p.Color,
                     p.Precio,
                     p.Stock,
                     p.Codigo,
                     p.Estado,
-                    p.ProveedorNombre   // Usar las propiedades de la clase Producto que ya vienen con los nombres
+                    p.ProveedorNombre
                 );
             }
 
@@ -270,52 +357,25 @@ namespace GestionDeVentas.Admin
         private bool ValidarCampos()
         {
             bool isValid = true;
+            lblErrorNombre.Text = lblErrorCodigo.Text = lblErrorDescripcion.Text = lblErrorTalle.Text = lblErrorCategoria.Text = lblErrorColor.Text = lblErrorMarca.Text = lblErrorPrecio.Text = lblErrorStock.Text = lblErrorProveedor.Text = "";
 
-            lblErrorNombre.Text = lblErrorCodigo.Text = lblErrorDescripcion.Text =
-            lblErrorTalle.Text = lblErrorCategoria.Text = lblErrorColor.Text =
-            lblErrorMarca.Text = lblErrorPrecio.Text = lblErrorStock.Text =
-            lblErrorProveedor.Text = "";
-
-
-            if (string.IsNullOrWhiteSpace(txtNombreProducto.Text))
-            { lblErrorNombre.Text = "Campo obligatorio"; isValid = false; }
-
-            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
-            { lblErrorCodigo.Text = "Campo obligatorio"; isValid = false; }
+            if (string.IsNullOrWhiteSpace(txtNombreProducto.Text)) { lblErrorNombre.Text = "Campo obligatorio"; isValid = false; }
+            if (string.IsNullOrWhiteSpace(txtCodigo.Text)) { lblErrorCodigo.Text = "Campo obligatorio"; isValid = false; }
             else
             {
-                bool existe = productoDatos.ExisteCodigo(txtCodigo.Text.Trim(), isEditing ? currentProductId : (int?)null);
-                if (existe)
+                if (productoDatos.ExisteCodigo(txtCodigo.Text.Trim(), isEditing ? currentProductId : (int?)null))
                 {
-                    lblErrorCodigo.Text = "Este código ya existe";
-                    isValid = false;
+                    lblErrorCodigo.Text = "Este código ya existe"; isValid = false;
                 }
             }
-
-            if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
-            { lblErrorDescripcion.Text = "Campo obligatorio"; isValid = false; }
-
-            if (!(cmbCategoria.SelectedItem is ComboBoxItem))
-            { lblErrorCategoria.Text = "Seleccione una categoría"; isValid = false; }
-
-            if (!cmbTalle.Enabled || !(cmbTalle.SelectedItem is ComboBoxItem))
-            { lblErrorTalle.Text = "Seleccione un talle"; isValid = false; }
-
-            if (string.IsNullOrWhiteSpace(txtColor.Text))
-            { lblErrorColor.Text = "Campo obligatorio"; isValid = false; }
-
-            if (string.IsNullOrWhiteSpace(txtMarca.Text))
-            { lblErrorMarca.Text = "Campo obligatorio"; isValid = false; }
-
-            if (!decimal.TryParse(txtPrecio.Text, out decimal precio) || precio <= 0)
-            { lblErrorPrecio.Text = "Precio inválido"; isValid = false; }
-
-            if (!int.TryParse(txtStock.Text, out int stock) || stock < 0)
-            { lblErrorStock.Text = "Stock inválido"; isValid = false; }
-
-            if (!(cmbProveedor.SelectedItem is ComboBoxItem))
-            { lblErrorProveedor.Text = "Seleccione un proveedor"; isValid = false; }
-
+            if (string.IsNullOrWhiteSpace(txtDescripcion.Text)) { lblErrorDescripcion.Text = "Campo obligatorio"; isValid = false; }
+            if (!(cmbCategoria.SelectedItem is ComboBoxItem)) { lblErrorCategoria.Text = "Seleccione una categoría"; isValid = false; }
+            if (cmbTalle.Enabled && !(cmbTalle.SelectedItem is ComboBoxItem)) { lblErrorTalle.Text = "Seleccione un talle"; isValid = false; }
+            if (string.IsNullOrWhiteSpace(txtColor.Text)) { lblErrorColor.Text = "Campo obligatorio"; isValid = false; }
+            if (string.IsNullOrWhiteSpace(txtMarca.Text)) { lblErrorMarca.Text = "Campo obligatorio"; isValid = false; }
+            if (!decimal.TryParse(txtPrecio.Text, out decimal precio) || precio <= 0) { lblErrorPrecio.Text = "Precio inválido"; isValid = false; }
+            if (!int.TryParse(txtStock.Text, out int stock) || stock < 0) { lblErrorStock.Text = "Stock inválido"; isValid = false; }
+            if (!(cmbProveedor.SelectedItem is ComboBoxItem)) { lblErrorProveedor.Text = "Seleccione un proveedor"; isValid = false; }
             return isValid;
         }
 
@@ -330,15 +390,14 @@ namespace GestionDeVentas.Admin
                 return;
             }
 
-            if (!Confirm("¿Deseas continuar con esta acción?", "Confirmar acción"))
-                return;
+            if (!Confirm("¿Deseas continuar con esta acción?", "Confirmar acción")) return;
 
             var producto = new Producto
             {
                 Codigo = txtCodigo.Text.Trim(),
                 Nombre = txtNombreProducto.Text.Trim(),
                 Descripcion = txtDescripcion.Text.Trim(),
-                IdTalle = ((ComboBoxItem)cmbTalle.SelectedItem).Value,
+                IdTalle = (cmbTalle.SelectedItem as ComboBoxItem)?.Value ?? 0,
                 Color = txtColor.Text.Trim(),
                 Marca = txtMarca.Text.Trim(),
                 Precio = decimal.Parse(txtPrecio.Text),
@@ -362,13 +421,9 @@ namespace GestionDeVentas.Admin
                     MessageBox.Show("Producto registrado correctamente.");
                 }
 
-                LimpiarCampos();
-                CargarProductosEnDGV();
-                isEditing = false;
-                btnRegistrarProducto.Text = "Registrar Producto";
-                btnCancelarEdicion.Visible = false;
-                btnDesactivar.Visible = false;
-                hayCambios = false;
+                LimpiarCamposYEstado();
+                _todosLosProductos = productoDatos.ObtenerProductos();
+                AplicarFiltros();
             }
             catch (Exception ex)
             {
@@ -383,30 +438,22 @@ namespace GestionDeVentas.Admin
             bool activar = btnDesactivar.Text.Contains("Activar");
             string accion = activar ? "activar" : "desactivar";
 
-            if (!Confirm($"¿Deseas {accion} este producto?", "Confirmar acción"))
-                return;
+            if (!Confirm($"¿Deseas {accion} este producto?", "Confirmar acción")) return;
 
             productoDatos.CambiarEstado(currentProductId, activar);
             MessageBox.Show($"Producto {(activar ? "activado" : "desactivado")} correctamente.");
 
-            LimpiarCampos();
-            CargarProductosEnDGV();
-            btnRegistrarProducto.Text = "Registrar Producto";
-            btnCancelarEdicion.Visible = false;
-            btnDesactivar.Visible = false;
-            isEditing = false;
+            LimpiarCamposYEstado();
+            _todosLosProductos = productoDatos.ObtenerProductos();
+            AplicarFiltros();
         }
 
         private void dgvProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            DataGridViewRow row = dgvProductos.Rows[e.RowIndex];
-            if (!dgvProductos.Columns.Contains("Id")) return;
-
-            currentProductId = Convert.ToInt32(row.Cells["Id"].Value);
-
-            var producto = productoDatos.ObtenerProductos().FirstOrDefault(p => p.Id == currentProductId);
+            currentProductId = Convert.ToInt32(dgvProductos.Rows[e.RowIndex].Cells["Id"].Value);
+            var producto = _todosLosProductos.FirstOrDefault(p => p.Id == currentProductId);
             if (producto == null) return;
 
             txtCodigo.Text = producto.Codigo;
@@ -414,7 +461,7 @@ namespace GestionDeVentas.Admin
             txtDescripcion.Text = producto.Descripcion;
             txtColor.Text = producto.Color;
             txtMarca.Text = producto.Marca;
-            txtPrecio.Text = producto.Precio.ToString();
+            txtPrecio.Text = producto.Precio.ToString("F2");
             txtStock.Text = producto.Stock.ToString();
 
             SeleccionarComboPorValor(cmbCategoria, producto.IdCategoria);
@@ -434,16 +481,20 @@ namespace GestionDeVentas.Admin
         // UTILIDADES Y CERRAR
         // ========================
 
+        private void LimpiarCamposYEstado()
+        {
+            LimpiarCampos();
+            isEditing = false;
+            currentProductId = 0;
+            btnRegistrarProducto.Text = "Registrar Producto";
+            btnCancelarEdicion.Visible = false;
+            btnDesactivar.Visible = false;
+            hayCambios = false;
+        }
+
         private void SeleccionarComboPorValor(ComboBox combo, int valor)
         {
-            foreach (var item in combo.Items)
-            {
-                if (item is ComboBoxItem cbi && cbi.Value == valor)
-                {
-                    combo.SelectedItem = item;
-                    break;
-                }
-            }
+            combo.SelectedItem = combo.Items.OfType<ComboBoxItem>().FirstOrDefault(item => item.Value == valor);
         }
 
         private void WireChangeTracking()
@@ -473,64 +524,42 @@ namespace GestionDeVentas.Admin
             return MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
         }
 
-        private void btnLimpiar_Click(object sender, EventArgs e)
+        private void btnLimpiar_Click_2(object sender, EventArgs e)
         {
             if (Confirm("¿Deseas limpiar todos los campos?", "Confirmar limpieza"))
             {
-                LimpiarCampos();
-                isEditing = false;
-                currentProductId = 0;
-                btnRegistrarProducto.Text = "Registrar Producto";
-                btnCancelarEdicion.Visible = false;
-                btnDesactivar.Visible = false;
-                hayCambios = false;
+                LimpiarCamposYEstado();
             }
         }
 
-        private void btnLimpiar_Click_1(object sender, EventArgs e) => btnLimpiar_Click(sender, e);
-        private void btnLimpiar_Click_2(object sender, EventArgs e) => btnLimpiar_Click(sender, e);
-
-        private void btnCancelarEdicion_Click(object sender, EventArgs e)
+        private void btnCancelarEdicion_Click_2(object sender, EventArgs e)
         {
             if (Confirm("¿Seguro que deseas cancelar la edición y limpiar el formulario?", "Confirmar cancelación"))
             {
-                LimpiarCampos();
-                isEditing = false;
-                currentProductId = 0;
-                btnRegistrarProducto.Text = "Registrar Producto";
-                btnCancelarEdicion.Visible = false;
-                btnDesactivar.Visible = false;
-                hayCambios = false;
+                LimpiarCamposYEstado();
             }
         }
-
-        private void btnCancelarEdicion_Click_1(object sender, EventArgs e) => btnCancelarEdicion_Click(sender, e);
-        private void btnCancelarEdicion_Click_2(object sender, EventArgs e) => btnCancelarEdicion_Click(sender, e);
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        // ========================
-        // CLASE AUXILIAR
-        // ========================
         private class ComboBoxItem
         {
             public string Text { get; set; }
             public int Value { get; set; }
-
-            public ComboBoxItem(string text, int value)
-            {
-                Text = text;
-                Value = value;
-            }
-
+            public ComboBoxItem(string text, int value) { Text = text; Value = value; }
             public override string ToString() => Text;
         }
 
-        private void lblTitulo_Click(object sender, EventArgs e)
+        // Eventos vacíos que estaban en el código original, se mantienen por si están conectados en el designer.
+        private void lblTitulo_Click(object sender, EventArgs e) { }
+        private void formPanel_Paint(object sender, PaintEventArgs e) { }
+
+        private void lblTitulo_Click_1(object sender, EventArgs e)
         {
+
         }
     }
 }

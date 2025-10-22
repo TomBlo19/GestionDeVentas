@@ -1,22 +1,17 @@
 ﻿using GestionDeVentas.Datos;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using GestionDeVentas.Modelos;   
-
-
-
+using GestionDeVentas.Modelos;
 
 namespace GestionDeVentas.Admin
 {
     public partial class ListarUsuario : Form
     {
-        private DataTable dataTableUsuarios = new DataTable();
-        private UsuarioDatos usuarioDatos = new UsuarioDatos();
+        private readonly UsuarioDatos _usuarioDatos = new UsuarioDatos();
+        private List<Usuario> _listaMaestraUsuarios;
 
         public ListarUsuario()
         {
@@ -26,117 +21,113 @@ namespace GestionDeVentas.Admin
 
         private void ListarUsuario_Load(object sender, EventArgs e)
         {
-            CargarColumnas();
-            CargarDatosDesdeBD(); // 👈 ahora traemos datos reales
+            _listaMaestraUsuarios = _usuarioDatos.ObtenerUsuarios();
+
+            ConfigurarDataGridView();
             CargarFiltros();
-            dataGridViewUsuarios.Dock = DockStyle.Fill;
-            dataGridViewUsuarios.BringToFront();
+            ConectarEventosDeFiltro();
+            AplicarFiltros();
         }
 
-        private void CargarColumnas()
+        private void ConfigurarDataGridView()
         {
-            dataTableUsuarios.Columns.Clear();
-            dataTableUsuarios.Columns.Add("DNI", typeof(string));
-            dataTableUsuarios.Columns.Add("Nombre", typeof(string));
-            dataTableUsuarios.Columns.Add("Apellido", typeof(string));
-            dataTableUsuarios.Columns.Add("Telefono", typeof(string));
-            dataTableUsuarios.Columns.Add("Rol", typeof(string));
-            dataTableUsuarios.Columns.Add("Estado", typeof(string));
+            dataGridViewUsuarios.AutoGenerateColumns = false;
+            dataGridViewUsuarios.Columns.Clear();
 
-            dataGridViewUsuarios.DataSource = dataTableUsuarios;
-        }
-
-        private void CargarDatosDesdeBD()
-        {
-            dataTableUsuarios.Rows.Clear();
-
-            List<Usuario> usuarios = usuarioDatos.ObtenerUsuarios();
-
-            foreach (var u in usuarios)
-            {
-                dataTableUsuarios.Rows.Add(
-                    u.DNI,
-                    u.Nombre,
-                    u.Apellido,
-                    u.Telefono,
-                    u.Rol,
-                    u.ActivoTexto
-                );
-            }
+            dataGridViewUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "DNI", DataPropertyName = "DNI", HeaderText = "DNI" });
+            dataGridViewUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Nombre", DataPropertyName = "Nombre", HeaderText = "Nombre" });
+            dataGridViewUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Apellido", DataPropertyName = "Apellido", HeaderText = "Apellido" });
+            dataGridViewUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Telefono", DataPropertyName = "Telefono", HeaderText = "Teléfono" });
+            dataGridViewUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Rol", DataPropertyName = "Rol", HeaderText = "Rol" });
+            dataGridViewUsuarios.Columns.Add(new DataGridViewTextBoxColumn { Name = "Estado", DataPropertyName = "ActivoTexto", HeaderText = "Estado" });
         }
 
         private void CargarFiltros()
         {
-            var roles = dataTableUsuarios.AsEnumerable()
-                                         .Select(row => row.Field<string>("Rol"))
-                                         .Distinct()
-                                         .ToList();
-            roles.Sort();
+            cboBuscarPor.Items.Clear();
+            cboBuscarPor.Items.Add("Apellido");
+            cboBuscarPor.Items.Add("DNI");
+            cboBuscarPor.SelectedIndex = 0;
 
-            cmbTipoUsuario.Items.Clear();
-            cmbTipoUsuario.Items.Add("Todos");
-            cmbTipoUsuario.Items.AddRange(roles.ToArray());
-            cmbTipoUsuario.SelectedIndex = 0;
+            var roles = _listaMaestraUsuarios.Select(u => u.Rol).Distinct().ToList();
+            roles.Sort();
+            cmbFiltrarRol.Items.Clear();
+            cmbFiltrarRol.Items.Add("Todos");
+            cmbFiltrarRol.Items.AddRange(roles.ToArray());
+            cmbFiltrarRol.SelectedIndex = 0;
+
+            cmbFiltrarEstado.Items.Clear();
+            cmbFiltrarEstado.Items.Add("Todos");
+            cmbFiltrarEstado.Items.Add("Activo");
+            cmbFiltrarEstado.Items.Add("Inactivo");
+            cmbFiltrarEstado.SelectedIndex = 0;
+        }
+
+        private void ConectarEventosDeFiltro()
+        {
+            txtFiltro.TextChanged += (s, e) => AplicarFiltros();
+            cboBuscarPor.SelectedIndexChanged += (s, e) => AplicarFiltros();
+            cmbFiltrarRol.SelectedIndexChanged += (s, e) => AplicarFiltros();
+            cmbFiltrarEstado.SelectedIndexChanged += (s, e) => AplicarFiltros();
         }
 
         private void AplicarFiltros()
         {
-            string filtroNombre = txtBuscarNombre.Text.Trim();
-            string filtroRol = cmbTipoUsuario.SelectedItem?.ToString();
+            if (_listaMaestraUsuarios == null) return;
 
-            StringBuilder rowFilter = new StringBuilder();
+            string filtroTexto = txtFiltro.Text.Trim().ToLower();
+            string criterioBusqueda = cboBuscarPor.SelectedItem?.ToString();
+            string filtroRol = cmbFiltrarRol.SelectedItem?.ToString();
+            string filtroEstado = cmbFiltrarEstado.SelectedItem?.ToString();
 
-            if (!string.IsNullOrEmpty(filtroNombre))
+            IEnumerable<Usuario> usuariosFiltrados = _listaMaestraUsuarios;
+
+            if (!string.IsNullOrEmpty(filtroTexto))
             {
-                rowFilter.Append($"Nombre LIKE '%{filtroNombre.Replace("'", "''")}%' OR Apellido LIKE '%{filtroNombre.Replace("'", "''")}%'");
+                if (criterioBusqueda == "DNI")
+                {
+                    usuariosFiltrados = usuariosFiltrados.Where(u => u.DNI.Contains(filtroTexto));
+                }
+                else // Apellido
+                {
+                    usuariosFiltrados = usuariosFiltrados.Where(u => u.Apellido.ToLower().Contains(filtroTexto));
+                }
+            }
+            if (filtroRol != "Todos")
+            {
+                usuariosFiltrados = usuariosFiltrados.Where(u => u.Rol == filtroRol);
+            }
+            if (filtroEstado != "Todos")
+            {
+                usuariosFiltrados = usuariosFiltrados.Where(u => u.ActivoTexto == filtroEstado);
             }
 
-            if (filtroRol != "Todos" && !string.IsNullOrEmpty(filtroRol))
+            dataGridViewUsuarios.DataSource = usuariosFiltrados.ToList();
+        }
+
+        private void dataGridViewUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var usuario = dataGridViewUsuarios.Rows[e.RowIndex].DataBoundItem as Usuario;
+            if (usuario != null)
             {
-                if (rowFilter.Length > 0) rowFilter.Append(" AND ");
-                rowFilter.Append($"Rol = '{filtroRol.Replace("'", "''")}'");
+                if (!usuario.Activo)
+                {
+                    e.CellStyle.BackColor = Color.LightCoral;
+                    e.CellStyle.ForeColor = Color.White;
+                }
+                else
+                {
+                    e.CellStyle.BackColor = SystemColors.Window;
+                    e.CellStyle.ForeColor = SystemColors.ControlText;
+                }
             }
-
-            dataTableUsuarios.DefaultView.RowFilter = rowFilter.Length > 0 ? rowFilter.ToString() : string.Empty;
-        }
-
-        private void txtBuscarNombre_TextChanged(object sender, EventArgs e)
-        {
-            AplicarFiltros();
-        }
-
-        private void cmbFiltro_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            AplicarFiltros();
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void dataGridViewUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dataGridViewUsuarios.Columns[e.ColumnIndex].DataPropertyName == "Estado")
-            {
-                var estado = e.Value?.ToString()?.Trim();
-
-                if (string.Equals(estado, "Inactivo", StringComparison.OrdinalIgnoreCase))
-                {
-                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
-                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                }
-                else
-                {
-                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
-                    dataGridViewUsuarios.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                }
-            }
-        }
-
-        private void topPanel_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

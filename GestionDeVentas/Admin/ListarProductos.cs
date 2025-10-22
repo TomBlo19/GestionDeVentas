@@ -226,5 +226,10 @@ namespace GestionDeVentas.Admin
         // Estos métodos ya no son necesarios porque usamos un solo evento "filtros_Aplicar"
         private void txtBuscarNombre_TextChanged(object sender, EventArgs e) { }
         private void cmbFiltro_SelectedIndexChanged(object sender, EventArgs e) { }
+
+        private void topPanel_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

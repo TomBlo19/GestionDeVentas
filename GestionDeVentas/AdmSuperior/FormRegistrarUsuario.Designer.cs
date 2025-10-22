@@ -1,35 +1,33 @@
-﻿using System;
-
-namespace GestionDeVentas.Admin
+﻿namespace GestionDeVentas.Admin
 {
     partial class FormRegistrarUsuario
-{
-    /// <summary>
-    /// Required designer variable.
-    /// </summary>
-    private System.ComponentModel.IContainer components = null;
-
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-    protected override void Dispose(bool disposing)
     {
-        if (disposing && (components != null))
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
         {
-            components.Dispose();
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
         }
-        base.Dispose(disposing);
-    }
 
-    #region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-    /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
-    /// </summary>
-    private void InitializeComponent()
-    {
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainPanel = new System.Windows.Forms.Panel();
@@ -47,6 +45,8 @@ namespace GestionDeVentas.Admin
             this.Rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelFiltros = new System.Windows.Forms.Panel();
+            this.cboBuscarPor = new System.Windows.Forms.ComboBox();
+            this.lblBuscarPor = new System.Windows.Forms.Label();
             this.lblFiltrarEstado = new System.Windows.Forms.Label();
             this.cmbFiltrarEstado = new System.Windows.Forms.ComboBox();
             this.lblFiltrarRol = new System.Windows.Forms.Label();
@@ -257,6 +257,8 @@ namespace GestionDeVentas.Admin
             // 
             // panelFiltros
             // 
+            this.panelFiltros.Controls.Add(this.lblBuscarPor);
+            this.panelFiltros.Controls.Add(this.cboBuscarPor);
             this.panelFiltros.Controls.Add(this.lblFiltrarEstado);
             this.panelFiltros.Controls.Add(this.cmbFiltrarEstado);
             this.panelFiltros.Controls.Add(this.lblFiltrarRol);
@@ -269,12 +271,32 @@ namespace GestionDeVentas.Admin
             this.panelFiltros.Size = new System.Drawing.Size(880, 66);
             this.panelFiltros.TabIndex = 0;
             // 
+            // cboBuscarPor
+            // 
+            this.cboBuscarPor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBuscarPor.FormattingEnabled = true;
+            this.cboBuscarPor.Location = new System.Drawing.Point(3, 28);
+            this.cboBuscarPor.Name = "cboBuscarPor";
+            this.cboBuscarPor.Size = new System.Drawing.Size(121, 21);
+            this.cboBuscarPor.TabIndex = 7;
+            // 
+            // lblBuscarPor
+            // 
+            this.lblBuscarPor.AutoSize = true;
+            this.lblBuscarPor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBuscarPor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblBuscarPor.Location = new System.Drawing.Point(3, 10);
+            this.lblBuscarPor.Name = "lblBuscarPor";
+            this.lblBuscarPor.Size = new System.Drawing.Size(70, 15);
+            this.lblBuscarPor.TabIndex = 6;
+            this.lblBuscarPor.Text = "Buscar por:";
+            // 
             // lblFiltrarEstado
             // 
             this.lblFiltrarEstado.AutoSize = true;
             this.lblFiltrarEstado.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFiltrarEstado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblFiltrarEstado.Location = new System.Drawing.Point(448, 10);
+            this.lblFiltrarEstado.Location = new System.Drawing.Point(628, 10);
             this.lblFiltrarEstado.Name = "lblFiltrarEstado";
             this.lblFiltrarEstado.Size = new System.Drawing.Size(104, 15);
             this.lblFiltrarEstado.TabIndex = 5;
@@ -282,8 +304,9 @@ namespace GestionDeVentas.Admin
             // 
             // cmbFiltrarEstado
             // 
+            this.cmbFiltrarEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFiltrarEstado.FormattingEnabled = true;
-            this.cmbFiltrarEstado.Location = new System.Drawing.Point(451, 28);
+            this.cmbFiltrarEstado.Location = new System.Drawing.Point(631, 28);
             this.cmbFiltrarEstado.Name = "cmbFiltrarEstado";
             this.cmbFiltrarEstado.Size = new System.Drawing.Size(215, 21);
             this.cmbFiltrarEstado.TabIndex = 4;
@@ -293,7 +316,7 @@ namespace GestionDeVentas.Admin
             this.lblFiltrarRol.AutoSize = true;
             this.lblFiltrarRol.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFiltrarRol.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblFiltrarRol.Location = new System.Drawing.Point(220, 10);
+            this.lblFiltrarRol.Location = new System.Drawing.Point(407, 10);
             this.lblFiltrarRol.Name = "lblFiltrarRol";
             this.lblFiltrarRol.Size = new System.Drawing.Size(86, 15);
             this.lblFiltrarRol.TabIndex = 3;
@@ -301,17 +324,18 @@ namespace GestionDeVentas.Admin
             // 
             // cmbFiltrarRol
             // 
+            this.cmbFiltrarRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFiltrarRol.FormattingEnabled = true;
-            this.cmbFiltrarRol.Location = new System.Drawing.Point(223, 28);
+            this.cmbFiltrarRol.Location = new System.Drawing.Point(410, 28);
             this.cmbFiltrarRol.Name = "cmbFiltrarRol";
             this.cmbFiltrarRol.Size = new System.Drawing.Size(215, 21);
             this.cmbFiltrarRol.TabIndex = 2;
             // 
             // txtFiltro
             // 
-            this.txtFiltro.Location = new System.Drawing.Point(3, 28);
+            this.txtFiltro.Location = new System.Drawing.Point(130, 28);
             this.txtFiltro.Name = "txtFiltro";
-            this.txtFiltro.Size = new System.Drawing.Size(215, 20);
+            this.txtFiltro.Size = new System.Drawing.Size(274, 20);
             this.txtFiltro.TabIndex = 1;
             // 
             // lblFiltro
@@ -471,7 +495,7 @@ namespace GestionDeVentas.Admin
             // 
             // cmbRol
             // 
-            this.cmbRol.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbRol.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbRol.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbRol.FormattingEnabled = true;
             this.cmbRol.Location = new System.Drawing.Point(8, 324);
@@ -850,74 +874,74 @@ namespace GestionDeVentas.Admin
             this.formPanel.PerformLayout();
             this.ResumeLayout(false);
 
-    }
+        }
 
-    #endregion
+        #endregion
 
-    private System.Windows.Forms.Panel mainPanel;
-    private System.Windows.Forms.Panel formPanel;
-    private System.Windows.Forms.Button btnRegistrarUsuario;
-    private System.Windows.Forms.Label lblTitulo;
-    private System.Windows.Forms.Label lblNombreUsuario;
-    private System.Windows.Forms.TextBox txtNombreUsuario;
-    private System.Windows.Forms.Label lblErrorNombre;
-    private System.Windows.Forms.Label lblApellido;
-    private System.Windows.Forms.TextBox txtApellido;
-    private System.Windows.Forms.Label lblErrorApellido;
-    private System.Windows.Forms.Label lblEmail;
-    private System.Windows.Forms.TextBox txtEmail;
-    private System.Windows.Forms.Label lblErrorEmail;
-    private System.Windows.Forms.Label lblContrasena;
-    private System.Windows.Forms.TextBox txtContrasena;
-    private System.Windows.Forms.Label lblErrorContrasena;
-    private System.Windows.Forms.Label lblConfirmarContrasena;
-    private System.Windows.Forms.TextBox txtConfirmarContrasena;
-    private System.Windows.Forms.Label lblErrorConfirmar;
-    private System.Windows.Forms.Label lblRol;
-    private System.Windows.Forms.ComboBox cmbRol;
-    private System.Windows.Forms.Label lblErrorRol;
-    private System.Windows.Forms.Label lblDNI;
-    private System.Windows.Forms.TextBox txtDNI;
-    private System.Windows.Forms.Label lblErrorDNI;
-    private System.Windows.Forms.Label lblTelefono;
-    private System.Windows.Forms.TextBox txtTelefono;
-    private System.Windows.Forms.Label lblErrorTelefono;
-    private System.Windows.Forms.Label lblDireccion;
-    private System.Windows.Forms.TextBox txtDireccion;
-    private System.Windows.Forms.Label lblErrorDireccion;
-    private System.Windows.Forms.Label lblPais;
-    private System.Windows.Forms.TextBox txtPais;
-    private System.Windows.Forms.Label lblErrorPais;
-    private System.Windows.Forms.Label lblCiudad;
-    private System.Windows.Forms.TextBox txtCiudad;
-    private System.Windows.Forms.Label lblErrorCiudad;
-    private System.Windows.Forms.Label lblFechaNacimiento;
-    private System.Windows.Forms.DateTimePicker dtpFechaNacimiento;
-    private System.Windows.Forms.Label lblErrorFechaNacimiento;
-    private System.Windows.Forms.Button btnLimpiar;
-    private System.Windows.Forms.Button btnDesactivar;
-    private System.Windows.Forms.Panel panelLista;
-    private System.Windows.Forms.DataGridView dgvUsuarios;
-    private System.Windows.Forms.Panel panelFiltros;
-    private System.Windows.Forms.TextBox txtFiltro;
-    private System.Windows.Forms.Label lblFiltro;
-    private System.Windows.Forms.Label lblFiltrarRol;
-    private System.Windows.Forms.ComboBox cmbFiltrarRol;
-    private System.Windows.Forms.Label lblFiltrarEstado;
-    private System.Windows.Forms.ComboBox cmbFiltrarEstado;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Apellido;
-    private System.Windows.Forms.DataGridViewTextBoxColumn DNI;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Telefono;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Pais;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Ciudad;
-    private System.Windows.Forms.DataGridViewTextBoxColumn FechaNacimiento;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Email;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Rol;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
-    private System.Windows.Forms.Button btnCerrar;
-
-      
+        private System.Windows.Forms.Panel mainPanel;
+        private System.Windows.Forms.Panel formPanel;
+        private System.Windows.Forms.Button btnRegistrarUsuario;
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Label lblNombreUsuario;
+        private System.Windows.Forms.TextBox txtNombreUsuario;
+        private System.Windows.Forms.Label lblErrorNombre;
+        private System.Windows.Forms.Label lblApellido;
+        private System.Windows.Forms.TextBox txtApellido;
+        private System.Windows.Forms.Label lblErrorApellido;
+        private System.Windows.Forms.Label lblEmail;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Label lblErrorEmail;
+        private System.Windows.Forms.Label lblContrasena;
+        private System.Windows.Forms.TextBox txtContrasena;
+        private System.Windows.Forms.Label lblErrorContrasena;
+        private System.Windows.Forms.Label lblConfirmarContrasena;
+        private System.Windows.Forms.TextBox txtConfirmarContrasena;
+        private System.Windows.Forms.Label lblErrorConfirmar;
+        private System.Windows.Forms.Label lblRol;
+        private System.Windows.Forms.ComboBox cmbRol;
+        private System.Windows.Forms.Label lblErrorRol;
+        private System.Windows.Forms.Label lblDNI;
+        private System.Windows.Forms.TextBox txtDNI;
+        private System.Windows.Forms.Label lblErrorDNI;
+        private System.Windows.Forms.Label lblTelefono;
+        private System.Windows.Forms.TextBox txtTelefono;
+        private System.Windows.Forms.Label lblErrorTelefono;
+        private System.Windows.Forms.Label lblDireccion;
+        private System.Windows.Forms.TextBox txtDireccion;
+        private System.Windows.Forms.Label lblErrorDireccion;
+        private System.Windows.Forms.Label lblPais;
+        private System.Windows.Forms.TextBox txtPais;
+        private System.Windows.Forms.Label lblErrorPais;
+        private System.Windows.Forms.Label lblCiudad;
+        private System.Windows.Forms.TextBox txtCiudad;
+        private System.Windows.Forms.Label lblErrorCiudad;
+        private System.Windows.Forms.Label lblFechaNacimiento;
+        private System.Windows.Forms.DateTimePicker dtpFechaNacimiento;
+        private System.Windows.Forms.Label lblErrorFechaNacimiento;
+        private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.Button btnDesactivar;
+        private System.Windows.Forms.Panel panelLista;
+        private System.Windows.Forms.DataGridView dgvUsuarios;
+        private System.Windows.Forms.Panel panelFiltros;
+        private System.Windows.Forms.TextBox txtFiltro;
+        private System.Windows.Forms.Label lblFiltrarRol;
+        private System.Windows.Forms.ComboBox cmbFiltrarRol;
+        private System.Windows.Forms.Label lblFiltrarEstado;
+        private System.Windows.Forms.ComboBox cmbFiltrarEstado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Apellido;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DNI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Telefono;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Pais;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ciudad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FechaNacimiento;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Rol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
+        private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.ComboBox cboBuscarPor;
+        private System.Windows.Forms.Label lblBuscarPor;
+        private System.Windows.Forms.Label lblFiltro;
     }
 }

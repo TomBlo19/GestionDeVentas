@@ -4,76 +4,148 @@ using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GestionDeVentas.Gerente
 {
     public partial class FormRegistrarProveedor : Form
     {
-        private ProveedorDatos proveedorDatos = new ProveedorDatos();
-        private int? proveedorSeleccionadoId = null;
+        private readonly ProveedorDatos _proveedorDatos = new ProveedorDatos();
+        private int? _proveedorSeleccionadoId = null;
 
         public FormRegistrarProveedor()
         {
             InitializeComponent();
-            ConfigurarDataGridView();
 
-            // Validaciones KeyPress
-            this.txtNombre.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
-            this.txtEmpresa.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
-            this.txtPais.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
-            this.txtCiudad.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
-            this.txtDni.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
-            this.txtTelefono.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
+            // ✅ LA SOLUCIÓN PRINCIPAL: Con esta línea, el DataGridView NUNCA más
+            // va a ignorar las columnas que definiste en el diseñador.
+            dgvProveedores.AutoGenerateColumns = false;
 
-            btnActivar.Visible = false;
-            btnDesactivar.Visible = false;
+            ConfigurarControlesIniciales();
+            AsignarValidaciones();
+
+            this.dgvProveedores.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvProveedores_RowPrePaint);
         }
 
         private void FormRegistrarProveedor_Load(object sender, EventArgs e)
         {
-            btnCerrar.BringToFront();
-            ActualizarDataGridView();
+            CargarFiltros();
+            ConectarEventosDeFiltro();
+            AplicarFiltros();
         }
 
-        private void ConfigurarDataGridView()
+        #region CONFIGURACIÓN INICIAL Y FILTROS
+
+        private void ConfigurarControlesIniciales()
         {
-            dgvProveedores.AutoGenerateColumns = false;
-            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProveedores.ReadOnly = true;
-            dgvProveedores.AllowUserToResizeRows = false;
-            dgvProveedores.AllowUserToResizeColumns = true;
-            dgvProveedores.Columns.Clear();
+            this.lblCuit.Text = "CUIT:";
+            btnEditar.Visible = false;
+            btnActivar.Visible = false;
+            btnDesactivar.Visible = false;
 
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colNombre", DataPropertyName = "Nombre", HeaderText = "Nombre", Width = 140 });
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colEmpresa", DataPropertyName = "Empresa", HeaderText = "Empresa", Width = 160 });
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCuit", DataPropertyName = "Cuit", HeaderText = "CUIT", Width = 130 });
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colTelefono", DataPropertyName = "Telefono", HeaderText = "Teléfono", Width = 110 });
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colDireccion", DataPropertyName = "Direccion", HeaderText = "Dirección", Width = 160 });
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCiudad", DataPropertyName = "Ciudad", HeaderText = "Ciudad", Width = 120 });
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colPais", DataPropertyName = "Pais", HeaderText = "País", Width = 100 });
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colCorreo", DataPropertyName = "Correo", HeaderText = "Correo", Width = 170 });
-            dgvProveedores.Columns.Add(new DataGridViewTextBoxColumn { Name = "colEstado", DataPropertyName = "ActivoTexto", HeaderText = "Estado", Width = 100 });
-
-            dgvProveedores.RowPrePaint += dgvProveedores_RowPrePaint;
+            dgvProveedores.Columns["colDireccion"].Visible = false;
+            dgvProveedores.Columns["colPais"].Visible = false;
+            dgvProveedores.Columns["colCiudad"].Visible = false;
+            dgvProveedores.Columns["colCorreo"].Visible = false;
         }
 
+        private void AsignarValidaciones()
+        {
+            this.txtNombre.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
+            this.txtEmpresa.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
+            this.txtPais.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
+            this.txtCiudad.KeyPress += new KeyPressEventHandler(txt_SoloLetras_KeyPress);
+            this.txtCuit.KeyPress += new KeyPressEventHandler(txt_SoloNumerosYGuiones_KeyPress);
+            this.txtTelefono.KeyPress += new KeyPressEventHandler(txt_SoloNumeros_KeyPress);
+        }
+
+        private void CargarFiltros()
+        {
+            cboBuscarPor.Items.Clear();
+            cboBuscarPor.Items.Add("Nombre");
+            cboBuscarPor.Items.Add("Empresa");
+            cboBuscarPor.Items.Add("CUIT");
+            cboBuscarPor.SelectedIndex = 0;
+
+            cboFiltrarEstado.Items.Clear();
+            cboFiltrarEstado.Items.Add("Todos");
+            cboFiltrarEstado.Items.Add("Activos");
+            cboFiltrarEstado.Items.Add("Inactivos");
+            
+            cboFiltrarEstado.SelectedIndex = 0;
+        }
+
+        private void ConectarEventosDeFiltro()
+        {
+            txtBusqueda.TextChanged += (s, e) => AplicarFiltros();
+            cboBuscarPor.SelectedIndexChanged += (s, e) => AplicarFiltros();
+            cboFiltrarEstado.SelectedIndexChanged += (s, e) => AplicarFiltros();
+        }
+
+        private void AplicarFiltros()
+        {
+            string criterio = cboBuscarPor.SelectedItem?.ToString();
+            string valorBusqueda = txtBusqueda.Text;
+            string estadoSeleccionado = cboFiltrarEstado.SelectedItem?.ToString();
+
+            string cuitFiltro = null, nombreFiltro = null, empresaFiltro = null, estadoFiltro = null;
+
+            if (!string.IsNullOrEmpty(criterio))
+            {
+                switch (criterio)
+                {
+                    case "CUIT": cuitFiltro = valorBusqueda; break;
+                    case "Nombre": nombreFiltro = valorBusqueda; break;
+                    case "Empresa": empresaFiltro = valorBusqueda; break;
+                }
+            }
+
+            if (estadoSeleccionado == "Activos") estadoFiltro = "activo";
+            else if (estadoSeleccionado == "Inactivos") estadoFiltro = "inactivo";
+
+            List<Proveedor> proveedores = _proveedorDatos.ObtenerProveedores(cuitFiltro, nombreFiltro, empresaFiltro, estadoFiltro);
+            CargarGrilla(proveedores);
+        }
+
+        private void CargarGrilla(List<Proveedor> lista)
+        {
+            dgvProveedores.DataSource = null;
+            dgvProveedores.DataSource = lista;
+            dgvProveedores.ClearSelection();
+        }
+
+        // ✅ SEGUNDA SOLUCIÓN: Usamos el evento RowPrePaint para colorear. Es más eficiente
+        // y nos aseguramos de que los colores se apliquen correctamente siempre.
         private void dgvProveedores_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
-            var prov = dgvProveedores.Rows[e.RowIndex].DataBoundItem as Proveedor;
-            if (prov == null) return;
-
-            dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.ForeColor = prov.Activo ? Color.Black : Color.Red;
+            if (e.RowIndex < 0) return;
+            var proveedor = dgvProveedores.Rows[e.RowIndex].DataBoundItem as Proveedor;
+            if (proveedor != null)
+            {
+                if (!proveedor.Activo)
+                {
+                    // Fila completa de rojo, con texto en blanco para que se lea bien.
+                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
+                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = Color.DarkRed;
+                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.SelectionForeColor = Color.White;
+                }
+                else
+                {
+                    // Si no está inactivo, nos aseguramos que tenga los colores por defecto.
+                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+                    dgvProveedores.Rows[e.RowIndex].DefaultCellStyle.SelectionForeColor = Color.White;
+                }
+            }
         }
 
-        private void ActualizarDataGridView()
-        {
-            dgvProveedores.DataSource = proveedorDatos.ObtenerProveedores();
-        }
 
-        private bool Confirmar(string mensaje, string titulo = "Confirmación")
-        {
-            return MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-        }
+        #endregion
+
+        #region LÓGICA DE BOTONES (CRUD)
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
@@ -83,7 +155,7 @@ namespace GestionDeVentas.Gerente
             {
                 Nombre = txtNombre.Text.Trim(),
                 Empresa = txtEmpresa.Text.Trim(),
-                Cuit = txtDni.Text.Trim(),
+                Cuit = txtCuit.Text.Trim(),
                 Telefono = txtTelefono.Text.Trim(),
                 Direccion = txtDireccion.Text.Trim(),
                 Pais = txtPais.Text.Trim(),
@@ -92,36 +164,27 @@ namespace GestionDeVentas.Gerente
                 Activo = true
             };
 
-            // Validaciones duplicados antes de confirmar
-            if (proveedorDatos.ExisteCuit(nuevoProveedor.Cuit))
-            {
-                lblErrorDni.Text = "El CUIT ya existe.";
-                return;
-            }
-            if (proveedorDatos.ExisteCorreo(nuevoProveedor.Correo))
-            {
-                lblErrorCorreo.Text = "El correo ya existe.";
-                return;
-            }
+            if (_proveedorDatos.ExisteCuit(nuevoProveedor.Cuit)) { lblErrorCuit.Text = "El CUIT ya existe."; return; }
+            if (_proveedorDatos.ExisteCorreo(nuevoProveedor.Correo)) { lblErrorCorreo.Text = "El correo ya existe."; return; }
 
             if (!Confirmar("¿Deseas registrar este proveedor?")) return;
 
-            proveedorDatos.InsertarProveedor(nuevoProveedor);
+            _proveedorDatos.InsertarProveedor(nuevoProveedor);
             MessageBox.Show("Proveedor registrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
-            ActualizarDataGridView();
+            AplicarFiltros();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (!(proveedorSeleccionadoId.HasValue && ValidarCampos(true))) return;
+            if (!(_proveedorSeleccionadoId.HasValue && ValidarCampos(true))) return;
 
             var proveedorAEditar = new Proveedor
             {
-                Id = proveedorSeleccionadoId.Value,
+                Id = _proveedorSeleccionadoId.Value,
                 Nombre = txtNombre.Text.Trim(),
                 Empresa = txtEmpresa.Text.Trim(),
-                Cuit = txtDni.Text.Trim(),
+                Cuit = txtCuit.Text.Trim(),
                 Telefono = txtTelefono.Text.Trim(),
                 Direccion = txtDireccion.Text.Trim(),
                 Pais = txtPais.Text.Trim(),
@@ -129,105 +192,87 @@ namespace GestionDeVentas.Gerente
                 Correo = txtCorreo.Text.Trim()
             };
 
-            if (proveedorDatos.ExisteCuit(proveedorAEditar.Cuit, proveedorAEditar.Id))
-            {
-                lblErrorDni.Text = "El CUIT ya está en uso.";
-                return;
-            }
-            if (proveedorDatos.ExisteCorreo(proveedorAEditar.Correo, proveedorAEditar.Id))
-            {
-                lblErrorCorreo.Text = "El correo ya está en uso.";
-                return;
-            }
+            if (_proveedorDatos.ExisteCuit(proveedorAEditar.Cuit, proveedorAEditar.Id)) { lblErrorCuit.Text = "El CUIT ya está en uso."; return; }
+            if (_proveedorDatos.ExisteCorreo(proveedorAEditar.Correo, proveedorAEditar.Id)) { lblErrorCorreo.Text = "El correo ya está en uso."; return; }
 
             if (!Confirmar($"¿Guardar cambios para {proveedorAEditar.Empresa}?")) return;
 
-            proveedorDatos.EditarProveedor(proveedorAEditar);
+            _proveedorDatos.EditarProveedor(proveedorAEditar);
             MessageBox.Show("Proveedor editado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             LimpiarCampos();
-            ActualizarDataGridView();
+            AplicarFiltros();
         }
 
-        private void btnLimpiar_Click(object sender, EventArgs e)
+        private void btnActivar_Click(object sender, EventArgs e) => CambiarEstadoProveedor(true);
+        private void btnDesactivar_Click(object sender, EventArgs e) => CambiarEstadoProveedor(false);
+
+        private void CambiarEstadoProveedor(bool activar)
         {
-            if (!Confirmar("¿Deseas limpiar los campos?")) return;
-            LimpiarCampos();
+            if (!_proveedorSeleccionadoId.HasValue) return;
+
+            string accion = activar ? "ACTIVAR" : "DESACTIVAR";
+            if (!Confirmar($"¿Deseas {accion} este proveedor?")) return;
+
+            _proveedorDatos.CambiarEstado(_proveedorSeleccionadoId.Value, activar);
+            AplicarFiltros();
+
+            var proveedorSeleccionado = dgvProveedores.Rows.Cast<DataGridViewRow>()
+                .FirstOrDefault(r => (r.DataBoundItem as Proveedor)?.Id == _proveedorSeleccionadoId.Value);
+
+            if (proveedorSeleccionado != null)
+            {
+                proveedorSeleccionado.Selected = true;
+                ActualizarVisibilidadBotones(activar);
+            }
+            else LimpiarCampos();
         }
 
-        private void btnActivar_Click(object sender, EventArgs e)
+        #endregion
+
+        #region VALIDACIONES Y UTILIDADES
+
+        private void btnLimpiar_Click(object sender, EventArgs e) => LimpiarCampos();
+
+        private void LimpiarCampos()
         {
-            if (!proveedorSeleccionadoId.HasValue) return;
+            txtNombre.Clear(); txtEmpresa.Clear(); txtCuit.Clear();
+            txtTelefono.Clear(); txtDireccion.Clear(); txtPais.Clear();
+            txtCiudad.Clear(); txtCorreo.Clear();
 
-            if (!Confirmar("¿Deseas ACTIVAR este proveedor?")) return;
+            lblErrorNombre.Text = " "; lblErrorEmpresa.Text = " "; lblErrorCuit.Text = " "; lblErrorTelefono.Text = " ";
+            lblErrorDireccion.Text = " "; lblErrorPais.Text = " "; lblErrorCiudad.Text = " "; lblErrorCorreo.Text = " ";
 
-            proveedorDatos.CambiarEstado(proveedorSeleccionadoId.Value, true);
-            ActualizarDataGridView();
+            txtNombre.Focus();
+            _proveedorSeleccionadoId = null;
+
+            btnRegistrar.Visible = true;
+            btnEditar.Visible = false;
             btnActivar.Visible = false;
-            btnDesactivar.Visible = true;
-        }
-
-        private void btnDesactivar_Click(object sender, EventArgs e)
-        {
-            if (!proveedorSeleccionadoId.HasValue) return;
-
-            if (!Confirmar("¿Deseas DESACTIVAR este proveedor?")) return;
-
-            proveedorDatos.CambiarEstado(proveedorSeleccionadoId.Value, false);
-            ActualizarDataGridView();
-            btnActivar.Visible = true;
             btnDesactivar.Visible = false;
+
+            dgvProveedores.ClearSelection();
         }
 
         private bool ValidarCampos(bool esEdicion)
         {
             bool esValido = true;
 
-            lblErrorNombre.Text = " ";
-            lblErrorEmpresa.Text = " ";
-            lblErrorDni.Text = " ";
-            lblErrorTelefono.Text = " ";
-            lblErrorDireccion.Text = " ";
-            lblErrorPais.Text = " ";
-            lblErrorCiudad.Text = " ";
-            lblErrorCorreo.Text = " ";
+            lblErrorNombre.Text = " "; lblErrorEmpresa.Text = " "; lblErrorCuit.Text = " "; lblErrorTelefono.Text = " ";
+            lblErrorDireccion.Text = " "; lblErrorPais.Text = " "; lblErrorCiudad.Text = " "; lblErrorCorreo.Text = " ";
 
             if (string.IsNullOrWhiteSpace(txtNombre.Text)) { lblErrorNombre.Text = "El nombre es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtEmpresa.Text)) { lblErrorEmpresa.Text = "La empresa es obligatoria."; esValido = false; }
-
-            // CUIT: formato 20-12345678-9
-            if (string.IsNullOrWhiteSpace(txtDni.Text)) { lblErrorDni.Text = "El CUIT es obligatorio."; esValido = false; }
-            else if (!Regex.IsMatch(txtDni.Text, @"^\d{2}-\d{8}-\d{1}$")) { lblErrorDni.Text = "Formato inválido. Ej: 20-12345678-9"; esValido = false; }
-
+            if (string.IsNullOrWhiteSpace(txtCuit.Text)) { lblErrorCuit.Text = "El CUIT es obligatorio."; esValido = false; }
+            else if (!Regex.IsMatch(txtCuit.Text, @"^\d{2}-\d{8}-\d{1}$")) { lblErrorCuit.Text = "Formato inválido. Ej: 20-12345678-9"; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtTelefono.Text)) { lblErrorTelefono.Text = "El teléfono es obligatorio."; esValido = false; }
             else if (!Regex.IsMatch(txtTelefono.Text, @"^[0-9\s-]+$")) { lblErrorTelefono.Text = "Solo números y guiones."; esValido = false; }
-
             if (string.IsNullOrWhiteSpace(txtDireccion.Text)) { lblErrorDireccion.Text = "La dirección es obligatoria."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtPais.Text)) { lblErrorPais.Text = "El país es obligatorio."; esValido = false; }
             if (string.IsNullOrWhiteSpace(txtCiudad.Text)) { lblErrorCiudad.Text = "La ciudad es obligatoria."; esValido = false; }
-
             if (string.IsNullOrWhiteSpace(txtCorreo.Text)) { lblErrorCorreo.Text = "El correo es obligatorio."; esValido = false; }
             else if (!Regex.IsMatch(txtCorreo.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$")) { lblErrorCorreo.Text = "Correo inválido."; esValido = false; }
 
             return esValido;
-        }
-
-        private void LimpiarCampos()
-        {
-            txtNombre.Clear();
-            txtEmpresa.Clear();
-            txtDni.Clear();
-            txtTelefono.Clear();
-            txtDireccion.Clear();
-            txtPais.Clear();
-            txtCiudad.Clear();
-            txtCorreo.Clear();
-            txtNombre.Focus();
-
-            proveedorSeleccionadoId = null;
-            btnRegistrar.Visible = true;
-            btnEditar.Visible = false;
-            btnActivar.Visible = false;
-            btnDesactivar.Visible = false;
         }
 
         private void dgvProveedores_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -237,44 +282,52 @@ namespace GestionDeVentas.Gerente
             var prov = dgvProveedores.Rows[e.RowIndex].DataBoundItem as Proveedor;
             if (prov == null) return;
 
-            proveedorSeleccionadoId = prov.Id;
-
+            _proveedorSeleccionadoId = prov.Id;
             txtNombre.Text = prov.Nombre;
             txtEmpresa.Text = prov.Empresa;
-            txtDni.Text = prov.Cuit;
+            txtCuit.Text = prov.Cuit;
             txtTelefono.Text = prov.Telefono;
             txtDireccion.Text = prov.Direccion;
             txtPais.Text = prov.Pais;
             txtCiudad.Text = prov.Ciudad;
             txtCorreo.Text = prov.Correo;
 
+            ActualizarVisibilidadBotones(prov.Activo);
+        }
+
+        private void ActualizarVisibilidadBotones(bool estaActivo)
+        {
             btnRegistrar.Visible = false;
             btnEditar.Visible = true;
-            btnActivar.Visible = !prov.Activo;
-            btnDesactivar.Visible = prov.Activo;
+            btnActivar.Visible = !estaActivo;
+            btnDesactivar.Visible = estaActivo;
         }
 
         private void txt_SoloNumeros_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
-                e.Handled = true;
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) e.Handled = true;
+        }
+
+        private void txt_SoloNumerosYGuiones_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-')) e.Handled = true;
         }
 
         private void txt_SoloLetras_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
-                e.Handled = true;
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ') e.Handled = true;
+        }
+
+        private bool Confirmar(string mensaje, string titulo = "Confirmación")
+        {
+            return MessageBox.Show(mensaje, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            if (Confirmar("¿Seguro que deseas cerrar esta ventana?", "Cerrar"))
-                this.Close();
+            this.Close();
         }
 
-        private void dgvProveedores_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        #endregion
     }
 }

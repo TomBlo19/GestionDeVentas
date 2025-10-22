@@ -21,9 +21,9 @@
             this.lblEmpresa = new System.Windows.Forms.Label();
             this.txtEmpresa = new System.Windows.Forms.TextBox();
             this.lblErrorEmpresa = new System.Windows.Forms.Label();
-            this.lblDni = new System.Windows.Forms.Label();
-            this.txtDni = new System.Windows.Forms.TextBox();
-            this.lblErrorDni = new System.Windows.Forms.Label();
+            this.lblCuit = new System.Windows.Forms.Label();
+            this.txtCuit = new System.Windows.Forms.TextBox();
+            this.lblErrorCuit = new System.Windows.Forms.Label();
             this.lblTelefono = new System.Windows.Forms.Label();
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.lblErrorTelefono = new System.Windows.Forms.Label();
@@ -44,7 +44,7 @@
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEmpresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDni = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCuit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTelefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDireccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colPais = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,7 +56,14 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnActivar = new System.Windows.Forms.Button();
             this.btnDesactivar = new System.Windows.Forms.Button();
+            this.panelFiltros = new System.Windows.Forms.Panel();
+            this.lblFiltrarEstado = new System.Windows.Forms.Label();
+            this.cboFiltrarEstado = new System.Windows.Forms.ComboBox();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
+            this.cboBuscarPor = new System.Windows.Forms.ComboBox();
+            this.lblBuscar = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProveedores)).BeginInit();
+            this.panelFiltros.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitulo
@@ -68,7 +75,7 @@
             this.lblTitulo.Location = new System.Drawing.Point(0, 0);
             this.lblTitulo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(800, 50);
+            this.lblTitulo.Size = new System.Drawing.Size(840, 50);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Registrar Proveedor";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -86,18 +93,17 @@
             // 
             // txtNombre
             // 
+            this.txtNombre.Font = new System.Drawing.Font("Arial", 9.75F);
             this.txtNombre.Location = new System.Drawing.Point(53, 100);
-            this.txtNombre.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(200, 20);
+            this.txtNombre.Size = new System.Drawing.Size(200, 22);
             this.txtNombre.TabIndex = 2;
             // 
             // lblErrorNombre
             // 
             this.lblErrorNombre.AutoSize = true;
             this.lblErrorNombre.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorNombre.Location = new System.Drawing.Point(53, 123);
-            this.lblErrorNombre.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblErrorNombre.Location = new System.Drawing.Point(53, 125);
             this.lblErrorNombre.Name = "lblErrorNombre";
             this.lblErrorNombre.Size = new System.Drawing.Size(10, 13);
             this.lblErrorNombre.TabIndex = 3;
@@ -116,52 +122,50 @@
             // 
             // txtEmpresa
             // 
+            this.txtEmpresa.Font = new System.Drawing.Font("Arial", 9.75F);
             this.txtEmpresa.Location = new System.Drawing.Point(303, 100);
-            this.txtEmpresa.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtEmpresa.Name = "txtEmpresa";
-            this.txtEmpresa.Size = new System.Drawing.Size(200, 20);
+            this.txtEmpresa.Size = new System.Drawing.Size(200, 22);
             this.txtEmpresa.TabIndex = 5;
             // 
             // lblErrorEmpresa
             // 
             this.lblErrorEmpresa.AutoSize = true;
             this.lblErrorEmpresa.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorEmpresa.Location = new System.Drawing.Point(303, 123);
-            this.lblErrorEmpresa.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblErrorEmpresa.Location = new System.Drawing.Point(303, 125);
             this.lblErrorEmpresa.Name = "lblErrorEmpresa";
             this.lblErrorEmpresa.Size = new System.Drawing.Size(10, 13);
             this.lblErrorEmpresa.TabIndex = 6;
             this.lblErrorEmpresa.Text = " ";
             // 
-            // lblDni
+            // lblCuit
             // 
-            this.lblDni.AutoSize = true;
-            this.lblDni.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblDni.Location = new System.Drawing.Point(50, 140);
-            this.lblDni.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblDni.Name = "lblDni";
-            this.lblDni.Size = new System.Drawing.Size(43, 17);
-            this.lblDni.TabIndex = 7;
-            this.lblDni.Text = "CUIT:";
+            this.lblCuit.AutoSize = true;
+            this.lblCuit.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblCuit.Location = new System.Drawing.Point(50, 140);
+            this.lblCuit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCuit.Name = "lblCuit";
+            this.lblCuit.Size = new System.Drawing.Size(43, 17);
+            this.lblCuit.TabIndex = 7;
+            this.lblCuit.Text = "CUIT:";
             // 
-            // txtDni
+            // txtCuit
             // 
-            this.txtDni.Location = new System.Drawing.Point(53, 160);
-            this.txtDni.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.txtDni.Name = "txtDni";
-            this.txtDni.Size = new System.Drawing.Size(200, 20);
-            this.txtDni.TabIndex = 8;
+            this.txtCuit.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.txtCuit.Location = new System.Drawing.Point(53, 160);
+            this.txtCuit.Name = "txtCuit";
+            this.txtCuit.Size = new System.Drawing.Size(200, 22);
+            this.txtCuit.TabIndex = 8;
             // 
-            // lblErrorDni
+            // lblErrorCuit
             // 
-            this.lblErrorDni.AutoSize = true;
-            this.lblErrorDni.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorDni.Location = new System.Drawing.Point(53, 183);
-            this.lblErrorDni.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblErrorDni.Name = "lblErrorDni";
-            this.lblErrorDni.Size = new System.Drawing.Size(10, 13);
-            this.lblErrorDni.TabIndex = 9;
-            this.lblErrorDni.Text = " ";
+            this.lblErrorCuit.AutoSize = true;
+            this.lblErrorCuit.ForeColor = System.Drawing.Color.Red;
+            this.lblErrorCuit.Location = new System.Drawing.Point(53, 185);
+            this.lblErrorCuit.Name = "lblErrorCuit";
+            this.lblErrorCuit.Size = new System.Drawing.Size(10, 13);
+            this.lblErrorCuit.TabIndex = 9;
+            this.lblErrorCuit.Text = " ";
             // 
             // lblTelefono
             // 
@@ -176,18 +180,17 @@
             // 
             // txtTelefono
             // 
+            this.txtTelefono.Font = new System.Drawing.Font("Arial", 9.75F);
             this.txtTelefono.Location = new System.Drawing.Point(303, 160);
-            this.txtTelefono.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(200, 20);
+            this.txtTelefono.Size = new System.Drawing.Size(200, 22);
             this.txtTelefono.TabIndex = 11;
             // 
             // lblErrorTelefono
             // 
             this.lblErrorTelefono.AutoSize = true;
             this.lblErrorTelefono.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorTelefono.Location = new System.Drawing.Point(303, 183);
-            this.lblErrorTelefono.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblErrorTelefono.Location = new System.Drawing.Point(303, 185);
             this.lblErrorTelefono.Name = "lblErrorTelefono";
             this.lblErrorTelefono.Size = new System.Drawing.Size(10, 13);
             this.lblErrorTelefono.TabIndex = 12;
@@ -206,18 +209,17 @@
             // 
             // txtDireccion
             // 
+            this.txtDireccion.Font = new System.Drawing.Font("Arial", 9.75F);
             this.txtDireccion.Location = new System.Drawing.Point(53, 220);
-            this.txtDireccion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(450, 20);
+            this.txtDireccion.Size = new System.Drawing.Size(450, 22);
             this.txtDireccion.TabIndex = 14;
             // 
             // lblErrorDireccion
             // 
             this.lblErrorDireccion.AutoSize = true;
             this.lblErrorDireccion.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorDireccion.Location = new System.Drawing.Point(53, 243);
-            this.lblErrorDireccion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblErrorDireccion.Location = new System.Drawing.Point(53, 245);
             this.lblErrorDireccion.Name = "lblErrorDireccion";
             this.lblErrorDireccion.Size = new System.Drawing.Size(10, 13);
             this.lblErrorDireccion.TabIndex = 15;
@@ -236,18 +238,17 @@
             // 
             // txtPais
             // 
+            this.txtPais.Font = new System.Drawing.Font("Arial", 9.75F);
             this.txtPais.Location = new System.Drawing.Point(53, 280);
-            this.txtPais.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtPais.Name = "txtPais";
-            this.txtPais.Size = new System.Drawing.Size(200, 20);
+            this.txtPais.Size = new System.Drawing.Size(200, 22);
             this.txtPais.TabIndex = 17;
             // 
             // lblErrorPais
             // 
             this.lblErrorPais.AutoSize = true;
             this.lblErrorPais.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorPais.Location = new System.Drawing.Point(53, 303);
-            this.lblErrorPais.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblErrorPais.Location = new System.Drawing.Point(53, 305);
             this.lblErrorPais.Name = "lblErrorPais";
             this.lblErrorPais.Size = new System.Drawing.Size(10, 13);
             this.lblErrorPais.TabIndex = 18;
@@ -266,18 +267,17 @@
             // 
             // txtCiudad
             // 
+            this.txtCiudad.Font = new System.Drawing.Font("Arial", 9.75F);
             this.txtCiudad.Location = new System.Drawing.Point(303, 280);
-            this.txtCiudad.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCiudad.Name = "txtCiudad";
-            this.txtCiudad.Size = new System.Drawing.Size(200, 20);
+            this.txtCiudad.Size = new System.Drawing.Size(200, 22);
             this.txtCiudad.TabIndex = 20;
             // 
             // lblErrorCiudad
             // 
             this.lblErrorCiudad.AutoSize = true;
             this.lblErrorCiudad.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorCiudad.Location = new System.Drawing.Point(303, 303);
-            this.lblErrorCiudad.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblErrorCiudad.Location = new System.Drawing.Point(303, 305);
             this.lblErrorCiudad.Name = "lblErrorCiudad";
             this.lblErrorCiudad.Size = new System.Drawing.Size(10, 13);
             this.lblErrorCiudad.TabIndex = 21;
@@ -287,7 +287,7 @@
             // 
             this.lblCorreo.AutoSize = true;
             this.lblCorreo.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblCorreo.Location = new System.Drawing.Point(50, 320);
+            this.lblCorreo.Location = new System.Drawing.Point(550, 80);
             this.lblCorreo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCorreo.Name = "lblCorreo";
             this.lblCorreo.Size = new System.Drawing.Size(57, 17);
@@ -296,18 +296,17 @@
             // 
             // txtCorreo
             // 
-            this.txtCorreo.Location = new System.Drawing.Point(53, 340);
-            this.txtCorreo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCorreo.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.txtCorreo.Location = new System.Drawing.Point(553, 100);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(250, 20);
+            this.txtCorreo.Size = new System.Drawing.Size(250, 22);
             this.txtCorreo.TabIndex = 23;
             // 
             // lblErrorCorreo
             // 
             this.lblErrorCorreo.AutoSize = true;
             this.lblErrorCorreo.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorCorreo.Location = new System.Drawing.Point(53, 363);
-            this.lblErrorCorreo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblErrorCorreo.Location = new System.Drawing.Point(553, 125);
             this.lblErrorCorreo.Name = "lblErrorCorreo";
             this.lblErrorCorreo.Size = new System.Drawing.Size(10, 13);
             this.lblErrorCorreo.TabIndex = 24;
@@ -320,8 +319,7 @@
             this.btnRegistrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegistrar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.btnRegistrar.ForeColor = System.Drawing.Color.White;
-            this.btnRegistrar.Location = new System.Drawing.Point(30, 390);
-            this.btnRegistrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRegistrar.Location = new System.Drawing.Point(53, 330);
             this.btnRegistrar.Name = "btnRegistrar";
             this.btnRegistrar.Size = new System.Drawing.Size(150, 40);
             this.btnRegistrar.TabIndex = 25;
@@ -334,102 +332,106 @@
             this.dgvProveedores.AllowUserToAddRows = false;
             this.dgvProveedores.AllowUserToDeleteRows = false;
             this.dgvProveedores.AllowUserToResizeRows = false;
-            this.dgvProveedores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvProveedores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProveedores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvProveedores.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvProveedores.BackgroundColor = System.Drawing.Color.White;
+            this.dgvProveedores.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvProveedores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProveedores.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
             this.colNombre,
             this.colEmpresa,
-            this.colDni,
+            this.colCuit,
             this.colTelefono,
             this.colDireccion,
             this.colPais,
             this.colCiudad,
             this.colCorreo,
             this.colEstado});
-            this.dgvProveedores.Location = new System.Drawing.Point(10, 450);
-            this.dgvProveedores.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvProveedores.Location = new System.Drawing.Point(12, 436);
             this.dgvProveedores.Name = "dgvProveedores";
             this.dgvProveedores.ReadOnly = true;
             this.dgvProveedores.RowHeadersVisible = false;
-            this.dgvProveedores.RowHeadersWidth = 51;
             this.dgvProveedores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProveedores.Size = new System.Drawing.Size(780, 190);
+            this.dgvProveedores.Size = new System.Drawing.Size(816, 222);
             this.dgvProveedores.TabIndex = 26;
             this.dgvProveedores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProveedores_CellClick);
-            this.dgvProveedores.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProveedores_CellContentClick);
             // 
             // colId
             // 
+            this.colId.DataPropertyName = "Id";
             this.colId.HeaderText = "ID";
-            this.colId.MinimumWidth = 6;
             this.colId.Name = "colId";
             this.colId.ReadOnly = true;
+            this.colId.Visible = false;
             // 
             // colNombre
             // 
+            this.colNombre.DataPropertyName = "Nombre";
             this.colNombre.HeaderText = "Nombre";
-            this.colNombre.MinimumWidth = 6;
             this.colNombre.Name = "colNombre";
             this.colNombre.ReadOnly = true;
             // 
             // colEmpresa
             // 
+            this.colEmpresa.DataPropertyName = "Empresa";
             this.colEmpresa.HeaderText = "Empresa";
-            this.colEmpresa.MinimumWidth = 6;
             this.colEmpresa.Name = "colEmpresa";
             this.colEmpresa.ReadOnly = true;
             // 
-            // colDni
+            // colCuit
             // 
-            this.colDni.HeaderText = "DNI/CUIT";
-            this.colDni.MinimumWidth = 6;
-            this.colDni.Name = "colDni";
-            this.colDni.ReadOnly = true;
+            this.colCuit.DataPropertyName = "Cuit";
+            this.colCuit.HeaderText = "CUIT";
+            this.colCuit.Name = "colCuit";
+            this.colCuit.ReadOnly = true;
             // 
             // colTelefono
             // 
+            this.colTelefono.DataPropertyName = "Telefono";
             this.colTelefono.HeaderText = "Teléfono";
-            this.colTelefono.MinimumWidth = 6;
             this.colTelefono.Name = "colTelefono";
             this.colTelefono.ReadOnly = true;
             // 
             // colDireccion
             // 
+            this.colDireccion.DataPropertyName = "Direccion";
             this.colDireccion.HeaderText = "Dirección";
-            this.colDireccion.MinimumWidth = 6;
             this.colDireccion.Name = "colDireccion";
             this.colDireccion.ReadOnly = true;
+            this.colDireccion.Visible = false;
             // 
             // colPais
             // 
+            this.colPais.DataPropertyName = "Pais";
             this.colPais.HeaderText = "País";
-            this.colPais.MinimumWidth = 6;
             this.colPais.Name = "colPais";
             this.colPais.ReadOnly = true;
+            this.colPais.Visible = false;
             // 
             // colCiudad
             // 
+            this.colCiudad.DataPropertyName = "Ciudad";
             this.colCiudad.HeaderText = "Ciudad";
-            this.colCiudad.MinimumWidth = 6;
             this.colCiudad.Name = "colCiudad";
             this.colCiudad.ReadOnly = true;
+            this.colCiudad.Visible = false;
             // 
             // colCorreo
             // 
+            this.colCorreo.DataPropertyName = "Correo";
             this.colCorreo.HeaderText = "Correo";
-            this.colCorreo.MinimumWidth = 6;
             this.colCorreo.Name = "colCorreo";
             this.colCorreo.ReadOnly = true;
+            this.colCorreo.Visible = false;
             // 
             // colEstado
             // 
+            this.colEstado.DataPropertyName = "ActivoTexto";
+            this.colEstado.FillWeight = 60F;
             this.colEstado.HeaderText = "Estado";
-            this.colEstado.MinimumWidth = 6;
             this.colEstado.Name = "colEstado";
             this.colEstado.ReadOnly = true;
             // 
@@ -440,12 +442,11 @@
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.btnEditar.ForeColor = System.Drawing.Color.White;
-            this.btnEditar.Location = new System.Drawing.Point(197, 390);
-            this.btnEditar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEditar.Location = new System.Drawing.Point(53, 330);
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(150, 40);
             this.btnEditar.TabIndex = 27;
-            this.btnEditar.Text = "Editar Proveedor";
+            this.btnEditar.Text = "Guardar Cambios";
             this.btnEditar.UseVisualStyleBackColor = false;
             this.btnEditar.Visible = false;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
@@ -457,8 +458,7 @@
             this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnLimpiar.ForeColor = System.Drawing.Color.White;
-            this.btnLimpiar.Location = new System.Drawing.Point(362, 390);
-            this.btnLimpiar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLimpiar.Location = new System.Drawing.Point(220, 330);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(150, 40);
             this.btnLimpiar.TabIndex = 29;
@@ -474,8 +474,7 @@
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
-            this.btnCerrar.Location = new System.Drawing.Point(761, 10);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCerrar.Location = new System.Drawing.Point(798, 12);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(30, 26);
             this.btnCerrar.TabIndex = 30;
@@ -490,8 +489,7 @@
             this.btnActivar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnActivar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnActivar.ForeColor = System.Drawing.Color.White;
-            this.btnActivar.Location = new System.Drawing.Point(521, 390);
-            this.btnActivar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnActivar.Location = new System.Drawing.Point(385, 330);
             this.btnActivar.Name = "btnActivar";
             this.btnActivar.Size = new System.Drawing.Size(150, 40);
             this.btnActivar.TabIndex = 31;
@@ -506,8 +504,7 @@
             this.btnDesactivar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesactivar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnDesactivar.ForeColor = System.Drawing.Color.White;
-            this.btnDesactivar.Location = new System.Drawing.Point(679, 390);
-            this.btnDesactivar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDesactivar.Location = new System.Drawing.Point(550, 330);
             this.btnDesactivar.Name = "btnDesactivar";
             this.btnDesactivar.Size = new System.Drawing.Size(150, 40);
             this.btnDesactivar.TabIndex = 32;
@@ -515,12 +512,80 @@
             this.btnDesactivar.UseVisualStyleBackColor = false;
             this.btnDesactivar.Click += new System.EventHandler(this.btnDesactivar_Click);
             // 
+            // panelFiltros
+            // 
+            this.panelFiltros.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelFiltros.Controls.Add(this.lblFiltrarEstado);
+            this.panelFiltros.Controls.Add(this.cboFiltrarEstado);
+            this.panelFiltros.Controls.Add(this.txtBusqueda);
+            this.panelFiltros.Controls.Add(this.cboBuscarPor);
+            this.panelFiltros.Controls.Add(this.lblBuscar);
+            this.panelFiltros.Location = new System.Drawing.Point(12, 381);
+            this.panelFiltros.Name = "panelFiltros";
+            this.panelFiltros.Size = new System.Drawing.Size(816, 49);
+            this.panelFiltros.TabIndex = 33;
+            // 
+            // lblFiltrarEstado
+            // 
+            this.lblFiltrarEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblFiltrarEstado.AutoSize = true;
+            this.lblFiltrarEstado.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblFiltrarEstado.Location = new System.Drawing.Point(593, 16);
+            this.lblFiltrarEstado.Name = "lblFiltrarEstado";
+            this.lblFiltrarEstado.Size = new System.Drawing.Size(58, 17);
+            this.lblFiltrarEstado.TabIndex = 4;
+            this.lblFiltrarEstado.Text = "Estado:";
+            // 
+            // cboFiltrarEstado
+            // 
+            this.cboFiltrarEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboFiltrarEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFiltrarEstado.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.cboFiltrarEstado.FormattingEnabled = true;
+            this.cboFiltrarEstado.Location = new System.Drawing.Point(657, 12);
+            this.cboFiltrarEstado.Name = "cboFiltrarEstado";
+            this.cboFiltrarEstado.Size = new System.Drawing.Size(156, 25);
+            this.cboFiltrarEstado.TabIndex = 3;
+            // 
+            // txtBusqueda
+            // 
+            this.txtBusqueda.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBusqueda.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.txtBusqueda.Location = new System.Drawing.Point(232, 12);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.Size = new System.Drawing.Size(355, 25);
+            this.txtBusqueda.TabIndex = 2;
+            // 
+            // cboBuscarPor
+            // 
+            this.cboBuscarPor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboBuscarPor.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.cboBuscarPor.FormattingEnabled = true;
+            this.cboBuscarPor.Location = new System.Drawing.Point(95, 12);
+            this.cboBuscarPor.Name = "cboBuscarPor";
+            this.cboBuscarPor.Size = new System.Drawing.Size(131, 25);
+            this.cboBuscarPor.TabIndex = 1;
+            // 
+            // lblBuscar
+            // 
+            this.lblBuscar.AutoSize = true;
+            this.lblBuscar.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblBuscar.Location = new System.Drawing.Point(3, 16);
+            this.lblBuscar.Name = "lblBuscar";
+            this.lblBuscar.Size = new System.Drawing.Size(86, 17);
+            this.lblBuscar.TabIndex = 0;
+            this.lblBuscar.Text = "Buscar por:";
+            // 
             // FormRegistrarProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 640);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientSize = new System.Drawing.Size(840, 670);
             this.ControlBox = false;
+            this.Controls.Add(this.panelFiltros);
             this.Controls.Add(this.btnDesactivar);
             this.Controls.Add(this.btnActivar);
             this.Controls.Add(this.btnCerrar);
@@ -543,9 +608,9 @@
             this.Controls.Add(this.lblErrorTelefono);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.lblTelefono);
-            this.Controls.Add(this.lblErrorDni);
-            this.Controls.Add(this.txtDni);
-            this.Controls.Add(this.lblDni);
+            this.Controls.Add(this.lblErrorCuit);
+            this.Controls.Add(this.txtCuit);
+            this.Controls.Add(this.lblCuit);
             this.Controls.Add(this.lblErrorEmpresa);
             this.Controls.Add(this.txtEmpresa);
             this.Controls.Add(this.lblEmpresa);
@@ -554,12 +619,13 @@
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.lblTitulo);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormRegistrarProveedor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registrar Proveedor";
             this.Load += new System.EventHandler(this.FormRegistrarProveedor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProveedores)).EndInit();
+            this.panelFiltros.ResumeLayout(false);
+            this.panelFiltros.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -574,9 +640,9 @@
         private System.Windows.Forms.Label lblEmpresa;
         private System.Windows.Forms.TextBox txtEmpresa;
         private System.Windows.Forms.Label lblErrorEmpresa;
-        private System.Windows.Forms.Label lblDni;
-        private System.Windows.Forms.TextBox txtDni;
-        private System.Windows.Forms.Label lblErrorDni;
+        private System.Windows.Forms.Label lblCuit;
+        private System.Windows.Forms.TextBox txtCuit;
+        private System.Windows.Forms.Label lblErrorCuit;
         private System.Windows.Forms.Label lblTelefono;
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.Label lblErrorTelefono;
@@ -589,35 +655,31 @@
         private System.Windows.Forms.Label lblCiudad;
         private System.Windows.Forms.TextBox txtCiudad;
         private System.Windows.Forms.Label lblErrorCiudad;
-
-        // 🗑️ ELIMINADO: private System.Windows.Forms.Label lblFechaInicioRelacion;
-        // 🗑️ ELIMINADO: private System.Windows.Forms.DateTimePicker dtpFechaInicioRelacion;
-        // 🗑️ ELIMINADO: private System.Windows.Forms.Label lblErrorFechaInicioRelacion;
-
-        // ✅ AGREGADO
         private System.Windows.Forms.Label lblCorreo;
         private System.Windows.Forms.TextBox txtCorreo;
         private System.Windows.Forms.Label lblErrorCorreo;
-
         private System.Windows.Forms.Button btnRegistrar;
         private System.Windows.Forms.DataGridView dgvProveedores;
         private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.Button btnActivar;
+        private System.Windows.Forms.Button btnDesactivar;
+        private System.Windows.Forms.Panel panelFiltros;
+        private System.Windows.Forms.Label lblFiltrarEstado;
+        private System.Windows.Forms.ComboBox cboFiltrarEstado;
+        private System.Windows.Forms.TextBox txtBusqueda;
+        private System.Windows.Forms.ComboBox cboBuscarPor;
+        private System.Windows.Forms.Label lblBuscar;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEmpresa;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colDni;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCuit;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTelefono;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDireccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPais;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCiudad;
-
-        
         private System.Windows.Forms.DataGridViewTextBoxColumn colCorreo;
-
         private System.Windows.Forms.DataGridViewTextBoxColumn colEstado;
-        private System.Windows.Forms.Button btnCerrar;
-        private System.Windows.Forms.Button btnActivar;
-        private System.Windows.Forms.Button btnDesactivar;
     }
 }

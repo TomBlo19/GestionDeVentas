@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.dgvProductos = new System.Windows.Forms.DataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,12 +41,14 @@
             this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Proveedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.formPanel = new System.Windows.Forms.Panel();
+            this.tableLayoutPanelFiltros = new System.Windows.Forms.TableLayoutPanel();
             this.lblFiltroCategoria = new System.Windows.Forms.Label();
-            this.cmbFiltroCategoria = new System.Windows.Forms.ComboBox();
-            this.cmbFiltroEstado = new System.Windows.Forms.ComboBox();
-            this.lblFiltroEstado = new System.Windows.Forms.Label();
+            this.lblFiltroTalle = new System.Windows.Forms.Label();
+            this.lblFiltroBuscar = new System.Windows.Forms.Label();
             this.txtFiltroBusqueda = new System.Windows.Forms.TextBox();
-            this.lblFiltroBusqueda = new System.Windows.Forms.Label();
+            this.cmbFiltroTalle = new System.Windows.Forms.ComboBox();
+            this.cmbFiltroCategoria = new System.Windows.Forms.ComboBox();
+            this.cboFiltroBuscarPor = new System.Windows.Forms.ComboBox();
             this.btnCancelarEdicion = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.lblTitulo = new System.Windows.Forms.Label();
@@ -87,6 +89,7 @@
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
             this.formPanel.SuspendLayout();
+            this.tableLayoutPanelFiltros.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,14 +116,14 @@
             this.dgvProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProductos.BackgroundColor = System.Drawing.Color.White;
             this.dgvProductos.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.MistyRose;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.SteelBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.MistyRose;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.SteelBlue;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProductos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -134,14 +137,14 @@
             this.Proveedor});
             this.dgvProductos.EnableHeadersVisualStyles = false;
             this.dgvProductos.GridColor = System.Drawing.Color.LightGray;
-            this.dgvProductos.Location = new System.Drawing.Point(15, 504);
+            this.dgvProductos.Location = new System.Drawing.Point(15, 492);
             this.dgvProductos.Margin = new System.Windows.Forms.Padding(2);
             this.dgvProductos.Name = "dgvProductos";
             this.dgvProductos.ReadOnly = true;
             this.dgvProductos.RowHeadersVisible = false;
             this.dgvProductos.RowHeadersWidth = 51;
             this.dgvProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProductos.Size = new System.Drawing.Size(870, 88);
+            this.dgvProductos.Size = new System.Drawing.Size(870, 100);
             this.dgvProductos.TabIndex = 1;
             this.dgvProductos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProductos_CellDoubleClick);
             // 
@@ -211,12 +214,7 @@
             // formPanel
             // 
             this.formPanel.AutoScroll = true;
-            this.formPanel.Controls.Add(this.lblFiltroCategoria);
-            this.formPanel.Controls.Add(this.cmbFiltroCategoria);
-            this.formPanel.Controls.Add(this.cmbFiltroEstado);
-            this.formPanel.Controls.Add(this.lblFiltroEstado);
-            this.formPanel.Controls.Add(this.txtFiltroBusqueda);
-            this.formPanel.Controls.Add(this.lblFiltroBusqueda);
+            this.formPanel.Controls.Add(this.tableLayoutPanelFiltros);
             this.formPanel.Controls.Add(this.btnCancelarEdicion);
             this.formPanel.Controls.Add(this.btnCerrar);
             this.formPanel.Controls.Add(this.lblTitulo);
@@ -231,67 +229,112 @@
             this.formPanel.Size = new System.Drawing.Size(870, 471);
             this.formPanel.TabIndex = 0;
             // 
+            // tableLayoutPanelFiltros
+            // 
+            this.tableLayoutPanelFiltros.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanelFiltros.ColumnCount = 7;
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblFiltroCategoria, 5, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblFiltroTalle, 3, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblFiltroBuscar, 0, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.txtFiltroBusqueda, 2, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cmbFiltroTalle, 4, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cmbFiltroCategoria, 6, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cboFiltroBuscarPor, 1, 0);
+            this.tableLayoutPanelFiltros.Location = new System.Drawing.Point(15, 434);
+            this.tableLayoutPanelFiltros.Name = "tableLayoutPanelFiltros";
+            this.tableLayoutPanelFiltros.RowCount = 1;
+            this.tableLayoutPanelFiltros.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelFiltros.Size = new System.Drawing.Size(840, 30);
+            this.tableLayoutPanelFiltros.TabIndex = 1000;
+            // 
             // lblFiltroCategoria
             // 
-            this.lblFiltroCategoria.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFiltroCategoria.AutoSize = true;
-            this.lblFiltroCategoria.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFiltroCategoria.Location = new System.Drawing.Point(531, 452);
+            this.lblFiltroCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblFiltroCategoria.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblFiltroCategoria.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblFiltroCategoria.Location = new System.Drawing.Point(633, 0);
             this.lblFiltroCategoria.Name = "lblFiltroCategoria";
-            this.lblFiltroCategoria.Size = new System.Drawing.Size(63, 15);
-            this.lblFiltroCategoria.TabIndex = 9;
+            this.lblFiltroCategoria.Size = new System.Drawing.Size(74, 30);
+            this.lblFiltroCategoria.TabIndex = 5;
             this.lblFiltroCategoria.Text = "Categoría:";
+            this.lblFiltroCategoria.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // cmbFiltroCategoria
+            // lblFiltroTalle
             // 
-            this.cmbFiltroCategoria.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbFiltroCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFiltroCategoria.FormattingEnabled = true;
-            this.cmbFiltroCategoria.Location = new System.Drawing.Point(602, 449);
-            this.cmbFiltroCategoria.Name = "cmbFiltroCategoria";
-            this.cmbFiltroCategoria.Size = new System.Drawing.Size(121, 21);
-            this.cmbFiltroCategoria.TabIndex = 10;
+            this.lblFiltroTalle.AutoSize = true;
+            this.lblFiltroTalle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblFiltroTalle.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblFiltroTalle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblFiltroTalle.Location = new System.Drawing.Point(453, 0);
+            this.lblFiltroTalle.Name = "lblFiltroTalle";
+            this.lblFiltroTalle.Size = new System.Drawing.Size(44, 30);
+            this.lblFiltroTalle.TabIndex = 3;
+            this.lblFiltroTalle.Text = "Talle:";
+            this.lblFiltroTalle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // cmbFiltroEstado
+            // lblFiltroBuscar
             // 
-            this.cmbFiltroEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbFiltroEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFiltroEstado.FormattingEnabled = true;
-            this.cmbFiltroEstado.Location = new System.Drawing.Point(784, 449);
-            this.cmbFiltroEstado.Name = "cmbFiltroEstado";
-            this.cmbFiltroEstado.Size = new System.Drawing.Size(83, 21);
-            this.cmbFiltroEstado.TabIndex = 8;
-            // 
-            // lblFiltroEstado
-            // 
-            this.lblFiltroEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblFiltroEstado.AutoSize = true;
-            this.lblFiltroEstado.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFiltroEstado.Location = new System.Drawing.Point(732, 452);
-            this.lblFiltroEstado.Name = "lblFiltroEstado";
-            this.lblFiltroEstado.Size = new System.Drawing.Size(46, 15);
-            this.lblFiltroEstado.TabIndex = 7;
-            this.lblFiltroEstado.Text = "Estado:";
+            this.lblFiltroBuscar.AutoSize = true;
+            this.lblFiltroBuscar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblFiltroBuscar.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblFiltroBuscar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblFiltroBuscar.Location = new System.Drawing.Point(3, 0);
+            this.lblFiltroBuscar.Name = "lblFiltroBuscar";
+            this.lblFiltroBuscar.Size = new System.Drawing.Size(74, 30);
+            this.lblFiltroBuscar.TabIndex = 0;
+            this.lblFiltroBuscar.Text = "Buscar por:";
+            this.lblFiltroBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtFiltroBusqueda
             // 
-            this.txtFiltroBusqueda.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFiltroBusqueda.Location = new System.Drawing.Point(121, 449);
+            this.txtFiltroBusqueda.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtFiltroBusqueda.Font = new System.Drawing.Font("Arial", 10F);
+            this.txtFiltroBusqueda.Location = new System.Drawing.Point(193, 3);
             this.txtFiltroBusqueda.Name = "txtFiltroBusqueda";
-            this.txtFiltroBusqueda.Size = new System.Drawing.Size(404, 20);
-            this.txtFiltroBusqueda.TabIndex = 6;
+            this.txtFiltroBusqueda.Size = new System.Drawing.Size(254, 23);
+            this.txtFiltroBusqueda.TabIndex = 2;
             // 
-            // lblFiltroBusqueda
+            // cmbFiltroTalle
             // 
-            this.lblFiltroBusqueda.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFiltroBusqueda.AutoSize = true;
-            this.lblFiltroBusqueda.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFiltroBusqueda.Location = new System.Drawing.Point(8, 452);
-            this.lblFiltroBusqueda.Name = "lblFiltroBusqueda";
-            this.lblFiltroBusqueda.Size = new System.Drawing.Size(107, 15);
-            this.lblFiltroBusqueda.TabIndex = 5;
-            this.lblFiltroBusqueda.Text = "Buscar producto...";
+            this.cmbFiltroTalle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbFiltroTalle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFiltroTalle.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbFiltroTalle.FormattingEnabled = true;
+            this.cmbFiltroTalle.Location = new System.Drawing.Point(503, 3);
+            this.cmbFiltroTalle.Name = "cmbFiltroTalle";
+            this.cmbFiltroTalle.Size = new System.Drawing.Size(124, 24);
+            this.cmbFiltroTalle.TabIndex = 4;
+            // 
+            // cmbFiltroCategoria
+            // 
+            this.cmbFiltroCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbFiltroCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFiltroCategoria.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbFiltroCategoria.FormattingEnabled = true;
+            this.cmbFiltroCategoria.Location = new System.Drawing.Point(713, 3);
+            this.cmbFiltroCategoria.Name = "cmbFiltroCategoria";
+            this.cmbFiltroCategoria.Size = new System.Drawing.Size(124, 24);
+            this.cmbFiltroCategoria.TabIndex = 6;
+            // 
+            // cboFiltroBuscarPor
+            // 
+            this.cboFiltroBuscarPor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cboFiltroBuscarPor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFiltroBuscarPor.Font = new System.Drawing.Font("Arial", 10F);
+            this.cboFiltroBuscarPor.FormattingEnabled = true;
+            this.cboFiltroBuscarPor.Location = new System.Drawing.Point(83, 3);
+            this.cboFiltroBuscarPor.Name = "cboFiltroBuscarPor";
+            this.cboFiltroBuscarPor.Size = new System.Drawing.Size(104, 24);
+            this.cboFiltroBuscarPor.TabIndex = 1;
             // 
             // btnCancelarEdicion
             // 
@@ -334,7 +377,7 @@
             this.lblTitulo.TabIndex = 2;
             this.lblTitulo.Text = "Registrar nuevo producto";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click);
+            this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click_1);
             // 
             // btnRegistrarProducto
             // 
@@ -443,7 +486,7 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(816, 293);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(836, 293);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // lblNombreProducto
@@ -461,17 +504,17 @@
             // 
             this.txtNombreProducto.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtNombreProducto.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtNombreProducto.Location = new System.Drawing.Point(130, 10);
+            this.txtNombreProducto.Location = new System.Drawing.Point(133, 10);
             this.txtNombreProducto.Margin = new System.Windows.Forms.Padding(2);
             this.txtNombreProducto.Name = "txtNombreProducto";
-            this.txtNombreProducto.Size = new System.Drawing.Size(276, 25);
+            this.txtNombreProducto.Size = new System.Drawing.Size(283, 25);
             this.txtNombreProducto.TabIndex = 1;
             // 
             // lblCodigo
             // 
             this.lblCodigo.AutoSize = true;
             this.lblCodigo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblCodigo.Location = new System.Drawing.Point(410, 8);
+            this.lblCodigo.Location = new System.Drawing.Point(420, 8);
             this.lblCodigo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCodigo.Name = "lblCodigo";
             this.lblCodigo.Size = new System.Drawing.Size(58, 19);
@@ -482,17 +525,17 @@
             // 
             this.txtCodigo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtCodigo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtCodigo.Location = new System.Drawing.Point(530, 10);
+            this.txtCodigo.Location = new System.Drawing.Point(543, 10);
             this.txtCodigo.Margin = new System.Windows.Forms.Padding(2);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(276, 25);
+            this.txtCodigo.Size = new System.Drawing.Size(283, 25);
             this.txtCodigo.TabIndex = 3;
             // 
             // lblErrorNombre
             // 
             this.lblErrorNombre.AutoSize = true;
             this.lblErrorNombre.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorNombre.Location = new System.Drawing.Point(130, 37);
+            this.lblErrorNombre.Location = new System.Drawing.Point(133, 37);
             this.lblErrorNombre.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorNombre.Name = "lblErrorNombre";
             this.lblErrorNombre.Size = new System.Drawing.Size(10, 13);
@@ -503,7 +546,7 @@
             // 
             this.lblErrorCodigo.AutoSize = true;
             this.lblErrorCodigo.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorCodigo.Location = new System.Drawing.Point(530, 37);
+            this.lblErrorCodigo.Location = new System.Drawing.Point(543, 37);
             this.lblErrorCodigo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorCodigo.Name = "lblErrorCodigo";
             this.lblErrorCodigo.Size = new System.Drawing.Size(10, 13);
@@ -526,12 +569,12 @@
             this.tableLayoutPanel.SetColumnSpan(this.txtDescripcion, 3);
             this.txtDescripcion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtDescripcion.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtDescripcion.Location = new System.Drawing.Point(130, 52);
+            this.txtDescripcion.Location = new System.Drawing.Point(133, 52);
             this.txtDescripcion.Margin = new System.Windows.Forms.Padding(2);
             this.txtDescripcion.MinimumSize = new System.Drawing.Size(4, 50);
             this.txtDescripcion.Multiline = true;
             this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(676, 50);
+            this.txtDescripcion.Size = new System.Drawing.Size(693, 50);
             this.txtDescripcion.TabIndex = 7;
             // 
             // lblErrorDescripcion
@@ -539,7 +582,7 @@
             this.lblErrorDescripcion.AutoSize = true;
             this.tableLayoutPanel.SetColumnSpan(this.lblErrorDescripcion, 3);
             this.lblErrorDescripcion.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorDescripcion.Location = new System.Drawing.Point(130, 104);
+            this.lblErrorDescripcion.Location = new System.Drawing.Point(133, 104);
             this.lblErrorDescripcion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorDescripcion.Name = "lblErrorDescripcion";
             this.lblErrorDescripcion.Size = new System.Drawing.Size(10, 13);
@@ -562,17 +605,17 @@
             this.cmbTalle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbTalle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTalle.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbTalle.Location = new System.Drawing.Point(130, 119);
+            this.cmbTalle.Location = new System.Drawing.Point(133, 119);
             this.cmbTalle.Margin = new System.Windows.Forms.Padding(2);
             this.cmbTalle.Name = "cmbTalle";
-            this.cmbTalle.Size = new System.Drawing.Size(276, 25);
+            this.cmbTalle.Size = new System.Drawing.Size(283, 25);
             this.cmbTalle.TabIndex = 10;
             // 
             // lblCategoria
             // 
             this.lblCategoria.AutoSize = true;
             this.lblCategoria.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblCategoria.Location = new System.Drawing.Point(410, 117);
+            this.lblCategoria.Location = new System.Drawing.Point(420, 117);
             this.lblCategoria.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCategoria.Name = "lblCategoria";
             this.lblCategoria.Size = new System.Drawing.Size(75, 19);
@@ -584,10 +627,10 @@
             this.cmbCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCategoria.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbCategoria.Location = new System.Drawing.Point(530, 119);
+            this.cmbCategoria.Location = new System.Drawing.Point(543, 119);
             this.cmbCategoria.Margin = new System.Windows.Forms.Padding(2);
             this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(276, 25);
+            this.cmbCategoria.Size = new System.Drawing.Size(283, 25);
             this.cmbCategoria.TabIndex = 12;
             this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbCategoria_SelectedIndexChanged);
             // 
@@ -595,7 +638,7 @@
             // 
             this.lblErrorTalle.AutoSize = true;
             this.lblErrorTalle.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorTalle.Location = new System.Drawing.Point(130, 146);
+            this.lblErrorTalle.Location = new System.Drawing.Point(133, 146);
             this.lblErrorTalle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorTalle.Name = "lblErrorTalle";
             this.lblErrorTalle.Size = new System.Drawing.Size(10, 13);
@@ -606,7 +649,7 @@
             // 
             this.lblErrorCategoria.AutoSize = true;
             this.lblErrorCategoria.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorCategoria.Location = new System.Drawing.Point(530, 146);
+            this.lblErrorCategoria.Location = new System.Drawing.Point(543, 146);
             this.lblErrorCategoria.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorCategoria.Name = "lblErrorCategoria";
             this.lblErrorCategoria.Size = new System.Drawing.Size(10, 13);
@@ -628,17 +671,17 @@
             // 
             this.txtColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtColor.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtColor.Location = new System.Drawing.Point(130, 161);
+            this.txtColor.Location = new System.Drawing.Point(133, 161);
             this.txtColor.Margin = new System.Windows.Forms.Padding(2);
             this.txtColor.Name = "txtColor";
-            this.txtColor.Size = new System.Drawing.Size(276, 25);
+            this.txtColor.Size = new System.Drawing.Size(283, 25);
             this.txtColor.TabIndex = 16;
             // 
             // lblMarca
             // 
             this.lblMarca.AutoSize = true;
             this.lblMarca.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblMarca.Location = new System.Drawing.Point(410, 159);
+            this.lblMarca.Location = new System.Drawing.Point(420, 159);
             this.lblMarca.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMarca.Name = "lblMarca";
             this.lblMarca.Size = new System.Drawing.Size(51, 19);
@@ -649,17 +692,17 @@
             // 
             this.txtMarca.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtMarca.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtMarca.Location = new System.Drawing.Point(530, 161);
+            this.txtMarca.Location = new System.Drawing.Point(543, 161);
             this.txtMarca.Margin = new System.Windows.Forms.Padding(2);
             this.txtMarca.Name = "txtMarca";
-            this.txtMarca.Size = new System.Drawing.Size(276, 25);
+            this.txtMarca.Size = new System.Drawing.Size(283, 25);
             this.txtMarca.TabIndex = 18;
             // 
             // lblErrorColor
             // 
             this.lblErrorColor.AutoSize = true;
             this.lblErrorColor.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorColor.Location = new System.Drawing.Point(130, 188);
+            this.lblErrorColor.Location = new System.Drawing.Point(133, 188);
             this.lblErrorColor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorColor.Name = "lblErrorColor";
             this.lblErrorColor.Size = new System.Drawing.Size(10, 13);
@@ -670,7 +713,7 @@
             // 
             this.lblErrorMarca.AutoSize = true;
             this.lblErrorMarca.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorMarca.Location = new System.Drawing.Point(530, 188);
+            this.lblErrorMarca.Location = new System.Drawing.Point(543, 188);
             this.lblErrorMarca.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorMarca.Name = "lblErrorMarca";
             this.lblErrorMarca.Size = new System.Drawing.Size(10, 13);
@@ -692,17 +735,17 @@
             // 
             this.txtPrecio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtPrecio.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtPrecio.Location = new System.Drawing.Point(130, 203);
+            this.txtPrecio.Location = new System.Drawing.Point(133, 203);
             this.txtPrecio.Margin = new System.Windows.Forms.Padding(2);
             this.txtPrecio.Name = "txtPrecio";
-            this.txtPrecio.Size = new System.Drawing.Size(276, 25);
+            this.txtPrecio.Size = new System.Drawing.Size(283, 25);
             this.txtPrecio.TabIndex = 22;
             // 
             // lblStock
             // 
             this.lblStock.AutoSize = true;
             this.lblStock.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblStock.Location = new System.Drawing.Point(410, 201);
+            this.lblStock.Location = new System.Drawing.Point(420, 201);
             this.lblStock.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblStock.Name = "lblStock";
             this.lblStock.Size = new System.Drawing.Size(46, 19);
@@ -713,17 +756,17 @@
             // 
             this.txtStock.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtStock.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtStock.Location = new System.Drawing.Point(530, 203);
+            this.txtStock.Location = new System.Drawing.Point(543, 203);
             this.txtStock.Margin = new System.Windows.Forms.Padding(2);
             this.txtStock.Name = "txtStock";
-            this.txtStock.Size = new System.Drawing.Size(276, 25);
+            this.txtStock.Size = new System.Drawing.Size(283, 25);
             this.txtStock.TabIndex = 24;
             // 
             // lblErrorPrecio
             // 
             this.lblErrorPrecio.AutoSize = true;
             this.lblErrorPrecio.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorPrecio.Location = new System.Drawing.Point(130, 230);
+            this.lblErrorPrecio.Location = new System.Drawing.Point(133, 230);
             this.lblErrorPrecio.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorPrecio.Name = "lblErrorPrecio";
             this.lblErrorPrecio.Size = new System.Drawing.Size(10, 13);
@@ -734,7 +777,7 @@
             // 
             this.lblErrorStock.AutoSize = true;
             this.lblErrorStock.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorStock.Location = new System.Drawing.Point(530, 230);
+            this.lblErrorStock.Location = new System.Drawing.Point(543, 230);
             this.lblErrorStock.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorStock.Name = "lblErrorStock";
             this.lblErrorStock.Size = new System.Drawing.Size(10, 13);
@@ -757,17 +800,17 @@
             this.cmbProveedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbProveedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProveedor.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbProveedor.Location = new System.Drawing.Point(130, 245);
+            this.cmbProveedor.Location = new System.Drawing.Point(133, 245);
             this.cmbProveedor.Margin = new System.Windows.Forms.Padding(2);
             this.cmbProveedor.Name = "cmbProveedor";
-            this.cmbProveedor.Size = new System.Drawing.Size(276, 25);
+            this.cmbProveedor.Size = new System.Drawing.Size(283, 25);
             this.cmbProveedor.TabIndex = 28;
             // 
             // lblErrorProveedor
             // 
             this.lblErrorProveedor.AutoSize = true;
             this.lblErrorProveedor.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblErrorProveedor.Location = new System.Drawing.Point(130, 272);
+            this.lblErrorProveedor.Location = new System.Drawing.Point(133, 272);
             this.lblErrorProveedor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblErrorProveedor.Name = "lblErrorProveedor";
             this.lblErrorProveedor.Size = new System.Drawing.Size(10, 13);
@@ -788,6 +831,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).EndInit();
             this.formPanel.ResumeLayout(false);
             this.formPanel.PerformLayout();
+            this.tableLayoutPanelFiltros.ResumeLayout(false);
+            this.tableLayoutPanelFiltros.PerformLayout();
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -833,10 +878,6 @@
         private System.Windows.Forms.Label lblCodigo;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label lblErrorCodigo;
-        private System.Windows.Forms.TextBox txtFiltroBusqueda;
-        private System.Windows.Forms.Label lblFiltroBusqueda;
-        private System.Windows.Forms.ComboBox cmbFiltroEstado;
-        private System.Windows.Forms.Label lblFiltroEstado;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn Talle;
@@ -846,11 +887,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Codigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
         private System.Windows.Forms.DataGridViewTextBoxColumn Proveedor;
-        private System.Windows.Forms.ComboBox cmbFiltroCategoria;
-        private System.Windows.Forms.Label lblFiltroCategoria;
         private System.Windows.Forms.Label lblProveedor;
-        private System.Windows.Forms.ComboBox cmbProveedor; // <-- CAMBIADO DE TextBox
-
+        private System.Windows.Forms.ComboBox cmbProveedor;
         private System.Windows.Forms.Label lblErrorProveedor;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFiltros;
+        private System.Windows.Forms.Label lblFiltroCategoria;
+        private System.Windows.Forms.Label lblFiltroTalle;
+        private System.Windows.Forms.Label lblFiltroBuscar;
+        private System.Windows.Forms.TextBox txtFiltroBusqueda;
+        private System.Windows.Forms.ComboBox cmbFiltroTalle;
+        private System.Windows.Forms.ComboBox cmbFiltroCategoria;
+        private System.Windows.Forms.ComboBox cboFiltroBuscarPor;
     }
 }

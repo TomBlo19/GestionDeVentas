@@ -48,7 +48,7 @@
             this.lblEmpresaDireccion = new System.Windows.Forms.Label();
             this.lblEmpresaNombre = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ImprimirFactura = new System.Windows.Forms.Button();
             this.btnGenerarPDF = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
             this.pnlDatosEmpresa.SuspendLayout();
@@ -390,17 +390,17 @@
             this.label1.TabIndex = 4;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // button1
+            // ImprimirFactura
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(645, 720);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(131, 39);
-            this.button1.TabIndex = 26;
-            this.button1.Text = "imprimir";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.ImprimirFactura.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ImprimirFactura.Location = new System.Drawing.Point(645, 720);
+            this.ImprimirFactura.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ImprimirFactura.Name = "ImprimirFactura";
+            this.ImprimirFactura.Size = new System.Drawing.Size(131, 39);
+            this.ImprimirFactura.TabIndex = 26;
+            this.ImprimirFactura.Text = "imprimir";
+            this.ImprimirFactura.UseVisualStyleBackColor = true;
+            this.ImprimirFactura.Click += new System.EventHandler(this.ImprimirFactura_Click);
             // 
             // btnGenerarPDF
             // 
@@ -421,7 +421,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(984, 773);
             this.Controls.Add(this.btnGenerarPDF);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ImprimirFactura);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pnlDatosEmpresa);
             this.Controls.Add(this.btnCerrar);
@@ -495,7 +495,7 @@
         private System.Windows.Forms.Label label1;
         // 👇 AÑADIDO: Declaración de la PictureBox
         private System.Windows.Forms.PictureBox pboxLogoEmpresa;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ImprimirFactura;
         private System.Windows.Forms.Button btnGenerarPDF;
     }
 }

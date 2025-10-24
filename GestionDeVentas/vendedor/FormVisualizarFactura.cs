@@ -1,14 +1,16 @@
-﻿using System.IO;
-using System.Text;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
-using System;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Windows.Forms;
 using Modelos;
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 
 namespace GestionDeVentas.Vendedor
 {
@@ -94,10 +96,7 @@ namespace GestionDeVentas.Vendedor
         private void lblEmpresaNombre_Click(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void btnGenerarPDF_Click(object sender, EventArgs e)
         {
@@ -228,5 +227,109 @@ namespace GestionDeVentas.Vendedor
                 MessageBox.Show($"Error al generar la factura:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void ImprimirFactura_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Preguntar si desea vista previa
+                var confirm = MessageBox.Show("¿Desea ver una vista previa antes de imprimir?",
+                                              "Confirmar impresión",
+                                              MessageBoxButtons.YesNo,
+                                              MessageBoxIcon.Question);
+
+                PrintDocument printDocument = new PrintDocument();
+                printDocument.PrintPage += (s, ev) =>
+                {
+                    float y = 60;
+                    System.Drawing.Font titulo = new System.Drawing.Font("Arial", 16, System.Drawing.FontStyle.Bold);
+                    System.Drawing.Font texto = new System.Drawing.Font("Arial", 10);
+                    System.Drawing.Font negrita = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Bold);
+                    Brush brush = Brushes.Black;
+
+                    // Encabezado de empresa
+                    ev.Graphics.DrawString("TYV CLOTHES S.A.", titulo, brush, 60, y);
+                    y += 30;
+                    ev.Graphics.DrawString("Av. 3 de Abril 1455 - Corrientes, Argentina", texto, brush, 60, y);
+                    y += 20;
+                    ev.Graphics.DrawString("CUIT: 30-99999999-9", texto, brush, 60, y);
+                    y += 30;
+
+                    // Encabezado de factura
+                    ev.Graphics.DrawString($"Factura Nº {_factura.IdFactura:D6}", negrita, brush, 60, y);
+                    y += 20;
+                    ev.Graphics.DrawString($"Fecha: {_factura.FechaFactura:dd/MM/yyyy}", texto, brush, 60, y);
+                    y += 20;
+                    ev.Graphics.DrawString($"Vendedor: {_factura.UsuarioNombre ?? "-"}", texto, brush, 60, y);
+                    y += 30;
+
+                    // Cliente
+                    ev.Graphics.DrawString($"Cliente: {_factura.ClienteNombre ?? "-"}", negrita, brush, 60, y);
+                    y += 20;
+                    ev.Graphics.DrawString($"DNI: {_factura.ClienteDni ?? "-"}", texto, brush, 60, y);
+                    y += 20;
+                    ev.Graphics.DrawString($"Dirección: {_factura.ClienteDireccion ?? "-"}", texto, brush, 60, y);
+                    y += 20;
+                    ev.Graphics.DrawString($"Método de pago: {_factura.MetodoPagoNombre ?? "-"}", texto, brush, 60, y);
+                    y += 30;
+
+                    // Encabezado de tabla
+                    ev.Graphics.DrawString("Código", negrita, brush, 60, y);
+                    ev.Graphics.DrawString("Producto", negrita, brush, 140, y);
+                    ev.Graphics.DrawString("Cant.", negrita, brush, 320, y);
+                    ev.Graphics.DrawString("Precio", negrita, brush, 400, y);
+                    ev.Graphics.DrawString("Total", negrita, brush, 500, y);
+                    y += 20;
+
+                    // Detalle de productos
+                    foreach (var d in _factura.Detalles)
+                    {
+                        ev.Graphics.DrawString(d.ProductoCodigo, texto, brush, 60, y);
+                        ev.Graphics.DrawString(d.ProductoNombre, texto, brush, 140, y);
+                        ev.Graphics.DrawString(d.Cantidad.ToString(), texto, brush, 320, y);
+                        ev.Graphics.DrawString(d.PrecioUnitario.ToString("C"), texto, brush, 400, y);
+                        ev.Graphics.DrawString((d.Cantidad * d.PrecioUnitario).ToString("C"), texto, brush, 500, y);
+                        y += 20;
+                    }
+
+                    // Totales
+                    y += 30;
+                    decimal subtotal = _factura.Detalles.Sum(x => x.Cantidad * x.PrecioUnitario);
+                    decimal iva = subtotal * 0.21m;
+                    decimal total = subtotal + iva;
+
+                    ev.Graphics.DrawString($"Subtotal: {subtotal:C}", negrita, brush, 400, y);
+                    y += 20;
+                    ev.Graphics.DrawString($"IVA (21%): {iva:C}", negrita, brush, 400, y);
+                    y += 20;
+                    ev.Graphics.DrawString($"TOTAL: {total:C}", new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold), brush, 400, y);
+                };
+
+                if (confirm == DialogResult.Yes)
+                {
+                    PrintPreviewDialog preview = new PrintPreviewDialog
+                    {
+                        Document = printDocument,
+                        Width = 1000,
+                        Height = 800
+                    };
+                    preview.ShowDialog();
+                }
+                else
+                {
+                    PrintDialog pd = new PrintDialog
+                    {
+                        Document = printDocument
+                    };
+                    if (pd.ShowDialog() == DialogResult.OK)
+                        printDocument.Print();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al imprimir la factura:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
     }
 }

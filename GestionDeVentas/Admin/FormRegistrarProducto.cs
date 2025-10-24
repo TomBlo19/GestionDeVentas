@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace GestionDeVentas.Admin
 {
@@ -18,7 +19,6 @@ namespace GestionDeVentas.Admin
 
         private readonly ProductoDatos productoDatos = new ProductoDatos();
 
-        // Lista para guardar todos los productos y filtrar sobre ella para mejor rendimiento.
         private List<Producto> _todosLosProductos;
 
         public FormRegistrarProducto()
@@ -32,19 +32,15 @@ namespace GestionDeVentas.Admin
 
         private void FormRegistrarProducto_Load(object sender, EventArgs e)
         {
-            // Carga de datos para el formulario de registro
             CargarCategorias();
             CargarProveedores();
             cmbTalle.Enabled = false;
 
-            // Configuración del DataGridView
             ConfigurarDataGridView();
 
-            // Carga inicial de datos en la lista maestra y en la grilla
             _todosLosProductos = productoDatos.ObtenerProductos();
             CargarProductosEnDGV(_todosLosProductos);
 
-            // Cargar y configurar los nuevos filtros
             CargarControlesDeFiltro();
             ConectarEventosDeFiltro();
         }
@@ -100,16 +96,10 @@ namespace GestionDeVentas.Admin
                 }
                 else
                 {
-                    if (e.RowIndex % 2 != 0)
-                    {
-                        dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = SystemColors.ControlLight;
-                    }
-                    else
-                    {
-                        dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = SystemColors.Window;
-                    }
+                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.BackColor = (e.RowIndex % 2 != 0) ? SystemColors.ControlLight : SystemColors.Window;
                     dgvProductos.Rows[e.RowIndex].DefaultCellStyle.ForeColor = SystemColors.ControlText;
                     dgvProductos.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+                    dgvProductos.Rows[e.RowIndex].DefaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
                 }
             }
         }
@@ -120,62 +110,43 @@ namespace GestionDeVentas.Admin
 
         private void CargarControlesDeFiltro()
         {
-            // Cargar ComboBox "Buscar por"
             cboFiltroBuscarPor.Items.Clear();
             cboFiltroBuscarPor.Items.Add("Nombre");
             cboFiltroBuscarPor.Items.Add("Código");
-            // Se quitó la opción "Marca" de aquí
             cboFiltroBuscarPor.SelectedIndex = 0;
 
-            // Cargar ComboBox de Categorías para el filtro
             cmbFiltroCategoria.Items.Clear();
             cmbFiltroCategoria.Items.Add(new ComboBoxItem("Todas", 0));
-            var categorias = _todosLosProductos.Select(p => new { Id = p.IdCategoria, Nombre = p.CategoriaNombre }).Distinct().ToList();
+            var categorias = _todosLosProductos.Select(p => new { p.IdCategoria, p.CategoriaNombre }).Distinct().ToList();
             foreach (var cat in categorias)
             {
-                cmbFiltroCategoria.Items.Add(new ComboBoxItem(cat.Nombre, cat.Id));
+                cmbFiltroCategoria.Items.Add(new ComboBoxItem(cat.CategoriaNombre, cat.IdCategoria));
             }
             cmbFiltroCategoria.SelectedIndex = 0;
 
-            CargarTallesFiltro();
+            CargarMarcasFiltro();
         }
 
-        private void CargarTallesFiltro(int idCategoria = 0)
+        private void CargarMarcasFiltro()
         {
-            cmbFiltroTalle.Items.Clear();
-            cmbFiltroTalle.Items.Add(new ComboBoxItem("Todos", 0));
-
-            var talles = (idCategoria == 0
-                ? _todosLosProductos
-                : _todosLosProductos.Where(p => p.IdCategoria == idCategoria))
-                .Select(p => new { Id = p.IdTalle, Nombre = p.TalleNombre })
-                .Where(t => t.Id > 0)
+            cmbFiltroMarca.Items.Clear();
+            cmbFiltroMarca.Items.Add("Todas");
+            var marcas = _todosLosProductos
+                .Select(p => p.Marca)
+                .Where(m => !string.IsNullOrEmpty(m))
                 .Distinct()
-                .OrderBy(t => t.Nombre)
+                .OrderBy(m => m)
                 .ToList();
-
-            foreach (var talle in talles)
-            {
-                cmbFiltroTalle.Items.Add(new ComboBoxItem(talle.Nombre, talle.Id));
-            }
-            cmbFiltroTalle.SelectedIndex = 0;
+            cmbFiltroMarca.Items.AddRange(marcas.ToArray());
+            cmbFiltroMarca.SelectedIndex = 0;
         }
-
 
         private void ConectarEventosDeFiltro()
         {
             txtFiltroBusqueda.TextChanged += (s, e) => AplicarFiltros();
             cboFiltroBuscarPor.SelectedIndexChanged += (s, e) => AplicarFiltros();
-            cmbFiltroTalle.SelectedIndexChanged += (s, e) => AplicarFiltros();
-
-            cmbFiltroCategoria.SelectedIndexChanged += (s, e) => {
-                var selectedCat = cmbFiltroCategoria.SelectedItem as ComboBoxItem;
-                if (selectedCat != null)
-                {
-                    CargarTallesFiltro(selectedCat.Value);
-                }
-                AplicarFiltros();
-            };
+            cmbFiltroMarca.SelectedIndexChanged += (s, e) => AplicarFiltros();
+            cmbFiltroCategoria.SelectedIndexChanged += (s, e) => AplicarFiltros();
         }
 
         private void AplicarFiltros()
@@ -194,7 +165,6 @@ namespace GestionDeVentas.Admin
                     case "Código":
                         productosFiltrados = productosFiltrados.Where(p => p.Codigo.ToLower().Contains(textoBusqueda));
                         break;
-                        // Se quitó el case "Marca" de aquí
                 }
             }
 
@@ -204,10 +174,10 @@ namespace GestionDeVentas.Admin
                 productosFiltrados = productosFiltrados.Where(p => p.IdCategoria == categoriaSeleccionada.Value);
             }
 
-            var talleSeleccionado = cmbFiltroTalle.SelectedItem as ComboBoxItem;
-            if (talleSeleccionado != null && talleSeleccionado.Value != 0)
+            var marcaSeleccionada = cmbFiltroMarca.SelectedItem?.ToString();
+            if (marcaSeleccionada != "Todas" && !string.IsNullOrEmpty(marcaSeleccionada))
             {
-                productosFiltrados = productosFiltrados.Where(p => p.IdTalle == talleSeleccionado.Value);
+                productosFiltrados = productosFiltrados.Where(p => p.Marca == marcaSeleccionada);
             }
 
             CargarProductosEnDGV(productosFiltrados.ToList());
@@ -223,7 +193,6 @@ namespace GestionDeVentas.Admin
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
-
                 var cmd = new SqlCommand("SELECT id_proveedor, nombre_proveedor FROM proveedor WHERE estado_proveedor = 'activo'", conn);
                 var reader = cmd.ExecuteReader();
 
@@ -235,16 +204,8 @@ namespace GestionDeVentas.Admin
                     ));
                 }
             }
-
-            if (cmbProveedor.Items.Count > 0)
-            {
-                cmbProveedor.SelectedIndex = -1;
-            }
-            else
-            {
-                cmbProveedor.Items.Add("⚠ No hay proveedores activos");
-                cmbProveedor.SelectedIndex = 0;
-            }
+            if (cmbProveedor.Items.Count > 0) cmbProveedor.SelectedIndex = -1;
+            else { cmbProveedor.Items.Add("⚠ No hay proveedores activos"); cmbProveedor.SelectedIndex = 0; }
         }
 
         private void CargarCategorias()
@@ -280,7 +241,6 @@ namespace GestionDeVentas.Admin
                         cmbTalle.SelectedIndex = 0;
                         return;
                     }
-
                     while (reader.Read())
                     {
                         cmbTalle.Items.Add(new ComboBoxItem(reader["nombre_talle"].ToString(), (int)reader["id_talle"]));
@@ -294,26 +254,16 @@ namespace GestionDeVentas.Admin
         private void CargarProductosEnDGV(List<Producto> lista)
         {
             dgvProductos.Rows.Clear();
-
             foreach (var p in lista)
             {
                 dgvProductos.Rows.Add(
-                    p.Id,
-                    p.Nombre,
-                    p.TalleNombre,
-                    p.Color,
-                    p.Precio,
-                    p.Stock,
-                    p.Codigo,
-                    p.Estado,
-                    p.ProveedorNombre
+                    p.Id, p.Nombre, p.TalleNombre, p.Color, p.Precio,
+                    p.Stock, p.Codigo, p.Estado, p.ProveedorNombre
                 );
             }
-
             if (dgvProductos.Columns.Contains("Id") && dgvProductos.Columns["Id"] != null)
                 dgvProductos.Columns["Id"].Visible = false;
         }
-
 
         // ========================
         // EVENTOS Y VALIDACIONES
@@ -330,27 +280,13 @@ namespace GestionDeVentas.Admin
 
         private void LimpiarCampos()
         {
-            txtNombreProducto.Clear();
-            txtCodigo.Clear();
-            txtDescripcion.Clear();
-            cmbTalle.Items.Clear();
-            cmbTalle.Enabled = false;
-            cmbCategoria.SelectedIndex = -1;
-            txtColor.Clear();
-            txtMarca.Clear();
-            txtPrecio.Clear();
-            txtStock.Clear();
-            cmbProveedor.SelectedIndex = -1;
-
-            lblErrorNombre.Text = "";
-            lblErrorCodigo.Text = "";
-            lblErrorDescripcion.Text = "";
-            lblErrorTalle.Text = "";
-            lblErrorCategoria.Text = "";
-            lblErrorColor.Text = "";
-            lblErrorMarca.Text = "";
-            lblErrorPrecio.Text = "";
-            lblErrorStock.Text = "";
+            txtNombreProducto.Clear(); txtCodigo.Clear(); txtDescripcion.Clear();
+            cmbTalle.Items.Clear(); cmbTalle.Enabled = false; cmbCategoria.SelectedIndex = -1;
+            txtColor.Clear(); txtMarca.Clear(); txtPrecio.Clear();
+            txtStock.Clear(); cmbProveedor.SelectedIndex = -1;
+            lblErrorNombre.Text = ""; lblErrorCodigo.Text = ""; lblErrorDescripcion.Text = "";
+            lblErrorTalle.Text = ""; lblErrorCategoria.Text = ""; lblErrorColor.Text = "";
+            lblErrorMarca.Text = ""; lblErrorPrecio.Text = ""; lblErrorStock.Text = "";
             lblErrorProveedor.Text = "";
         }
 
@@ -358,7 +294,6 @@ namespace GestionDeVentas.Admin
         {
             bool isValid = true;
             lblErrorNombre.Text = lblErrorCodigo.Text = lblErrorDescripcion.Text = lblErrorTalle.Text = lblErrorCategoria.Text = lblErrorColor.Text = lblErrorMarca.Text = lblErrorPrecio.Text = lblErrorStock.Text = lblErrorProveedor.Text = "";
-
             if (string.IsNullOrWhiteSpace(txtNombreProducto.Text)) { lblErrorNombre.Text = "Campo obligatorio"; isValid = false; }
             if (string.IsNullOrWhiteSpace(txtCodigo.Text)) { lblErrorCodigo.Text = "Campo obligatorio"; isValid = false; }
             else
@@ -389,9 +324,7 @@ namespace GestionDeVentas.Admin
                 MessageBox.Show("Por favor, corrige los errores en el formulario.");
                 return;
             }
-
             if (!Confirm("¿Deseas continuar con esta acción?", "Confirmar acción")) return;
-
             var producto = new Producto
             {
                 Codigo = txtCodigo.Text.Trim(),
@@ -406,7 +339,6 @@ namespace GestionDeVentas.Admin
                 IdProveedor = ((ComboBoxItem)cmbProveedor.SelectedItem).Value,
                 Estado = "Activo"
             };
-
             try
             {
                 if (isEditing)
@@ -420,7 +352,6 @@ namespace GestionDeVentas.Admin
                     productoDatos.InsertarProducto(producto);
                     MessageBox.Show("Producto registrado correctamente.");
                 }
-
                 LimpiarCamposYEstado();
                 _todosLosProductos = productoDatos.ObtenerProductos();
                 AplicarFiltros();
@@ -434,15 +365,12 @@ namespace GestionDeVentas.Admin
         private void btnDesactivar_Click(object sender, EventArgs e)
         {
             if (currentProductId == 0) return;
-
             bool activar = btnDesactivar.Text.Contains("Activar");
             string accion = activar ? "activar" : "desactivar";
-
             if (!Confirm($"¿Deseas {accion} este producto?", "Confirmar acción")) return;
 
             productoDatos.CambiarEstado(currentProductId, activar);
             MessageBox.Show($"Producto {(activar ? "activado" : "desactivado")} correctamente.");
-
             LimpiarCamposYEstado();
             _todosLosProductos = productoDatos.ObtenerProductos();
             AplicarFiltros();
@@ -451,7 +379,6 @@ namespace GestionDeVentas.Admin
         private void dgvProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-
             currentProductId = Convert.ToInt32(dgvProductos.Rows[e.RowIndex].Cells["Id"].Value);
             var producto = _todosLosProductos.FirstOrDefault(p => p.Id == currentProductId);
             if (producto == null) return;
@@ -480,7 +407,6 @@ namespace GestionDeVentas.Admin
         // ========================
         // UTILIDADES Y CERRAR
         // ========================
-
         private void LimpiarCamposYEstado()
         {
             LimpiarCampos();
@@ -553,13 +479,7 @@ namespace GestionDeVentas.Admin
             public override string ToString() => Text;
         }
 
-        // Eventos vacíos que estaban en el código original, se mantienen por si están conectados en el designer.
-        private void lblTitulo_Click(object sender, EventArgs e) { }
-        private void formPanel_Paint(object sender, PaintEventArgs e) { }
-
-        private void lblTitulo_Click_1(object sender, EventArgs e)
-        {
-
-        }
+        private void lblTitulo_Click_1(object sender, EventArgs e) { }
+        private void cmbFiltroTalle_SelectedIndexChanged(object sender, EventArgs e) { }
     }
 }

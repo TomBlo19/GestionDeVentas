@@ -11,7 +11,7 @@ namespace GestionDeVentas
     public partial class BuscarProductoForm : Form
     {
         private readonly ProductoDatos productoDatos = new ProductoDatos();
-        private List<Producto> todosLosProductosActivos; // Lista para filtrar en memoria
+        private List<Producto> todosLosProductosActivos;
 
         public ProductoInfo ProductoSeleccionado { get; private set; }
 
@@ -25,7 +25,7 @@ namespace GestionDeVentas
         public class ProductoInfo
         {
             public string Nombre { get; set; }
-            public string TalleNombre { get; set; }
+            public string Marca { get; set; } // Propiedad cambiada de TalleNombre a Marca
             public string Codigo { get; set; }
             public decimal Precio { get; set; }
             public int StockDisponible { get; set; }
@@ -35,33 +35,27 @@ namespace GestionDeVentas
         {
             try
             {
-                // <<<--- PASO 1: Cargamos la lista de productos de la base de datos --- >>>
                 todosLosProductosActivos = productoDatos.ObtenerProductos()
                     .Where(p => string.Equals(p.Estado, "Activo", StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                // <<<--- PASO 2: Llenamos los ComboBox con sus opciones --- >>>
                 ConfigurarFiltros();
-
-                // <<<--- PASO 3: AHORA SÍ, mostramos los datos en la grilla --- >>>
                 AplicarFiltros();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close(); // Cerramos el formulario si no se pueden cargar los datos
+                this.Close();
             }
         }
 
         private void ConfigurarFiltros()
         {
-            // Configurar desplegable de búsqueda por Nombre/Código
             cboBuscarPor.Items.Clear();
             cboBuscarPor.Items.Add("Nombre");
             cboBuscarPor.Items.Add("Código");
             cboBuscarPor.SelectedIndex = 0;
 
-            // Configurar desplegable de Categorías
             var categorias = todosLosProductosActivos
                 .Select(p => p.CategoriaNombre)
                 .Distinct()
@@ -73,48 +67,28 @@ namespace GestionDeVentas
             cmbCategoria.Items.AddRange(categorias.ToArray());
             cmbCategoria.SelectedIndex = 0;
 
-            // Configurar desplegable de Talle (inicialmente deshabilitado)
-            cmbTalle.Items.Clear();
-            cmbTalle.Items.Add("[Seleccione Categoría]");
-            cmbTalle.SelectedIndex = 0;
-            cmbTalle.Enabled = false;
+            // Configurar desplegable de Marcas
+            var marcas = todosLosProductosActivos
+                .Select(p => p.Marca)
+                .Where(m => !string.IsNullOrEmpty(m))
+                .Distinct()
+                .OrderBy(m => m)
+                .ToList();
+
+            cmbMarca.Items.Clear();
+            cmbMarca.Items.Add("Todas");
+            cmbMarca.Items.AddRange(marcas.ToArray());
+            cmbMarca.SelectedIndex = 0;
         }
 
         private void cmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Verificamos que haya algo seleccionado para evitar errores
-            if (cmbCategoria.SelectedItem == null) return;
-
-            string categoriaSeleccionada = cmbCategoria.SelectedItem.ToString();
-
-            if (categoriaSeleccionada != "Todas")
-            {
-                cmbTalle.Enabled = true;
-                var talles = todosLosProductosActivos
-                    .Where(p => p.CategoriaNombre == categoriaSeleccionada)
-                    .Select(p => p.TalleNombre)
-                    .Distinct()
-                    .OrderBy(t => t)
-                    .ToList();
-
-                cmbTalle.Items.Clear();
-                cmbTalle.Items.Add("Todos");
-                cmbTalle.Items.AddRange(talles.ToArray());
-                cmbTalle.SelectedIndex = 0;
-            }
-            else
-            {
-                cmbTalle.Enabled = false;
-                cmbTalle.Items.Clear();
-                cmbTalle.Items.Add("[Seleccione Categoría]");
-                cmbTalle.SelectedIndex = 0;
-            }
+            // El filtro de marca es independiente de la categoría, solo aplicamos filtros.
             AplicarFiltros();
         }
 
         private void AplicarFiltros()
         {
-            // Si la lista principal no se cargó, no hacemos nada
             if (todosLosProductosActivos == null) return;
 
             IEnumerable<Producto> productosFiltrados = todosLosProductosActivos;
@@ -134,7 +108,7 @@ namespace GestionDeVentas
                 }
             }
 
-            // 2. Filtro por Categoría (AHORA ES SEGURO)
+            // 2. Filtro por Categoría
             if (cmbCategoria.SelectedItem != null)
             {
                 string categoriaSeleccionada = cmbCategoria.SelectedItem.ToString();
@@ -144,25 +118,24 @@ namespace GestionDeVentas
                 }
             }
 
-            // 3. Filtro por Talle
-            if (cmbTalle.Enabled && cmbTalle.SelectedItem != null)
+            // 3. Filtro por Marca (reemplaza el de Talle)
+            if (cmbMarca.SelectedItem != null)
             {
-                string talleSeleccionado = cmbTalle.SelectedItem.ToString();
-                if (talleSeleccionado != "Todos")
+                string marcaSeleccionada = cmbMarca.SelectedItem.ToString();
+                if (marcaSeleccionada != "Todas")
                 {
-                    productosFiltrados = productosFiltrados.Where(p => p.TalleNombre == talleSeleccionado);
+                    productosFiltrados = productosFiltrados.Where(p => p.Marca == marcaSeleccionada);
                 }
             }
 
-            // Proyectar los datos para la grilla y asignarlos
             var datosParaMostrar = productosFiltrados.Select(p => new
             {
                 ID = p.Id,
                 p.Codigo,
                 p.Nombre,
-                Talle = p.TalleNombre,
+                p.Marca, // Propiedad cambiada
                 p.Precio,
-                Stock = p.Stock
+                p.Stock
             }).ToList();
 
             dataGridViewProductos.DataSource = datosParaMostrar;
@@ -181,6 +154,8 @@ namespace GestionDeVentas
             txtBusqueda.Clear();
             cboBuscarPor.SelectedIndex = 0;
             cmbCategoria.SelectedIndex = 0;
+            cmbMarca.SelectedIndex = 0; // Limpiar también el filtro de marca
+            AplicarFiltros();
         }
 
         private void SeleccionarProducto()
@@ -197,7 +172,7 @@ namespace GestionDeVentas
             {
                 Codigo = row.Cells["Codigo"].Value.ToString(),
                 Nombre = row.Cells["Nombre"].Value.ToString(),
-                TalleNombre = row.Cells["Talle"].Value?.ToString(),
+                Marca = row.Cells["Marca"].Value?.ToString(), // Propiedad cambiada
                 Precio = Convert.ToDecimal(row.Cells["Precio"].Value),
                 StockDisponible = Convert.ToInt32(row.Cells["Stock"].Value)
             };
@@ -207,6 +182,7 @@ namespace GestionDeVentas
         }
 
         private void btnSeleccionar_Click(object sender, EventArgs e) => SeleccionarProducto();
+
         private void dataGridViewProductos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -220,11 +196,6 @@ namespace GestionDeVentas
                 e.SuppressKeyPress = true;
                 AplicarFiltros();
             }
-        }
-
-        private void lblCategoria_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

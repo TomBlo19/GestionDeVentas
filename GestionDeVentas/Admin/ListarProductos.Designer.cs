@@ -17,15 +17,15 @@
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.topPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanelFiltros = new System.Windows.Forms.TableLayoutPanel();
             this.lblCategoria = new System.Windows.Forms.Label();
-            this.lblTalle = new System.Windows.Forms.Label();
+            this.lblMarca = new System.Windows.Forms.Label();
             this.lblBuscar = new System.Windows.Forms.Label();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
-            this.cmbTalle = new System.Windows.Forms.ComboBox();
+            this.cmbMarca = new System.Windows.Forms.ComboBox();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
             this.cboBuscarPor = new System.Windows.Forms.ComboBox();
             this.lblTitulo = new System.Windows.Forms.Label();
@@ -62,10 +62,10 @@
             this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanelFiltros.Controls.Add(this.lblCategoria, 5, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.lblTalle, 3, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblMarca, 3, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.lblBuscar, 0, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.txtBusqueda, 2, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.cmbTalle, 4, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cmbMarca, 4, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.cmbCategoria, 6, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.cboBuscarPor, 1, 0);
             this.tableLayoutPanelFiltros.Location = new System.Drawing.Point(12, 40);
@@ -88,18 +88,18 @@
             this.lblCategoria.Text = "Categoría:";
             this.lblCategoria.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblTalle
+            // lblMarca
             // 
-            this.lblTalle.AutoSize = true;
-            this.lblTalle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTalle.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblTalle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblTalle.Location = new System.Drawing.Point(421, 0);
-            this.lblTalle.Name = "lblTalle";
-            this.lblTalle.Size = new System.Drawing.Size(44, 30);
-            this.lblTalle.TabIndex = 3;
-            this.lblTalle.Text = "Talle:";
-            this.lblTalle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblMarca.AutoSize = true;
+            this.lblMarca.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblMarca.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMarca.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblMarca.Location = new System.Drawing.Point(421, 0);
+            this.lblMarca.Name = "lblMarca";
+            this.lblMarca.Size = new System.Drawing.Size(44, 30);
+            this.lblMarca.TabIndex = 3;
+            this.lblMarca.Text = "Marca:";
+            this.lblMarca.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblBuscar
             // 
@@ -124,17 +124,17 @@
             this.txtBusqueda.TabIndex = 2;
             this.txtBusqueda.TextChanged += new System.EventHandler(this.filtros_Aplicar);
             // 
-            // cmbTalle
+            // cmbMarca
             // 
-            this.cmbTalle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbTalle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTalle.Font = new System.Drawing.Font("Arial", 10F);
-            this.cmbTalle.FormattingEnabled = true;
-            this.cmbTalle.Location = new System.Drawing.Point(471, 3);
-            this.cmbTalle.Name = "cmbTalle";
-            this.cmbTalle.Size = new System.Drawing.Size(108, 24);
-            this.cmbTalle.TabIndex = 4;
-            this.cmbTalle.SelectedIndexChanged += new System.EventHandler(this.filtros_Aplicar);
+            this.cmbMarca.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbMarca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMarca.Font = new System.Drawing.Font("Arial", 10F);
+            this.cmbMarca.FormattingEnabled = true;
+            this.cmbMarca.Location = new System.Drawing.Point(471, 3);
+            this.cmbMarca.Name = "cmbMarca";
+            this.cmbMarca.Size = new System.Drawing.Size(108, 24);
+            this.cmbMarca.TabIndex = 4;
+            this.cmbMarca.SelectedIndexChanged += new System.EventHandler(this.filtros_Aplicar);
             // 
             // cmbCategoria
             // 
@@ -146,7 +146,7 @@
             this.cmbCategoria.Name = "cmbCategoria";
             this.cmbCategoria.Size = new System.Drawing.Size(108, 24);
             this.cmbCategoria.TabIndex = 6;
-            this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbCategoria_SelectedIndexChanged);
+            this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.filtros_Aplicar);
             // 
             // cboBuscarPor
             // 
@@ -197,23 +197,23 @@
             this.dataGridViewProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewProductos.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewProductos.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 10F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(220)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewProductos.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 10F);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(220)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewProductos.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewProductos.Location = new System.Drawing.Point(12, 86);
             this.dataGridViewProductos.Name = "dataGridViewProductos";
             this.dataGridViewProductos.ReadOnly = true;
@@ -222,6 +222,7 @@
             this.dataGridViewProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewProductos.Size = new System.Drawing.Size(776, 352);
             this.dataGridViewProductos.TabIndex = 1;
+            this.dataGridViewProductos.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewProductos_CellFormatting);
             // 
             // ListarProductos
             // 
@@ -250,14 +251,12 @@
         private System.Windows.Forms.DataGridView dataGridViewProductos;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFiltros;
         private System.Windows.Forms.Label lblCategoria;
-        private System.Windows.Forms.Label lblTalle;
+        private System.Windows.Forms.Label lblMarca; // Renombrado de lblTalle
         private System.Windows.Forms.Button btnCerrar;
-
-        // Controles de filtros con nombres corregidos y consistentes
         private System.Windows.Forms.Label lblBuscar;
         private System.Windows.Forms.ComboBox cboBuscarPor;
         private System.Windows.Forms.TextBox txtBusqueda;
-        private System.Windows.Forms.ComboBox cmbTalle;
+        private System.Windows.Forms.ComboBox cmbMarca; // Renombrado de cmbTalle
         private System.Windows.Forms.ComboBox cmbCategoria;
     }
 }

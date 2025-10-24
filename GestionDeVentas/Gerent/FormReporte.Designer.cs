@@ -29,8 +29,8 @@
             this.cmbCliente = new System.Windows.Forms.ComboBox();
             this.lblVendedor = new System.Windows.Forms.Label();
             this.cmbVendedor = new System.Windows.Forms.ComboBox();
-            this.lblMetodoPago = new System.Windows.Forms.Label();
-            this.cmbMetodoPago = new System.Windows.Forms.ComboBox();
+            this.lblNroFactura = new System.Windows.Forms.Label();
+            this.txtNroFactura = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.dgvFacturas = new System.Windows.Forms.DataGridView();
@@ -52,9 +52,9 @@
             this.lblTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblTitulo.Location = new System.Drawing.Point(20, 10);
+            this.lblTitulo.Location = new System.Drawing.Point(12, 9);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(760, 47);
+            this.lblTitulo.Size = new System.Drawing.Size(796, 47);
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Reportes de Facturas";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -63,7 +63,7 @@
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.Location = new System.Drawing.Point(760, 10);
+            this.btnCerrar.Location = new System.Drawing.Point(768, 9);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(40, 30);
             this.btnCerrar.TabIndex = 1;
@@ -82,15 +82,15 @@
             // dtpDesde
             // 
             this.dtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDesde.Location = new System.Drawing.Point(80, 60);
+            this.dtpDesde.Location = new System.Drawing.Point(67, 62);
             this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(120, 20);
+            this.dtpDesde.Size = new System.Drawing.Size(100, 20);
             this.dtpDesde.TabIndex = 3;
             // 
             // lblFechaHasta
             // 
             this.lblFechaHasta.AutoSize = true;
-            this.lblFechaHasta.Location = new System.Drawing.Point(210, 65);
+            this.lblFechaHasta.Location = new System.Drawing.Point(173, 65);
             this.lblFechaHasta.Name = "lblFechaHasta";
             this.lblFechaHasta.Size = new System.Drawing.Size(38, 13);
             this.lblFechaHasta.TabIndex = 4;
@@ -99,9 +99,9 @@
             // dtpHasta
             // 
             this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHasta.Location = new System.Drawing.Point(260, 60);
+            this.dtpHasta.Location = new System.Drawing.Point(217, 62);
             this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(120, 20);
+            this.dtpHasta.Size = new System.Drawing.Size(100, 20);
             this.dtpHasta.TabIndex = 5;
             // 
             // lblCliente
@@ -117,15 +117,15 @@
             // 
             this.cmbCliente.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCliente.FormattingEnabled = true;
-            this.cmbCliente.Location = new System.Drawing.Point(80, 90);
+            this.cmbCliente.Location = new System.Drawing.Point(67, 92);
             this.cmbCliente.Name = "cmbCliente";
-            this.cmbCliente.Size = new System.Drawing.Size(150, 21);
+            this.cmbCliente.Size = new System.Drawing.Size(250, 21);
             this.cmbCliente.TabIndex = 7;
             // 
             // lblVendedor
             // 
             this.lblVendedor.AutoSize = true;
-            this.lblVendedor.Location = new System.Drawing.Point(250, 95);
+            this.lblVendedor.Location = new System.Drawing.Point(323, 95);
             this.lblVendedor.Name = "lblVendedor";
             this.lblVendedor.Size = new System.Drawing.Size(56, 13);
             this.lblVendedor.TabIndex = 8;
@@ -135,35 +135,18 @@
             // 
             this.cmbVendedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbVendedor.FormattingEnabled = true;
-            this.cmbVendedor.Location = new System.Drawing.Point(320, 90);
+            this.cmbVendedor.Location = new System.Drawing.Point(385, 92);
             this.cmbVendedor.Name = "cmbVendedor";
-            this.cmbVendedor.Size = new System.Drawing.Size(150, 21);
+            this.cmbVendedor.Size = new System.Drawing.Size(227, 21);
             this.cmbVendedor.TabIndex = 9;
-            // 
-            // lblMetodoPago
-            // 
-            this.lblMetodoPago.AutoSize = true;
-            this.lblMetodoPago.Location = new System.Drawing.Point(485, 95);
-            this.lblMetodoPago.Name = "lblMetodoPago";
-            this.lblMetodoPago.Size = new System.Drawing.Size(87, 13);
-            this.lblMetodoPago.TabIndex = 10;
-            this.lblMetodoPago.Text = "Método de Pago:";
-            // 
-            // cmbMetodoPago
-            // 
-            this.cmbMetodoPago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMetodoPago.FormattingEnabled = true;
-            this.cmbMetodoPago.Location = new System.Drawing.Point(580, 90);
-            this.cmbMetodoPago.Name = "cmbMetodoPago";
-            this.cmbMetodoPago.Size = new System.Drawing.Size(120, 21);
-            this.cmbMetodoPago.TabIndex = 11;
             // 
             // btnBuscar
             // 
+            this.btnBuscar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnBuscar.Location = new System.Drawing.Point(720, 58);
+            this.btnBuscar.Location = new System.Drawing.Point(622, 58);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(80, 28);
+            this.btnBuscar.Size = new System.Drawing.Size(80, 55);
             this.btnBuscar.TabIndex = 12;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
@@ -171,9 +154,10 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(720, 90);
+            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReset.Location = new System.Drawing.Point(708, 58);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(80, 28);
+            this.btnReset.Size = new System.Drawing.Size(80, 55);
             this.btnReset.TabIndex = 13;
             this.btnReset.Text = "Restablecer";
             this.btnReset.UseVisualStyleBackColor = true;
@@ -297,6 +281,22 @@
             this.lblResultados.Text = "0 facturas encontradas";
             this.lblResultados.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // lblNroFactura
+            // 
+            this.lblNroFactura.AutoSize = true;
+            this.lblNroFactura.Location = new System.Drawing.Point(323, 65);
+            this.lblNroFactura.Name = "lblNroFactura";
+            this.lblNroFactura.Size = new System.Drawing.Size(66, 13);
+            this.lblNroFactura.TabIndex = 10;
+            this.lblNroFactura.Text = "N° Factura:";
+            // 
+            // txtNroFactura
+            // 
+            this.txtNroFactura.Location = new System.Drawing.Point(395, 62);
+            this.txtNroFactura.Name = "txtNroFactura";
+            this.txtNroFactura.Size = new System.Drawing.Size(150, 20);
+            this.txtNroFactura.TabIndex = 11;
+            // 
             // FormReportesGerente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -308,8 +308,8 @@
             this.Controls.Add(this.dgvFacturas);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnBuscar);
-            this.Controls.Add(this.cmbMetodoPago);
-            this.Controls.Add(this.lblMetodoPago);
+            this.Controls.Add(this.txtNroFactura);
+            this.Controls.Add(this.lblNroFactura);
             this.Controls.Add(this.cmbVendedor);
             this.Controls.Add(this.lblVendedor);
             this.Controls.Add(this.cmbCliente);
@@ -341,8 +341,6 @@
         private System.Windows.Forms.ComboBox cmbCliente;
         private System.Windows.Forms.Label lblVendedor;
         private System.Windows.Forms.ComboBox cmbVendedor;
-        private System.Windows.Forms.Label lblMetodoPago;
-        private System.Windows.Forms.ComboBox cmbMetodoPago;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.DataGridView dgvFacturas;
@@ -356,5 +354,7 @@
         private System.Windows.Forms.Button btnExportarPDF;
         private System.Windows.Forms.Button btnExportarExcel;
         private System.Windows.Forms.Label lblResultados;
+        private System.Windows.Forms.Label lblNroFactura;
+        private System.Windows.Forms.TextBox txtNroFactura;
     }
 }

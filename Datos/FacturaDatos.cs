@@ -1,8 +1,9 @@
-﻿using System;
+﻿using GestionDeVentas.Datos;
+using Modelos;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using Modelos;
-using GestionDeVentas.Datos;
+using System.Linq;
 
 namespace Datos
 {
@@ -221,6 +222,79 @@ namespace Datos
             }
 
             return lista;
+        }
+
+        public List<Factura> ObtenerTodasLasFacturasConDetalles()
+        {
+            var facturasDict = new Dictionary<int, Factura>();
+
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+                // ✅ CONSULTA CORREGIDA AHORA SÍ: Usando 'mp.nombre_metodo' como en tu ejemplo de FormVentas
+                string query = @"
+            SELECT
+                f.id_factura, f.fecha_factura, f.total_factura, f.activo,
+                c.nombre_cliente, c.apellido_cliente, c.dni_cliente, c.direccion_cliente, c.telefono_cliente, c.correo_cliente,
+                u.nombre_usuario, u.apellido_usuario,
+                ISNULL(mp.nombre_metodo, 'Sin especificar') AS metodo_pago_nombre,
+                df.id_detalle, df.id_producto, df.cantidad, df.precio_unitario,
+                p.codigo_producto, p.nombre_producto,
+                t.nombre_talle
+            FROM factura f
+            LEFT JOIN cliente c ON f.id_cliente = c.id_cliente
+            LEFT JOIN usuario u ON f.id_usuario = u.id_usuario
+            LEFT JOIN metodo_pago mp ON f.id_metodo_pago = mp.id_metodo_pago
+            LEFT JOIN detalle_factura df ON f.id_factura = df.id_factura
+            LEFT JOIN producto p ON df.id_producto = p.id_producto
+            LEFT JOIN talle t ON p.id_talle = t.id_talle
+            ORDER BY f.id_factura DESC;";
+
+                using (var cmd = new SqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int idFactura = Convert.ToInt32(reader["id_factura"]);
+
+                        if (!facturasDict.ContainsKey(idFactura))
+                        {
+                            var factura = new Factura
+                            {
+                                IdFactura = idFactura,
+                                FechaFactura = Convert.ToDateTime(reader["fecha_factura"]),
+                                TotalFactura = Convert.ToDecimal(reader["total_factura"]),
+                                Activo = Convert.ToBoolean(reader["activo"]),
+                                ClienteNombre = $"{reader["nombre_cliente"]} {reader["apellido_cliente"]}",
+                                ClienteDni = reader["dni_cliente"].ToString(),
+                                ClienteDireccion = reader["direccion_cliente"].ToString(),
+                                ClienteTelefono = reader["telefono_cliente"].ToString(),
+                                ClienteCorreo = reader["correo_cliente"].ToString(),
+                                UsuarioNombre = $"{reader["nombre_usuario"]} {reader["apellido_usuario"]}",
+                                MetodoPagoNombre = reader["metodo_pago_nombre"].ToString(),
+                                Detalles = new List<DetalleFactura>()
+                            };
+                            facturasDict.Add(idFactura, factura);
+                        }
+
+                        if (reader["id_detalle"] != DBNull.Value)
+                        {
+                            var detalle = new DetalleFactura
+                            {
+                                IdDetalle = Convert.ToInt32(reader["id_detalle"]),
+                                IdProducto = Convert.ToInt32(reader["id_producto"]),
+                                Cantidad = Convert.ToInt32(reader["cantidad"]),
+                                PrecioUnitario = Convert.ToDecimal(reader["precio_unitario"]),
+                                ProductoCodigo = reader["codigo_producto"].ToString(),
+                                ProductoNombre = reader["nombre_producto"].ToString(),
+                                TalleNombre = reader["nombre_talle"] == DBNull.Value ? "-" : reader["nombre_talle"].ToString()
+                            };
+                            facturasDict[idFactura].Detalles.Add(detalle);
+                        }
+                    }
+                }
+            }
+            return facturasDict.Values.ToList();
         }
     }
 }

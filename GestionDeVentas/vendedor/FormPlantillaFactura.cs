@@ -120,7 +120,7 @@ namespace GestionDeVentas.Vendedor
                     var p = frm.ProductoSeleccionado;
                     productoSeleccionadoTmp = p;
 
-                    txtBuscarProducto.Text = $"{p.Nombre} | Talle: {p.TalleNombre} | Stock: {p.StockDisponible}";
+                 //   txtBuscarProducto.Text = $"{p.Nombre} | Talle: {p.TalleNombre} | Stock: {p.StockDisponible}";
                     pnlSeleccionProducto.Visible = true;
                     txtCantidadSeleccionada.Text = "1";
                     txtCantidadSeleccionada.Focus();

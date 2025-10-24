@@ -28,9 +28,9 @@
             this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.cboBuscarPor = new System.Windows.Forms.ComboBox();
             this.lblCategoria = new System.Windows.Forms.Label();
-            this.lblTalle = new System.Windows.Forms.Label();
+            this.lblMarca = new System.Windows.Forms.Label();
             this.lblBuscar = new System.Windows.Forms.Label();
-            this.cmbTalle = new System.Windows.Forms.ComboBox();
+            this.cmbMarca = new System.Windows.Forms.ComboBox();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
             this.panelBotones = new System.Windows.Forms.Panel();
             this.btnLimpiar = new System.Windows.Forms.Button();
@@ -92,12 +92,12 @@
             this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
             this.tableLayoutPanelFiltros.Controls.Add(this.panelBusqueda, 0, 1);
             this.tableLayoutPanelFiltros.Controls.Add(this.lblCategoria, 1, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.lblTalle, 2, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblMarca, 2, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.lblBuscar, 0, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.cmbTalle, 2, 1);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cmbMarca, 2, 1);
             this.tableLayoutPanelFiltros.Controls.Add(this.cmbCategoria, 1, 1);
             this.tableLayoutPanelFiltros.Controls.Add(this.panelBotones, 3, 1);
             this.tableLayoutPanelFiltros.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -155,17 +155,17 @@
             this.lblCategoria.Text = "Categoría:";
             this.lblCategoria.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // lblTalle
+            // lblMarca
             // 
-            this.lblTalle.AutoSize = true;
-            this.lblTalle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTalle.Font = new System.Drawing.Font("Arial", 9F);
-            this.lblTalle.Location = new System.Drawing.Point(492, 0);
-            this.lblTalle.Name = "lblTalle";
-            this.lblTalle.Size = new System.Drawing.Size(157, 20);
-            this.lblTalle.TabIndex = 3;
-            this.lblTalle.Text = "Talle:";
-            this.lblTalle.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.lblMarca.AutoSize = true;
+            this.lblMarca.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblMarca.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblMarca.Location = new System.Drawing.Point(492, 0);
+            this.lblMarca.Name = "lblMarca";
+            this.lblMarca.Size = new System.Drawing.Size(157, 20);
+            this.lblMarca.TabIndex = 3;
+            this.lblMarca.Text = "Marca:";
+            this.lblMarca.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblBuscar
             // 
@@ -179,17 +179,17 @@
             this.lblBuscar.Text = "Buscar por:";
             this.lblBuscar.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // cmbTalle
+            // cmbMarca
             // 
-            this.cmbTalle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbTalle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTalle.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.cmbTalle.FormattingEnabled = true;
-            this.cmbTalle.Location = new System.Drawing.Point(492, 23);
-            this.cmbTalle.Name = "cmbTalle";
-            this.cmbTalle.Size = new System.Drawing.Size(157, 25);
-            this.cmbTalle.TabIndex = 4;
-            this.cmbTalle.SelectedIndexChanged += new System.EventHandler(this.filtros_Changed);
+            this.cmbMarca.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbMarca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMarca.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.cmbMarca.FormattingEnabled = true;
+            this.cmbMarca.Location = new System.Drawing.Point(492, 23);
+            this.cmbMarca.Name = "cmbMarca";
+            this.cmbMarca.Size = new System.Drawing.Size(157, 25);
+            this.cmbMarca.TabIndex = 4;
+            this.cmbMarca.SelectedIndexChanged += new System.EventHandler(this.filtros_Changed);
             // 
             // cmbCategoria
             // 
@@ -274,10 +274,10 @@
         private System.Windows.Forms.Panel pnlFiltros;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFiltros;
         private System.Windows.Forms.Label lblCategoria;
-        private System.Windows.Forms.Label lblTalle;
+        private System.Windows.Forms.Label lblMarca; // Renombrado
         private System.Windows.Forms.Label lblBuscar;
         private System.Windows.Forms.TextBox txtBusqueda;
-        private System.Windows.Forms.ComboBox cmbTalle;
+        private System.Windows.Forms.ComboBox cmbMarca; // Renombrado
         private System.Windows.Forms.ComboBox cmbCategoria;
         private System.Windows.Forms.ComboBox cboBuscarPor;
         private System.Windows.Forms.Panel panelBusqueda;

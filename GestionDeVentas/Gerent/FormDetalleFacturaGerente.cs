@@ -1,59 +1,67 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using Modelos; // ✅ Agregado para que reconozca la clase Factura real
 
 namespace GestionDeVentas.Gerente
 {
-    // Asegúrate de que esta sea la primera clase en el archivo.
     public partial class FormDetalleFacturaGerente : Form
     {
-        private FormReportesGerente.Factura facturaActual;
+        // ✅ Cambiado para usar el modelo de Factura real
+        private readonly Factura _facturaActual;
 
-        public FormDetalleFacturaGerente(FormReportesGerente.Factura factura)
+        // ✅ Cambiado para recibir el modelo de Factura real
+        public FormDetalleFacturaGerente(Factura factura)
         {
             InitializeComponent();
-            this.facturaActual = factura;
+            _facturaActual = factura ?? throw new ArgumentNullException(nameof(factura));
         }
 
         private void FormDetalleFacturaGerente_Load(object sender, EventArgs e)
         {
-            // Cargar los datos de la factura en la interfaz
             CargarDatosFactura();
         }
 
         private void CargarDatosFactura()
         {
-            if (facturaActual == null) return;
+            if (_facturaActual == null) return;
 
-            // Actualizar la información de la factura
-            lblNroFactura.Text = $"N° Factura: {facturaActual.NroFactura}";
-            lblFecha.Text = $"Fecha: {facturaActual.Fecha.ToShortDateString()}";
-            lblCliente.Text = $"Cliente: {facturaActual.Cliente}";
-            lblVendedor.Text = $"Vendedor: {facturaActual.Vendedor}";
-            lblMetodoPago.Text = $"Método de Pago: {facturaActual.MetodoPago}";
+            // ✅ Actualizado para usar las propiedades del modelo real
+            lblNroFactura.Text = $"N° Factura: {_facturaActual.IdFactura:D6}";
+            lblFecha.Text = $"Fecha: {_facturaActual.FechaFactura:dd/MM/yyyy}";
+            lblCliente.Text = $"Cliente: {_facturaActual.ClienteNombre}";
+            lblVendedor.Text = $"Vendedor: {_facturaActual.UsuarioNombre}";
+            lblMetodoPago.Text = $"Método de Pago: {_facturaActual.MetodoPagoNombre}";
 
-            // Llenar la tabla de productos
+            // Llenar la tabla de productos usando la lista de Detalles
             dgvProductos.Rows.Clear();
-            foreach (var producto in facturaActual.Productos)
+            if (_facturaActual.Detalles != null)
             {
-                dgvProductos.Rows.Add(
-                    producto.Codigo,
-                    producto.Nombre,
-                    producto.Talle,
-                    producto.Cantidad.ToString(),
-                    $"${producto.Precio:N2}",
-                    $"${producto.Subtotal:N2}"
-                );
+                foreach (var detalle in _facturaActual.Detalles)
+                {
+                    dgvProductos.Rows.Add(
+                        detalle.ProductoCodigo,
+                        detalle.ProductoNombre,
+                        detalle.TalleNombre ?? "-",
+                        detalle.Cantidad,
+                        detalle.PrecioUnitario.ToString("C", CultureInfo.CurrentCulture),
+                        (detalle.Cantidad * detalle.PrecioUnitario).ToString("C", CultureInfo.CurrentCulture)
+                    );
+                }
             }
 
             // Calcular y mostrar los totales
-            decimal subtotal = facturaActual.Productos.Sum(p => p.Subtotal);
+            decimal subtotal = _facturaActual.Detalles?.Sum(p => p.Cantidad * p.PrecioUnitario) ?? 0m;
             decimal iva = subtotal * 0.21m; // 21% de IVA
-            decimal total = subtotal + iva;
 
-            txtSubtotal.Text = $"${subtotal:N2}";
-            txtIVA.Text = $"${iva:N2}";
-            txtTotal.Text = $"${total:N2}";
+            // Usamos el total guardado en la factura para mayor precisión
+            decimal total = _facturaActual.TotalFactura;
+
+            txtSubtotal.Text = subtotal.ToString("C", CultureInfo.CurrentCulture);
+            txtIVA.Text = iva.ToString("C", CultureInfo.CurrentCulture);
+            txtTotal.Text = total.ToString("C", CultureInfo.CurrentCulture);
         }
 
         private void btnCerrar_Click(object sender, EventArgs e) => this.Close();

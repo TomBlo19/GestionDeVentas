@@ -8,8 +8,10 @@
         private System.Windows.Forms.TextBox txtCarpetaOrigen;
         private System.Windows.Forms.Button btnElegirOrigen;
         private System.Windows.Forms.Button btnCrearBackup;
+        private System.Windows.Forms.Button btnBackupBD;     // NUEVO
+        private System.Windows.Forms.Button btnRestaurar;   // NUEVO
         private System.Windows.Forms.Panel panelContenido;
-        private System.Windows.Forms.Button btnCerrar;   // NUEVO
+        private System.Windows.Forms.Button btnCerrar;
 
         protected override void Dispose(bool disposing)
         {
@@ -22,6 +24,8 @@
             this.panelContenido = new System.Windows.Forms.Panel();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnCrearBackup = new System.Windows.Forms.Button();
+            this.btnBackupBD = new System.Windows.Forms.Button();     // NUEVO
+            this.btnRestaurar = new System.Windows.Forms.Button();   // NUEVO
             this.btnElegirOrigen = new System.Windows.Forms.Button();
             this.txtCarpetaOrigen = new System.Windows.Forms.TextBox();
             this.lblOrigen = new System.Windows.Forms.Label();
@@ -34,13 +38,15 @@
             this.panelContenido.BackColor = System.Drawing.Color.White;
             this.panelContenido.Controls.Add(this.btnCerrar);
             this.panelContenido.Controls.Add(this.btnCrearBackup);
+            this.panelContenido.Controls.Add(this.btnBackupBD);     // NUEVO
+            this.panelContenido.Controls.Add(this.btnRestaurar);    // NUEVO
             this.panelContenido.Controls.Add(this.btnElegirOrigen);
             this.panelContenido.Controls.Add(this.txtCarpetaOrigen);
             this.panelContenido.Controls.Add(this.lblOrigen);
             this.panelContenido.Controls.Add(this.lblTitulo);
             this.panelContenido.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelContenido.Location = new System.Drawing.Point(0, 0);
-            this.panelContenido.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelContenido.Margin = new System.Windows.Forms.Padding(2);
             this.panelContenido.Name = "panelContenido";
             this.panelContenido.Size = new System.Drawing.Size(600, 347);
             this.panelContenido.TabIndex = 0;
@@ -55,7 +61,7 @@
             this.btnCerrar.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.Black;
             this.btnCerrar.Location = new System.Drawing.Point(570, 8);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(2);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(22, 24);
             this.btnCerrar.TabIndex = 6;
@@ -67,19 +73,43 @@
             // 
             this.btnCrearBackup.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.btnCrearBackup.Location = new System.Drawing.Point(22, 139);
-            this.btnCrearBackup.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCrearBackup.Margin = new System.Windows.Forms.Padding(2);
             this.btnCrearBackup.Name = "btnCrearBackup";
-            this.btnCrearBackup.Size = new System.Drawing.Size(172, 35);
+            this.btnCrearBackup.Size = new System.Drawing.Size(200, 35);
             this.btnCrearBackup.TabIndex = 1;
             this.btnCrearBackup.Text = "Crear BackUp (.zip)";
             this.btnCrearBackup.UseVisualStyleBackColor = true;
             this.btnCrearBackup.Click += new System.EventHandler(this.btnCrearBackup_Click);
             // 
+            // btnBackupBD
+            // 
+            this.btnBackupBD.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnBackupBD.Location = new System.Drawing.Point(22, 190);
+            this.btnBackupBD.Margin = new System.Windows.Forms.Padding(2);
+            this.btnBackupBD.Name = "btnBackupBD";
+            this.btnBackupBD.Size = new System.Drawing.Size(250, 35);
+            this.btnBackupBD.TabIndex = 7;
+            this.btnBackupBD.Text = "Backup Base de Datos (.bak)";
+            this.btnBackupBD.UseVisualStyleBackColor = true;
+            this.btnBackupBD.Click += new System.EventHandler(this.btnBackupBD_Click);
+            // 
+            // btnRestaurar
+            // 
+            this.btnRestaurar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRestaurar.Location = new System.Drawing.Point(22, 240);
+            this.btnRestaurar.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRestaurar.Name = "btnRestaurar";
+            this.btnRestaurar.Size = new System.Drawing.Size(250, 35);
+            this.btnRestaurar.TabIndex = 8;
+            this.btnRestaurar.Text = "Restaurar BackUp (.zip)";
+            this.btnRestaurar.UseVisualStyleBackColor = true;
+            this.btnRestaurar.Click += new System.EventHandler(this.btnRestaurar_Click);
+            // 
             // btnElegirOrigen
             // 
             this.btnElegirOrigen.Font = new System.Drawing.Font("Arial", 10F);
             this.btnElegirOrigen.Location = new System.Drawing.Point(476, 90);
-            this.btnElegirOrigen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnElegirOrigen.Margin = new System.Windows.Forms.Padding(2);
             this.btnElegirOrigen.Name = "btnElegirOrigen";
             this.btnElegirOrigen.Size = new System.Drawing.Size(94, 22);
             this.btnElegirOrigen.TabIndex = 3;
@@ -91,7 +121,7 @@
             // 
             this.txtCarpetaOrigen.Font = new System.Drawing.Font("Arial", 10F);
             this.txtCarpetaOrigen.Location = new System.Drawing.Point(22, 91);
-            this.txtCarpetaOrigen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCarpetaOrigen.Margin = new System.Windows.Forms.Padding(2);
             this.txtCarpetaOrigen.Name = "txtCarpetaOrigen";
             this.txtCarpetaOrigen.Size = new System.Drawing.Size(446, 23);
             this.txtCarpetaOrigen.TabIndex = 4;
@@ -123,7 +153,7 @@
             this.ClientSize = new System.Drawing.Size(600, 347);
             this.Controls.Add(this.panelContenido);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormBackup";
             this.Text = "BackUp";
             this.Load += new System.EventHandler(this.FormBackup_Load);

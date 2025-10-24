@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Factura TYV CLOTHES</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #333;
+            margin: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        /* --- Encabezado principal --- */
+        .header {
+            border-bottom: 2px solid #C79C74;
+            margin-bottom: 20px;
+            padding-bottom: 6px;
+        }
+
+        .logo {
+            width: 110px;
+            height: auto;
+            display: block;
+        }
+
+        .empresa {
+            text-align: right;
+            font-size: 12px;
+            line-height: 1.4em;
+        }
+
+            .empresa h2 {
+                color: #503C2B;
+                margin: 0 0 3px 0;
+                font-size: 17px;
+            }
+
+            .empresa div {
+                margin-bottom: 2px;
+            }
+
+        /* --- Información de la factura --- */
+        .factura-info {
+            background-color: #EDEAE8;
+            border: 1px solid #ccc;
+            padding: 12px 14px;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+            .factura-info strong {
+                color: #503C2B;
+            }
+
+        .cliente-data-table td {
+            padding: 5px 8px;
+            vertical-align: middle;
+        }
+
+        .label {
+            font-weight: bold;
+            width: 15%;
+        }
+
+        /* --- Tabla de productos --- */
+        .tabla-detalle {
+            margin-top: 20px;
+            border: 1px solid #bbb;
+            font-size: 11.5px;
+        }
+
+            .tabla-detalle th {
+                background-color: #C79C74;
+                color: #fff;
+                padding: 8px;
+                text-align: center;
+                border: 1px solid #C79C74;
+            }
+
+            .tabla-detalle td {
+                border: 1px solid #ccc;
+                padding: 6px;
+            }
+
+                .tabla-detalle td:nth-child(2) {
+                    text-align: left;
+                }
+
+                .tabla-detalle td:first-child,
+                .tabla-detalle td:nth-child(3),
+                .tabla-detalle td:nth-child(4) {
+                    text-align: center;
+                }
+
+        /* --- Totales --- */
+        .totales {
+            width: 40%;
+            margin-top: 20px;
+            margin-left: auto; /* lo empuja a la derecha */
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+
+            .totales td {
+                padding: 8px 10px;
+                border: 1px solid #ccc;
+            }
+
+            .totales .label {
+                text-align: left;
+                font-weight: bold;
+                color: #503C2B;
+                width: 50%;
+            }
+
+            .totales .valor {
+                text-align: right;
+            }
+
+            .totales .total-row {
+                background-color: #EDEAE8;
+                font-weight: bold;
+            }
+
+        /* --- Pie --- */
+        .pie {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 11px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <!-- ENCABEZADO -->
+    <table class="header">
+        <tr>
+            <td style="width:50%; vertical-align:middle;">
+                <img src="@LOGO" alt="Logo TYV" class="logo" />
+            </td>
+            <td class="empresa" style="width:50%; vertical-align:middle;">
+                <h2>@EMPRESA</h2>
+                <div>@DIRECCION_EMPRESA</div>
+                <div>CUIT: @CUIT</div>
+                <div>@CONTACTO_EMPRESA</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- INFO FACTURA / CLIENTE -->
+    <div class="factura-info">
+        <table class="cliente-data-table" style="width:100%;">
+            <tr>
+                <td style="width:33%;">Factura Nº <strong>@NUMERO_FACTURA</strong></td>
+                <td style="width:33%;">Fecha: <strong>@FECHA</strong></td>
+                <td style="width:34%;">Vendedor: <strong>@VENDEDOR</strong></td>
+            </tr>
+        </table>
+        <hr style="border:none;border-top:1px solid #bbb;margin:6px 0;" />
+        <table class="cliente-data-table" style="width:100%;">
+            <tr>
+                <td class="label">Cliente:</td>
+                <td style="width:35%;">@CLIENTE</td>
+                <td class="label">DNI:</td>
+                <td>@DNI</td>
+            </tr>
+            <tr>
+                <td class="label">Direccion:</td>
+                <td>@DIRECCION</td>
+                <td class="label">Contacto:</td>
+                <td>@CONTACTO</td>
+            </tr>
+            <tr>
+                <td class="label">Pago:</td>
+                <td colspan="3">@METODO_PAGO</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- DETALLE DE PRODUCTOS -->
+    <table class="tabla-detalle">
+        <thead>
+            <tr>
+                <th style="width:10%;">Código</th>
+                <th style="width:35%;">Producto</th>
+                <th style="width:10%;">Talle</th>
+                <th style="width:10%;">Cant.</th>
+                <th style="width:15%;">P. Unitario</th>
+                <th style="width:20%;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @FILAS
+        </tbody>
+    </table>
+
+    <!-- TOTALES -->
+    <table class="totales">
+        <tr>
+            <td class="label">Subtotal:</td>
+            <td class="valor">@SUBTOTAL</td>
+        </tr>
+        <tr>
+            <td class="label">IVA (21%):</td>
+            <td class="valor">@IVA</td>
+        </tr>
+        <tr class="total-row">
+            <td class="label">TOTAL:</td>
+            <td class="valor">@TOTAL</td>
+        </tr>
+    </table>
+
+    <div class="pie">
+        Gracias por su compra — TYV CLOTHES © 2025 | www.tyvclothes.com
+    </div>
+</body>
+</html>

@@ -105,14 +105,17 @@ namespace Datos
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
+
+                // 🔸 Se adapta a tu tabla y detecta "venta" o "salida" sin importar mayúsculas
                 string query = @"
                     SELECT TOP 5 
-                        p.nombre_producto,
+                        p.nombre_producto AS Producto,
                         SUM(m.cantidad) AS total_vendido
                     FROM movimientos_stock m
                     INNER JOIN producto p ON m.id_producto = p.id_producto
-                    WHERE m.tipo_movimiento = 'Venta'
+                    WHERE LOWER(m.tipo_movimiento) IN ('venta', 'salida')
                     GROUP BY p.nombre_producto
+                    HAVING SUM(m.cantidad) > 0
                     ORDER BY total_vendido DESC;";
 
                 using (var cmd = new SqlCommand(query, conn))
@@ -122,18 +125,19 @@ namespace Datos
                     {
                         lista.Add(new TendenciaVenta
                         {
-                            Producto = reader["nombre_producto"].ToString(),
+                            Producto = reader["Producto"].ToString(),
                             Ventas = Convert.ToInt32(reader["total_vendido"])
                         });
                     }
                 }
             }
+
             return lista;
         }
     }
 
     //--------------------------------------------------
-    // MODELOS AUXILIARES (mismo estilo que tus Modelos)
+    // 🔸 MODELOS AUXILIARES (para reportes)
     //--------------------------------------------------
     public class MovimientoStock
     {

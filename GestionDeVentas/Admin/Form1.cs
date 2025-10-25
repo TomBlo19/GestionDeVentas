@@ -136,7 +136,7 @@ namespace GestionDeVentas.Admin
 
         private void lblGestionarPrendas_Click(object sender, EventArgs e)
         {
-            LoadForm(new FormReportes());
+            LoadForm(new FormGestionProductos());
         }
 
        

@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="conexionBD.cs" />
+    <Compile Include="GerenteRendimientoDatos.cs" />
     <Compile Include="GerenteReportesDatos.cs" />
     <Compile Include="MetodoPagoDatos.cs" />
     <Compile Include="DetalleFacturaDatos.cs" />

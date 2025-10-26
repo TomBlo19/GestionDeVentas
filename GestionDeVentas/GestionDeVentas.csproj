@@ -168,9 +168,7 @@
     <Compile Include="Gerent\FormDashboard.Designer.cs">
       <DependentUpon>FormDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gerent\FormDetalleFacturaGerente.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Gerent\FormDetalleFacturaGerente.cs" />
     <Compile Include="Gerent\FormDetalleFacturaGerente.Designer.cs">
       <DependentUpon>FormDetalleFacturaGerente.cs</DependentUpon>
     </Compile>

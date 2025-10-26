@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace GestionDeVentas.Gerent
+﻿namespace GestionDeVentas.Gerent
 {
     partial class FormDashboard
     {
         private System.ComponentModel.IContainer components = null;
 
-        // NUEVOS CONTROLES
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Panel panelFiltros;
         private System.Windows.Forms.Label lblDesde;
@@ -15,17 +12,28 @@ namespace GestionDeVentas.Gerent
         private System.Windows.Forms.DateTimePicker dtpHasta;
         private System.Windows.Forms.Button btnAplicar;
 
-        // EXISTENTES
+        private System.Windows.Forms.Button btnUltimaSemana;
+        private System.Windows.Forms.Button btnMesActual;
+        private System.Windows.Forms.Button btnUltimoTrimestre;
+        private System.Windows.Forms.Button btnExportar;
+
         private System.Windows.Forms.Panel panelKpis;
-        private System.Windows.Forms.Panel panelClientesNuevos;
-        private System.Windows.Forms.Label lblClientesNuevosValor;
-        private System.Windows.Forms.Label lblClientesNuevos;
-        private System.Windows.Forms.Panel panelProductosVendidos;
-        private System.Windows.Forms.Label lblProductosVendidosValor;
-        private System.Windows.Forms.Label lblProductosVendidos;
         private System.Windows.Forms.Panel panelVentasTotales;
-        private System.Windows.Forms.Label lblVentasTotalesValor;
         private System.Windows.Forms.Label lblVentasTotales;
+        private System.Windows.Forms.Label lblVentasTotalesValor;
+        private System.Windows.Forms.Label lblTendenciaVentas;
+        private System.Windows.Forms.Label lblTicketPromedio;
+
+        private System.Windows.Forms.Panel panelProductosVendidos;
+        private System.Windows.Forms.Label lblProductosVendidos;
+        private System.Windows.Forms.Label lblProductosVendidosValor;
+        private System.Windows.Forms.Label lblTendenciaProductos;
+
+        private System.Windows.Forms.Panel panelClientesNuevos;
+        private System.Windows.Forms.Label lblClientesNuevos;
+        private System.Windows.Forms.Label lblClientesNuevosValor;
+        private System.Windows.Forms.Label lblTendenciaClientes;
+
         private System.Windows.Forms.Panel panelGrafico;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartIngresosMensuales;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartVentasPorProducto;
@@ -41,365 +49,415 @@ namespace GestionDeVentas.Gerent
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.panelKpis = new System.Windows.Forms.Panel();
-            this.panelClientesNuevos = new System.Windows.Forms.Panel();
-            this.lblClientesNuevosValor = new System.Windows.Forms.Label();
-            this.lblClientesNuevos = new System.Windows.Forms.Label();
-            this.panelProductosVendidos = new System.Windows.Forms.Panel();
-            this.lblProductosVendidosValor = new System.Windows.Forms.Label();
-            this.lblProductosVendidos = new System.Windows.Forms.Label();
-            this.panelVentasTotales = new System.Windows.Forms.Panel();
-            this.lblVentasTotalesValor = new System.Windows.Forms.Label();
-            this.lblVentasTotales = new System.Windows.Forms.Label();
-            this.panelGrafico = new System.Windows.Forms.Panel();
-            this.chartIngresosMensuales = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chartVentasPorProducto = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.panelProductos = new System.Windows.Forms.Panel();
-            this.dgvTopProductos = new System.Windows.Forms.DataGridView();
-            this.lblTituloProductos = new System.Windows.Forms.Label();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblTituloDashboard = new System.Windows.Forms.Label();
             this.panelFiltros = new System.Windows.Forms.Panel();
+            this.btnExportar = new System.Windows.Forms.Button();
+            this.btnUltimoTrimestre = new System.Windows.Forms.Button();
+            this.btnMesActual = new System.Windows.Forms.Button();
+            this.btnUltimaSemana = new System.Windows.Forms.Button();
             this.lblDesde = new System.Windows.Forms.Label();
             this.dtpDesde = new System.Windows.Forms.DateTimePicker();
             this.lblHasta = new System.Windows.Forms.Label();
             this.dtpHasta = new System.Windows.Forms.DateTimePicker();
             this.btnAplicar = new System.Windows.Forms.Button();
+            this.panelKpis = new System.Windows.Forms.Panel();
+            this.panelClientesNuevos = new System.Windows.Forms.Panel();
+            this.lblTendenciaClientes = new System.Windows.Forms.Label();
+            this.lblClientesNuevosValor = new System.Windows.Forms.Label();
+            this.lblClientesNuevos = new System.Windows.Forms.Label();
+            this.panelProductosVendidos = new System.Windows.Forms.Panel();
+            this.lblTendenciaProductos = new System.Windows.Forms.Label();
+            this.lblProductosVendidosValor = new System.Windows.Forms.Label();
+            this.lblProductosVendidos = new System.Windows.Forms.Label();
+            this.panelVentasTotales = new System.Windows.Forms.Panel();
+            this.lblTicketPromedio = new System.Windows.Forms.Label();
+            this.lblTendenciaVentas = new System.Windows.Forms.Label();
+            this.lblVentasTotalesValor = new System.Windows.Forms.Label();
+            this.lblVentasTotales = new System.Windows.Forms.Label();
+            this.panelGrafico = new System.Windows.Forms.Panel();
+            this.tableGraf = new System.Windows.Forms.TableLayoutPanel();
+            this.chartIngresosMensuales = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartVentasPorProducto = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.panelProductos = new System.Windows.Forms.Panel();
+            this.dgvTopProductos = new System.Windows.Forms.DataGridView();
+            this.lblTituloProductos = new System.Windows.Forms.Label();
             this.btnCerrar = new System.Windows.Forms.Button();
+            this.panelFiltros.SuspendLayout();
             this.panelKpis.SuspendLayout();
             this.panelClientesNuevos.SuspendLayout();
             this.panelProductosVendidos.SuspendLayout();
             this.panelVentasTotales.SuspendLayout();
             this.panelGrafico.SuspendLayout();
+            this.tableGraf.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartIngresosMensuales)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartVentasPorProducto)).BeginInit();
             this.panelProductos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTopProductos)).BeginInit();
-            this.panelFiltros.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // panelKpis
-            // 
-            this.panelKpis.Controls.Add(this.panelClientesNuevos);
-            this.panelKpis.Controls.Add(this.panelProductosVendidos);
-            this.panelKpis.Controls.Add(this.panelVentasTotales);
-            this.panelKpis.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelKpis.Location = new System.Drawing.Point(0, 75);
-            this.panelKpis.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.panelKpis.Name = "panelKpis";
-            this.panelKpis.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
-            this.panelKpis.Size = new System.Drawing.Size(600, 81);
-            this.panelKpis.TabIndex = 0;
-            // 
-            // panelClientesNuevos
-            // 
-            this.panelClientesNuevos.BackColor = System.Drawing.Color.SteelBlue;
-            this.panelClientesNuevos.Controls.Add(this.lblClientesNuevosValor);
-            this.panelClientesNuevos.Controls.Add(this.lblClientesNuevos);
-            this.panelClientesNuevos.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelClientesNuevos.Location = new System.Drawing.Point(384, 8);
-            this.panelClientesNuevos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.panelClientesNuevos.Name = "panelClientesNuevos";
-            this.panelClientesNuevos.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panelClientesNuevos.Size = new System.Drawing.Size(188, 65);
-            this.panelClientesNuevos.TabIndex = 2;
-            // 
-            // lblClientesNuevosValor
-            // 
-            this.lblClientesNuevosValor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblClientesNuevosValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
-            this.lblClientesNuevosValor.ForeColor = System.Drawing.Color.White;
-            this.lblClientesNuevosValor.Location = new System.Drawing.Point(4, 23);
-            this.lblClientesNuevosValor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblClientesNuevosValor.Name = "lblClientesNuevosValor";
-            this.lblClientesNuevosValor.Size = new System.Drawing.Size(180, 38);
-            this.lblClientesNuevosValor.TabIndex = 0;
-            this.lblClientesNuevosValor.Text = "85";
-            this.lblClientesNuevosValor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblClientesNuevos
-            // 
-            this.lblClientesNuevos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblClientesNuevos.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblClientesNuevos.ForeColor = System.Drawing.Color.White;
-            this.lblClientesNuevos.Location = new System.Drawing.Point(4, 4);
-            this.lblClientesNuevos.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblClientesNuevos.Name = "lblClientesNuevos";
-            this.lblClientesNuevos.Size = new System.Drawing.Size(180, 19);
-            this.lblClientesNuevos.TabIndex = 1;
-            this.lblClientesNuevos.Text = "Clientes Nuevos";
-            this.lblClientesNuevos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panelProductosVendidos
-            // 
-            this.panelProductosVendidos.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.panelProductosVendidos.Controls.Add(this.lblProductosVendidosValor);
-            this.panelProductosVendidos.Controls.Add(this.lblProductosVendidos);
-            this.panelProductosVendidos.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelProductosVendidos.Location = new System.Drawing.Point(196, 8);
-            this.panelProductosVendidos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.panelProductosVendidos.Name = "panelProductosVendidos";
-            this.panelProductosVendidos.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panelProductosVendidos.Size = new System.Drawing.Size(188, 65);
-            this.panelProductosVendidos.TabIndex = 1;
-            // 
-            // lblProductosVendidosValor
-            // 
-            this.lblProductosVendidosValor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblProductosVendidosValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
-            this.lblProductosVendidosValor.ForeColor = System.Drawing.Color.White;
-            this.lblProductosVendidosValor.Location = new System.Drawing.Point(4, 23);
-            this.lblProductosVendidosValor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblProductosVendidosValor.Name = "lblProductosVendidosValor";
-            this.lblProductosVendidosValor.Size = new System.Drawing.Size(180, 38);
-            this.lblProductosVendidosValor.TabIndex = 0;
-            this.lblProductosVendidosValor.Text = "2,500";
-            this.lblProductosVendidosValor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblProductosVendidos
-            // 
-            this.lblProductosVendidos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblProductosVendidos.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblProductosVendidos.ForeColor = System.Drawing.Color.White;
-            this.lblProductosVendidos.Location = new System.Drawing.Point(4, 4);
-            this.lblProductosVendidos.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblProductosVendidos.Name = "lblProductosVendidos";
-            this.lblProductosVendidos.Size = new System.Drawing.Size(180, 19);
-            this.lblProductosVendidos.TabIndex = 1;
-            this.lblProductosVendidos.Text = "Productos Vendidos";
-            this.lblProductosVendidos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panelVentasTotales
-            // 
-            this.panelVentasTotales.BackColor = System.Drawing.Color.LightCoral;
-            this.panelVentasTotales.Controls.Add(this.lblVentasTotalesValor);
-            this.panelVentasTotales.Controls.Add(this.lblVentasTotales);
-            this.panelVentasTotales.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelVentasTotales.Location = new System.Drawing.Point(8, 8);
-            this.panelVentasTotales.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.panelVentasTotales.Name = "panelVentasTotales";
-            this.panelVentasTotales.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panelVentasTotales.Size = new System.Drawing.Size(188, 65);
-            this.panelVentasTotales.TabIndex = 0;
-            // 
-            // lblVentasTotalesValor
-            // 
-            this.lblVentasTotalesValor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblVentasTotalesValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
-            this.lblVentasTotalesValor.ForeColor = System.Drawing.Color.White;
-            this.lblVentasTotalesValor.Location = new System.Drawing.Point(4, 23);
-            this.lblVentasTotalesValor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblVentasTotalesValor.Name = "lblVentasTotalesValor";
-            this.lblVentasTotalesValor.Size = new System.Drawing.Size(180, 38);
-            this.lblVentasTotalesValor.TabIndex = 0;
-            this.lblVentasTotalesValor.Text = "$ 150,000";
-            this.lblVentasTotalesValor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblVentasTotales
-            // 
-            this.lblVentasTotales.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblVentasTotales.Font = new System.Drawing.Font("Arial", 10F);
-            this.lblVentasTotales.ForeColor = System.Drawing.Color.White;
-            this.lblVentasTotales.Location = new System.Drawing.Point(4, 4);
-            this.lblVentasTotales.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblVentasTotales.Name = "lblVentasTotales";
-            this.lblVentasTotales.Size = new System.Drawing.Size(180, 19);
-            this.lblVentasTotales.TabIndex = 1;
-            this.lblVentasTotales.Text = "Ventas Totales";
-            this.lblVentasTotales.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panelGrafico
-            // 
-            this.panelGrafico.BackColor = System.Drawing.Color.White;
-            this.panelGrafico.Controls.Add(this.chartIngresosMensuales);
-            this.panelGrafico.Controls.Add(this.chartVentasPorProducto);
-            this.panelGrafico.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelGrafico.Location = new System.Drawing.Point(0, 156);
-            this.panelGrafico.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.panelGrafico.Name = "panelGrafico";
-            this.panelGrafico.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
-            this.panelGrafico.Size = new System.Drawing.Size(600, 162);
-            this.panelGrafico.TabIndex = 1;
-            // 
-            // chartIngresosMensuales
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chartIngresosMensuales.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartIngresosMensuales.Legends.Add(legend1);
-            this.chartIngresosMensuales.Location = new System.Drawing.Point(8, 8);
-            this.chartIngresosMensuales.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.chartIngresosMensuales.Name = "chartIngresosMensuales";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Ingresos";
-            this.chartIngresosMensuales.Series.Add(series1);
-            this.chartIngresosMensuales.Size = new System.Drawing.Size(289, 146);
-            this.chartIngresosMensuales.TabIndex = 0;
-            this.chartIngresosMensuales.Text = "chart1";
-            this.chartIngresosMensuales.Click += new System.EventHandler(this.chartIngresosMensuales_Click);
-            // 
-            // chartVentasPorProducto
-            // 
-            chartArea2.Name = "ChartArea1";
-            this.chartVentasPorProducto.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chartVentasPorProducto.Legends.Add(legend2);
-            this.chartVentasPorProducto.Location = new System.Drawing.Point(304, 8);
-            this.chartVentasPorProducto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.chartVentasPorProducto.Name = "chartVentasPorProducto";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Ventas";
-            this.chartVentasPorProducto.Series.Add(series2);
-            this.chartVentasPorProducto.Size = new System.Drawing.Size(289, 146);
-            this.chartVentasPorProducto.TabIndex = 1;
-            this.chartVentasPorProducto.Text = "chart2";
-            // 
-            // panelProductos
-            // 
-            this.panelProductos.Controls.Add(this.dgvTopProductos);
-            this.panelProductos.Controls.Add(this.lblTituloProductos);
-            this.panelProductos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelProductos.Location = new System.Drawing.Point(0, 318);
-            this.panelProductos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.panelProductos.Name = "panelProductos";
-            this.panelProductos.Padding = new System.Windows.Forms.Padding(8, 0, 8, 8);
-            this.panelProductos.Size = new System.Drawing.Size(600, 170);
-            this.panelProductos.TabIndex = 2;
-            // 
-            // dgvTopProductos
-            // 
-            this.dgvTopProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTopProductos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTopProductos.Location = new System.Drawing.Point(8, 28);
-            this.dgvTopProductos.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.dgvTopProductos.Name = "dgvTopProductos";
-            this.dgvTopProductos.RowHeadersWidth = 51;
-            this.dgvTopProductos.Size = new System.Drawing.Size(584, 134);
-            this.dgvTopProductos.TabIndex = 1;
-            // 
-            // lblTituloProductos
-            // 
-            this.lblTituloProductos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblTituloProductos.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.lblTituloProductos.Location = new System.Drawing.Point(8, 0);
-            this.lblTituloProductos.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblTituloProductos.Name = "lblTituloProductos";
-            this.lblTituloProductos.Size = new System.Drawing.Size(584, 28);
-            this.lblTituloProductos.TabIndex = 0;
-            this.lblTituloProductos.Text = "Top 5 Productos Más Vendidos";
-            this.lblTituloProductos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTituloDashboard
             // 
+            this.lblTituloDashboard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(39)))), ((int)(((byte)(35)))));
             this.lblTituloDashboard.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblTituloDashboard.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold);
+            this.lblTituloDashboard.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Bold);
+            this.lblTituloDashboard.ForeColor = System.Drawing.Color.White;
             this.lblTituloDashboard.Location = new System.Drawing.Point(0, 0);
-            this.lblTituloDashboard.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTituloDashboard.Name = "lblTituloDashboard";
-            this.lblTituloDashboard.Size = new System.Drawing.Size(600, 41);
-            this.lblTituloDashboard.TabIndex = 3;
+            this.lblTituloDashboard.Size = new System.Drawing.Size(1000, 70);
+            this.lblTituloDashboard.TabIndex = 5;
             this.lblTituloDashboard.Text = "Reportes Gerenciales";
             this.lblTituloDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblTituloDashboard.Click += new System.EventHandler(this.lblTituloDashboard_Click);
             // 
             // panelFiltros
             // 
-            this.panelFiltros.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panelFiltros.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(211)))), ((int)(((byte)(179)))));
+            this.panelFiltros.Controls.Add(this.btnExportar);
+            this.panelFiltros.Controls.Add(this.btnUltimoTrimestre);
+            this.panelFiltros.Controls.Add(this.btnMesActual);
+            this.panelFiltros.Controls.Add(this.btnUltimaSemana);
             this.panelFiltros.Controls.Add(this.lblDesde);
             this.panelFiltros.Controls.Add(this.dtpDesde);
             this.panelFiltros.Controls.Add(this.lblHasta);
             this.panelFiltros.Controls.Add(this.dtpHasta);
             this.panelFiltros.Controls.Add(this.btnAplicar);
             this.panelFiltros.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelFiltros.Location = new System.Drawing.Point(0, 41);
-            this.panelFiltros.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panelFiltros.Location = new System.Drawing.Point(0, 70);
             this.panelFiltros.Name = "panelFiltros";
-            this.panelFiltros.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
-            this.panelFiltros.Size = new System.Drawing.Size(600, 34);
-            this.panelFiltros.TabIndex = 3;
+            this.panelFiltros.Padding = new System.Windows.Forms.Padding(15, 10, 15, 10);
+            this.panelFiltros.Size = new System.Drawing.Size(1000, 55);
+            this.panelFiltros.TabIndex = 4;
+            // 
+            // btnExportar
+            // 
+            this.btnExportar.Location = new System.Drawing.Point(914, 12);
+            this.btnExportar.Name = "btnExportar";
+            this.btnExportar.Size = new System.Drawing.Size(100, 30);
+            this.btnExportar.TabIndex = 0;
+            this.btnExportar.Text = "📊 Exportar";
+            // 
+            // btnUltimoTrimestre
+            // 
+            this.btnUltimoTrimestre.Location = new System.Drawing.Point(783, 14);
+            this.btnUltimoTrimestre.Name = "btnUltimoTrimestre";
+            this.btnUltimoTrimestre.Size = new System.Drawing.Size(125, 26);
+            this.btnUltimoTrimestre.TabIndex = 1;
+            this.btnUltimoTrimestre.Text = "Último trimestre";
+            // 
+            // btnMesActual
+            // 
+            this.btnMesActual.Location = new System.Drawing.Point(677, 15);
+            this.btnMesActual.Name = "btnMesActual";
+            this.btnMesActual.Size = new System.Drawing.Size(100, 25);
+            this.btnMesActual.TabIndex = 2;
+            this.btnMesActual.Text = "Mes actual";
+            // 
+            // btnUltimaSemana
+            // 
+            this.btnUltimaSemana.Location = new System.Drawing.Point(557, 16);
+            this.btnUltimaSemana.Name = "btnUltimaSemana";
+            this.btnUltimaSemana.Size = new System.Drawing.Size(114, 24);
+            this.btnUltimaSemana.TabIndex = 3;
+            this.btnUltimaSemana.Text = "Última semana";
             // 
             // lblDesde
             // 
             this.lblDesde.AutoSize = true;
-            this.lblDesde.Location = new System.Drawing.Point(11, 11);
-            this.lblDesde.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblDesde.Location = new System.Drawing.Point(3, 20);
             this.lblDesde.Name = "lblDesde";
-            this.lblDesde.Size = new System.Drawing.Size(41, 13);
-            this.lblDesde.TabIndex = 0;
+            this.lblDesde.Size = new System.Drawing.Size(51, 16);
+            this.lblDesde.TabIndex = 4;
             this.lblDesde.Text = "Desde:";
             // 
             // dtpDesde
             // 
-            this.dtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDesde.Location = new System.Drawing.Point(49, 8);
-            this.dtpDesde.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpDesde.Location = new System.Drawing.Point(60, 16);
             this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(76, 20);
-            this.dtpDesde.TabIndex = 1;
+            this.dtpDesde.Size = new System.Drawing.Size(180, 22);
+            this.dtpDesde.TabIndex = 5;
+            this.dtpDesde.ValueChanged += new System.EventHandler(this.dtpDesde_ValueChanged);
             // 
             // lblHasta
             // 
             this.lblHasta.AutoSize = true;
-            this.lblHasta.Location = new System.Drawing.Point(139, 11);
-            this.lblHasta.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblHasta.Location = new System.Drawing.Point(246, 21);
             this.lblHasta.Name = "lblHasta";
-            this.lblHasta.Size = new System.Drawing.Size(38, 13);
-            this.lblHasta.TabIndex = 2;
+            this.lblHasta.Size = new System.Drawing.Size(46, 16);
+            this.lblHasta.TabIndex = 6;
             this.lblHasta.Text = "Hasta:";
             // 
             // dtpHasta
             // 
-            this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHasta.Location = new System.Drawing.Point(176, 8);
-            this.dtpHasta.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpHasta.Location = new System.Drawing.Point(298, 19);
             this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(76, 20);
-            this.dtpHasta.TabIndex = 3;
+            this.dtpHasta.Size = new System.Drawing.Size(180, 22);
+            this.dtpHasta.TabIndex = 7;
             // 
             // btnAplicar
             // 
-            this.btnAplicar.Location = new System.Drawing.Point(266, 7);
-            this.btnAplicar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAplicar.Location = new System.Drawing.Point(484, 14);
             this.btnAplicar.Name = "btnAplicar";
-            this.btnAplicar.Size = new System.Drawing.Size(56, 20);
-            this.btnAplicar.TabIndex = 4;
+            this.btnAplicar.Size = new System.Drawing.Size(67, 30);
+            this.btnAplicar.TabIndex = 8;
             this.btnAplicar.Text = "Aplicar";
-            this.btnAplicar.UseVisualStyleBackColor = true;
             this.btnAplicar.Click += new System.EventHandler(this.btnAplicar_Click);
+            // 
+            // panelKpis
+            // 
+            this.panelKpis.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(230)))), ((int)(((byte)(204)))));
+            this.panelKpis.Controls.Add(this.panelClientesNuevos);
+            this.panelKpis.Controls.Add(this.panelProductosVendidos);
+            this.panelKpis.Controls.Add(this.panelVentasTotales);
+            this.panelKpis.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelKpis.Location = new System.Drawing.Point(0, 125);
+            this.panelKpis.Name = "panelKpis";
+            this.panelKpis.Size = new System.Drawing.Size(1000, 120);
+            this.panelKpis.TabIndex = 3;
+            // 
+            // panelClientesNuevos
+            // 
+            this.panelClientesNuevos.Controls.Add(this.lblTendenciaClientes);
+            this.panelClientesNuevos.Controls.Add(this.lblClientesNuevosValor);
+            this.panelClientesNuevos.Controls.Add(this.lblClientesNuevos);
+            this.panelClientesNuevos.Location = new System.Drawing.Point(665, 15);
+            this.panelClientesNuevos.Name = "panelClientesNuevos";
+            this.panelClientesNuevos.Size = new System.Drawing.Size(310, 90);
+            this.panelClientesNuevos.TabIndex = 0;
+            // 
+            // lblTendenciaClientes
+            // 
+            this.lblTendenciaClientes.AutoSize = true;
+            this.lblTendenciaClientes.Location = new System.Drawing.Point(275, 5);
+            this.lblTendenciaClientes.Name = "lblTendenciaClientes";
+            this.lblTendenciaClientes.Size = new System.Drawing.Size(37, 16);
+            this.lblTendenciaClientes.TabIndex = 0;
+            this.lblTendenciaClientes.Text = "▲ 0%";
+            // 
+            // lblClientesNuevosValor
+            // 
+            this.lblClientesNuevosValor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblClientesNuevosValor.Location = new System.Drawing.Point(0, 0);
+            this.lblClientesNuevosValor.Name = "lblClientesNuevosValor";
+            this.lblClientesNuevosValor.Size = new System.Drawing.Size(100, 23);
+            this.lblClientesNuevosValor.TabIndex = 1;
+            this.lblClientesNuevosValor.Text = "0";
+            // 
+            // lblClientesNuevos
+            // 
+            this.lblClientesNuevos.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblClientesNuevos.Location = new System.Drawing.Point(0, 0);
+            this.lblClientesNuevos.Name = "lblClientesNuevos";
+            this.lblClientesNuevos.Size = new System.Drawing.Size(100, 23);
+            this.lblClientesNuevos.TabIndex = 2;
+            this.lblClientesNuevos.Text = "Clientes Nuevos";
+            // 
+            // panelProductosVendidos
+            // 
+            this.panelProductosVendidos.Controls.Add(this.lblTendenciaProductos);
+            this.panelProductosVendidos.Controls.Add(this.lblProductosVendidosValor);
+            this.panelProductosVendidos.Controls.Add(this.lblProductosVendidos);
+            this.panelProductosVendidos.Location = new System.Drawing.Point(340, 15);
+            this.panelProductosVendidos.Name = "panelProductosVendidos";
+            this.panelProductosVendidos.Size = new System.Drawing.Size(310, 90);
+            this.panelProductosVendidos.TabIndex = 1;
+            // 
+            // lblTendenciaProductos
+            // 
+            this.lblTendenciaProductos.AutoSize = true;
+            this.lblTendenciaProductos.Location = new System.Drawing.Point(275, 5);
+            this.lblTendenciaProductos.Name = "lblTendenciaProductos";
+            this.lblTendenciaProductos.Size = new System.Drawing.Size(37, 16);
+            this.lblTendenciaProductos.TabIndex = 0;
+            this.lblTendenciaProductos.Text = "▲ 0%";
+            // 
+            // lblProductosVendidosValor
+            // 
+            this.lblProductosVendidosValor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblProductosVendidosValor.Location = new System.Drawing.Point(0, 0);
+            this.lblProductosVendidosValor.Name = "lblProductosVendidosValor";
+            this.lblProductosVendidosValor.Size = new System.Drawing.Size(100, 23);
+            this.lblProductosVendidosValor.TabIndex = 1;
+            this.lblProductosVendidosValor.Text = "0";
+            // 
+            // lblProductosVendidos
+            // 
+            this.lblProductosVendidos.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblProductosVendidos.Location = new System.Drawing.Point(0, 0);
+            this.lblProductosVendidos.Name = "lblProductosVendidos";
+            this.lblProductosVendidos.Size = new System.Drawing.Size(100, 23);
+            this.lblProductosVendidos.TabIndex = 2;
+            this.lblProductosVendidos.Text = "Productos Vendidos";
+            // 
+            // panelVentasTotales
+            // 
+            this.panelVentasTotales.Controls.Add(this.lblTicketPromedio);
+            this.panelVentasTotales.Controls.Add(this.lblTendenciaVentas);
+            this.panelVentasTotales.Controls.Add(this.lblVentasTotalesValor);
+            this.panelVentasTotales.Controls.Add(this.lblVentasTotales);
+            this.panelVentasTotales.Location = new System.Drawing.Point(15, 15);
+            this.panelVentasTotales.Name = "panelVentasTotales";
+            this.panelVentasTotales.Size = new System.Drawing.Size(310, 90);
+            this.panelVentasTotales.TabIndex = 2;
+            // 
+            // lblTicketPromedio
+            // 
+            this.lblTicketPromedio.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblTicketPromedio.Location = new System.Drawing.Point(0, 0);
+            this.lblTicketPromedio.Name = "lblTicketPromedio";
+            this.lblTicketPromedio.Size = new System.Drawing.Size(100, 23);
+            this.lblTicketPromedio.TabIndex = 0;
+            this.lblTicketPromedio.Text = "Ticket promedio: $ 0,00";
+            // 
+            // lblTendenciaVentas
+            // 
+            this.lblTendenciaVentas.AutoSize = true;
+            this.lblTendenciaVentas.Location = new System.Drawing.Point(275, 5);
+            this.lblTendenciaVentas.Name = "lblTendenciaVentas";
+            this.lblTendenciaVentas.Size = new System.Drawing.Size(37, 16);
+            this.lblTendenciaVentas.TabIndex = 1;
+            this.lblTendenciaVentas.Text = "▲ 0%";
+            // 
+            // lblVentasTotalesValor
+            // 
+            this.lblVentasTotalesValor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblVentasTotalesValor.Location = new System.Drawing.Point(0, 0);
+            this.lblVentasTotalesValor.Name = "lblVentasTotalesValor";
+            this.lblVentasTotalesValor.Size = new System.Drawing.Size(310, 45);
+            this.lblVentasTotalesValor.TabIndex = 2;
+            this.lblVentasTotalesValor.Text = "$ 0,00";
+            // 
+            // lblVentasTotales
+            // 
+            this.lblVentasTotales.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblVentasTotales.Location = new System.Drawing.Point(0, 0);
+            this.lblVentasTotales.Name = "lblVentasTotales";
+            this.lblVentasTotales.Size = new System.Drawing.Size(100, 23);
+            this.lblVentasTotales.TabIndex = 3;
+            this.lblVentasTotales.Text = "Ventas Totales";
+            // 
+            // panelGrafico
+            // 
+            this.panelGrafico.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(230)))), ((int)(((byte)(204)))));
+            this.panelGrafico.Controls.Add(this.tableGraf);
+            this.panelGrafico.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelGrafico.Location = new System.Drawing.Point(0, 245);
+            this.panelGrafico.Name = "panelGrafico";
+            this.panelGrafico.Padding = new System.Windows.Forms.Padding(10);
+            this.panelGrafico.Size = new System.Drawing.Size(1000, 280);
+            this.panelGrafico.TabIndex = 2;
+            // 
+            // tableGraf
+            // 
+            this.tableGraf.ColumnCount = 2;
+            this.tableGraf.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableGraf.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableGraf.Controls.Add(this.chartIngresosMensuales, 0, 0);
+            this.tableGraf.Controls.Add(this.chartVentasPorProducto, 1, 0);
+            this.tableGraf.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableGraf.Location = new System.Drawing.Point(0, 0);
+            this.tableGraf.Margin = new System.Windows.Forms.Padding(0);
+            this.tableGraf.Name = "tableGraf";
+            this.tableGraf.RowCount = 1;
+            this.tableGraf.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableGraf.Size = new System.Drawing.Size(200, 100);
+            this.tableGraf.TabIndex = 0;
+            // 
+            // chartIngresosMensuales
+            // 
+            chartArea7.Name = "MainArea";
+            this.chartIngresosMensuales.ChartAreas.Add(chartArea7);
+            this.chartIngresosMensuales.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend7.Name = "Legend1";
+            this.chartIngresosMensuales.Legends.Add(legend7);
+            this.chartIngresosMensuales.Location = new System.Drawing.Point(3, 3);
+            this.chartIngresosMensuales.MinimumSize = new System.Drawing.Size(300, 250);
+            this.chartIngresosMensuales.Name = "chartIngresosMensuales";
+            series7.ChartArea = "MainArea";
+            series7.Legend = "Legend1";
+            series7.Name = "Series1";
+            this.chartIngresosMensuales.Series.Add(series7);
+            this.chartIngresosMensuales.Size = new System.Drawing.Size(300, 250);
+            this.chartIngresosMensuales.TabIndex = 0;
+            // 
+            // chartVentasPorProducto
+            // 
+            chartArea8.Name = "MainArea";
+            this.chartVentasPorProducto.ChartAreas.Add(chartArea8);
+            this.chartVentasPorProducto.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend8.Name = "Legend1";
+            this.chartVentasPorProducto.Legends.Add(legend8);
+            this.chartVentasPorProducto.Location = new System.Drawing.Point(103, 3);
+            this.chartVentasPorProducto.MinimumSize = new System.Drawing.Size(300, 250);
+            this.chartVentasPorProducto.Name = "chartVentasPorProducto";
+            series8.ChartArea = "MainArea";
+            series8.Legend = "Legend1";
+            series8.Name = "Series1";
+            this.chartVentasPorProducto.Series.Add(series8);
+            this.chartVentasPorProducto.Size = new System.Drawing.Size(300, 250);
+            this.chartVentasPorProducto.TabIndex = 1;
+            // 
+            // panelProductos
+            // 
+            this.panelProductos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(230)))), ((int)(((byte)(204)))));
+            this.panelProductos.Controls.Add(this.dgvTopProductos);
+            this.panelProductos.Controls.Add(this.lblTituloProductos);
+            this.panelProductos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelProductos.Location = new System.Drawing.Point(0, 525);
+            this.panelProductos.Name = "panelProductos";
+            this.panelProductos.Padding = new System.Windows.Forms.Padding(10);
+            this.panelProductos.Size = new System.Drawing.Size(1000, 175);
+            this.panelProductos.TabIndex = 1;
+            // 
+            // dgvTopProductos
+            // 
+            this.dgvTopProductos.BackgroundColor = System.Drawing.Color.White;
+            this.dgvTopProductos.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvTopProductos.ColumnHeadersHeight = 29;
+            this.dgvTopProductos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvTopProductos.Location = new System.Drawing.Point(0, 0);
+            this.dgvTopProductos.Name = "dgvTopProductos";
+            this.dgvTopProductos.ReadOnly = true;
+            this.dgvTopProductos.RowHeadersWidth = 51;
+            this.dgvTopProductos.Size = new System.Drawing.Size(240, 150);
+            this.dgvTopProductos.TabIndex = 0;
+            // 
+            // lblTituloProductos
+            // 
+            this.lblTituloProductos.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblTituloProductos.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
+            this.lblTituloProductos.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(39)))), ((int)(((byte)(35)))));
+            this.lblTituloProductos.Location = new System.Drawing.Point(0, 0);
+            this.lblTituloProductos.Name = "lblTituloProductos";
+            this.lblTituloProductos.Padding = new System.Windows.Forms.Padding(5);
+            this.lblTituloProductos.Size = new System.Drawing.Size(100, 40);
+            this.lblTituloProductos.TabIndex = 1;
+            this.lblTituloProductos.Text = "Top 5 Productos Más Vendidos";
             // 
             // btnCerrar
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCerrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(39)))), ((int)(((byte)(35)))));
             this.btnCerrar.FlatAppearance.BorderSize = 0;
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.Location = new System.Drawing.Point(570, 0);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(0);
+            this.btnCerrar.ForeColor = System.Drawing.Color.White;
+            this.btnCerrar.Location = new System.Drawing.Point(950, 5);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(30, 32);
-            this.btnCerrar.TabIndex = 99;
+            this.btnCerrar.Size = new System.Drawing.Size(45, 35);
+            this.btnCerrar.TabIndex = 0;
             this.btnCerrar.Text = "✕";
-            this.btnCerrar.UseVisualStyleBackColor = true;
+            this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // FormDashboard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(600, 488);
+            this.ClientSize = new System.Drawing.Size(1000, 700);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.panelProductos);
             this.Controls.Add(this.panelGrafico);
@@ -407,25 +465,28 @@ namespace GestionDeVentas.Gerent
             this.Controls.Add(this.panelFiltros);
             this.Controls.Add(this.lblTituloDashboard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormDashboard";
-            this.Text = "FormReporte";
+            this.Text = "Dashboard Gerente";
             this.Load += new System.EventHandler(this.FormDashboard_Load);
+            this.panelFiltros.ResumeLayout(false);
+            this.panelFiltros.PerformLayout();
             this.panelKpis.ResumeLayout(false);
             this.panelClientesNuevos.ResumeLayout(false);
+            this.panelClientesNuevos.PerformLayout();
             this.panelProductosVendidos.ResumeLayout(false);
+            this.panelProductosVendidos.PerformLayout();
             this.panelVentasTotales.ResumeLayout(false);
+            this.panelVentasTotales.PerformLayout();
             this.panelGrafico.ResumeLayout(false);
+            this.tableGraf.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartIngresosMensuales)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartVentasPorProducto)).EndInit();
             this.panelProductos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTopProductos)).EndInit();
-            this.panelFiltros.ResumeLayout(false);
-            this.panelFiltros.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
-        #endregion
+        private System.Windows.Forms.TableLayoutPanel tableGraf;
     }
 }

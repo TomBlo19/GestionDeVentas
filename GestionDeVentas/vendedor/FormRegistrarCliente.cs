@@ -325,7 +325,6 @@ namespace GestionDeVentas.Gerente
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            if (Confirmar("¿Seguro que deseas cerrar esta ventana?", "Cerrar"))
                 this.Close();
         }
     }

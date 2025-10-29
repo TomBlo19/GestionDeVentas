@@ -113,6 +113,8 @@ namespace GestionDeVentas.Admin
             cboFiltroBuscarPor.Items.Clear();
             cboFiltroBuscarPor.Items.Add("Nombre");
             cboFiltroBuscarPor.Items.Add("Código");
+            // ✨ CAMBIO: Se agrega "Marca" a las opciones de búsqueda.
+            cboFiltroBuscarPor.Items.Add("Marca");
             cboFiltroBuscarPor.SelectedIndex = 0;
 
             cmbFiltroCategoria.Items.Clear();
@@ -124,28 +126,16 @@ namespace GestionDeVentas.Admin
             }
             cmbFiltroCategoria.SelectedIndex = 0;
 
-            CargarMarcasFiltro();
+            // ✨ CAMBIO: Se elimina la llamada a CargarMarcasFiltro();
         }
 
-        private void CargarMarcasFiltro()
-        {
-            cmbFiltroMarca.Items.Clear();
-            cmbFiltroMarca.Items.Add("Todas");
-            var marcas = _todosLosProductos
-                .Select(p => p.Marca)
-                .Where(m => !string.IsNullOrEmpty(m))
-                .Distinct()
-                .OrderBy(m => m)
-                .ToList();
-            cmbFiltroMarca.Items.AddRange(marcas.ToArray());
-            cmbFiltroMarca.SelectedIndex = 0;
-        }
+        // ✨ CAMBIO: Se elimina por completo el método CargarMarcasFiltro() que ya no es necesario.
 
         private void ConectarEventosDeFiltro()
         {
             txtFiltroBusqueda.TextChanged += (s, e) => AplicarFiltros();
             cboFiltroBuscarPor.SelectedIndexChanged += (s, e) => AplicarFiltros();
-            cmbFiltroMarca.SelectedIndexChanged += (s, e) => AplicarFiltros();
+            // ✨ CAMBIO: Se elimina la conexión del evento para cmbFiltroMarca.
             cmbFiltroCategoria.SelectedIndexChanged += (s, e) => AplicarFiltros();
         }
 
@@ -165,6 +155,10 @@ namespace GestionDeVentas.Admin
                     case "Código":
                         productosFiltrados = productosFiltrados.Where(p => p.Codigo.ToLower().Contains(textoBusqueda));
                         break;
+                    // ✨ CAMBIO: Se agrega el caso para filtrar por Marca.
+                    case "Marca":
+                        productosFiltrados = productosFiltrados.Where(p => p.Marca != null && p.Marca.ToLower().Contains(textoBusqueda));
+                        break;
                 }
             }
 
@@ -174,11 +168,7 @@ namespace GestionDeVentas.Admin
                 productosFiltrados = productosFiltrados.Where(p => p.IdCategoria == categoriaSeleccionada.Value);
             }
 
-            var marcaSeleccionada = cmbFiltroMarca.SelectedItem?.ToString();
-            if (marcaSeleccionada != "Todas" && !string.IsNullOrEmpty(marcaSeleccionada))
-            {
-                productosFiltrados = productosFiltrados.Where(p => p.Marca == marcaSeleccionada);
-            }
+            // ✨ CAMBIO: Se elimina el bloque de código que filtraba usando el ComboBox de marca.
 
             CargarProductosEnDGV(productosFiltrados.ToList());
         }

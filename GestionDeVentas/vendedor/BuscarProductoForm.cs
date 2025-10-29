@@ -25,7 +25,7 @@ namespace GestionDeVentas
         public class ProductoInfo
         {
             public string Nombre { get; set; }
-            public string Marca { get; set; } // Propiedad cambiada de TalleNombre a Marca
+            public string Marca { get; set; }
             public string Codigo { get; set; }
             public decimal Precio { get; set; }
             public int StockDisponible { get; set; }
@@ -54,6 +54,8 @@ namespace GestionDeVentas
             cboBuscarPor.Items.Clear();
             cboBuscarPor.Items.Add("Nombre");
             cboBuscarPor.Items.Add("Código");
+            // ✨ CAMBIO: Se agrega "Marca" como nueva opción de búsqueda.
+            cboBuscarPor.Items.Add("Marca");
             cboBuscarPor.SelectedIndex = 0;
 
             var categorias = todosLosProductosActivos
@@ -67,23 +69,11 @@ namespace GestionDeVentas
             cmbCategoria.Items.AddRange(categorias.ToArray());
             cmbCategoria.SelectedIndex = 0;
 
-            // Configurar desplegable de Marcas
-            var marcas = todosLosProductosActivos
-                .Select(p => p.Marca)
-                .Where(m => !string.IsNullOrEmpty(m))
-                .Distinct()
-                .OrderBy(m => m)
-                .ToList();
-
-            cmbMarca.Items.Clear();
-            cmbMarca.Items.Add("Todas");
-            cmbMarca.Items.AddRange(marcas.ToArray());
-            cmbMarca.SelectedIndex = 0;
+            // ✨ CAMBIO: Se elimina por completo el bloque de código que configuraba el ComboBox de Marcas.
         }
 
         private void cmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // El filtro de marca es independiente de la categoría, solo aplicamos filtros.
             AplicarFiltros();
         }
 
@@ -93,18 +83,24 @@ namespace GestionDeVentas
 
             IEnumerable<Producto> productosFiltrados = todosLosProductosActivos;
 
-            // 1. Filtro por Nombre o Código
+            // 1. Filtro por Nombre, Código o Marca
             string terminoBusqueda = txtBusqueda.Text.Trim().ToLowerInvariant();
             if (!string.IsNullOrEmpty(terminoBusqueda) && cboBuscarPor.SelectedItem != null)
             {
                 string criterio = cboBuscarPor.SelectedItem.ToString();
-                if (criterio == "Nombre")
+
+                // ✨ CAMBIO: Se reemplaza el if/else por un switch para incluir la nueva opción "Marca".
+                switch (criterio)
                 {
-                    productosFiltrados = productosFiltrados.Where(p => p.Nombre.ToLowerInvariant().Contains(terminoBusqueda));
-                }
-                else // Código
-                {
-                    productosFiltrados = productosFiltrados.Where(p => p.Codigo.ToLowerInvariant().Contains(terminoBusqueda));
+                    case "Nombre":
+                        productosFiltrados = productosFiltrados.Where(p => p.Nombre.ToLowerInvariant().Contains(terminoBusqueda));
+                        break;
+                    case "Código":
+                        productosFiltrados = productosFiltrados.Where(p => p.Codigo.ToLowerInvariant().Contains(terminoBusqueda));
+                        break;
+                    case "Marca":
+                        productosFiltrados = productosFiltrados.Where(p => p.Marca != null && p.Marca.ToLowerInvariant().Contains(terminoBusqueda));
+                        break;
                 }
             }
 
@@ -118,22 +114,14 @@ namespace GestionDeVentas
                 }
             }
 
-            // 3. Filtro por Marca (reemplaza el de Talle)
-            if (cmbMarca.SelectedItem != null)
-            {
-                string marcaSeleccionada = cmbMarca.SelectedItem.ToString();
-                if (marcaSeleccionada != "Todas")
-                {
-                    productosFiltrados = productosFiltrados.Where(p => p.Marca == marcaSeleccionada);
-                }
-            }
+            // ✨ CAMBIO: Se elimina el bloque de código que filtraba por el ComboBox de Marcas.
 
             var datosParaMostrar = productosFiltrados.Select(p => new
             {
                 ID = p.Id,
                 p.Codigo,
                 p.Nombre,
-                p.Marca, // Propiedad cambiada
+                p.Marca,
                 p.Precio,
                 p.Stock
             }).ToList();
@@ -154,7 +142,7 @@ namespace GestionDeVentas
             txtBusqueda.Clear();
             cboBuscarPor.SelectedIndex = 0;
             cmbCategoria.SelectedIndex = 0;
-            cmbMarca.SelectedIndex = 0; // Limpiar también el filtro de marca
+            // ✨ CAMBIO: Se elimina la limpieza del ComboBox de Marcas.
             AplicarFiltros();
         }
 
@@ -172,7 +160,7 @@ namespace GestionDeVentas
             {
                 Codigo = row.Cells["Codigo"].Value.ToString(),
                 Nombre = row.Cells["Nombre"].Value.ToString(),
-                Marca = row.Cells["Marca"].Value?.ToString(), // Propiedad cambiada
+                Marca = row.Cells["Marca"].Value?.ToString(),
                 Precio = Convert.ToDecimal(row.Cells["Precio"].Value),
                 StockDisponible = Convert.ToInt32(row.Cells["Stock"].Value)
             };

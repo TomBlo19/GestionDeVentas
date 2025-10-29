@@ -14,17 +14,6 @@
 
         private void InitializeComponent()
         {
-            // Definición de la Paleta de Colores
-            System.Drawing.Color marronOscuro = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(40)))));
-            System.Drawing.Color marronMedio = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(120)))), ((int)(((byte)(100)))));
-            System.Drawing.Color cremaFondo = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(240)))), ((int)(((byte)(230)))));
-            System.Drawing.Color textoOscuro = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            System.Drawing.Color cremaBordes = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(210)))), ((int)(((byte)(190)))));
-
-            System.Windows.Forms.DataGridViewCellStyle dgvHeaderStyle = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dgvDefaultStyle = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dgvAlternatingStyle = new System.Windows.Forms.DataGridViewCellStyle();
-
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -79,7 +68,7 @@
             // 
             // lblTitulo
             // 
-            this.lblTitulo.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro
+            this.lblTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.lblTitulo.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTitulo.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.ForeColor = System.Drawing.Color.White;
@@ -95,7 +84,6 @@
             // 
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblNombre.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblNombre.Location = new System.Drawing.Point(50, 80);
             this.lblNombre.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNombre.Name = "lblNombre";
@@ -114,7 +102,7 @@
             // lblErrorNombre
             // 
             this.lblErrorNombre.AutoSize = true;
-            this.lblErrorNombre.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblErrorNombre.ForeColor = System.Drawing.Color.Red;
             this.lblErrorNombre.Location = new System.Drawing.Point(53, 125);
             this.lblErrorNombre.Name = "lblErrorNombre";
             this.lblErrorNombre.Size = new System.Drawing.Size(10, 13);
@@ -125,7 +113,6 @@
             // 
             this.lblEmpresa.AutoSize = true;
             this.lblEmpresa.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblEmpresa.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblEmpresa.Location = new System.Drawing.Point(300, 80);
             this.lblEmpresa.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmpresa.Name = "lblEmpresa";
@@ -144,7 +131,7 @@
             // lblErrorEmpresa
             // 
             this.lblErrorEmpresa.AutoSize = true;
-            this.lblErrorEmpresa.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblErrorEmpresa.ForeColor = System.Drawing.Color.Red;
             this.lblErrorEmpresa.Location = new System.Drawing.Point(303, 125);
             this.lblErrorEmpresa.Name = "lblErrorEmpresa";
             this.lblErrorEmpresa.Size = new System.Drawing.Size(10, 13);
@@ -155,7 +142,6 @@
             // 
             this.lblCuit.AutoSize = true;
             this.lblCuit.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblCuit.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblCuit.Location = new System.Drawing.Point(50, 140);
             this.lblCuit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCuit.Name = "lblCuit";
@@ -174,7 +160,7 @@
             // lblErrorCuit
             // 
             this.lblErrorCuit.AutoSize = true;
-            this.lblErrorCuit.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblErrorCuit.ForeColor = System.Drawing.Color.Red;
             this.lblErrorCuit.Location = new System.Drawing.Point(53, 185);
             this.lblErrorCuit.Name = "lblErrorCuit";
             this.lblErrorCuit.Size = new System.Drawing.Size(10, 13);
@@ -185,7 +171,6 @@
             // 
             this.lblTelefono.AutoSize = true;
             this.lblTelefono.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblTelefono.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblTelefono.Location = new System.Drawing.Point(300, 140);
             this.lblTelefono.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTelefono.Name = "lblTelefono";
@@ -204,7 +189,7 @@
             // lblErrorTelefono
             // 
             this.lblErrorTelefono.AutoSize = true;
-            this.lblErrorTelefono.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblErrorTelefono.ForeColor = System.Drawing.Color.Red;
             this.lblErrorTelefono.Location = new System.Drawing.Point(303, 185);
             this.lblErrorTelefono.Name = "lblErrorTelefono";
             this.lblErrorTelefono.Size = new System.Drawing.Size(10, 13);
@@ -215,7 +200,6 @@
             // 
             this.lblDireccion.AutoSize = true;
             this.lblDireccion.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblDireccion.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblDireccion.Location = new System.Drawing.Point(50, 200);
             this.lblDireccion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDireccion.Name = "lblDireccion";
@@ -228,13 +212,13 @@
             this.txtDireccion.Font = new System.Drawing.Font("Arial", 9.75F);
             this.txtDireccion.Location = new System.Drawing.Point(53, 220);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(200, 22); // Ajustado para coincidir con la fila
+            this.txtDireccion.Size = new System.Drawing.Size(450, 22);
             this.txtDireccion.TabIndex = 14;
             // 
             // lblErrorDireccion
             // 
             this.lblErrorDireccion.AutoSize = true;
-            this.lblErrorDireccion.ForeColor = System.Drawing.Color.Firebrick;
+            this.lblErrorDireccion.ForeColor = System.Drawing.Color.Red;
             this.lblErrorDireccion.Location = new System.Drawing.Point(53, 245);
             this.lblErrorDireccion.Name = "lblErrorDireccion";
             this.lblErrorDireccion.Size = new System.Drawing.Size(10, 13);
@@ -245,41 +229,36 @@
             // 
             this.lblPais.AutoSize = true;
             this.lblPais.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblPais.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
-            this.lblPais.Location = new System.Drawing.Point(300, 260); // Cambio de posición
+            this.lblPais.Location = new System.Drawing.Point(50, 260);
             this.lblPais.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPais.Name = "lblPais";
             this.lblPais.Size = new System.Drawing.Size(41, 17);
             this.lblPais.TabIndex = 16;
             this.lblPais.Text = "País:";
-            this.lblPais.Visible = false; // El ejemplo solo muestra 'Ciudad' dos veces, ocultamos País y usamos Ciudad en su lugar.
             // 
             // txtPais
             // 
             this.txtPais.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.txtPais.Location = new System.Drawing.Point(303, 280); // Cambio de posición
+            this.txtPais.Location = new System.Drawing.Point(53, 280);
             this.txtPais.Name = "txtPais";
             this.txtPais.Size = new System.Drawing.Size(200, 22);
             this.txtPais.TabIndex = 17;
-            this.txtPais.Visible = false;
             // 
             // lblErrorPais
             // 
             this.lblErrorPais.AutoSize = true;
             this.lblErrorPais.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorPais.Location = new System.Drawing.Point(303, 305);
+            this.lblErrorPais.Location = new System.Drawing.Point(53, 305);
             this.lblErrorPais.Name = "lblErrorPais";
             this.lblErrorPais.Size = new System.Drawing.Size(10, 13);
             this.lblErrorPais.TabIndex = 18;
             this.lblErrorPais.Text = " ";
-            this.lblErrorPais.Visible = false;
             // 
             // lblCiudad
             // 
             this.lblCiudad.AutoSize = true;
             this.lblCiudad.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblCiudad.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
-            this.lblCiudad.Location = new System.Drawing.Point(300, 200); // Cambio de posición, moviendo el segundo campo de dirección a Ciudad
+            this.lblCiudad.Location = new System.Drawing.Point(300, 260);
             this.lblCiudad.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCiudad.Name = "lblCiudad";
             this.lblCiudad.Size = new System.Drawing.Size(58, 17);
@@ -289,7 +268,7 @@
             // txtCiudad
             // 
             this.txtCiudad.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.txtCiudad.Location = new System.Drawing.Point(303, 220); // Cambio de posición
+            this.txtCiudad.Location = new System.Drawing.Point(303, 280);
             this.txtCiudad.Name = "txtCiudad";
             this.txtCiudad.Size = new System.Drawing.Size(200, 22);
             this.txtCiudad.TabIndex = 20;
@@ -298,7 +277,7 @@
             // 
             this.lblErrorCiudad.AutoSize = true;
             this.lblErrorCiudad.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorCiudad.Location = new System.Drawing.Point(303, 245);
+            this.lblErrorCiudad.Location = new System.Drawing.Point(303, 305);
             this.lblErrorCiudad.Name = "lblErrorCiudad";
             this.lblErrorCiudad.Size = new System.Drawing.Size(10, 13);
             this.lblErrorCiudad.TabIndex = 21;
@@ -308,7 +287,6 @@
             // 
             this.lblCorreo.AutoSize = true;
             this.lblCorreo.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblCorreo.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblCorreo.Location = new System.Drawing.Point(550, 80);
             this.lblCorreo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCorreo.Name = "lblCorreo";
@@ -321,7 +299,7 @@
             this.txtCorreo.Font = new System.Drawing.Font("Arial", 9.75F);
             this.txtCorreo.Location = new System.Drawing.Point(553, 100);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(200, 22); // Ajustado para coincidir con la fila
+            this.txtCorreo.Size = new System.Drawing.Size(250, 22);
             this.txtCorreo.TabIndex = 23;
             // 
             // lblErrorCorreo
@@ -336,7 +314,7 @@
             // 
             // btnRegistrar
             // 
-            this.btnRegistrar.BackColor = marronMedio; // CAMBIO: Marrón de acento
+            this.btnRegistrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnRegistrar.FlatAppearance.BorderSize = 0;
             this.btnRegistrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegistrar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
@@ -358,7 +336,7 @@
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvProveedores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvProveedores.BackgroundColor = cremaFondo; // CAMBIO: Fondo Crema
+            this.dgvProveedores.BackgroundColor = System.Drawing.Color.White;
             this.dgvProveedores.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvProveedores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvProveedores.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -372,23 +350,6 @@
             this.colCiudad,
             this.colCorreo,
             this.colEstado});
-            // Estilos de la cabecera del DataGridView
-            dgvHeaderStyle.BackColor = marronMedio; // CAMBIO: Marrón Medio
-            dgvHeaderStyle.ForeColor = System.Drawing.Color.White;
-            dgvHeaderStyle.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.dgvProveedores.ColumnHeadersDefaultCellStyle = dgvHeaderStyle;
-            this.dgvProveedores.EnableHeadersVisualStyles = false;
-
-            // Estilos de las celdas (Rayado)
-            dgvDefaultStyle.BackColor = System.Drawing.Color.White; // Fila principal
-            dgvDefaultStyle.ForeColor = textoOscuro;
-            dgvDefaultStyle.SelectionBackColor = marronMedio; // Color de selección
-            dgvDefaultStyle.SelectionForeColor = System.Drawing.Color.White;
-            this.dgvProveedores.DefaultCellStyle = dgvDefaultStyle;
-
-            dgvAlternatingStyle.BackColor = cremaFondo; // Fila alterna (para simular el rayado)
-            this.dgvProveedores.AlternatingRowsDefaultCellStyle = dgvAlternatingStyle;
-
             this.dgvProveedores.Location = new System.Drawing.Point(12, 436);
             this.dgvProveedores.Name = "dgvProveedores";
             this.dgvProveedores.ReadOnly = true;
@@ -476,7 +437,7 @@
             // 
             // btnEditar
             // 
-            this.btnEditar.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro (Botón principal para guardar)
+            this.btnEditar.BackColor = System.Drawing.Color.DodgerBlue;
             this.btnEditar.FlatAppearance.BorderSize = 0;
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
@@ -492,7 +453,7 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.BackColor = marronMedio; // CAMBIO: Marrón de acento (Botón secundario)
+            this.btnLimpiar.BackColor = System.Drawing.Color.Gray;
             this.btnLimpiar.FlatAppearance.BorderSize = 0;
             this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
@@ -508,14 +469,14 @@
             // btnCerrar
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro para integrarse al título
+            this.btnCerrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.btnCerrar.FlatAppearance.BorderSize = 0;
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
-            this.btnCerrar.Location = new System.Drawing.Point(800, 0); // CORRECCIÓN: Y=0 para pegarlo al tope
+            this.btnCerrar.Location = new System.Drawing.Point(798, 12);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(40, 50); // Ajustar tamaño para cubrir el alto del título
+            this.btnCerrar.Size = new System.Drawing.Size(30, 26);
             this.btnCerrar.TabIndex = 30;
             this.btnCerrar.Text = "X";
             this.btnCerrar.UseVisualStyleBackColor = false;
@@ -523,7 +484,7 @@
             // 
             // btnActivar
             // 
-            this.btnActivar.BackColor = System.Drawing.Color.ForestGreen; // Mantenemos el color de activación
+            this.btnActivar.BackColor = System.Drawing.Color.ForestGreen;
             this.btnActivar.FlatAppearance.BorderSize = 0;
             this.btnActivar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnActivar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
@@ -538,7 +499,7 @@
             // 
             // btnDesactivar
             // 
-            this.btnDesactivar.BackColor = System.Drawing.Color.Red; // Mantenemos el color de desactivación/peligro
+            this.btnDesactivar.BackColor = System.Drawing.Color.Red;
             this.btnDesactivar.FlatAppearance.BorderSize = 0;
             this.btnDesactivar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesactivar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
@@ -570,7 +531,6 @@
             this.lblFiltrarEstado.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFiltrarEstado.AutoSize = true;
             this.lblFiltrarEstado.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblFiltrarEstado.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblFiltrarEstado.Location = new System.Drawing.Point(593, 16);
             this.lblFiltrarEstado.Name = "lblFiltrarEstado";
             this.lblFiltrarEstado.Size = new System.Drawing.Size(58, 17);
@@ -612,7 +572,6 @@
             // 
             this.lblBuscar.AutoSize = true;
             this.lblBuscar.Font = new System.Drawing.Font("Arial", 11.25F);
-            this.lblBuscar.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblBuscar.Location = new System.Drawing.Point(3, 16);
             this.lblBuscar.Name = "lblBuscar";
             this.lblBuscar.Size = new System.Drawing.Size(86, 17);
@@ -623,7 +582,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = cremaFondo; // CAMBIO: Fondo principal Crema
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(840, 670);
             this.ControlBox = false;
             this.Controls.Add(this.panelFiltros);

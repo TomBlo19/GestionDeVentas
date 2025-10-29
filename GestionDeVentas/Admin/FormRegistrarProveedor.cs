@@ -72,7 +72,7 @@ namespace GestionDeVentas.Gerente
             cboFiltrarEstado.Items.Add("Todos");
             cboFiltrarEstado.Items.Add("Activos");
             cboFiltrarEstado.Items.Add("Inactivos");
-            
+
             cboFiltrarEstado.SelectedIndex = 0;
         }
 

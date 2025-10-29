@@ -172,7 +172,7 @@ namespace GestionDeVentas.Vendedor
             dgvDetalle.Rows.Add(
                 p.Codigo.ToString(),
                 p.Nombre,
-                p.TalleNombre,
+                p.Marca,
                 cantidad,
                 p.Precio.ToString("N2"),
                 (cantidad * p.Precio).ToString("C")

@@ -28,6 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            // Definición de la Paleta de Colores (Coherente)
+            System.Drawing.Color marronOscuro = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(40)))));
+            System.Drawing.Color marronMedio = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(120)))), ((int)(((byte)(100)))));
+            System.Drawing.Color cremaFondo = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(240)))), ((int)(((byte)(230)))));
+            System.Drawing.Color textoOscuro = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+
+            System.Windows.Forms.DataGridViewCellStyle dgvHeaderStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dgvDefaultStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dgvAlternatingStyle = new System.Windows.Forms.DataGridViewCellStyle();
+
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
@@ -78,7 +88,7 @@
             // 
             // lblTitulo
             // 
-            this.lblTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.lblTitulo.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro
             this.lblTitulo.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTitulo.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold);
             this.lblTitulo.ForeColor = System.Drawing.Color.White;
@@ -92,7 +102,8 @@
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblNombre.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold); // CAMBIO: Negrita para etiquetas
+            this.lblNombre.ForeColor = textoOscuro;
             this.lblNombre.Location = new System.Drawing.Point(67, 98);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(83, 22);
@@ -110,7 +121,7 @@
             // lblErrorNombre
             // 
             this.lblErrorNombre.AutoSize = true;
-            this.lblErrorNombre.ForeColor = System.Drawing.Color.Red;
+            this.lblErrorNombre.ForeColor = System.Drawing.Color.Firebrick;
             this.lblErrorNombre.Location = new System.Drawing.Point(71, 151);
             this.lblErrorNombre.Name = "lblErrorNombre";
             this.lblErrorNombre.Size = new System.Drawing.Size(10, 16);
@@ -120,7 +131,8 @@
             // lblApellido
             // 
             this.lblApellido.AutoSize = true;
-            this.lblApellido.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblApellido.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold); // CAMBIO: Negrita para etiquetas
+            this.lblApellido.ForeColor = textoOscuro;
             this.lblApellido.Location = new System.Drawing.Point(400, 98);
             this.lblApellido.Name = "lblApellido";
             this.lblApellido.Size = new System.Drawing.Size(84, 22);
@@ -148,7 +160,8 @@
             // lblDni
             // 
             this.lblDni.AutoSize = true;
-            this.lblDni.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblDni.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold); // CAMBIO: Negrita para etiquetas
+            this.lblDni.ForeColor = textoOscuro;
             this.lblDni.Location = new System.Drawing.Point(67, 172);
             this.lblDni.Name = "lblDni";
             this.lblDni.Size = new System.Drawing.Size(48, 22);
@@ -176,7 +189,8 @@
             // lblTelefono
             // 
             this.lblTelefono.AutoSize = true;
-            this.lblTelefono.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblTelefono.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold); // CAMBIO: Negrita para etiquetas
+            this.lblTelefono.ForeColor = textoOscuro;
             this.lblTelefono.Location = new System.Drawing.Point(400, 172);
             this.lblTelefono.Name = "lblTelefono";
             this.lblTelefono.Size = new System.Drawing.Size(89, 22);
@@ -204,7 +218,8 @@
             // lblDireccion
             // 
             this.lblDireccion.AutoSize = true;
-            this.lblDireccion.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblDireccion.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold); // CAMBIO: Negrita para etiquetas
+            this.lblDireccion.ForeColor = textoOscuro;
             this.lblDireccion.Location = new System.Drawing.Point(67, 246);
             this.lblDireccion.Name = "lblDireccion";
             this.lblDireccion.Size = new System.Drawing.Size(95, 22);
@@ -232,7 +247,8 @@
             // lblPais
             // 
             this.lblPais.AutoSize = true;
-            this.lblPais.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblPais.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold); // CAMBIO: Negrita para etiquetas
+            this.lblPais.ForeColor = textoOscuro;
             this.lblPais.Location = new System.Drawing.Point(67, 320);
             this.lblPais.Name = "lblPais";
             this.lblPais.Size = new System.Drawing.Size(54, 22);
@@ -260,7 +276,8 @@
             // lblCiudad
             // 
             this.lblCiudad.AutoSize = true;
-            this.lblCiudad.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblCiudad.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold); // CAMBIO: Negrita para etiquetas
+            this.lblCiudad.ForeColor = textoOscuro;
             this.lblCiudad.Location = new System.Drawing.Point(400, 320);
             this.lblCiudad.Name = "lblCiudad";
             this.lblCiudad.Size = new System.Drawing.Size(75, 22);
@@ -288,7 +305,8 @@
             // lblCorreo
             // 
             this.lblCorreo.AutoSize = true;
-            this.lblCorreo.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblCorreo.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold); // CAMBIO: Negrita para etiquetas
+            this.lblCorreo.ForeColor = textoOscuro;
             this.lblCorreo.Location = new System.Drawing.Point(67, 394);
             this.lblCorreo.Name = "lblCorreo";
             this.lblCorreo.Size = new System.Drawing.Size(167, 22);
@@ -315,7 +333,7 @@
             // 
             // btnRegistrar
             // 
-            this.btnRegistrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnRegistrar.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro (Principal)
             this.btnRegistrar.FlatAppearance.BorderSize = 0;
             this.btnRegistrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegistrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
@@ -338,7 +356,16 @@
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvClientes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvClientes.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvClientes.BackgroundColor = System.Drawing.Color.White; // CAMBIO: Blanco (el fondo del form es Crema)
+            this.dgvClientes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+
+            // Estilo de la Cabecera (DataGridView)
+            dgvHeaderStyle.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro
+            dgvHeaderStyle.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            dgvHeaderStyle.ForeColor = System.Drawing.Color.White; // Texto Blanco
+            dgvHeaderStyle.SelectionBackColor = marronMedio;
+            this.dgvClientes.ColumnHeadersDefaultCellStyle = dgvHeaderStyle;
+            this.dgvClientes.EnableHeadersVisualStyles = false;
             this.dgvClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClientes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colId,
@@ -351,6 +378,17 @@
             this.colCiudad,
             this.colCorreo,
             this.colEstado});
+
+            // Estilo de las filas
+            dgvDefaultStyle.BackColor = System.Drawing.Color.White; // Fila impar: Blanco
+            dgvDefaultStyle.ForeColor = textoOscuro; // Texto Oscuro
+            dgvDefaultStyle.SelectionBackColor = marronMedio; // Selección Marrón Medio
+            dgvDefaultStyle.SelectionForeColor = System.Drawing.Color.White;
+            this.dgvClientes.DefaultCellStyle = dgvDefaultStyle;
+
+            dgvAlternatingStyle.BackColor = cremaFondo; // Fila alterna: Crema
+            this.dgvClientes.AlternatingRowsDefaultCellStyle = dgvAlternatingStyle;
+
             this.dgvClientes.Location = new System.Drawing.Point(13, 589);
             this.dgvClientes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvClientes.Name = "dgvClientes";
@@ -434,7 +472,7 @@
             // 
             // btnEditar
             // 
-            this.btnEditar.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnEditar.BackColor = marronMedio; // CAMBIO: Marrón Medio (Acción Secundaria)
             this.btnEditar.FlatAppearance.BorderSize = 0;
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
@@ -444,14 +482,14 @@
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(200, 49);
             this.btnEditar.TabIndex = 27;
-            this.btnEditar.Text = "Editar Cliente";
+            this.btnEditar.Text = "Guardar Cambios";
             this.btnEditar.UseVisualStyleBackColor = false;
             this.btnEditar.Visible = false;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.BackColor = System.Drawing.Color.Gray;
+            this.btnLimpiar.BackColor = marronMedio; // CAMBIO: Marrón Medio (Acción Secundaria)
             this.btnLimpiar.FlatAppearance.BorderSize = 0;
             this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
@@ -468,15 +506,15 @@
             // btnCerrar
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.BackColor = System.Drawing.Color.White;
+            this.btnCerrar.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro para integrarse al título
             this.btnCerrar.FlatAppearance.BorderSize = 0;
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.ForeColor = System.Drawing.Color.Black;
-            this.btnCerrar.Location = new System.Drawing.Point(1015, 12);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCerrar.ForeColor = System.Drawing.Color.White;
+            this.btnCerrar.Location = new System.Drawing.Point(1027, 0); // CORRECCIÓN: Y=0 para integrarse
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(0);
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(40, 32);
+            this.btnCerrar.Size = new System.Drawing.Size(40, 62); // Altura igual al título
             this.btnCerrar.TabIndex = 30;
             this.btnCerrar.Text = "X";
             this.btnCerrar.UseVisualStyleBackColor = false;
@@ -485,7 +523,8 @@
             // lblBuscarPor
             // 
             this.lblBuscarPor.AutoSize = true;
-            this.lblBuscarPor.Font = new System.Drawing.Font("Arial", 11.25F);
+            this.lblBuscarPor.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold);
+            this.lblBuscarPor.ForeColor = textoOscuro;
             this.lblBuscarPor.Location = new System.Drawing.Point(13, 555);
             this.lblBuscarPor.Name = "lblBuscarPor";
             this.lblBuscarPor.Size = new System.Drawing.Size(108, 22);
@@ -511,7 +550,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnBuscar.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro (Botón de acción de filtro)
             this.btnBuscar.FlatAppearance.BorderSize = 0;
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
@@ -526,7 +565,7 @@
             // 
             // btnLimpiarBusqueda
             // 
-            this.btnLimpiarBusqueda.BackColor = System.Drawing.Color.OrangeRed;
+            this.btnLimpiarBusqueda.BackColor = marronMedio; // CAMBIO: Marrón Medio (Acción secundaria de filtro)
             this.btnLimpiarBusqueda.FlatAppearance.BorderSize = 0;
             this.btnLimpiarBusqueda.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiarBusqueda.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
@@ -543,6 +582,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = cremaFondo; // CAMBIO: Fondo principal Crema
             this.ClientSize = new System.Drawing.Size(1067, 788);
             this.ControlBox = false;
             this.Controls.Add(this.btnLimpiarBusqueda);

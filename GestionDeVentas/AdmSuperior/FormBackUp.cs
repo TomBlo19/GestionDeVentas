@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
-using GestionDeVentas.Datos; // Importa tu clase de conexión
+using GestionDeVentas.Datos;
 
 namespace GestionDeVentas.AdmSuperior
 {
     public partial class FormBackup : Form
     {
-        private string defaultSourceFolder = Path.Combine(Application.StartupPath, "Data");
+        private string ultimaRutaBackup = string.Empty;
 
         public FormBackup()
         {
@@ -18,214 +19,207 @@ namespace GestionDeVentas.AdmSuperior
 
         private void FormBackup_Load(object sender, EventArgs e)
         {
-            if (Directory.Exists(defaultSourceFolder))
-                txtCarpetaOrigen.Text = defaultSourceFolder;
+            ValidarConexion();
+            CargarUltimoBackup();
         }
 
-        // --- ELEGIR CARPETA A RESPALDAR ---
-        private void btnElegirOrigen_Click(object sender, EventArgs e)
-        {
-            using (var dlg = new FolderBrowserDialog())
-            {
-                dlg.Description = "Selecciona la carpeta a respaldar (archivos, imágenes, etc.)";
-                if (dlg.ShowDialog() == DialogResult.OK)
-                    txtCarpetaOrigen.Text = dlg.SelectedPath;
-            }
-        }
-
-        // --- BACKUP DE ARCHIVOS DEL SISTEMA (.ZIP) ---
-        private void btnCrearBackup_Click(object sender, EventArgs e)
+        // --- Verifica si la conexión a la BD funciona ---
+        private void ValidarConexion()
         {
             try
             {
-                string source = txtCarpetaOrigen.Text?.Trim();
-                if (string.IsNullOrWhiteSpace(source) || !Directory.Exists(source))
-                {
-                    MessageBox.Show("Selecciona una carpeta de origen válida.", "BackUp",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string carpetaDestino = @"C:\Backups_TYV";
-
-                Directory.CreateDirectory(carpetaDestino);
-
-                string rutaZip = Path.Combine(carpetaDestino, $"Backup_TYV_{DateTime.Now:yyyyMMdd_HHmm}.zip");
-
-                if (File.Exists(rutaZip))
-                    File.Delete(rutaZip);
-
-                ZipFile.CreateFromDirectory(source, rutaZip, CompressionLevel.Optimal, includeBaseDirectory: true);
-
-                MessageBox.Show($"✅ Backup de archivos creado correctamente:\n{rutaZip}",
-                    "BackUp", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creando el BackUp:\n" + ex.Message,
-                    "BackUp", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        // --- BACKUP DE BASE DE DATOS SQL SERVER (.BAK) ---
-        private void btnBackupBD_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // 📂 Carpeta de destino del backup (SQL Server tiene permiso en C:\)
-                string carpetaDestino = @"C:\Backups_TYV";
-                if (!Directory.Exists(carpetaDestino))
-                    Directory.CreateDirectory(carpetaDestino);
-
-                // 📄 Nombre del archivo con fecha y hora
-                string nombreArchivo = $"bd_BarberoBolo_{DateTime.Now:yyyyMMdd_HHmm}.bak";
-                string rutaBackup = Path.Combine(carpetaDestino, nombreArchivo);
-
                 using (SqlConnection conn = ConexionBD.ObtenerConexion())
                 {
                     conn.Open();
+                    
+                }
+            }
+            catch
+            {
+                
+            }
+        }
 
-                    // Cambiamos a master antes del backup
-                    using (SqlCommand cmdUse = new SqlCommand("USE master;", conn))
+        // --- Muestra la información del último backup ---
+        private void CargarUltimoBackup()
+        {
+            try
+            {
+                using (SqlConnection conn = ConexionBD.ObtenerConexion())
+                {
+                    conn.Open();
+                    string query = "IF OBJECT_ID('backup_logs') IS NOT NULL SELECT TOP 1 ruta, fecha_backup FROM backup_logs ORDER BY fecha_backup DESC";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        cmdUse.ExecuteNonQuery();
-                    }
+                        if (dr.Read())
+                        {
+                            ultimaRutaBackup = dr.GetString(0);
+                            DateTime fecha = dr.GetDateTime(1);
 
-                    // Comando SQL que crea el backup
-                    string query = $@"
+                            string infoArchivo = File.Exists(ultimaRutaBackup)
+                                ? $"{new FileInfo(ultimaRutaBackup).Length / 1024 / 1024.0:F2} MB"
+                                : "archivo no encontrado";
+
+                            lblUltimoBackup.Text =
+                                $"🕒 Último backup: {fecha:dd/MM/yyyy HH:mm}\n📁 Archivo: {Path.GetFileName(ultimaRutaBackup)} ({infoArchivo})";
+                            btnAbrirCarpeta.Enabled = true;
+                        }
+                        else
+                        {
+                            lblUltimoBackup.Text = "🕒 Último backup: sin registros";
+                            btnAbrirCarpeta.Enabled = false;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                lblUltimoBackup.Text = "🕒 Último backup: sin registros";
+                btnAbrirCarpeta.Enabled = false;
+            }
+        }
+
+        // --- Permite seleccionar la carpeta de destino ---
+        private void btnElegirDestino_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new FolderBrowserDialog())
+            {
+                dlg.Description = "Selecciona la carpeta donde se guardará el backup (.bak/.zip)";
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    txtDestino.Text = dlg.SelectedPath;
+            }
+        }
+
+        // --- Ejecuta el backup de la BD ---
+        private void btnBackupBD_Click(object sender, EventArgs e)
+        {
+            SqlConnection conn = null;
+            try
+            {
+                // Carpeta de destino
+                string carpetaDestino = string.IsNullOrWhiteSpace(txtDestino.Text)
+                    ? @"C:\Backups_TYV"
+                    : txtDestino.Text;
+
+                if (!Directory.Exists(carpetaDestino))
+                    Directory.CreateDirectory(carpetaDestino);
+
+                // Prueba de escritura
+                string test = Path.Combine(carpetaDestino, "test.txt");
+                File.WriteAllText(test, "test");
+                File.Delete(test);
+
+                // Nombre del archivo
+                string nombreArchivo = $"bd_BarberoBolo_{DateTime.Now:yyyyMMdd_HHmm}.bak";
+                string rutaBackup = Path.Combine(carpetaDestino, nombreArchivo);
+
+                conn = ConexionBD.ObtenerConexion();
+                conn.Open();
+
+                // Crear tabla de logs si no existe
+                string createTable = @"
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='backup_logs' AND xtype='U')
+                CREATE TABLE backup_logs (
+                    id_log INT IDENTITY(1,1) PRIMARY KEY,
+                    fecha_backup DATETIME NOT NULL,
+                    usuario NVARCHAR(100),
+                    ruta NVARCHAR(400),
+                    estado NVARCHAR(50),
+                    mensaje NVARCHAR(MAX)
+                );";
+                new SqlCommand(createTable, conn).ExecuteNonQuery();
+
+                // Cambiar al contexto master antes del backup
+                new SqlCommand("USE master;", conn).ExecuteNonQuery();
+
+                // --- Comando compatible con SQL Server Express (sin COMPRESSION) ---
+                string query = $@"
                 BACKUP DATABASE bd_BarberoBolo
                 TO DISK = '{rutaBackup}'
                 WITH INIT, FORMAT, NAME = 'Backup TYV CLOTHES';";
+                new SqlCommand(query, conn).ExecuteNonQuery();
 
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
+                // Crear ZIP adicional
+                string rutaZip = Path.Combine(
+                    carpetaDestino,
+                    Path.GetFileNameWithoutExtension(nombreArchivo) + ".zip");
+
+                using (FileStream zipToOpen = new FileStream(rutaZip, FileMode.Create))
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                {
+                    archive.CreateEntryFromFile(rutaBackup, Path.GetFileName(rutaBackup));
                 }
 
-                MessageBox.Show($"✅ Backup de base de datos completado correctamente:\n{rutaBackup}",
+                // Volver al contexto original para registrar el log
+                new SqlCommand("USE bd_BarberoBolo;", conn).ExecuteNonQuery();
+
+                string insert = @"INSERT INTO backup_logs (fecha_backup, usuario, ruta, estado, mensaje)
+                  VALUES (@fecha, SYSTEM_USER, @ruta, 'Éxito', 'Backup completado correctamente')";
+                using (SqlCommand cmd = new SqlCommand(insert, conn))
+                {
+                    cmd.Parameters.AddWithValue("@fecha", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@ruta", rutaZip);
+                    cmd.ExecuteNonQuery();
+                }
+
+
+                ultimaRutaBackup = rutaZip;
+                MessageBox.Show($"✅ Backup completado correctamente:\n{rutaZip}",
                     "Backup BD", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                CargarUltimoBackup();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"❌ Error al crear backup de la BD:\n{ex.Message}",
+                MessageBox.Show($"❌ Error al crear backup:\n{ex.Message}",
                     "Backup BD", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                if (conn != null && conn.State == System.Data.ConnectionState.Open)
+                    conn.Close();
+            }
         }
 
-
-        // --- RESTAURAR BACKUP DE BASE DE DATOS (.BAK) ---
-        private void btnRestaurarBD_Click(object sender, EventArgs e)
+        // --- Abre la carpeta del último backup ---
+        private void btnAbrirCarpeta_Click(object sender, EventArgs e)
         {
             try
             {
-                using (var ofd = new OpenFileDialog())
+                if (!string.IsNullOrEmpty(ultimaRutaBackup) && File.Exists(ultimaRutaBackup))
                 {
-                    ofd.Title = "Selecciona un archivo de Backup de BD (.bak)";
-                    ofd.Filter = "Archivos BAK (*.bak)|*.bak";
-                    if (ofd.ShowDialog() != DialogResult.OK)
-                        return;
-
-                    string rutaBackup = ofd.FileName;
-
-                    using (SqlConnection conn = ConexionBD.ObtenerConexion())
-                    {
-                        conn.Open();
-
-                        // Desconectamos usuarios y restauramos la BD
-                        string query = $@"
-                            USE master;
-                            ALTER DATABASE bd_BarberoBolo SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-                            RESTORE DATABASE bd_BarberoBolo 
-                            FROM DISK = '{rutaBackup}' 
-                            WITH REPLACE;
-                            ALTER DATABASE bd_BarberoBolo SET MULTI_USER;";
-
-                        using (SqlCommand cmd = new SqlCommand(query, conn))
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-
-                    MessageBox.Show("♻️ Restauración de base de datos completada correctamente.",
-                        "Restauración BD", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Process.Start("explorer.exe", Path.GetDirectoryName(ultimaRutaBackup));
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró el archivo del último backup.",
+                        "Abrir carpeta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"❌ Error al restaurar la base de datos:\n{ex.Message}",
-                    "Restauración BD", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"No se pudo abrir la carpeta: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // --- RESTAURAR BACKUP DE ARCHIVOS (.ZIP) ---
-        private void btnRestaurar_Click(object sender, EventArgs e)
+        private void btnCerrar_Click(object sender, EventArgs e) => Close();
+
+        // --- Efectos hover TYV ---
+        private void BtnHoverEnter(object sender, EventArgs e)
         {
-            try
-            {
-                string destino = txtCarpetaOrigen.Text?.Trim();
-                if (string.IsNullOrWhiteSpace(destino))
-                {
-                    MessageBox.Show("Indica la carpeta destino donde restaurar.", "Restauración",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                using (var ofd = new OpenFileDialog())
-                {
-                    ofd.Title = "Selecciona un BackUp (.zip)";
-                    ofd.Filter = "Archivo ZIP (*.zip)|*.zip";
-                    if (ofd.ShowDialog() == DialogResult.OK)
-                    {
-                        if (MessageBox.Show(
-                            "Se restaurarán los archivos sobre la carpeta destino.\n¿Deseas continuar?",
-                            "Confirmar restauración",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Question) != DialogResult.Yes)
-                            return;
-
-                        Directory.CreateDirectory(destino);
-
-                        string tempDir = Path.Combine(Path.GetTempPath(), "GV_Restore_" + Guid.NewGuid().ToString("N"));
-                        Directory.CreateDirectory(tempDir);
-
-                        ZipFile.ExtractToDirectory(ofd.FileName, tempDir);
-
-                        CopiarDirectorio(tempDir, destino, overwrite: true);
-                        Directory.Delete(tempDir, recursive: true);
-
-                        MessageBox.Show("♻️ Restauración de archivos completada correctamente.",
-                            "Restauración Archivos", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("❌ Error restaurando el BackUp:\n" + ex.Message,
-                    "Restauración", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            var boton = sender as Button;
+            boton.BackColor = System.Drawing.Color.FromArgb(230, 190, 140);
         }
 
-        // --- UTILIDAD PARA COPIAR DIRECTORIOS ---
-        private static void CopiarDirectorio(string sourceDir, string destDir, bool overwrite)
+        private void BtnHoverLeave(object sender, EventArgs e)
         {
-            foreach (var dir in Directory.GetDirectories(sourceDir, "*", SearchOption.AllDirectories))
-            {
-                string target = dir.Replace(sourceDir, destDir);
-                Directory.CreateDirectory(target);
-            }
-
-            foreach (var file in Directory.GetFiles(sourceDir, "*", SearchOption.AllDirectories))
-            {
-                string target = file.Replace(sourceDir, destDir);
-                Directory.CreateDirectory(Path.GetDirectoryName(target));
-                File.Copy(file, target, overwrite);
-            }
-        }
-
-        private void btnCerrar_Click(object sender, EventArgs e)
-        {
-            this.Close();
+            var boton = sender as Button;
+            if (boton == btnBackupBD)
+                boton.BackColor = System.Drawing.Color.FromArgb(80, 50, 40);
+            else
+                boton.BackColor = System.Drawing.Color.FromArgb(200, 170, 120);
         }
     }
 }

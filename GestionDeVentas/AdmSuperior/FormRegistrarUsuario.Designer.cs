@@ -28,6 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            // Definición de la Paleta de Colores (Coherente)
+            System.Drawing.Color marronOscuro = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(40)))));
+            System.Drawing.Color marronMedio = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(120)))), ((int)(((byte)(100)))));
+            System.Drawing.Color cremaFondo = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(240)))), ((int)(((byte)(230)))));
+            System.Drawing.Color textoOscuro = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mainPanel = new System.Windows.Forms.Panel();
@@ -105,7 +111,7 @@
             // mainPanel
             // 
             this.mainPanel.AutoScroll = true;
-            this.mainPanel.BackColor = System.Drawing.Color.White;
+            this.mainPanel.BackColor = cremaFondo; // CAMBIO: Fondo Crema
             this.mainPanel.Controls.Add(this.panelLista);
             this.mainPanel.Controls.Add(this.formPanel);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -136,12 +142,14 @@
             this.dgvUsuarios.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvUsuarios.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgvUsuarios.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+
+            // Estilo de la Cabecera (DataGridView)
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White; // CAMBIO: Texto Blanco
             dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(5);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionBackColor = marronMedio; // CAMBIO: Marrón Medio
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvUsuarios.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
@@ -167,13 +175,16 @@
             this.dgvUsuarios.ReadOnly = true;
             this.dgvUsuarios.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvUsuarios.RowHeadersVisible = false;
+
+            // Estilo de las filas
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            dataGridViewCellStyle2.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DodgerBlue;
+            dataGridViewCellStyle2.SelectionBackColor = marronMedio; // CAMBIO: Marrón Medio
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
             this.dgvUsuarios.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvUsuarios.AlternatingRowsDefaultCellStyle.BackColor = cremaFondo; // Fila alterna
             this.dgvUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUsuarios.Size = new System.Drawing.Size(880, 101);
             this.dgvUsuarios.TabIndex = 1;
@@ -257,6 +268,7 @@
             // 
             // panelFiltros
             // 
+            this.panelFiltros.BackColor = marronMedio; // CAMBIO: Fondo Marrón Medio para los filtros
             this.panelFiltros.Controls.Add(this.lblBuscarPor);
             this.panelFiltros.Controls.Add(this.cboBuscarPor);
             this.panelFiltros.Controls.Add(this.lblFiltrarEstado);
@@ -275,7 +287,7 @@
             // 
             this.cboBuscarPor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBuscarPor.FormattingEnabled = true;
-            this.cboBuscarPor.Location = new System.Drawing.Point(3, 28);
+            this.cboBuscarPor.Location = new System.Drawing.Point(82, 28); // CAMBIO de posición para un diseño más compacto
             this.cboBuscarPor.Name = "cboBuscarPor";
             this.cboBuscarPor.Size = new System.Drawing.Size(121, 21);
             this.cboBuscarPor.TabIndex = 7;
@@ -284,7 +296,7 @@
             // 
             this.lblBuscarPor.AutoSize = true;
             this.lblBuscarPor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBuscarPor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblBuscarPor.ForeColor = System.Drawing.Color.White; // CAMBIO: Texto Blanco
             this.lblBuscarPor.Location = new System.Drawing.Point(3, 10);
             this.lblBuscarPor.Name = "lblBuscarPor";
             this.lblBuscarPor.Size = new System.Drawing.Size(70, 15);
@@ -295,7 +307,7 @@
             // 
             this.lblFiltrarEstado.AutoSize = true;
             this.lblFiltrarEstado.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFiltrarEstado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblFiltrarEstado.ForeColor = System.Drawing.Color.White; // CAMBIO: Texto Blanco
             this.lblFiltrarEstado.Location = new System.Drawing.Point(628, 10);
             this.lblFiltrarEstado.Name = "lblFiltrarEstado";
             this.lblFiltrarEstado.Size = new System.Drawing.Size(104, 15);
@@ -315,7 +327,7 @@
             // 
             this.lblFiltrarRol.AutoSize = true;
             this.lblFiltrarRol.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFiltrarRol.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblFiltrarRol.ForeColor = System.Drawing.Color.White; // CAMBIO: Texto Blanco
             this.lblFiltrarRol.Location = new System.Drawing.Point(407, 10);
             this.lblFiltrarRol.Name = "lblFiltrarRol";
             this.lblFiltrarRol.Size = new System.Drawing.Size(86, 15);
@@ -333,17 +345,17 @@
             // 
             // txtFiltro
             // 
-            this.txtFiltro.Location = new System.Drawing.Point(130, 28);
+            this.txtFiltro.Location = new System.Drawing.Point(209, 28); // CAMBIO de posición para un diseño más compacto
             this.txtFiltro.Name = "txtFiltro";
-            this.txtFiltro.Size = new System.Drawing.Size(274, 20);
+            this.txtFiltro.Size = new System.Drawing.Size(195, 20);
             this.txtFiltro.TabIndex = 1;
             // 
             // lblFiltro
             // 
             this.lblFiltro.AutoSize = true;
             this.lblFiltro.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFiltro.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblFiltro.Location = new System.Drawing.Point(3, 10);
+            this.lblFiltro.ForeColor = System.Drawing.Color.White; // CAMBIO: Texto Blanco
+            this.lblFiltro.Location = new System.Drawing.Point(206, 10); // Posición ajustada
             this.lblFiltro.Name = "lblFiltro";
             this.lblFiltro.Size = new System.Drawing.Size(39, 15);
             this.lblFiltro.TabIndex = 0;
@@ -352,7 +364,7 @@
             // formPanel
             // 
             this.formPanel.AutoScroll = true;
-            this.formPanel.BackColor = System.Drawing.Color.White;
+            this.formPanel.BackColor = cremaFondo; // CAMBIO: Fondo Crema
             this.formPanel.Controls.Add(this.btnCerrar);
             this.formPanel.Controls.Add(this.lblErrorConfirmar);
             this.formPanel.Controls.Add(this.txtConfirmarContrasena);
@@ -405,14 +417,14 @@
             // btnCerrar
             // 
             this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.BackColor = System.Drawing.Color.Transparent;
+            this.btnCerrar.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro
             this.btnCerrar.FlatAppearance.BorderSize = 0;
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.ForeColor = System.Drawing.Color.Firebrick;
-            this.btnCerrar.Location = new System.Drawing.Point(850, 5);
+            this.btnCerrar.ForeColor = System.Drawing.Color.White; // CAMBIO: Texto Blanco
+            this.btnCerrar.Location = new System.Drawing.Point(850, 0); // CORRECCIÓN: Y=0 para integrarse
             this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(30, 30);
+            this.btnCerrar.Size = new System.Drawing.Size(40, 45); // Altura de la barra de título
             this.btnCerrar.TabIndex = 50;
             this.btnCerrar.Text = "X";
             this.btnCerrar.UseVisualStyleBackColor = false;
@@ -443,7 +455,7 @@
             // 
             this.lblConfirmarContrasena.AutoSize = true;
             this.lblConfirmarContrasena.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConfirmarContrasena.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblConfirmarContrasena.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblConfirmarContrasena.Location = new System.Drawing.Point(448, 306);
             this.lblConfirmarContrasena.Name = "lblConfirmarContrasena";
             this.lblConfirmarContrasena.Size = new System.Drawing.Size(128, 15);
@@ -475,7 +487,7 @@
             // 
             this.lblContrasena.AutoSize = true;
             this.lblContrasena.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblContrasena.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblContrasena.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblContrasena.Location = new System.Drawing.Point(220, 306);
             this.lblContrasena.Name = "lblContrasena";
             this.lblContrasena.Size = new System.Drawing.Size(69, 15);
@@ -508,7 +520,7 @@
             // 
             this.lblRol.AutoSize = true;
             this.lblRol.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRol.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblRol.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblRol.Location = new System.Drawing.Point(5, 306);
             this.lblRol.Name = "lblRol";
             this.lblRol.Size = new System.Drawing.Size(25, 15);
@@ -539,7 +551,7 @@
             // 
             this.lblEmail.AutoSize = true;
             this.lblEmail.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblEmail.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblEmail.Location = new System.Drawing.Point(448, 236);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(36, 15);
@@ -569,7 +581,7 @@
             // 
             this.lblFechaNacimiento.AutoSize = true;
             this.lblFechaNacimiento.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaNacimiento.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblFechaNacimiento.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblFechaNacimiento.Location = new System.Drawing.Point(220, 236);
             this.lblFechaNacimiento.Name = "lblFechaNacimiento";
             this.lblFechaNacimiento.Size = new System.Drawing.Size(123, 15);
@@ -600,7 +612,7 @@
             // 
             this.lblCiudad.AutoSize = true;
             this.lblCiudad.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCiudad.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblCiudad.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblCiudad.Location = new System.Drawing.Point(5, 236);
             this.lblCiudad.Name = "lblCiudad";
             this.lblCiudad.Size = new System.Drawing.Size(44, 15);
@@ -631,7 +643,7 @@
             // 
             this.lblPais.AutoSize = true;
             this.lblPais.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPais.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblPais.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblPais.Location = new System.Drawing.Point(448, 166);
             this.lblPais.Name = "lblPais";
             this.lblPais.Size = new System.Drawing.Size(28, 15);
@@ -662,7 +674,7 @@
             // 
             this.lblDireccion.AutoSize = true;
             this.lblDireccion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDireccion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblDireccion.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblDireccion.Location = new System.Drawing.Point(220, 166);
             this.lblDireccion.Name = "lblDireccion";
             this.lblDireccion.Size = new System.Drawing.Size(60, 15);
@@ -693,7 +705,7 @@
             // 
             this.lblTelefono.AutoSize = true;
             this.lblTelefono.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTelefono.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblTelefono.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblTelefono.Location = new System.Drawing.Point(5, 166);
             this.lblTelefono.Name = "lblTelefono";
             this.lblTelefono.Size = new System.Drawing.Size(56, 15);
@@ -724,7 +736,7 @@
             // 
             this.lblDNI.AutoSize = true;
             this.lblDNI.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDNI.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblDNI.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblDNI.Location = new System.Drawing.Point(448, 96);
             this.lblDNI.Name = "lblDNI";
             this.lblDNI.Size = new System.Drawing.Size(29, 15);
@@ -755,7 +767,7 @@
             // 
             this.lblApellido.AutoSize = true;
             this.lblApellido.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblApellido.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblApellido.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblApellido.Location = new System.Drawing.Point(220, 96);
             this.lblApellido.Name = "lblApellido";
             this.lblApellido.Size = new System.Drawing.Size(52, 15);
@@ -786,7 +798,7 @@
             // 
             this.lblNombreUsuario.AutoSize = true;
             this.lblNombreUsuario.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombreUsuario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblNombreUsuario.ForeColor = textoOscuro; // CAMBIO: Texto Oscuro
             this.lblNombreUsuario.Location = new System.Drawing.Point(5, 96);
             this.lblNombreUsuario.Name = "lblNombreUsuario";
             this.lblNombreUsuario.Size = new System.Drawing.Size(53, 15);
@@ -795,13 +807,14 @@
             // 
             // lblTitulo
             // 
-            this.lblTitulo.AutoSize = true;
+            this.lblTitulo.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro
+            this.lblTitulo.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblTitulo.ForeColor = System.Drawing.Color.White; // CAMBIO: Texto Blanco
             this.lblTitulo.Location = new System.Drawing.Point(5, 5);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            this.lblTitulo.Size = new System.Drawing.Size(251, 35);
+            this.lblTitulo.Size = new System.Drawing.Size(880, 45); // Altura de la barra
             this.lblTitulo.TabIndex = 2;
             this.lblTitulo.Text = "Registro de Nuevo Usuario";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -809,11 +822,11 @@
             // btnLimpiar
             // 
             this.btnLimpiar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnLimpiar.BackColor = System.Drawing.Color.Silver;
+            this.btnLimpiar.BackColor = marronMedio; // CAMBIO: Marrón Medio
             this.btnLimpiar.FlatAppearance.BorderSize = 0;
             this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLimpiar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLimpiar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnLimpiar.ForeColor = System.Drawing.Color.White; // CAMBIO: Texto Blanco
             this.btnLimpiar.Location = new System.Drawing.Point(141, 381);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(120, 35);
@@ -842,7 +855,7 @@
             // btnRegistrarUsuario
             // 
             this.btnRegistrarUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRegistrarUsuario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.btnRegistrarUsuario.BackColor = marronOscuro; // CAMBIO: Marrón Oscuro
             this.btnRegistrarUsuario.FlatAppearance.BorderSize = 0;
             this.btnRegistrarUsuario.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegistrarUsuario.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -859,7 +872,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.AutoScroll = true;
+            this.BackColor = cremaFondo;
             this.ClientSize = new System.Drawing.Size(900, 609);
             this.Controls.Add(this.mainPanel);
             this.Name = "FormRegistrarUsuario";

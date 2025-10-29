@@ -57,12 +57,8 @@ namespace GestionDeVentas.Gerente
 
         private void CargarFiltros()
         {
-            var clientes = new List<string> { "Todos" }
-                .Union(_todasLasFacturas.Select(f => f.ClienteNombre).Distinct())
-                .OrderBy(c => c == "Todos" ? " " : c)
-                .ToList();
-            cmbCliente.DataSource = clientes;
-
+            // ✨ CAMBIO: Se elimina la carga del ComboBox de clientes.
+            // Ahora solo cargamos el de vendedores.
             var vendedores = new List<string> { "Todos" }
                 .Union(_todasLasFacturas.Select(f => f.UsuarioNombre).Distinct())
                 .OrderBy(v => v == "Todos" ? " " : v)
@@ -74,9 +70,10 @@ namespace GestionDeVentas.Gerente
         {
             if (!_datosCargadosCorrectamente) return;
 
+            // 🔧 CORRECCIÓN: Búsqueda prioritaria por N° de Factura. Se añade Trim() para robustez.
             if (!string.IsNullOrWhiteSpace(txtNroFactura.Text))
             {
-                if (int.TryParse(txtNroFactura.Text, out int nroFactura))
+                if (int.TryParse(txtNroFactura.Text.Trim(), out int nroFactura))
                 {
                     var resultado = _todasLasFacturas.Where(f => f.IdFactura == nroFactura).ToList();
                     MostrarFacturas(resultado);
@@ -85,7 +82,7 @@ namespace GestionDeVentas.Gerente
                 {
                     MessageBox.Show("El número de factura debe ser numérico.", "Formato inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                return;
+                return; // Importante salir para no aplicar los otros filtros
             }
 
             if (dtpDesde.Value.Date > dtpHasta.Value.Date)
@@ -94,17 +91,24 @@ namespace GestionDeVentas.Gerente
                 return;
             }
 
+            // Inicia el filtrado con todas las facturas
             IEnumerable<Factura> resultados = _todasLasFacturas
                 .Where(f => f.FechaFactura.Date >= dtpDesde.Value.Date && f.FechaFactura.Date <= dtpHasta.Value.Date);
 
+            // Aplica filtro por Vendedor si se seleccionó uno
             if (cmbVendedor.SelectedItem?.ToString() != "Todos")
                 resultados = resultados.Where(f => f.UsuarioNombre == cmbVendedor.SelectedItem.ToString());
 
-            if (cmbCliente.SelectedItem?.ToString() != "Todos")
-                resultados = resultados.Where(f => f.ClienteNombre == cmbCliente.SelectedItem.ToString());
+            // ✨ CAMBIO: Aplicar filtro por DNI del cliente si el campo no está vacío
+            if (!string.IsNullOrWhiteSpace(txtDniCliente.Text))
+            {
+                // Usamos Contains para una búsqueda más flexible (ej: buscar '123' y que encuentre '...123...')
+                resultados = resultados.Where(f => f.ClienteDni != null && f.ClienteDni.Contains(txtDniCliente.Text.Trim()));
+            }
 
             MostrarFacturas(resultados.ToList());
         }
+
 
         private void MostrarFacturas(List<Factura> facturas)
         {
@@ -128,7 +132,8 @@ namespace GestionDeVentas.Gerente
         private void btnReset_Click(object sender, EventArgs e)
         {
             if (!_datosCargadosCorrectamente) return;
-            cmbCliente.SelectedIndex = 0;
+
+            txtDniCliente.Clear(); // ✨ CAMBIO: Limpiamos el textbox de DNI
             cmbVendedor.SelectedIndex = 0;
             txtNroFactura.Clear();
             dtpDesde.Value = DateTime.Today.AddMonths(-1);
@@ -200,7 +205,8 @@ namespace GestionDeVentas.Gerente
                 lbl.Font = new Font("Segoe UI Semibold", 9);
             }
 
-            foreach (var ctrl in new Control[] { cmbCliente, cmbVendedor, txtNroFactura })
+            // ✨ CAMBIO: Se actualiza el array de controles para aplicar estilo
+            foreach (var ctrl in new Control[] { txtDniCliente, cmbVendedor, txtNroFactura })
             {
                 ctrl.BackColor = Color.White;
                 ctrl.ForeColor = colorMarronOscuro;
@@ -214,7 +220,7 @@ namespace GestionDeVentas.Gerente
                 dtp.CalendarForeColor = colorMarronOscuro;
             }
 
-            foreach (var boton in new[] { btnBuscar, btnReset, btnExportarPDF, btnExportarExcel })
+            foreach (var boton in new[] { btnBuscar, btnReset })
             {
                 boton.FlatStyle = FlatStyle.Flat;
                 boton.FlatAppearance.BorderSize = 0;
@@ -226,8 +232,7 @@ namespace GestionDeVentas.Gerente
 
             btnBuscar.BackColor = colorCamel;
             btnReset.BackColor = colorVerdeOliva;
-            btnExportarPDF.BackColor = colorCamel;
-            btnExportarExcel.BackColor = colorVerdeOliva;
+           
 
             dgvFacturas.BackgroundColor = ColorTranslator.FromHtml("#FDF8F2");
             dgvFacturas.BorderStyle = BorderStyle.None;
@@ -264,12 +269,10 @@ namespace GestionDeVentas.Gerente
             this.Controls.Add(panelSuperior);
             panelSuperior.BringToFront();
 
-            // Reubicar botón cerrar
             btnCerrar.Parent = panelSuperior;
             btnCerrar.Location = new Point(panelSuperior.Width - btnCerrar.Width - 10, 15);
             btnCerrar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
-            // Reubicar título
             lblTitulo.Parent = panelSuperior;
             lblTitulo.Dock = DockStyle.Fill;
             lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
@@ -277,7 +280,6 @@ namespace GestionDeVentas.Gerente
             lblTitulo.BackColor = Color.Transparent;
             lblTitulo.Font = new Font("Poppins", 18, FontStyle.Bold);
 
-            // 🔧 Empuja el resto de los controles hacia abajo
             foreach (Control ctrl in this.Controls)
             {
                 if (ctrl != panelSuperior)

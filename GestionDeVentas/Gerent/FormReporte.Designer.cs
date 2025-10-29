@@ -18,16 +18,15 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelHeader = new System.Windows.Forms.Panel();
-            this.lblTitulo = new System.Windows.Forms.Label();
             this.btnCerrar = new System.Windows.Forms.Button();
+            this.lblTitulo = new System.Windows.Forms.Label();
             this.lblFechaDesde = new System.Windows.Forms.Label();
             this.dtpDesde = new System.Windows.Forms.DateTimePicker();
             this.lblFechaHasta = new System.Windows.Forms.Label();
             this.dtpHasta = new System.Windows.Forms.DateTimePicker();
             this.lblCliente = new System.Windows.Forms.Label();
-            this.cmbCliente = new System.Windows.Forms.ComboBox();
+            this.txtDniCliente = new System.Windows.Forms.TextBox();
             this.lblVendedor = new System.Windows.Forms.Label();
             this.cmbVendedor = new System.Windows.Forms.ComboBox();
             this.lblNroFactura = new System.Windows.Forms.Label();
@@ -42,8 +41,6 @@
             this.colMetodoPago = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colVerDetalle = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btnExportarPDF = new System.Windows.Forms.Button();
-            this.btnExportarExcel = new System.Windows.Forms.Button();
             this.lblResultados = new System.Windows.Forms.Label();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFacturas)).BeginInit();
@@ -51,7 +48,7 @@
             // 
             // panelHeader
             // 
-            this.panelHeader.BackColor = System.Drawing.Color.FromArgb(70, 40, 20);
+            this.panelHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(40)))), ((int)(((byte)(20)))));
             this.panelHeader.Controls.Add(this.btnCerrar);
             this.panelHeader.Controls.Add(this.lblTitulo);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -59,6 +56,22 @@
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(820, 50);
             this.panelHeader.TabIndex = 0;
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCerrar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(40)))), ((int)(((byte)(20)))));
+            this.btnCerrar.FlatAppearance.BorderSize = 0;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.ForeColor = System.Drawing.Color.White;
+            this.btnCerrar.Location = new System.Drawing.Point(780, 10);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(30, 30);
+            this.btnCerrar.TabIndex = 1;
+            this.btnCerrar.Text = "X";
+            this.btnCerrar.UseVisualStyleBackColor = false;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // lblTitulo
             // 
@@ -71,22 +84,6 @@
             this.lblTitulo.TabIndex = 0;
             this.lblTitulo.Text = "Reportes de Facturas";
             this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnCerrar
-            // 
-            this.btnCerrar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCerrar.BackColor = System.Drawing.Color.FromArgb(70, 40, 20);
-            this.btnCerrar.FlatAppearance.BorderSize = 0;
-            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.ForeColor = System.Drawing.Color.White;
-            this.btnCerrar.Location = new System.Drawing.Point(780, 10);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(30, 30);
-            this.btnCerrar.TabIndex = 1;
-            this.btnCerrar.Text = "X";
-            this.btnCerrar.UseVisualStyleBackColor = false;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // lblFechaDesde
             // 
@@ -127,18 +124,16 @@
             this.lblCliente.AutoSize = true;
             this.lblCliente.Location = new System.Drawing.Point(20, 95);
             this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(42, 13);
+            this.lblCliente.Size = new System.Drawing.Size(64, 13);
             this.lblCliente.TabIndex = 6;
-            this.lblCliente.Text = "Cliente:";
+            this.lblCliente.Text = "DNI Cliente:";
             // 
-            // cmbCliente
+            // txtDniCliente
             // 
-            this.cmbCliente.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCliente.FormattingEnabled = true;
-            this.cmbCliente.Location = new System.Drawing.Point(67, 92);
-            this.cmbCliente.Name = "cmbCliente";
-            this.cmbCliente.Size = new System.Drawing.Size(250, 21);
-            this.cmbCliente.TabIndex = 7;
+            this.txtDniCliente.Location = new System.Drawing.Point(90, 92);
+            this.txtDniCliente.Name = "txtDniCliente";
+            this.txtDniCliente.Size = new System.Drawing.Size(227, 20);
+            this.txtDniCliente.TabIndex = 7;
             // 
             // lblVendedor
             // 
@@ -163,7 +158,7 @@
             this.lblNroFactura.AutoSize = true;
             this.lblNroFactura.Location = new System.Drawing.Point(323, 65);
             this.lblNroFactura.Name = "lblNroFactura";
-            this.lblNroFactura.Size = new System.Drawing.Size(66, 13);
+            this.lblNroFactura.Size = new System.Drawing.Size(61, 13);
             this.lblNroFactura.TabIndex = 10;
             this.lblNroFactura.Text = "N° Factura:";
             // 
@@ -171,7 +166,7 @@
             // 
             this.txtNroFactura.Location = new System.Drawing.Point(395, 62);
             this.txtNroFactura.Name = "txtNroFactura";
-            this.txtNroFactura.Size = new System.Drawing.Size(150, 20);
+            this.txtNroFactura.Size = new System.Drawing.Size(217, 20);
             this.txtNroFactura.TabIndex = 11;
             // 
             // btnBuscar
@@ -200,8 +195,8 @@
             // dgvFacturas
             // 
             this.dgvFacturas.AllowUserToAddRows = false;
-            this.dgvFacturas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.dgvFacturas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvFacturas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFacturas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -262,33 +257,11 @@
             // 
             // colVerDetalle
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colVerDetalle.DefaultCellStyle = dataGridViewCellStyle2;
             this.colVerDetalle.HeaderText = "Detalle";
             this.colVerDetalle.Name = "colVerDetalle";
             this.colVerDetalle.ReadOnly = true;
             this.colVerDetalle.Text = "Ver Detalle";
             this.colVerDetalle.UseColumnTextForButtonValue = true;
-            // 
-            // btnExportarPDF
-            // 
-            this.btnExportarPDF.Location = new System.Drawing.Point(20, 500);
-            this.btnExportarPDF.Name = "btnExportarPDF";
-            this.btnExportarPDF.Size = new System.Drawing.Size(120, 30);
-            this.btnExportarPDF.TabIndex = 15;
-            this.btnExportarPDF.Text = "Exportar PDF";
-            this.btnExportarPDF.UseVisualStyleBackColor = true;
-            this.btnExportarPDF.Click += new System.EventHandler(this.btnExportarPDF_Click);
-            // 
-            // btnExportarExcel
-            // 
-            this.btnExportarExcel.Location = new System.Drawing.Point(160, 500);
-            this.btnExportarExcel.Name = "btnExportarExcel";
-            this.btnExportarExcel.Size = new System.Drawing.Size(120, 30);
-            this.btnExportarExcel.TabIndex = 16;
-            this.btnExportarExcel.Text = "Exportar Excel";
-            this.btnExportarExcel.UseVisualStyleBackColor = true;
-            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
             // 
             // lblResultados
             // 
@@ -304,11 +277,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(190, 140, 100);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(140)))), ((int)(((byte)(100)))));
             this.ClientSize = new System.Drawing.Size(820, 550);
             this.Controls.Add(this.lblResultados);
-            this.Controls.Add(this.btnExportarExcel);
-            this.Controls.Add(this.btnExportarPDF);
             this.Controls.Add(this.dgvFacturas);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnBuscar);
@@ -316,7 +287,7 @@
             this.Controls.Add(this.lblNroFactura);
             this.Controls.Add(this.cmbVendedor);
             this.Controls.Add(this.lblVendedor);
-            this.Controls.Add(this.cmbCliente);
+            this.Controls.Add(this.txtDniCliente);
             this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.dtpHasta);
             this.Controls.Add(this.lblFechaHasta);
@@ -344,7 +315,7 @@
         private System.Windows.Forms.Label lblFechaHasta;
         private System.Windows.Forms.DateTimePicker dtpHasta;
         private System.Windows.Forms.Label lblCliente;
-        private System.Windows.Forms.ComboBox cmbCliente;
+        private System.Windows.Forms.TextBox txtDniCliente; // ✨ CAMBIO: Declaración del nuevo control
         private System.Windows.Forms.Label lblVendedor;
         private System.Windows.Forms.ComboBox cmbVendedor;
         private System.Windows.Forms.Label lblNroFactura;
@@ -359,8 +330,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colMetodoPago;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTotal;
         private System.Windows.Forms.DataGridViewButtonColumn colVerDetalle;
-        private System.Windows.Forms.Button btnExportarPDF;
-        private System.Windows.Forms.Button btnExportarExcel;
         private System.Windows.Forms.Label lblResultados;
     }
 }

@@ -24,6 +24,7 @@ namespace GestionDeVentas.Admin
 
         private void ListarProductos_Load(object sender, EventArgs e)
         {
+            // --- Carga de Datos ---
             dataTableProductos.Columns.Add("Id", typeof(int));
             dataTableProductos.Columns.Add("Código", typeof(string));
             dataTableProductos.Columns.Add("Nombre", typeof(string));
@@ -34,7 +35,6 @@ namespace GestionDeVentas.Admin
             dataTableProductos.Columns.Add("Estado", typeof(string));
 
             CargarProductosEnDataTable();
-
             dataGridViewProductos.DataSource = dataTableProductos;
 
             if (dataGridViewProductos.Columns.Contains("Id"))
@@ -42,10 +42,23 @@ namespace GestionDeVentas.Admin
             if (dataGridViewProductos.Columns.Contains("Estado"))
                 dataGridViewProductos.Columns["Estado"].Visible = false;
 
+            // --- Carga de Filtros ---
             CargarFiltros();
 
-            dataGridViewProductos.Dock = DockStyle.Fill;
-            dataGridViewProductos.BringToFront();
+            // --- Conexión de Eventos ---
+            txtBusqueda.TextChanged += new EventHandler(filtros_Aplicar);
+            cboBuscarPor.SelectedIndexChanged += new EventHandler(filtros_Aplicar);
+            cmbCategoria.SelectedIndexChanged += new EventHandler(filtros_Aplicar);
+
+            // ✨ CORRECCIÓN VISUAL: Posicionamiento correcto del DataGridView
+            // Se elimina el Dock.Fill y se usa Anchor para que se redimensione bien.
+            dataGridViewProductos.Dock = DockStyle.None; // Quitar el Dock.Fill
+            dataGridViewProductos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+            // Calcular la posición y tamaño para que no se solape con el panel superior
+            int padding = 16;
+            dataGridViewProductos.Location = new Point(padding, topPanel.Height + 5);
+            dataGridViewProductos.Size = new Size(this.ClientSize.Width - (padding * 2), this.ClientSize.Height - topPanel.Height - padding);
         }
 
         private void CargarProductosEnDataTable()
@@ -61,10 +74,11 @@ namespace GestionDeVentas.Admin
 
         private void CargarFiltros()
         {
-            // Carga del desplegable para buscar por Nombre o Código
+            // ✨ CAMBIO: Se agrega "Marca" a las opciones de búsqueda.
             cboBuscarPor.Items.Clear();
             cboBuscarPor.Items.Add("Nombre");
             cboBuscarPor.Items.Add("Código");
+            cboBuscarPor.Items.Add("Marca");
             cboBuscarPor.SelectedIndex = 0;
 
             // Carga de Categorías
@@ -76,22 +90,14 @@ namespace GestionDeVentas.Admin
             cmbCategoria.Items.AddRange(categorias.ToArray());
             cmbCategoria.SelectedIndex = 0;
 
-            // Carga de Marcas
-            var marcas = dataTableProductos.AsEnumerable()
-                                           .Select(row => row.Field<string>("Marca"))
-                                           .Where(m => !string.IsNullOrEmpty(m)) // Ignorar marcas vacías
-                                           .Distinct().OrderBy(m => m).ToList();
-            cmbMarca.Items.Clear();
-            cmbMarca.Items.Add("Todas");
-            cmbMarca.Items.AddRange(marcas.ToArray());
-            cmbMarca.SelectedIndex = 0;
+            // ✨ CAMBIO: Se elimina por completo la carga del ComboBox de Marcas.
         }
 
         private void AplicarFiltros()
         {
             StringBuilder rowFilter = new StringBuilder();
 
-            // 1. Filtro por Nombre o Código
+            // 1. ✨ CAMBIO: Filtro unificado por Nombre, Código o Marca.
             string textoBusqueda = txtBusqueda.Text.Trim().Replace("'", "''");
             if (!string.IsNullOrEmpty(textoBusqueda))
             {
@@ -99,21 +105,15 @@ namespace GestionDeVentas.Admin
                 rowFilter.Append($"[{criterio}] LIKE '%{textoBusqueda}%'");
             }
 
-            // 2. Filtro por Categoría
+            // 2. Filtro por Categoría (sin cambios, sigue igual)
             string filtroCategoria = cmbCategoria.SelectedItem?.ToString();
             if (filtroCategoria != "Todas" && !string.IsNullOrEmpty(filtroCategoria))
             {
                 if (rowFilter.Length > 0) rowFilter.Append(" AND ");
-                rowFilter.Append($"Categoría = '{filtroCategoria}'");
+                rowFilter.Append($"Categoría = '{filtroCategoria.Replace("'", "''")}'");
             }
 
-            // 3. Filtro por Marca 
-            string filtroMarca = cmbMarca.SelectedItem?.ToString();
-            if (filtroMarca != "Todas" && !string.IsNullOrEmpty(filtroMarca))
-            {
-                if (rowFilter.Length > 0) rowFilter.Append(" AND ");
-                rowFilter.Append($"Marca = '{filtroMarca}'");
-            }
+            // ✨ CAMBIO: Se elimina la lógica del ComboBox de marca que estaba aquí.
 
             dataTableProductos.DefaultView.RowFilter = rowFilter.ToString();
         }
@@ -131,27 +131,27 @@ namespace GestionDeVentas.Admin
         private void dataGridViewProductos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            var dataRowView = dataGridViewProductos.Rows[e.RowIndex].DataBoundItem as DataRowView;
-            if (dataRowView == null) return;
 
-            string estado = dataRowView.Row.Field<string>("Estado");
+            if (dataGridViewProductos.Columns.Contains("Estado"))
+            {
+                var row = dataGridViewProductos.Rows[e.RowIndex];
+                string estado = row.Cells["Estado"].Value?.ToString();
 
-            if (estado != null && estado.Equals("Inactivo", StringComparison.OrdinalIgnoreCase))
-            {
-                e.CellStyle.BackColor = Color.LightCoral;
-                e.CellStyle.ForeColor = Color.White;
-                e.CellStyle.SelectionBackColor = Color.DarkRed;
-                e.CellStyle.SelectionForeColor = Color.White;
-            }
-            else
-            {
-                e.CellStyle.BackColor = (e.RowIndex % 2 != 0) ? SystemColors.ControlLight : SystemColors.Window;
-                e.CellStyle.ForeColor = SystemColors.ControlText;
-                e.CellStyle.SelectionBackColor = SystemColors.Highlight;
-                e.CellStyle.SelectionForeColor = SystemColors.HighlightText;
+                if (estado != null && estado.Equals("Inactivo", StringComparison.OrdinalIgnoreCase))
+                {
+                    e.CellStyle.BackColor = Color.LightCoral;
+                    e.CellStyle.ForeColor = Color.White;
+                    e.CellStyle.SelectionBackColor = Color.DarkRed;
+                    e.CellStyle.SelectionForeColor = Color.White;
+                }
+                else
+                {
+                    e.CellStyle.BackColor = (e.RowIndex % 2 == 0) ? Color.FromArgb(250, 240, 230) : Color.White;
+                    e.CellStyle.ForeColor = SystemColors.ControlText;
+                    e.CellStyle.SelectionBackColor = SystemColors.Highlight;
+                    e.CellStyle.SelectionForeColor = SystemColors.HighlightText;
+                }
             }
         }
-
-        private void topPanel_Paint_1(object sender, PaintEventArgs e) { }
     }
 }

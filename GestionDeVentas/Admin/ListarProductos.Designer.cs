@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace GestionDeVentas.Admin
+﻿namespace GestionDeVentas.Admin
 {
     partial class ListarProductos
     {
@@ -26,10 +24,8 @@ namespace GestionDeVentas.Admin
             this.topPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanelFiltros = new System.Windows.Forms.TableLayoutPanel();
             this.lblCategoria = new System.Windows.Forms.Label();
-            this.lblMarca = new System.Windows.Forms.Label();
             this.lblBuscar = new System.Windows.Forms.Label();
             this.txtBusqueda = new System.Windows.Forms.TextBox();
-            this.cmbMarca = new System.Windows.Forms.ComboBox();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
             this.cboBuscarPor = new System.Windows.Forms.ComboBox();
             this.lblTitulo = new System.Windows.Forms.Label();
@@ -73,20 +69,16 @@ namespace GestionDeVentas.Admin
             // 
             this.tableLayoutPanelFiltros.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanelFiltros.ColumnCount = 7;
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
-            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanelFiltros.Controls.Add(this.lblCategoria, 5, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.lblMarca, 3, 0);
+            this.tableLayoutPanelFiltros.ColumnCount = 5;
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.tableLayoutPanelFiltros.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 206F));
+            this.tableLayoutPanelFiltros.Controls.Add(this.lblCategoria, 3, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.lblBuscar, 0, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.txtBusqueda, 2, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.cmbMarca, 4, 0);
-            this.tableLayoutPanelFiltros.Controls.Add(this.cmbCategoria, 6, 0);
+            this.tableLayoutPanelFiltros.Controls.Add(this.cmbCategoria, 4, 0);
             this.tableLayoutPanelFiltros.Controls.Add(this.cboBuscarPor, 1, 0);
             this.tableLayoutPanelFiltros.Location = new System.Drawing.Point(16, 50);
             this.tableLayoutPanelFiltros.Name = "tableLayoutPanelFiltros";
@@ -101,25 +93,12 @@ namespace GestionDeVentas.Admin
             this.lblCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCategoria.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.lblCategoria.ForeColor = System.Drawing.Color.White;
-            this.lblCategoria.Location = new System.Drawing.Point(778, 0);
+            this.lblCategoria.Location = new System.Drawing.Point(721, 0);
             this.lblCategoria.Name = "lblCategoria";
-            this.lblCategoria.Size = new System.Drawing.Size(101, 37);
+            this.lblCategoria.Size = new System.Drawing.Size(104, 37);
             this.lblCategoria.TabIndex = 0;
             this.lblCategoria.Text = "Categoría:";
             this.lblCategoria.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblMarca
-            // 
-            this.lblMarca.AutoSize = true;
-            this.lblMarca.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMarca.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblMarca.ForeColor = System.Drawing.Color.White;
-            this.lblMarca.Location = new System.Drawing.Point(560, 0);
-            this.lblMarca.Name = "lblMarca";
-            this.lblMarca.Size = new System.Drawing.Size(61, 37);
-            this.lblMarca.TabIndex = 1;
-            this.lblMarca.Text = "Marca:";
-            this.lblMarca.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblBuscar
             // 
@@ -129,41 +108,40 @@ namespace GestionDeVentas.Admin
             this.lblBuscar.ForeColor = System.Drawing.Color.White;
             this.lblBuscar.Location = new System.Drawing.Point(3, 0);
             this.lblBuscar.Name = "lblBuscar";
-            this.lblBuscar.Size = new System.Drawing.Size(101, 37);
+            this.lblBuscar.Size = new System.Drawing.Size(104, 37);
             this.lblBuscar.TabIndex = 2;
             this.lblBuscar.Text = "Buscar por:";
             this.lblBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtBusqueda
             // 
+            this.txtBusqueda.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtBusqueda.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtBusqueda.Location = new System.Drawing.Point(257, 3);
+            this.txtBusqueda.Location = new System.Drawing.Point(326, 3);
             this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(297, 30);
+            this.txtBusqueda.Size = new System.Drawing.Size(389, 25);
             this.txtBusqueda.TabIndex = 3;
-            // 
-            // cmbMarca
-            // 
-            this.cmbMarca.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbMarca.Location = new System.Drawing.Point(627, 3);
-            this.cmbMarca.Name = "cmbMarca";
-            this.cmbMarca.Size = new System.Drawing.Size(121, 31);
-            this.cmbMarca.TabIndex = 4;
             // 
             // cmbCategoria
             // 
+            this.cmbCategoria.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCategoria.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cmbCategoria.Location = new System.Drawing.Point(885, 3);
+            this.cmbCategoria.FormattingEnabled = true;
+            this.cmbCategoria.Location = new System.Drawing.Point(831, 3);
             this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(121, 31);
+            this.cmbCategoria.Size = new System.Drawing.Size(201, 25);
             this.cmbCategoria.TabIndex = 5;
             // 
             // cboBuscarPor
             // 
+            this.cboBuscarPor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cboBuscarPor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBuscarPor.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cboBuscarPor.Location = new System.Drawing.Point(110, 3);
+            this.cboBuscarPor.FormattingEnabled = true;
+            this.cboBuscarPor.Location = new System.Drawing.Point(113, 3);
             this.cboBuscarPor.Name = "cboBuscarPor";
-            this.cboBuscarPor.Size = new System.Drawing.Size(121, 31);
+            this.cboBuscarPor.Size = new System.Drawing.Size(207, 25);
             this.cboBuscarPor.TabIndex = 6;
             // 
             // lblTitulo
@@ -182,9 +160,6 @@ namespace GestionDeVentas.Admin
             // 
             this.dataGridViewProductos.AllowUserToAddRows = false;
             this.dataGridViewProductos.AllowUserToDeleteRows = false;
-            this.dataGridViewProductos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewProductos.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(240)))), ((int)(((byte)(230)))));
             this.dataGridViewProductos.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -194,19 +169,19 @@ namespace GestionDeVentas.Admin
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(58)))), ((int)(((byte)(41)))));
             this.dataGridViewProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewProductos.ColumnHeadersHeight = 29;
+            this.dataGridViewProductos.ColumnHeadersHeight = 35;
             this.dataGridViewProductos.Location = new System.Drawing.Point(16, 106);
             this.dataGridViewProductos.Name = "dataGridViewProductos";
             this.dataGridViewProductos.ReadOnly = true;
             this.dataGridViewProductos.RowHeadersVisible = false;
-            this.dataGridViewProductos.RowHeadersWidth = 51;
+            this.dataGridViewProductos.RowTemplate.Height = 28;
             this.dataGridViewProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewProductos.Size = new System.Drawing.Size(1035, 433);
             this.dataGridViewProductos.TabIndex = 0;
             // 
             // ListarProductos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.dataGridViewProductos);
@@ -230,13 +205,12 @@ namespace GestionDeVentas.Admin
         private System.Windows.Forms.DataGridView dataGridViewProductos;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFiltros;
         private System.Windows.Forms.Label lblCategoria;
-        private System.Windows.Forms.Label lblMarca;
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Label lblBuscar;
         private System.Windows.Forms.ComboBox cboBuscarPor;
         private System.Windows.Forms.TextBox txtBusqueda;
-        private System.Windows.Forms.ComboBox cmbMarca;
         private System.Windows.Forms.ComboBox cmbCategoria;
         private System.Windows.Forms.ToolTip toolTip1;
+        // ✨ CAMBIO: Se eliminaron lblMarca y cmbMarca de la declaración
     }
 }

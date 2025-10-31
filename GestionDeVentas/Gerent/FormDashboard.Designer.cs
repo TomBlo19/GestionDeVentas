@@ -15,7 +15,6 @@
         private System.Windows.Forms.Button btnUltimaSemana;
         private System.Windows.Forms.Button btnMesActual;
         private System.Windows.Forms.Button btnUltimoTrimestre;
-        private System.Windows.Forms.Button btnExportar;
 
         private System.Windows.Forms.Panel panelKpis;
         private System.Windows.Forms.Panel panelVentasTotales;
@@ -51,15 +50,14 @@
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.lblTituloDashboard = new System.Windows.Forms.Label();
             this.panelFiltros = new System.Windows.Forms.Panel();
-            this.btnExportar = new System.Windows.Forms.Button();
             this.btnUltimoTrimestre = new System.Windows.Forms.Button();
             this.btnMesActual = new System.Windows.Forms.Button();
             this.btnUltimaSemana = new System.Windows.Forms.Button();
@@ -119,7 +117,6 @@
             // panelFiltros
             // 
             this.panelFiltros.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(211)))), ((int)(((byte)(179)))));
-            this.panelFiltros.Controls.Add(this.btnExportar);
             this.panelFiltros.Controls.Add(this.btnUltimoTrimestre);
             this.panelFiltros.Controls.Add(this.btnMesActual);
             this.panelFiltros.Controls.Add(this.btnUltimaSemana);
@@ -134,14 +131,6 @@
             this.panelFiltros.Padding = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.panelFiltros.Size = new System.Drawing.Size(1000, 55);
             this.panelFiltros.TabIndex = 4;
-            // 
-            // btnExportar
-            // 
-            this.btnExportar.Location = new System.Drawing.Point(914, 12);
-            this.btnExportar.Name = "btnExportar";
-            this.btnExportar.Size = new System.Drawing.Size(100, 30);
-            this.btnExportar.TabIndex = 0;
-            this.btnExportar.Text = "📊 Exportar";
             // 
             // btnUltimoTrimestre
             // 
@@ -172,7 +161,7 @@
             this.lblDesde.AutoSize = true;
             this.lblDesde.Location = new System.Drawing.Point(3, 20);
             this.lblDesde.Name = "lblDesde";
-            this.lblDesde.Size = new System.Drawing.Size(41, 13);
+            this.lblDesde.Size = new System.Drawing.Size(51, 16);
             this.lblDesde.TabIndex = 4;
             this.lblDesde.Text = "Desde:";
             // 
@@ -180,7 +169,7 @@
             // 
             this.dtpDesde.Location = new System.Drawing.Point(60, 16);
             this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(180, 20);
+            this.dtpDesde.Size = new System.Drawing.Size(180, 22);
             this.dtpDesde.TabIndex = 5;
             this.dtpDesde.ValueChanged += new System.EventHandler(this.dtpDesde_ValueChanged);
             // 
@@ -189,7 +178,7 @@
             this.lblHasta.AutoSize = true;
             this.lblHasta.Location = new System.Drawing.Point(246, 21);
             this.lblHasta.Name = "lblHasta";
-            this.lblHasta.Size = new System.Drawing.Size(38, 13);
+            this.lblHasta.Size = new System.Drawing.Size(46, 16);
             this.lblHasta.TabIndex = 6;
             this.lblHasta.Text = "Hasta:";
             // 
@@ -197,7 +186,7 @@
             // 
             this.dtpHasta.Location = new System.Drawing.Point(298, 19);
             this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(180, 20);
+            this.dtpHasta.Size = new System.Drawing.Size(180, 22);
             this.dtpHasta.TabIndex = 7;
             // 
             // btnAplicar
@@ -237,7 +226,7 @@
             this.lblTendenciaClientes.AutoSize = true;
             this.lblTendenciaClientes.Location = new System.Drawing.Point(275, 5);
             this.lblTendenciaClientes.Name = "lblTendenciaClientes";
-            this.lblTendenciaClientes.Size = new System.Drawing.Size(33, 13);
+            this.lblTendenciaClientes.Size = new System.Drawing.Size(37, 16);
             this.lblTendenciaClientes.TabIndex = 0;
             this.lblTendenciaClientes.Text = "▲ 0%";
             // 
@@ -274,7 +263,7 @@
             this.lblTendenciaProductos.AutoSize = true;
             this.lblTendenciaProductos.Location = new System.Drawing.Point(275, 5);
             this.lblTendenciaProductos.Name = "lblTendenciaProductos";
-            this.lblTendenciaProductos.Size = new System.Drawing.Size(33, 13);
+            this.lblTendenciaProductos.Size = new System.Drawing.Size(37, 16);
             this.lblTendenciaProductos.TabIndex = 0;
             this.lblTendenciaProductos.Text = "▲ 0%";
             // 
@@ -321,7 +310,7 @@
             this.lblTendenciaVentas.AutoSize = true;
             this.lblTendenciaVentas.Location = new System.Drawing.Point(275, 5);
             this.lblTendenciaVentas.Name = "lblTendenciaVentas";
-            this.lblTendenciaVentas.Size = new System.Drawing.Size(33, 13);
+            this.lblTendenciaVentas.Size = new System.Drawing.Size(37, 16);
             this.lblTendenciaVentas.TabIndex = 1;
             this.lblTendenciaVentas.Text = "▲ 0%";
             // 
@@ -372,35 +361,35 @@
             // 
             // chartIngresosMensuales
             // 
-            chartArea3.Name = "MainArea";
-            this.chartIngresosMensuales.ChartAreas.Add(chartArea3);
+            chartArea1.Name = "MainArea";
+            this.chartIngresosMensuales.ChartAreas.Add(chartArea1);
             this.chartIngresosMensuales.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.chartIngresosMensuales.Legends.Add(legend3);
+            legend1.Name = "Legend1";
+            this.chartIngresosMensuales.Legends.Add(legend1);
             this.chartIngresosMensuales.Location = new System.Drawing.Point(3, 3);
             this.chartIngresosMensuales.MinimumSize = new System.Drawing.Size(300, 250);
             this.chartIngresosMensuales.Name = "chartIngresosMensuales";
-            series3.ChartArea = "MainArea";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chartIngresosMensuales.Series.Add(series3);
+            series1.ChartArea = "MainArea";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartIngresosMensuales.Series.Add(series1);
             this.chartIngresosMensuales.Size = new System.Drawing.Size(484, 250);
             this.chartIngresosMensuales.TabIndex = 0;
             // 
             // chartVentasPorProducto
             // 
-            chartArea4.Name = "MainArea";
-            this.chartVentasPorProducto.ChartAreas.Add(chartArea4);
+            chartArea2.Name = "MainArea";
+            this.chartVentasPorProducto.ChartAreas.Add(chartArea2);
             this.chartVentasPorProducto.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend4.Name = "Legend1";
-            this.chartVentasPorProducto.Legends.Add(legend4);
+            legend2.Name = "Legend1";
+            this.chartVentasPorProducto.Legends.Add(legend2);
             this.chartVentasPorProducto.Location = new System.Drawing.Point(493, 3);
             this.chartVentasPorProducto.MinimumSize = new System.Drawing.Size(300, 250);
             this.chartVentasPorProducto.Name = "chartVentasPorProducto";
-            series4.ChartArea = "MainArea";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chartVentasPorProducto.Series.Add(series4);
+            series2.ChartArea = "MainArea";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartVentasPorProducto.Series.Add(series2);
             this.chartVentasPorProducto.Size = new System.Drawing.Size(484, 250);
             this.chartVentasPorProducto.TabIndex = 1;
             // 

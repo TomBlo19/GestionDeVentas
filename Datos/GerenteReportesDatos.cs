@@ -103,7 +103,7 @@ namespace GestionDeVentas.Datos
             return result;
         }
 
-        // --- VENTAS POR MES (con nombres abreviados en español) ---
+        // --- VENTAS POR MES 
         public List<VentasMes> ObtenerVentasPorMes(DateTime desde, DateTime hasta)
         {
             var lista = new List<VentasMes>();

@@ -23,22 +23,7 @@ namespace GestionDeVentas.Gerent
         private readonly Color colorDescenso = ColorTranslator.FromHtml("#F44336"); // Rojo
         private readonly Color colorEstable = ColorTranslator.FromHtml("#FFC107"); // Amarillo/Naranja
 
-        public FormDashboard()
-        {
-            InitializeComponent();
-
-            panelVentasTotales.Paint += PanelKpi_Paint;
-            panelProductosVendidos.Paint += PanelKpi_Paint;
-            panelClientesNuevos.Paint += PanelKpi_Paint;
-
-            // 🆕 Inicializar eventos de filtros rápidos
-            btnUltimaSemana.Click += BtnFiltroRapido_Click;
-            btnMesActual.Click += BtnFiltroRapido_Click;
-            btnUltimoTrimestre.Click += BtnFiltroRapido_Click;
-
-            // 🆕 Manejador para el botón de exportar
-            btnExportar.Click += BtnExportar_Click;
-        }
+        
 
         private void FormDashboard_Load(object sender, EventArgs e)
         {
@@ -150,13 +135,7 @@ namespace GestionDeVentas.Gerent
             dtpDesde.CalendarForeColor = ColorTranslator.FromHtml("#3E2723");
             dtpHasta.CalendarForeColor = ColorTranslator.FromHtml("#3E2723");
 
-            // 🆕 Estilo para el botón de exportar
-            btnExportar.BackColor = ColorTranslator.FromHtml("#3E2723");
-            btnExportar.ForeColor = Color.White;
-            btnExportar.FlatStyle = FlatStyle.Flat;
-            btnExportar.FlatAppearance.BorderSize = 0;
-            btnExportar.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            btnExportar.Cursor = Cursors.Hand;
+           
 
             // --- KPI's ---
             // Etiquetas de títulos de KPI

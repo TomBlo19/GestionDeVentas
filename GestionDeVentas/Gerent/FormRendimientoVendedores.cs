@@ -59,12 +59,6 @@ namespace GestionDeVentas.Gerent
             btnAplicar.FlatAppearance.BorderSize = 0;
             btnAplicar.Font = new Font("Segoe UI", 10, FontStyle.Bold);
 
-            btnExportar.BackColor = colorMarrónOscuro;
-            btnExportar.ForeColor = Color.White;
-            btnExportar.FlatStyle = FlatStyle.Flat;
-            btnExportar.FlatAppearance.BorderSize = 0;
-            btnExportar.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            btnExportar.Text = "📊 Exportar";
 
             cbVendedor.ForeColor = colorMarrónOscuro;
             cbVendedor.Font = new Font("Segoe UI", 9, FontStyle.Regular);

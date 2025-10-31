@@ -23,7 +23,21 @@ namespace GestionDeVentas.Gerent
         private readonly Color colorDescenso = ColorTranslator.FromHtml("#F44336"); // Rojo
         private readonly Color colorEstable = ColorTranslator.FromHtml("#FFC107"); // Amarillo/Naranja
 
-        
+        public FormDashboard()
+        {
+            InitializeComponent();
+
+            panelVentasTotales.Paint += PanelKpi_Paint;
+            panelProductosVendidos.Paint += PanelKpi_Paint;
+            panelClientesNuevos.Paint += PanelKpi_Paint;
+
+            // 🆕 Inicializar eventos de filtros rápidos
+            btnUltimaSemana.Click += BtnFiltroRapido_Click;
+            btnMesActual.Click += BtnFiltroRapido_Click;
+            btnUltimoTrimestre.Click += BtnFiltroRapido_Click;
+
+
+        }
 
         private void FormDashboard_Load(object sender, EventArgs e)
         {
@@ -83,11 +97,7 @@ namespace GestionDeVentas.Gerent
         }
 
         // 🆕 Lógica para Exportar
-        private void BtnExportar_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Funcionalidad de exportar a PDF/Excel en desarrollo.", "TYV Reportes", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            // Aquí iría la lógica real para generar el PDF/Excel con los datos de las tablas y gráficos
-        }
+
 
 
         // 🎨 Estilo general TYV - APLICANDO ESTÉTICA CÁLIDA (Añadimos estilos para los nuevos elementos)
@@ -134,8 +144,6 @@ namespace GestionDeVentas.Gerent
             // Estilo para DatePickers (Mejora estética)
             dtpDesde.CalendarForeColor = ColorTranslator.FromHtml("#3E2723");
             dtpHasta.CalendarForeColor = ColorTranslator.FromHtml("#3E2723");
-
-           
 
             // --- KPI's ---
             // Etiquetas de títulos de KPI

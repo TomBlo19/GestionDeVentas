@@ -9,6 +9,9 @@ namespace Datos
 {
     public class ProductoDatos
     {
+        //--------------------------------------------------------------
+        // 🔹 OBTENER TODOS LOS PRODUCTOS
+        //--------------------------------------------------------------
         public List<Producto> ObtenerProductos()
         {
             var lista = new List<Producto>();
@@ -56,8 +59,9 @@ namespace Datos
             return lista;
         }
 
-        // <<<-------------------- INICIO: NUEVOS MÉTODOS NECESARIOS -------------------->>>
-
+        //--------------------------------------------------------------
+        // 🔹 MÉTODOS DE CONSULTA ADICIONALES
+        //--------------------------------------------------------------
         public List<string> ObtenerTodasCategorias()
         {
             var lista = new List<string>();
@@ -69,9 +73,7 @@ namespace Datos
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         lista.Add(reader["nombre_categoria"].ToString());
-                    }
                 }
             }
             return lista;
@@ -97,17 +99,16 @@ namespace Datos
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
-                        {
                             lista.Add(reader["nombre_talle"].ToString());
-                        }
                     }
                 }
             }
             return lista;
         }
 
-        // <<<-------------------- FIN: NUEVOS MÉTODOS -------------------->>>
-
+        //--------------------------------------------------------------
+        // 🔹 OBTENER NOMBRES AUXILIARES
+        //--------------------------------------------------------------
         public string ObtenerNombreTalle(int idTalle)
         {
             if (idTalle <= 0) return "-";
@@ -139,6 +140,10 @@ namespace Datos
                 }
             }
         }
+
+        //--------------------------------------------------------------
+        // 🔹 ACTUALIZAR STOCK DESPUÉS DE VENTA
+        //--------------------------------------------------------------
         public void ActualizarStock(int idProducto, int cantidadVendida)
         {
             using (SqlConnection conn = ConexionBD.ObtenerConexion())
@@ -164,7 +169,10 @@ namespace Datos
             }
         }
 
-        public void InsertarProducto(Producto producto)
+        //--------------------------------------------------------------
+        // 🔹 INSERTAR NUEVO PRODUCTO + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void InsertarProducto(Producto producto, string usuario = "Administrador")
         {
             if (ExisteCodigo(producto.Codigo))
                 throw new InvalidOperationException("El código ingresado ya existe. No se puede duplicar.");
@@ -199,10 +207,21 @@ namespace Datos
 
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar el movimiento general (auditoría)
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    SesionActual.NombreCompleto,
+                    "Productos",
+                    "Alta",
+                    $"Nuevo producto agregado: {producto.Nombre}"
+                );
             }
         }
 
-        public void EditarProducto(Producto producto)
+        //--------------------------------------------------------------
+        // 🔹 EDITAR PRODUCTO + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void EditarProducto(Producto producto, string usuario = "Administrador")
         {
             if (ExisteCodigo(producto.Codigo, producto.Id))
                 throw new InvalidOperationException("Ya existe otro producto con este código.");
@@ -238,10 +257,21 @@ namespace Datos
 
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar modificación en movimientos generales
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    usuario,
+                    "Productos",
+                    "Modificación",
+                    $"Producto actualizado: {producto.Nombre}"
+                );
             }
         }
 
-        public void CambiarEstado(int idProducto, bool activar)
+        //--------------------------------------------------------------
+        // 🔹 CAMBIAR ESTADO (ACTIVAR/INACTIVAR) + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void CambiarEstado(int idProducto, bool activar, string nombreProducto = "", string usuario = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -255,9 +285,21 @@ namespace Datos
                     cmd.Parameters.AddWithValue("@Id", idProducto);
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar activación o inactivación
+                string accion = activar ? "Activación" : "Inactivación";
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    usuario,
+                    "Productos",
+                    accion,
+                    $"Producto {accion.ToLower()}: {nombreProducto}"
+                );
             }
         }
 
+        //--------------------------------------------------------------
+        // 🔹 CONSULTAS AUXILIARES
+        //--------------------------------------------------------------
         public int ObtenerIdPorCodigo(string codigo)
         {
             using (var conn = ConexionBD.ObtenerConexion())
@@ -272,7 +314,6 @@ namespace Datos
                 }
             }
         }
-
 
         public bool ExisteCodigo(string codigo, int? idExcluir = null)
         {

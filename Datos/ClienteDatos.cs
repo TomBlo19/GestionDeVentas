@@ -1,4 +1,5 @@
-﻿using GestionDeVentas.Modelos;
+﻿using Datos;
+using GestionDeVentas.Modelos;
 using Modelos;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,12 @@ namespace GestionDeVentas.Datos
 {
     public class ClienteDatos
     {
-        // ❌ Se eliminó el campo connectionString que antes estaba declarado acá
+        //------------------------------------------------------
+        // 🔹 OBTENER TODOS LOS CLIENTESRegistrarMovimientoGeneral
+        //------------------------------------------------------
         public List<Cliente> ObtenerClientes()
         {
             var lista = new List<Cliente>();
-
-            // ❌ Se eliminó el campo connectionString que antes estaba declarado acá
-            // usamos la clase centralizada ConexionBD que devuelve una conexión lista.
 
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -49,11 +49,11 @@ namespace GestionDeVentas.Datos
             }
             return lista;
         }
-        // ✅ MISMO CAMBIO aplicado en todos los métodos siguientes:
-        // Reemplazamos "new SqlConnection(connectionString)" por "ConexionBD.ObtenerConexion()"
-        // para reutilizar la conexión global y mantener un único punto de configuración.
 
-        public void InsertarCliente(Cliente c)
+        //------------------------------------------------------
+        // 🔹 INSERTAR CLIENTE + REGISTRO AUTOMÁTICO
+        //------------------------------------------------------
+        public void InsertarCliente(Cliente c, string usuario = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -78,10 +78,21 @@ namespace GestionDeVentas.Datos
                     cmd.Parameters.AddWithValue("@Correo", c.CorreoElectronico);
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar en auditoría
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    SesionActual.NombreCompleto,
+                    "Clientes",
+                    "Alta",
+                    $"Nuevo cliente agregado: {c.Nombre} {c.Apellido}"
+                );
             }
         }
 
-        public void EditarCliente(Cliente c)
+        //------------------------------------------------------
+        // 🔹 EDITAR CLIENTE + REGISTRO AUTOMÁTICO
+        //------------------------------------------------------
+        public void EditarCliente(Cliente c, string usuario = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -111,10 +122,21 @@ namespace GestionDeVentas.Datos
                     cmd.Parameters.AddWithValue("@Correo", c.CorreoElectronico);
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar modificación
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    usuario,
+                    "Clientes",
+                    "Modificación",
+                    $"Cliente actualizado: {c.Nombre} {c.Apellido}"
+                );
             }
         }
 
-        public void CambiarEstado(int idCliente, bool activar)
+        //------------------------------------------------------
+        // 🔹 CAMBIAR ESTADO (ACTIVAR/INACTIVAR) + REGISTRO AUTOMÁTICO
+        //------------------------------------------------------
+        public void CambiarEstado(int idCliente, bool activar, string nombreCliente = "", string usuario = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -126,9 +148,22 @@ namespace GestionDeVentas.Datos
                     cmd.Parameters.AddWithValue("@Id", idCliente);
                     cmd.ExecuteNonQuery();
                 }
+
+                string accion = activar ? "Activación" : "Inactivación";
+
+                // 🔸 Registrar cambio de estado
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    usuario,
+                    "Clientes",
+                    accion,
+                    $"Cliente {accion.ToLower()}: {nombreCliente}"
+                );
             }
         }
 
+        //------------------------------------------------------
+        // 🔹 CONSULTAS AUXILIARES
+        //------------------------------------------------------
         public bool ExisteDni(string dni, int? idExcluir = null)
         {
             using (var conn = ConexionBD.ObtenerConexion())
@@ -146,6 +181,26 @@ namespace GestionDeVentas.Datos
             }
         }
 
+        public bool ExisteCorreo(string correo, int? idExcluir = null)
+        {
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+                string query = "SELECT COUNT(*) FROM cliente WHERE correo_cliente=@Correo"
+                               + (idExcluir != null ? " AND id_cliente<>@Id" : "");
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Correo", correo);
+                    if (idExcluir != null) cmd.Parameters.AddWithValue("@Id", idExcluir.Value);
+
+                    return (int)cmd.ExecuteScalar() > 0;
+                }
+            }
+        }
+
+        //------------------------------------------------------
+        // 🔹 BÚSQUEDAS
+        //------------------------------------------------------
         public List<Cliente> BuscarClientes(string filtro)
         {
             var lista = new List<Cliente>();
@@ -189,23 +244,6 @@ namespace GestionDeVentas.Datos
             return lista;
         }
 
-        public bool ExisteCorreo(string correo, int? idExcluir = null)
-        {
-            using (var conn = ConexionBD.ObtenerConexion())
-            {
-                conn.Open();
-                string query = "SELECT COUNT(*) FROM cliente WHERE correo_cliente=@Correo"
-                               + (idExcluir != null ? " AND id_cliente<>@Id" : "");
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Correo", correo);
-                    if (idExcluir != null) cmd.Parameters.AddWithValue("@Id", idExcluir.Value);
-
-                    return (int)cmd.ExecuteScalar() > 0;
-                }
-            }
-        }
-
         public List<Cliente> BuscarClientesPorDni(string dni)
         {
             var lista = new List<Cliente>();
@@ -243,7 +281,6 @@ namespace GestionDeVentas.Datos
             return lista;
         }
 
-
         public List<Cliente> BuscarClientesPorApellido(string apellido)
         {
             var lista = new List<Cliente>();
@@ -280,7 +317,5 @@ namespace GestionDeVentas.Datos
 
             return lista;
         }
-
-
     }
 }

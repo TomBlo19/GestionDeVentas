@@ -1,26 +1,22 @@
-﻿using GestionDeVentas.Modelos;
+﻿using Modelos;
+using Datos;
+using GestionDeVentas.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Text; // Necesario para StringBuilder
+using System.Text;
 
 namespace GestionDeVentas.Datos
 {
     public class ProveedorDatos
     {
-        /// <summary>
-        /// Obtiene una lista de proveedores, opcionalmente filtrada por los parámetros proporcionados.
-        /// </summary>
-        /// <param name="cuit">Filtra por CUIT del proveedor (búsqueda parcial).</param>
-        /// <param name="nombre">Filtra por nombre del proveedor (búsqueda parcial).</param>
-        /// <param name="empresa">Filtra por nombre de la empresa (búsqueda parcial).</param>
-        /// <param name="estado">Filtra por estado ('activo' o 'desactivado', búsqueda exacta).</param>
-        /// <returns>Una lista de objetos Proveedor.</returns>
+        //--------------------------------------------------------------
+        // 🔹 OBTENER PROVEEDORES CON FILTROS
+        //--------------------------------------------------------------
         public List<Proveedor> ObtenerProveedores(string cuit = null, string nombre = null, string empresa = null, string estado = null)
         {
             var lista = new List<Proveedor>();
 
-            // Usamos StringBuilder para construir la consulta dinámicamente
             var query = new StringBuilder(@"SELECT id_proveedor, nombre_proveedor, empresa_proveedor, cuit_proveedor,
                                                  telefono_proveedor, direccion_proveedor, pais_proveedor,
                                                  ciudad_proveedor, correo_proveedor, estado_proveedor
@@ -31,7 +27,6 @@ namespace GestionDeVentas.Datos
                 conn.Open();
                 using (var cmd = new SqlCommand())
                 {
-                    // Se añaden las condiciones de filtro si los parámetros no son nulos o vacíos
                     if (!string.IsNullOrEmpty(cuit))
                     {
                         query.Append(" AND cuit_proveedor LIKE @Cuit");
@@ -80,7 +75,10 @@ namespace GestionDeVentas.Datos
             return lista;
         }
 
-        public void InsertarProveedor(Proveedor proveedor)
+        //--------------------------------------------------------------
+        // 🔹 INSERTAR PROVEEDOR + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void InsertarProveedor(Proveedor proveedor, string usuario = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -103,10 +101,21 @@ namespace GestionDeVentas.Datos
                     cmd.Parameters.AddWithValue("@Correo", proveedor.Correo);
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar en auditoría
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                   SesionActual.NombreCompleto,
+                    "Proveedores",
+                    "Alta",
+                    $"Nuevo proveedor agregado: {proveedor.Empresa} ({proveedor.Nombre})"
+                );
             }
         }
 
-        public void EditarProveedor(Proveedor proveedor)
+        //--------------------------------------------------------------
+        // 🔹 EDITAR PROVEEDOR + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void EditarProveedor(Proveedor proveedor, string usuario = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -130,10 +139,21 @@ namespace GestionDeVentas.Datos
                     cmd.Parameters.AddWithValue("@Correo", proveedor.Correo);
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar modificación
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    usuario,
+                    "Proveedores",
+                    "Modificación",
+                    $"Proveedor actualizado: {proveedor.Empresa} ({proveedor.Nombre})"
+                );
             }
         }
 
-        public void CambiarEstado(int idProveedor, bool activar)
+        //--------------------------------------------------------------
+        // 🔹 CAMBIAR ESTADO (ACTIVAR/INACTIVAR) + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void CambiarEstado(int idProveedor, bool activar, string nombreProveedor = "", string usuario = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -141,13 +161,26 @@ namespace GestionDeVentas.Datos
                 string query = "UPDATE proveedor SET estado_proveedor=@Estado WHERE id_proveedor=@Id";
                 using (var cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Estado", activar ? "activo" : "inactivo"); // Corregido a "inactivo"
+                    cmd.Parameters.AddWithValue("@Estado", activar ? "activo" : "inactivo");
                     cmd.Parameters.AddWithValue("@Id", idProveedor);
                     cmd.ExecuteNonQuery();
                 }
+
+                string accion = activar ? "Activación" : "Inactivación";
+
+                // 🔸 Registrar cambio de estado
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    usuario,
+                    "Proveedores",
+                    accion,
+                    $"Proveedor {accion.ToLower()}: {nombreProveedor}"
+                );
             }
         }
 
+        //--------------------------------------------------------------
+        // 🔹 VALIDACIONES
+        //--------------------------------------------------------------
         public bool ExisteCuit(string cuit, int? idExcluir = null)
         {
             using (var conn = ConexionBD.ObtenerConexion())

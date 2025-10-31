@@ -54,44 +54,59 @@ namespace Datos
         }
 
         //--------------------------------------------------
-        // 2️⃣ - HISTORIAL DE MOVIMIENTOS
+        // 2️⃣ - HISTORIAL DE MOVIMIENTOS (STOCK Y GENERALES)
         //--------------------------------------------------
-        public List<MovimientoStock> ObtenerHistorialMovimientos()
+        public List<MovimientoGeneral> ObtenerHistorialMovimientos()
         {
-            var lista = new List<MovimientoStock>();
+            var lista = new List<MovimientoGeneral>();
 
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
+
+                // 🔸 Unificamos movimientos_stock y movimientos_generales
                 string query = @"
                     SELECT 
-                        m.id_movimiento,
-                        p.nombre_producto,
-                        m.tipo_movimiento,
-                        m.cantidad,
-                        m.fecha_movimiento,
-                        m.descripcion
+                        m.fecha_movimiento AS Fecha,
+                        p.nombre_producto AS Detalle,
+                        'Stock' AS Modulo,
+                        m.tipo_movimiento AS Tipo,
+                        m.cantidad AS Cantidad,
+                        m.descripcion AS Descripcion
                     FROM movimientos_stock m
                     INNER JOIN producto p ON m.id_producto = p.id_producto
-                    ORDER BY m.fecha_movimiento DESC;";
+
+                    UNION ALL
+
+                    SELECT 
+                        g.fecha AS Fecha,
+                        g.descripcion AS Detalle,
+                        g.modulo AS Modulo,
+                        g.accion AS Tipo,
+                        NULL AS Cantidad,
+                        g.usuario AS Descripcion
+                    FROM movimientos_generales g
+
+                    ORDER BY Fecha DESC;";
 
                 using (var cmd = new SqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        lista.Add(new MovimientoStock
+                        lista.Add(new MovimientoGeneral
                         {
-                            IdMovimiento = Convert.ToInt32(reader["id_movimiento"]),
-                            ProductoNombre = reader["nombre_producto"].ToString(),
-                            TipoMovimiento = reader["tipo_movimiento"].ToString(),
-                            Cantidad = Convert.ToInt32(reader["cantidad"]),
-                            Fecha = Convert.ToDateTime(reader["fecha_movimiento"]),
-                            Descripcion = reader["descripcion"].ToString()
+                            Fecha = Convert.ToDateTime(reader["Fecha"]),
+                            Detalle = reader["Detalle"].ToString(),
+                            Modulo = reader["Modulo"].ToString(),
+                            Tipo = reader["Tipo"].ToString(),
+                            Cantidad = reader["Cantidad"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["Cantidad"]),
+                            Descripcion = reader["Descripcion"].ToString()
                         });
                     }
                 }
             }
+
             return lista;
         }
 
@@ -106,7 +121,6 @@ namespace Datos
             {
                 conn.Open();
 
-                // 🔸 Se adapta a tu tabla y detecta "venta" o "salida" sin importar mayúsculas
                 string query = @"
                     SELECT TOP 5 
                         p.nombre_producto AS Producto,
@@ -134,18 +148,42 @@ namespace Datos
 
             return lista;
         }
+
+        //--------------------------------------------------
+        // 4️⃣ - REGISTRO DE MOVIMIENTOS GENERALES (AUDITORÍA)
+        //--------------------------------------------------
+        public void RegistrarMovimientoGeneral(string usuario, string modulo, string accion, string descripcion)
+        {
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+
+                string query = @"
+                    INSERT INTO movimientos_generales (usuario, modulo, accion, descripcion)
+                    VALUES (@Usuario, @Modulo, @Accion, @Descripcion);";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Usuario", (object)usuario ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Modulo", modulo);
+                    cmd.Parameters.AddWithValue("@Accion", accion);
+                    cmd.Parameters.AddWithValue("@Descripcion", descripcion);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 
     //--------------------------------------------------
-    // 🔸 MODELOS AUXILIARES (para reportes)
+    // 🔸 MODELOS AUXILIARES (para reportes y auditoría)
     //--------------------------------------------------
-    public class MovimientoStock
+    public class MovimientoGeneral
     {
-        public int IdMovimiento { get; set; }
-        public string ProductoNombre { get; set; }
-        public string TipoMovimiento { get; set; }
-        public int Cantidad { get; set; }
         public DateTime Fecha { get; set; }
+        public string Detalle { get; set; }
+        public string Modulo { get; set; }
+        public string Tipo { get; set; }
+        public int? Cantidad { get; set; }
         public string Descripcion { get; set; }
     }
 

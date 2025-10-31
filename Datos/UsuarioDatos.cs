@@ -1,13 +1,17 @@
-﻿using GestionDeVentas.Modelos;
+﻿using Modelos;
+using Datos;
+using GestionDeVentas.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using GestionDeVentas.Datos;
 
 namespace GestionDeVentas.Datos
 {
     public class UsuarioDatos
     {
+        //--------------------------------------------------------------
+        // 🔹 OBTENER TODOS LOS USUARIOS
+        //--------------------------------------------------------------
         public List<Usuario> ObtenerUsuarios()
         {
             var lista = new List<Usuario>();
@@ -48,7 +52,10 @@ namespace GestionDeVentas.Datos
             return lista;
         }
 
-        public void InsertarUsuario(Usuario usuario)
+        //--------------------------------------------------------------
+        // 🔹 INSERTAR USUARIO + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void InsertarUsuario(Usuario usuario, string usuarioActual = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -75,10 +82,21 @@ namespace GestionDeVentas.Datos
                     cmd.Parameters.AddWithValue("@Ciudad", usuario.Ciudad);
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar en auditoría
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                   SesionActual.NombreCompleto,
+                    "Usuarios",
+                    "Alta",
+                    $"Nuevo usuario agregado: {usuario.Nombre} {usuario.Apellido} ({usuario.Rol})"
+                );
             }
         }
 
-        public void EditarUsuario(Usuario usuario)
+        //--------------------------------------------------------------
+        // 🔹 EDITAR USUARIO + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void EditarUsuario(Usuario usuario, string usuarioActual = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -107,10 +125,21 @@ namespace GestionDeVentas.Datos
                     cmd.Parameters.AddWithValue("@Ciudad", usuario.Ciudad);
                     cmd.ExecuteNonQuery();
                 }
+
+                // 🔸 Registrar modificación
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    usuarioActual,
+                    "Usuarios",
+                    "Modificación",
+                    $"Usuario actualizado: {usuario.Nombre} {usuario.Apellido} ({usuario.Rol})"
+                );
             }
         }
 
-        public void CambiarEstado(int idUsuario, bool activar)
+        //--------------------------------------------------------------
+        // 🔹 CAMBIAR ESTADO (ACTIVAR/INACTIVAR) + REGISTRO AUTOMÁTICO
+        //--------------------------------------------------------------
+        public void CambiarEstado(int idUsuario, bool activar, string nombreUsuario = "", string usuarioActual = "Administrador")
         {
             using (var conn = ConexionBD.ObtenerConexion())
             {
@@ -122,9 +151,22 @@ namespace GestionDeVentas.Datos
                     cmd.Parameters.AddWithValue("@Id", idUsuario);
                     cmd.ExecuteNonQuery();
                 }
+
+                string accion = activar ? "Activación" : "Inactivación";
+
+                // 🔸 Registrar cambio de estado
+                new ReporteDatos().RegistrarMovimientoGeneral(
+                    usuarioActual,
+                    "Usuarios",
+                    accion,
+                    $"Usuario {accion.ToLower()}: {nombreUsuario}"
+                );
             }
         }
 
+        //--------------------------------------------------------------
+        // 🔹 VALIDACIONES Y ROLES
+        //--------------------------------------------------------------
         public bool ExisteDNI(string dni, int? idExcluir = null)
         {
             using (var conn = ConexionBD.ObtenerConexion())
@@ -168,9 +210,7 @@ namespace GestionDeVentas.Datos
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         roles.Add(reader["nombre_tipo"].ToString());
-                    }
                 }
             }
             return roles;

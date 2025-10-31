@@ -23,11 +23,13 @@ namespace GestionDeVentas.Admin
             if (dgvHistorial.Columns.Count == 0)
             {
                 dgvHistorial.Columns.Add("colFecha", "Fecha");
-                dgvHistorial.Columns.Add("colProducto", "Producto");
+                dgvHistorial.Columns.Add("colModulo", "Módulo");
+                dgvHistorial.Columns.Add("colDetalle", "Detalle");
                 dgvHistorial.Columns.Add("colTipo", "Movimiento");
                 dgvHistorial.Columns.Add("colCantidad", "Cantidad");
+                dgvHistorial.Columns.Add("colDescripcion", "Usuario / Descripción");
 
-                // Estilo camel/cacao visual
+                // Estilo camel/cacao visual TYV
                 dgvHistorial.EnableHeadersVisualStyles = false;
                 dgvHistorial.ColumnHeadersDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(128, 64, 0);
                 dgvHistorial.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
@@ -40,7 +42,7 @@ namespace GestionDeVentas.Admin
             // 🔸 Inicializar filtros y combos
             //------------------------------------------------------
             if (cmbMovimiento.Items.Count == 0)
-                cmbMovimiento.Items.AddRange(new object[] { "Todos", "Entrada", "Venta", "Ajuste" });
+                cmbMovimiento.Items.AddRange(new object[] { "Todos", "Venta", "Entrada", "Ajuste", "Alta", "Baja", "Modificación", "Activación", "Inactivación" });
 
             cmbMovimiento.SelectedIndex = 0;
             dtpDesde.Value = DateTime.Today.AddMonths(-1);
@@ -67,7 +69,7 @@ namespace GestionDeVentas.Admin
                     : "✅ No hay productos con stock bajo.";
 
                 //------------------------------------------------------
-                // 2️⃣ Historial de Movimientos
+                // 2️⃣ Historial de Movimientos (Stock + Generales)
                 //------------------------------------------------------
                 dgvHistorial.Rows.Clear();
                 var movs = _reporteDatos.ObtenerHistorialMovimientos();
@@ -79,15 +81,17 @@ namespace GestionDeVentas.Admin
                 var filtrados = movs.Where(m =>
                     m.Fecha >= desde &&
                     m.Fecha < hasta &&
-                    (tipo == "Todos" || m.TipoMovimiento.Equals(tipo, StringComparison.OrdinalIgnoreCase)));
+                    (tipo == "Todos" || m.Tipo.Equals(tipo, StringComparison.OrdinalIgnoreCase)));
 
                 foreach (var m in filtrados)
                 {
                     dgvHistorial.Rows.Add(
                         m.Fecha.ToShortDateString(),
-                        m.ProductoNombre,
-                        m.TipoMovimiento,
-                        m.Cantidad
+                        m.Modulo,
+                        m.Detalle,
+                        m.Tipo,
+                        m.Cantidad?.ToString() ?? "-",
+                        m.Descripcion
                     );
                 }
 

@@ -394,6 +394,7 @@
     <Content Include="Resources\logoFactura_base64.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\warning_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\logoFactura1.png" />

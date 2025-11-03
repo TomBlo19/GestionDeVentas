@@ -64,7 +64,6 @@ namespace Datos
             {
                 conn.Open();
 
-                // 🔸 Unificamos movimientos_stock y movimientos_generales
                 string query = @"
                     SELECT 
                         m.fecha_movimiento AS Fecha,
@@ -171,6 +170,47 @@ namespace Datos
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        //--------------------------------------------------
+        // 5️⃣ - OBTENER TODOS LOS PRODUCTOS (para panel de inventario)
+        //--------------------------------------------------
+        public List<Producto> ObtenerTodosLosProductos()
+        {
+            var lista = new List<Producto>();
+
+            using (var conn = ConexionBD.ObtenerConexion())
+            {
+                conn.Open();
+
+                string query = @"
+                    SELECT 
+                        id_producto,
+                        nombre_producto,
+                        stock_producto,
+                        stock_minimo,
+                        estado_producto
+                    FROM producto
+                    ORDER BY nombre_producto;";
+
+                using (var cmd = new SqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        lista.Add(new Producto
+                        {
+                            Id = Convert.ToInt32(reader["id_producto"]),
+                            Nombre = reader["nombre_producto"].ToString(),
+                            Stock = Convert.ToInt32(reader["stock_producto"]),
+                            StockMinimo = Convert.ToInt32(reader["stock_minimo"]),
+                            Estado = reader["estado_producto"].ToString()
+                        });
+                    }
+                }
+            }
+
+            return lista;
         }
     }
 

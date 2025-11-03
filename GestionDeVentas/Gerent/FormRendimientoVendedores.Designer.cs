@@ -6,7 +6,8 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null)) components.Dispose();
+            if (disposing && (components != null))
+                components.Dispose();
             base.Dispose(disposing);
         }
 
@@ -14,13 +15,14 @@
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.panelFiltros = new System.Windows.Forms.Panel();
+            this.btnExportar = new System.Windows.Forms.Button();
             this.btnAplicar = new System.Windows.Forms.Button();
             this.cbVendedor = new System.Windows.Forms.ComboBox();
             this.lblVendedor = new System.Windows.Forms.Label();
@@ -50,6 +52,7 @@
             // 
             // panelFiltros
             // 
+            this.panelFiltros.Controls.Add(this.btnExportar);
             this.panelFiltros.Controls.Add(this.btnAplicar);
             this.panelFiltros.Controls.Add(this.cbVendedor);
             this.panelFiltros.Controls.Add(this.lblVendedor);
@@ -59,27 +62,39 @@
             this.panelFiltros.Controls.Add(this.lblDesde);
             this.panelFiltros.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelFiltros.Location = new System.Drawing.Point(0, 0);
-            this.panelFiltros.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelFiltros.Margin = new System.Windows.Forms.Padding(4);
             this.panelFiltros.Name = "panelFiltros";
             this.panelFiltros.Padding = new System.Windows.Forms.Padding(20, 12, 67, 12);
             this.panelFiltros.Size = new System.Drawing.Size(1200, 62);
             this.panelFiltros.TabIndex = 1002;
             // 
+            // btnExportar
+            // 
+            this.btnExportar.Location = new System.Drawing.Point(1040, 12);
+            this.btnExportar.Margin = new System.Windows.Forms.Padding(4);
+            this.btnExportar.Name = "btnExportar";
+            this.btnExportar.Size = new System.Drawing.Size(195, 37);
+            this.btnExportar.TabIndex = 7;
+            this.btnExportar.Text = "Exportar Excel";
+            this.btnExportar.UseVisualStyleBackColor = true;
+            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
+            // 
             // btnAplicar
             // 
-            this.btnAplicar.Location = new System.Drawing.Point(899, 12);
-            this.btnAplicar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAplicar.Location = new System.Drawing.Point(892, 12);
+            this.btnAplicar.Margin = new System.Windows.Forms.Padding(4);
             this.btnAplicar.Name = "btnAplicar";
             this.btnAplicar.Size = new System.Drawing.Size(133, 37);
             this.btnAplicar.TabIndex = 6;
             this.btnAplicar.Text = "Aplicar";
+            this.btnAplicar.UseVisualStyleBackColor = true;
             this.btnAplicar.Click += new System.EventHandler(this.btnAplicar_Click);
             // 
             // cbVendedor
             // 
             this.cbVendedor.FormattingEnabled = true;
             this.cbVendedor.Location = new System.Drawing.Point(653, 20);
-            this.cbVendedor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbVendedor.Margin = new System.Windows.Forms.Padding(4);
             this.cbVendedor.Name = "cbVendedor";
             this.cbVendedor.Size = new System.Drawing.Size(212, 24);
             this.cbVendedor.TabIndex = 5;
@@ -98,11 +113,10 @@
             // 
             this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpHasta.Location = new System.Drawing.Point(373, 20);
-            this.dtpHasta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpHasta.Margin = new System.Windows.Forms.Padding(4);
             this.dtpHasta.Name = "dtpHasta";
             this.dtpHasta.Size = new System.Drawing.Size(159, 22);
             this.dtpHasta.TabIndex = 3;
-            this.dtpHasta.ValueChanged += new System.EventHandler(this.dtpHasta_ValueChanged);
             // 
             // lblHasta
             // 
@@ -118,7 +132,7 @@
             // 
             this.dtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpDesde.Location = new System.Drawing.Point(93, 20);
-            this.dtpDesde.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpDesde.Margin = new System.Windows.Forms.Padding(4);
             this.dtpDesde.Name = "dtpDesde";
             this.dtpDesde.Size = new System.Drawing.Size(159, 22);
             this.dtpDesde.TabIndex = 1;
@@ -139,7 +153,7 @@
             this.panelKPIs.Controls.Add(this.panelIngresos);
             this.panelKPIs.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelKPIs.Location = new System.Drawing.Point(0, 62);
-            this.panelKPIs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelKPIs.Margin = new System.Windows.Forms.Padding(4);
             this.panelKPIs.Name = "panelKPIs";
             this.panelKPIs.Padding = new System.Windows.Forms.Padding(13, 6, 13, 6);
             this.panelKPIs.Size = new System.Drawing.Size(1200, 105);
@@ -151,7 +165,7 @@
             this.panelVentasUnidades.Controls.Add(this.lblVentasUnidades);
             this.panelVentasUnidades.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelVentasUnidades.Location = new System.Drawing.Point(600, 6);
-            this.panelVentasUnidades.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelVentasUnidades.Margin = new System.Windows.Forms.Padding(4);
             this.panelVentasUnidades.Name = "panelVentasUnidades";
             this.panelVentasUnidades.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.panelVentasUnidades.Size = new System.Drawing.Size(573, 93);
@@ -160,7 +174,7 @@
             // lblVentasUnidadesValor
             // 
             this.lblVentasUnidadesValor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblVentasUnidadesValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVentasUnidadesValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
             this.lblVentasUnidadesValor.Location = new System.Drawing.Point(7, 31);
             this.lblVentasUnidadesValor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblVentasUnidadesValor.Name = "lblVentasUnidadesValor";
@@ -172,7 +186,7 @@
             // lblVentasUnidades
             // 
             this.lblVentasUnidades.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblVentasUnidades.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVentasUnidades.Font = new System.Drawing.Font("Arial", 10F);
             this.lblVentasUnidades.Location = new System.Drawing.Point(7, 6);
             this.lblVentasUnidades.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblVentasUnidades.Name = "lblVentasUnidades";
@@ -187,7 +201,7 @@
             this.panelIngresos.Controls.Add(this.lblIngresos);
             this.panelIngresos.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelIngresos.Location = new System.Drawing.Point(13, 6);
-            this.panelIngresos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelIngresos.Margin = new System.Windows.Forms.Padding(4);
             this.panelIngresos.Name = "panelIngresos";
             this.panelIngresos.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.panelIngresos.Size = new System.Drawing.Size(587, 93);
@@ -196,7 +210,7 @@
             // lblIngresosValor
             // 
             this.lblIngresosValor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblIngresosValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIngresosValor.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
             this.lblIngresosValor.Location = new System.Drawing.Point(7, 31);
             this.lblIngresosValor.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIngresosValor.Name = "lblIngresosValor";
@@ -208,7 +222,7 @@
             // lblIngresos
             // 
             this.lblIngresos.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblIngresos.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIngresos.Font = new System.Drawing.Font("Arial", 10F);
             this.lblIngresos.Location = new System.Drawing.Point(7, 6);
             this.lblIngresos.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIngresos.Name = "lblIngresos";
@@ -223,7 +237,7 @@
             this.panelGraficos.Controls.Add(this.chartIngresosMensuales);
             this.panelGraficos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelGraficos.Location = new System.Drawing.Point(0, 167);
-            this.panelGraficos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelGraficos.Margin = new System.Windows.Forms.Padding(4);
             this.panelGraficos.Name = "panelGraficos";
             this.panelGraficos.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.panelGraficos.Size = new System.Drawing.Size(1200, 571);
@@ -231,35 +245,35 @@
             // 
             // chartVentasPorProducto
             // 
-            chartArea1.Name = "MainArea";
-            this.chartVentasPorProducto.ChartAreas.Add(chartArea1);
+            chartArea3.Name = "MainArea";
+            this.chartVentasPorProducto.ChartAreas.Add(chartArea3);
             this.chartVentasPorProducto.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chartVentasPorProducto.Legends.Add(legend1);
+            legend3.Name = "Legend1";
+            this.chartVentasPorProducto.Legends.Add(legend3);
             this.chartVentasPorProducto.Location = new System.Drawing.Point(600, 12);
-            this.chartVentasPorProducto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chartVentasPorProducto.Margin = new System.Windows.Forms.Padding(4);
             this.chartVentasPorProducto.Name = "chartVentasPorProducto";
-            series1.ChartArea = "MainArea";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chartVentasPorProducto.Series.Add(series1);
+            series3.ChartArea = "MainArea";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chartVentasPorProducto.Series.Add(series3);
             this.chartVentasPorProducto.Size = new System.Drawing.Size(587, 547);
             this.chartVentasPorProducto.TabIndex = 0;
             // 
             // chartIngresosMensuales
             // 
-            chartArea2.Name = "MainArea";
-            this.chartIngresosMensuales.ChartAreas.Add(chartArea2);
+            chartArea4.Name = "MainArea";
+            this.chartIngresosMensuales.ChartAreas.Add(chartArea4);
             this.chartIngresosMensuales.Dock = System.Windows.Forms.DockStyle.Left;
-            legend2.Name = "Legend1";
-            this.chartIngresosMensuales.Legends.Add(legend2);
+            legend4.Name = "Legend1";
+            this.chartIngresosMensuales.Legends.Add(legend4);
             this.chartIngresosMensuales.Location = new System.Drawing.Point(13, 12);
-            this.chartIngresosMensuales.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chartIngresosMensuales.Margin = new System.Windows.Forms.Padding(4);
             this.chartIngresosMensuales.Name = "chartIngresosMensuales";
-            series2.ChartArea = "MainArea";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartIngresosMensuales.Series.Add(series2);
+            series4.ChartArea = "MainArea";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.chartIngresosMensuales.Series.Add(series4);
             this.chartIngresosMensuales.Size = new System.Drawing.Size(587, 547);
             this.chartIngresosMensuales.TabIndex = 1;
             // 
@@ -270,7 +284,7 @@
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnCerrar.Location = new System.Drawing.Point(1147, 0);
-            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCerrar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(53, 49);
             this.btnCerrar.TabIndex = 999;
@@ -288,7 +302,7 @@
             this.Controls.Add(this.panelGraficos);
             this.Controls.Add(this.panelKPIs);
             this.Controls.Add(this.panelFiltros);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormRendimientoVendedores";
             this.Text = "Rendimiento de Vendedores";
             this.Load += new System.EventHandler(this.FormRendimientoVendedores_Load);
@@ -314,6 +328,7 @@
         private System.Windows.Forms.Label lblVendedor;
         private System.Windows.Forms.ComboBox cbVendedor;
         private System.Windows.Forms.Button btnAplicar;
+        private System.Windows.Forms.Button btnExportar;
         private System.Windows.Forms.Panel panelKPIs;
         private System.Windows.Forms.Panel panelIngresos;
         private System.Windows.Forms.Label lblIngresos;

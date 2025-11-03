@@ -5,6 +5,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using Datos;
+using ClosedXML.Excel;
 
 namespace GestionDeVentas.Gerent
 {
@@ -26,6 +27,7 @@ namespace GestionDeVentas.Gerent
             panelVentasUnidades.Paint += PanelKpi_Paint;
             btnAplicar.Click += btnAplicar_Click;
             btnCerrar.Click += btnCerrar_Click;
+            btnExportar.Click += btnExportar_Click;
         }
 
         private void FormRendimientoVendedores_Load(object sender, EventArgs e)
@@ -53,12 +55,17 @@ namespace GestionDeVentas.Gerent
                 lbl.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             }
 
-            btnAplicar.BackColor = colorAcento1;
-            btnAplicar.ForeColor = Color.White;
-            btnAplicar.FlatStyle = FlatStyle.Flat;
-            btnAplicar.FlatAppearance.BorderSize = 0;
-            btnAplicar.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            // Botones
+            foreach (var btn in new[] { btnAplicar, btnExportar })
+            {
+                btn.FlatStyle = FlatStyle.Flat;
+                btn.FlatAppearance.BorderSize = 0;
+                btn.ForeColor = Color.White;
+                btn.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            }
 
+            btnAplicar.BackColor = colorAcento1;
+            btnExportar.BackColor = colorAcento2;
 
             cbVendedor.ForeColor = colorMarrónOscuro;
             cbVendedor.Font = new Font("Segoe UI", 9, FontStyle.Regular);
@@ -109,119 +116,35 @@ namespace GestionDeVentas.Gerent
             }
         }
 
-        // 📊 Configurar gráfico (corregido)
+        // 📊 Configurar gráfico TYV
         private void ConfigurarGraficoTYV(Chart chart, string titulo, Color colorBase)
         {
             chart.BackColor = ColorTranslator.FromHtml("#FDF8F2");
-
             if (chart.ChartAreas.Count == 0)
                 chart.ChartAreas.Add(new ChartArea("MainArea"));
 
             var area = chart.ChartAreas[0];
             area.BackColor = Color.Transparent;
-            area.BorderColor = Color.Transparent;
-
-            // Ejes sutiles y elegantes
             area.AxisX.MajorGrid.Enabled = false;
             area.AxisY.MajorGrid.LineColor = ColorTranslator.FromHtml("#E0CFA5");
-            area.AxisX.LineColor = ColorTranslator.FromHtml("#A47C48");
-            area.AxisY.LineColor = ColorTranslator.FromHtml("#A47C48");
             area.AxisX.LabelStyle.ForeColor = ColorTranslator.FromHtml("#3E2723");
             area.AxisY.LabelStyle.ForeColor = ColorTranslator.FromHtml("#3E2723");
-            area.AxisX.LabelStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
-            area.AxisY.LabelStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
 
-            // Título TYV
             chart.Titles.Clear();
             chart.Titles.Add(titulo);
             chart.Titles[0].Font = new Font("Segoe UI Semibold", 13);
             chart.Titles[0].ForeColor = ColorTranslator.FromHtml("#3E2723");
-            chart.Titles[0].Alignment = ContentAlignment.TopCenter;
-
-            // Leyenda discreta
-            chart.Legends.Clear();
-            var legend = new Legend
-            {
-                Docking = Docking.Bottom,
-                Alignment = StringAlignment.Center,
-                Font = new Font("Segoe UI", 9, FontStyle.Regular),
-                ForeColor = ColorTranslator.FromHtml("#3E2723"),
-                BackColor = Color.Transparent
-            };
-            chart.Legends.Add(legend);
-
-            chart.Palette = ChartColorPalette.None;
-
-            if (chart.Series.Count == 0)
-                return;
-
-            var serie = chart.Series[0];
-            serie.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            serie.LabelForeColor = ColorTranslator.FromHtml("#3E2723");
-            serie.IsValueShownAsLabel = true;
-            serie.ToolTip = "#AXISLABEL: $ #VALY{N0}";
-            serie["DrawingStyle"] = "Cylinder";
-
-            // 🔶 Barras / Columnas
-            if (serie.ChartType == SeriesChartType.Bar || serie.ChartType == SeriesChartType.Column)
-            {
-                serie.Color = colorBase;
-                serie.BackGradientStyle = GradientStyle.TopBottom;
-                serie.BackSecondaryColor = ControlPaint.Light(colorBase);
-                serie.BorderWidth = 0;
-
-                // ✅ Mostrar valores sin “#VALY”
-                serie.Label = "$ #VALY{N0}";
-                serie.LabelFormat = "";
-                area.AxisY.MajorGrid.Enabled = false;
-            }
-
-            // 🥧 Torta (productos vendidos)
-            if (serie.ChartType == SeriesChartType.Pie)
-            {
-                Color[] paletaTYV =
-                {
-            ColorTranslator.FromHtml("#C19A6B"),
-            ColorTranslator.FromHtml("#8D6E63"),
-            ColorTranslator.FromHtml("#7A9E7E"),
-            ColorTranslator.FromHtml("#EBD3B3"),
-            ColorTranslator.FromHtml("#D4AF37")
-        };
-
-                for (int i = 0; i < serie.Points.Count; i++)
-                {
-                    var punto = serie.Points[i];
-                    var color = paletaTYV[i % paletaTYV.Length];
-                    punto.Color = color;
-
-                    // Mostrar nombre + cantidad + porcentaje
-                    punto.Label = $"{punto.AxisLabel}\n{punto.YValues[0]:N0} ({punto.YValues[0] / serie.Points.Sum(p => p.YValues[0]) * 100:N0}%)";
-                    punto.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-                    punto.LabelForeColor = ColorTranslator.FromHtml("#3E2723");
-                    punto.ToolTip = $"{punto.AxisLabel}: {punto.YValues[0]:N0}";
-                }
-
-                serie["PieLabelStyle"] = "Outside";
-                serie["PieLineColor"] = ColorTranslator.FromHtml("#3E2723").ToArgb().ToString(System.Globalization.CultureInfo.InvariantCulture);
-            }
         }
-
-
 
         // 🧩 Cargar combo de vendedores
         private void CargarComboVendedores()
         {
             var vendedores = _datos.ObtenerVendedores();
-
-            cbVendedor.DisplayMember = "Vendedor";
-            cbVendedor.ValueMember = "Id";
-
-            var lista = vendedores
-                .Select(v => new { Id = v.Id, Vendedor = v.Vendedor })
-                .ToList();
-
+            var lista = vendedores.Select(v => new { v.Id, v.Vendedor }).ToList();
             lista.Insert(0, new { Id = 0, Vendedor = "Todos" });
             cbVendedor.DataSource = lista;
+            cbVendedor.DisplayMember = "Vendedor";
+            cbVendedor.ValueMember = "Id";
             cbVendedor.SelectedIndex = 0;
         }
 
@@ -247,22 +170,14 @@ namespace GestionDeVentas.Gerent
 
             chartIngresosMensuales.Series.Add(serie);
             ConfigurarGraficoTYV(chartIngresosMensuales, "Ranking de Vendedores (Ingresos)", colorAcento1);
-            chartIngresosMensuales.ChartAreas[0].AxisX.Title = "Ingresos ($)";
-            chartIngresosMensuales.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
-
-            ConfigurarGraficoTYV(chartVentasPorProducto, "Seleccione un vendedor para ver detalle", Color.LightGray);
         }
 
         // 📊 Detalle de vendedor
         private void CargarDetalleVendedor(string nombreVendedor)
         {
-            if (cbVendedor.SelectedValue == null)
-                return;
-
             int idVendedor = (int)cbVendedor.SelectedValue;
             var datos = _datos.ObtenerDatosVendedor(idVendedor, dtpDesde.Value, dtpHasta.Value);
 
-            this.Text = $"Rendimiento de {nombreVendedor}";
             lblIngresosValor.Text = $"$ {datos.ingresos:N2}";
             lblVentasUnidadesValor.Text = datos.unidades.ToString("N0");
 
@@ -302,12 +217,83 @@ namespace GestionDeVentas.Gerent
                 CargarDetalleVendedor(cbVendedor.Text);
         }
 
-        // ❌ Botón Cerrar
+        // 📤 Exportar Excel
+        private void btnExportar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SaveFileDialog sfd = new SaveFileDialog()
+                {
+                    Filter = "Archivo Excel|*.xlsx",
+                    FileName = $"Rendimiento_{DateTime.Now:yyyyMMdd_HHmm}.xlsx"
+                })
+                {
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        using (var workbook = new XLWorkbook())
+                        {
+                            var ws = workbook.Worksheets.Add("Rendimiento");
+                            ws.Cell(1, 1).Value = "Reporte de Rendimiento de Vendedores - TYV WEAR";
+                            ws.Range("A1:D1").Merge().Style.Fill.BackgroundColor = XLColor.FromHtml("#C19A6B");
+                            ws.Cell(1, 1).Style.Font.Bold = true;
+                            ws.Cell(1, 1).Style.Font.FontSize = 14;
+
+                            int row = 3;
+
+                            if ((int)cbVendedor.SelectedValue == 0)
+                            {
+                                ws.Cell(row, 1).Value = "Vendedor";
+                                ws.Cell(row, 2).Value = "Total Ingresos ($)";
+                                row++;
+
+                                var ranking = _datos.ObtenerRanking(dtpDesde.Value, dtpHasta.Value);
+                                foreach (var v in ranking.OrderByDescending(r => r.Total))
+                                {
+                                    ws.Cell(row, 1).Value = v.Vendedor;
+                                    ws.Cell(row, 2).Value = v.Total;
+                                    row++;
+                                }
+                            }
+                            else
+                            {
+                                int idVendedor = (int)cbVendedor.SelectedValue;
+                                string nombre = cbVendedor.Text;
+                                var productos = _datos.ObtenerProductosMasVendidos(idVendedor, dtpDesde.Value, dtpHasta.Value);
+
+                                ws.Cell(row, 1).Value = $"Detalle de ventas de {nombre}";
+                                ws.Range(row, 1, row, 3).Merge().Style.Fill.BackgroundColor = XLColor.FromHtml("#EBD3B3");
+                                row += 2;
+
+                                ws.Cell(row, 1).Value = "Producto";
+                                ws.Cell(row, 2).Value = "Cantidad vendida";
+                                row++;
+
+                                foreach (var p in productos)
+                                {
+                                    ws.Cell(row, 1).Value = p.Producto;
+                                    ws.Cell(row, 2).Value = p.Cantidad;
+                                    row++;
+                                }
+                            }
+
+                            ws.Columns().AdjustToContents();
+                            workbook.SaveAs(sfd.FileName);
+                        }
+
+                        MessageBox.Show("Reporte exportado correctamente.", "TYV WEAR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al exportar: {ex.Message}", "TYV WEAR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ❌ Cerrar
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-        private void dtpHasta_ValueChanged(object sender, EventArgs e) { }
     }
 }

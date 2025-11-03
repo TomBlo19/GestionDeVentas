@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using Datos;
 using ClosedXML.Excel;
+using System.IO;
 
 namespace GestionDeVentas.Gerent
 {
@@ -27,7 +28,8 @@ namespace GestionDeVentas.Gerent
             panelVentasUnidades.Paint += PanelKpi_Paint;
             btnAplicar.Click += btnAplicar_Click;
             btnCerrar.Click += btnCerrar_Click;
-            btnExportar.Click += btnExportar_Click;
+            // ❌ IMPORTANTE: Eliminada la línea btnExportar.Click += btnExportar_Click;
+            // El diseñador (InitializeComponent) es ahora la única fuente de vinculación.
         }
 
         private void FormRendimientoVendedores_Load(object sender, EventArgs e)
@@ -62,6 +64,7 @@ namespace GestionDeVentas.Gerent
                 btn.FlatAppearance.BorderSize = 0;
                 btn.ForeColor = Color.White;
                 btn.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                btn.Cursor = Cursors.Hand;
             }
 
             btnAplicar.BackColor = colorAcento1;
@@ -75,6 +78,7 @@ namespace GestionDeVentas.Gerent
             btnCerrar.ForeColor = Color.White;
             btnCerrar.Font = new Font("Segoe UI", 13, FontStyle.Bold);
             btnCerrar.Text = "✕";
+            btnCerrar.Cursor = Cursors.Hand;
 
             // Panel KPIs
             panelKPIs.BackColor = colorFondoPrincipal;
@@ -134,6 +138,12 @@ namespace GestionDeVentas.Gerent
             chart.Titles.Add(titulo);
             chart.Titles[0].Font = new Font("Segoe UI Semibold", 13);
             chart.Titles[0].ForeColor = ColorTranslator.FromHtml("#3E2723");
+
+            if (chart.Series.Count > 0)
+            {
+                chart.Series[0].Color = colorBase;
+                chart.Series[0].Font = new Font("Segoe UI", 9, FontStyle.Bold);
+            }
         }
 
         // 🧩 Cargar combo de vendedores
@@ -158,11 +168,16 @@ namespace GestionDeVentas.Gerent
             lblIngresosValor.Text = "$ 0.00";
             lblVentasUnidadesValor.Text = "0";
 
+            var totalIngresos = ranking.Sum(r => r.Total);
+            lblIngresosValor.Text = $"$ {totalIngresos:N2}";
+
             var serie = new Series("Vendedores")
             {
                 ChartArea = "MainArea",
                 ChartType = SeriesChartType.Bar,
-                IsValueShownAsLabel = true
+                IsValueShownAsLabel = true,
+                Color = colorAcento1,
+                Font = new Font("Segoe UI", 9, FontStyle.Bold)
             };
 
             foreach (var v in ranking.OrderByDescending(r => r.Total))
@@ -170,6 +185,10 @@ namespace GestionDeVentas.Gerent
 
             chartIngresosMensuales.Series.Add(serie);
             ConfigurarGraficoTYV(chartIngresosMensuales, "Ranking de Vendedores (Ingresos)", colorAcento1);
+
+            // Limpiar el segundo gráfico y título en modo Ranking
+            chartVentasPorProducto.Titles.Clear();
+            chartVentasPorProducto.Titles.Add("Productos vendidos (No aplica en ranking)");
         }
 
         // 📊 Detalle de vendedor
@@ -181,29 +200,43 @@ namespace GestionDeVentas.Gerent
             lblIngresosValor.Text = $"$ {datos.ingresos:N2}";
             lblVentasUnidadesValor.Text = datos.unidades.ToString("N0");
 
-            var ingresos = _datos.ObtenerIngresosMensuales(idVendedor);
+            // Gráfico 1: Ingresos Mensuales
+            var ingresos = _datos.ObtenerIngresosMensuales(idVendedor); // Nota: Asumo que este método usa las fechas del DT
             chartIngresosMensuales.Series.Clear();
-            var serie = new Series("Meses")
+            var serie = new Series("Ingresos")
             {
                 ChartArea = "MainArea",
                 ChartType = SeriesChartType.Column,
-                IsValueShownAsLabel = true
+                IsValueShownAsLabel = true,
+                Color = colorAcento1,
+                Font = new Font("Segoe UI", 9, FontStyle.Bold)
             };
             foreach (var m in ingresos)
                 serie.Points.AddXY(m.Mes, m.Total);
             chartIngresosMensuales.Series.Add(serie);
             ConfigurarGraficoTYV(chartIngresosMensuales, $"Ingresos mensuales de {nombreVendedor}", colorAcento1);
 
+            // Gráfico 2: Productos más vendidos (Pie Chart)
             var productos = _datos.ObtenerProductosMasVendidos(idVendedor, dtpDesde.Value, dtpHasta.Value);
             chartVentasPorProducto.Series.Clear();
             var serieProd = new Series("Productos")
             {
                 ChartArea = "MainArea",
                 ChartType = SeriesChartType.Pie,
-                IsValueShownAsLabel = true
+                IsValueShownAsLabel = true,
+                Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                LabelFormat = "#PERCENT"
             };
+
+            Color[] paletaPie = { colorAcento2, ColorTranslator.FromHtml("#8D6E63"), ColorTranslator.FromHtml("#EBD3B3"), colorAcento1, ColorTranslator.FromHtml("#D4AF37") };
+            int i = 0;
             foreach (var p in productos)
-                serieProd.Points.AddXY(p.Producto, p.Cantidad);
+            {
+                var dataPoint = serieProd.Points.Add(p.Cantidad);
+                dataPoint.LegendText = p.Producto;
+                dataPoint.Color = paletaPie[i++ % paletaPie.Length];
+            }
+
             chartVentasPorProducto.Series.Add(serieProd);
             ConfigurarGraficoTYV(chartVentasPorProducto, $"Productos vendidos por {nombreVendedor}", colorAcento2);
         }
@@ -217,15 +250,21 @@ namespace GestionDeVentas.Gerent
                 CargarDetalleVendedor(cbVendedor.Text);
         }
 
-        // 📤 Exportar Excel
+        // 📤 Exportar Excel (AHORA CON GRÁFICOS)
         private void btnExportar_Click(object sender, EventArgs e)
         {
+            if (chartIngresosMensuales.Series.Count == 0)
+            {
+                MessageBox.Show("Cargue los datos primero haciendo clic en 'Aplicar'.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 using (SaveFileDialog sfd = new SaveFileDialog()
                 {
                     Filter = "Archivo Excel|*.xlsx",
-                    FileName = $"Rendimiento_{DateTime.Now:yyyyMMdd_HHmm}.xlsx"
+                    FileName = $"Rendimiento_Vendedores_{DateTime.Now:yyyyMMdd_HHmm}.xlsx"
                 })
                 {
                     if (sfd.ShowDialog() == DialogResult.OK)
@@ -234,14 +273,21 @@ namespace GestionDeVentas.Gerent
                         {
                             var ws = workbook.Worksheets.Add("Rendimiento");
                             ws.Cell(1, 1).Value = "Reporte de Rendimiento de Vendedores - TYV WEAR";
-                            ws.Range("A1:D1").Merge().Style.Fill.BackgroundColor = XLColor.FromHtml("#C19A6B");
+                            ws.Range("A1:E1").Merge().Style.Fill.BackgroundColor = XLColor.FromHtml("#C19A6B");
                             ws.Cell(1, 1).Style.Font.Bold = true;
                             ws.Cell(1, 1).Style.Font.FontSize = 14;
 
                             int row = 3;
 
+                            // 1. Exportación de Datos (KPIs y Tablas)
                             if ((int)cbVendedor.SelectedValue == 0)
                             {
+                                // MODO RANKING
+                                ws.Cell(row, 1).Value = "Ranking General de Vendedores (Ingresos)";
+                                ws.Range(row, 1, row, 3).Merge().Style.Fill.BackgroundColor = XLColor.FromHtml("#EBD3B3");
+                                ws.Range(row, 1, row, 3).Style.Font.Bold = true;
+                                row++;
+
                                 ws.Cell(row, 1).Value = "Vendedor";
                                 ws.Cell(row, 2).Value = "Total Ingresos ($)";
                                 row++;
@@ -251,18 +297,37 @@ namespace GestionDeVentas.Gerent
                                 {
                                     ws.Cell(row, 1).Value = v.Vendedor;
                                     ws.Cell(row, 2).Value = v.Total;
+                                    ws.Cell(row, 2).Style.NumberFormat.Format = "$ #,##0.00"; // Formato moneda
                                     row++;
                                 }
                             }
                             else
                             {
-                                int idVendedor = (int)cbVendedor.SelectedValue;
+                                // MODO DETALLE DE VENDEDOR
                                 string nombre = cbVendedor.Text;
+                                int idVendedor = (int)cbVendedor.SelectedValue;
+                                var datosKPI = _datos.ObtenerDatosVendedor(idVendedor, dtpDesde.Value, dtpHasta.Value);
                                 var productos = _datos.ObtenerProductosMasVendidos(idVendedor, dtpDesde.Value, dtpHasta.Value);
 
                                 ws.Cell(row, 1).Value = $"Detalle de ventas de {nombre}";
                                 ws.Range(row, 1, row, 3).Merge().Style.Fill.BackgroundColor = XLColor.FromHtml("#EBD3B3");
+                                ws.Range(row, 1, row, 3).Style.Font.Bold = true;
                                 row += 2;
+
+                                // Exportar KPIs
+                                ws.Cell(row, 1).Value = "KPI: Ingresos Totales";
+                                ws.Cell(row++, 2).Value = datosKPI.ingresos;
+                                ws.Cell(row - 1, 2).Style.NumberFormat.Format = "$ #,##0.00";
+
+                                ws.Cell(row, 1).Value = "KPI: Unidades Vendidas";
+                                ws.Cell(row++, 2).Value = datosKPI.unidades;
+                                row++;
+
+                                // Exportar Tabla de Productos Vendidos
+                                ws.Cell(row, 1).Value = "Productos Más Vendidos (Cant.)";
+                                ws.Range(row, 1, row, 2).Merge().Style.Fill.BackgroundColor = XLColor.FromHtml("#EBD3B3");
+                                ws.Range(row, 1, row, 2).Style.Font.Bold = true;
+                                row++;
 
                                 ws.Cell(row, 1).Value = "Producto";
                                 ws.Cell(row, 2).Value = "Cantidad vendida";
@@ -277,10 +342,30 @@ namespace GestionDeVentas.Gerent
                             }
 
                             ws.Columns().AdjustToContents();
+
+                            // 2. Exportar Gráficos
+                            using (var img1 = new MemoryStream())
+                            using (var img2 = new MemoryStream())
+                            {
+                                // Captura Chart 1 (Ranking o Ingresos Mensuales)
+                                chartIngresosMensuales.SaveImage(img1, ChartImageFormat.Png);
+                                img1.Position = 0;
+                                ws.AddPicture(img1).MoveTo(ws.Cell(3, 4)).Scale(0.8);
+
+                                // Captura Chart 2 (Productos Vendidos, si aplica)
+                                if ((int)cbVendedor.SelectedValue != 0 && chartVentasPorProducto.Series.Count > 0)
+                                {
+                                    chartVentasPorProducto.SaveImage(img2, ChartImageFormat.Png);
+                                    img2.Position = 0;
+                                    // Coloca el segundo gráfico más abajo.
+                                    ws.AddPicture(img2).MoveTo(ws.Cell(25, 1)).Scale(0.8);
+                                }
+                            }
+
                             workbook.SaveAs(sfd.FileName);
                         }
 
-                        MessageBox.Show("Reporte exportado correctamente.", "TYV WEAR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Reporte exportado correctamente con gráficos.", "TYV WEAR", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }

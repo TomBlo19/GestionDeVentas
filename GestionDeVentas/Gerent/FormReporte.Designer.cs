@@ -33,6 +33,7 @@
             this.txtNroFactura = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
+            this.btnExportarExcel = new System.Windows.Forms.Button(); // Declaración
             this.dgvFacturas = new System.Windows.Forms.DataGridView();
             this.colNroFactura = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -175,7 +176,7 @@
             this.btnBuscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnBuscar.Location = new System.Drawing.Point(622, 58);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(80, 55);
+            this.btnBuscar.Size = new System.Drawing.Size(65, 55);
             this.btnBuscar.TabIndex = 12;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
@@ -184,19 +185,31 @@
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(708, 58);
+            this.btnReset.Location = new System.Drawing.Point(693, 58);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(80, 55);
+            this.btnReset.Size = new System.Drawing.Size(65, 55);
             this.btnReset.TabIndex = 13;
             this.btnReset.Text = "Restablecer";
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
+            // btnExportarExcel
+            // 
+            this.btnExportarExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportarExcel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnExportarExcel.Location = new System.Drawing.Point(764, 58);
+            this.btnExportarExcel.Name = "btnExportarExcel";
+            this.btnExportarExcel.Size = new System.Drawing.Size(56, 55);
+            this.btnExportarExcel.TabIndex = 14;
+            this.btnExportarExcel.Text = "Exportar";
+            this.btnExportarExcel.UseVisualStyleBackColor = true;
+            this.btnExportarExcel.Click += new System.EventHandler(this.btnExportarExcel_Click);
+            // 
             // dgvFacturas
             // 
             this.dgvFacturas.AllowUserToAddRows = false;
-            this.dgvFacturas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvFacturas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvFacturas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvFacturas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -214,7 +227,7 @@
             this.dgvFacturas.RowHeadersVisible = false;
             this.dgvFacturas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvFacturas.Size = new System.Drawing.Size(780, 350);
-            this.dgvFacturas.TabIndex = 14;
+            this.dgvFacturas.TabIndex = 15;
             this.dgvFacturas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFacturas_CellContentClick);
             // 
             // colNroFactura
@@ -281,6 +294,7 @@
             this.ClientSize = new System.Drawing.Size(820, 550);
             this.Controls.Add(this.lblResultados);
             this.Controls.Add(this.dgvFacturas);
+            this.Controls.Add(this.btnExportarExcel);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtNroFactura);
@@ -315,13 +329,14 @@
         private System.Windows.Forms.Label lblFechaHasta;
         private System.Windows.Forms.DateTimePicker dtpHasta;
         private System.Windows.Forms.Label lblCliente;
-        private System.Windows.Forms.TextBox txtDniCliente; // ✨ CAMBIO: Declaración del nuevo control
+        private System.Windows.Forms.TextBox txtDniCliente;
         private System.Windows.Forms.Label lblVendedor;
         private System.Windows.Forms.ComboBox cmbVendedor;
         private System.Windows.Forms.Label lblNroFactura;
         private System.Windows.Forms.TextBox txtNroFactura;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnExportarExcel;
         private System.Windows.Forms.DataGridView dgvFacturas;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNroFactura;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFecha;

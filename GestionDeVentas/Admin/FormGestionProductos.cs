@@ -22,12 +22,46 @@ namespace GestionDeVentas.Admin
             //------------------------------------------------------
             if (dgvHistorial.Columns.Count == 0)
             {
-                dgvHistorial.Columns.Add("colFecha", "Fecha");
-                dgvHistorial.Columns.Add("colModulo", "Módulo");
-                dgvHistorial.Columns.Add("colDetalle", "Detalle");
-                dgvHistorial.Columns.Add("colTipo", "Movimiento");
-                dgvHistorial.Columns.Add("colCantidad", "Cantidad");
-                dgvHistorial.Columns.Add("colDescripcion", "Usuario / Descripción");
+                // ✅ --- INICIO DE CAMBIOS ---
+                // 1. Quité la columna "colCantidad"
+                // 2. Ajusté el FillWeight para dar más espacio a las columnas con texto largo.
+
+                var colFecha = new DataGridViewTextBoxColumn
+                {
+                    Name = "colFecha",
+                    HeaderText = "Fecha",
+                    FillWeight = 15 // Menos espacio
+                };
+                var colModulo = new DataGridViewTextBoxColumn
+                {
+                    Name = "colModulo",
+                    HeaderText = "Módulo",
+                    FillWeight = 15 // Menos espacio
+                };
+                var colDetalle = new DataGridViewTextBoxColumn
+                {
+                    Name = "colDetalle",
+                    HeaderText = "Detalle",
+                    FillWeight = 40 // Más espacio
+                };
+                var colTipo = new DataGridViewTextBoxColumn
+                {
+                    Name = "colTipo",
+                    HeaderText = "Movimiento",
+                    FillWeight = 15 // Menos espacio
+                };
+                var colDescripcion = new DataGridViewTextBoxColumn
+                {
+                    Name = "colDescripcion",
+                    HeaderText = "Usuario / Descripción",
+                    FillWeight = 30 // Espacio considerable
+                };
+
+                dgvHistorial.Columns.AddRange(new DataGridViewColumn[] {
+                    colFecha, colModulo, colDetalle, colTipo, colDescripcion
+                });
+
+                // ✅ --- FIN DE CAMBIOS ---
 
                 dgvHistorial.EnableHeadersVisualStyles = false;
                 dgvHistorial.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(128, 64, 0);
@@ -157,14 +191,16 @@ namespace GestionDeVentas.Admin
 
                 foreach (var m in filtrados)
                 {
+                    // ✅ --- INICIO DE CAMBIO ---
+                    // Quité 'm.Cantidad' de la lista
                     dgvHistorial.Rows.Add(
                         m.Fecha.ToShortDateString(),
                         m.Modulo,
                         m.Detalle,
                         m.Tipo,
-                        m.Cantidad?.ToString() ?? "-",
                         m.Descripcion
                     );
+                    // ✅ --- FIN DE CAMBIO ---
                 }
 
                 //------------------------------------------------------

@@ -159,6 +159,13 @@ namespace GestionDeVentas.Admin
             // 
             // panelActividad
             // 
+            // ✅ --- INICIO DE CAMBIOS (DISEÑO) ---
+            // 1. Añadí 'Anchor' para que se ajuste a la derecha si la ventana cambia.
+            // 2. Ajusté el 'Size' de 770 a 760 para que entre en el panel principal (1200 - 400 - 40 de padding = 760).
+            this.panelActividad.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelActividad.Size = new System.Drawing.Size(760, 220);
+            // ✅ --- FIN DE CAMBIOS (DISEÑO) ---
             this.panelActividad.BackColor = System.Drawing.Color.White;
             this.panelActividad.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelActividad.Controls.Add(this.lblTituloActividad);
@@ -175,7 +182,6 @@ namespace GestionDeVentas.Admin
             this.panelActividad.Controls.Add(this.lblSinStock);
             this.panelActividad.Location = new System.Drawing.Point(400, 90);
             this.panelActividad.Name = "panelActividad";
-            this.panelActividad.Size = new System.Drawing.Size(770, 220);
             this.panelActividad.TabIndex = 3;
             // 
             // lblTituloActividad
@@ -186,7 +192,7 @@ namespace GestionDeVentas.Admin
             this.lblTituloActividad.ForeColor = System.Drawing.Color.White;
             this.lblTituloActividad.Location = new System.Drawing.Point(0, 0);
             this.lblTituloActividad.Name = "lblTituloActividad";
-            this.lblTituloActividad.Size = new System.Drawing.Size(768, 40);
+            this.lblTituloActividad.Size = new System.Drawing.Size(758, 40); // Ajustado a 758 (760 - 2 de borde)
             this.lblTituloActividad.TabIndex = 0;
             this.lblTituloActividad.Text = "Actividad Reciente y Estado del Inventario";
             this.lblTituloActividad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -198,7 +204,7 @@ namespace GestionDeVentas.Admin
             this.lblUltimaActualizacion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(50)))), ((int)(((byte)(40)))));
             this.lblUltimaActualizacion.Location = new System.Drawing.Point(20, 45);
             this.lblUltimaActualizacion.Name = "lblUltimaActualizacion";
-            this.lblUltimaActualizacion.Size = new System.Drawing.Size(156, 20);
+            this.lblUltimaActualizacion.Size = new System.Drawing.Size(125, 15);
             this.lblUltimaActualizacion.TabIndex = 1;
             this.lblUltimaActualizacion.Text = "Última actualización: -";
             // 
@@ -287,19 +293,26 @@ namespace GestionDeVentas.Admin
             // 
             // panelHistorial
             // 
+            // ✅ --- INICIO DE CAMBIOS (DISEÑO) ---
+            // 1. Añadí 'Anchor' a los 4 lados para que ocupe todo el espacio restante.
+            // 2. Ajusté el 'Size' a 1160 para que ocupe todo el ancho del panel (1200 - 40 padding).
+            this.panelHistorial.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelHistorial.Size = new System.Drawing.Size(1160, 330);
+            // ✅ --- FIN DE CAMBIOS (DISEÑO) ---
             this.panelHistorial.BackColor = System.Drawing.Color.White;
             this.panelHistorial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelHistorial.Controls.Add(this.dgvHistorial);
             this.panelHistorial.Controls.Add(this.lblTituloHistorial);
             this.panelHistorial.Location = new System.Drawing.Point(20, 390);
             this.panelHistorial.Name = "panelHistorial";
-            this.panelHistorial.Size = new System.Drawing.Size(1150, 330);
             this.panelHistorial.TabIndex = 4;
             // 
             // dgvHistorial
             // 
             this.dgvHistorial.AllowUserToAddRows = false;
-            this.dgvHistorial.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvHistorial.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill; // Esto está bien
             this.dgvHistorial.BackgroundColor = System.Drawing.Color.White;
             this.dgvHistorial.ColumnHeadersHeight = 29;
             this.dgvHistorial.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -308,7 +321,7 @@ namespace GestionDeVentas.Admin
             this.dgvHistorial.ReadOnly = true;
             this.dgvHistorial.RowHeadersVisible = false;
             this.dgvHistorial.RowHeadersWidth = 51;
-            this.dgvHistorial.Size = new System.Drawing.Size(1148, 288);
+            this.dgvHistorial.Size = new System.Drawing.Size(1158, 288); // Ajustado (1160 - 2 borde)
             this.dgvHistorial.TabIndex = 0;
             // 
             // lblTituloHistorial
@@ -319,7 +332,7 @@ namespace GestionDeVentas.Admin
             this.lblTituloHistorial.ForeColor = System.Drawing.Color.White;
             this.lblTituloHistorial.Location = new System.Drawing.Point(0, 0);
             this.lblTituloHistorial.Name = "lblTituloHistorial";
-            this.lblTituloHistorial.Size = new System.Drawing.Size(1148, 40);
+            this.lblTituloHistorial.Size = new System.Drawing.Size(1158, 40); // Ajustado (1160 - 2 borde)
             this.lblTituloHistorial.TabIndex = 1;
             this.lblTituloHistorial.Text = "Historial de Movimientos";
             this.lblTituloHistorial.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -328,14 +341,14 @@ namespace GestionDeVentas.Admin
             // 
             this.dtpDesde.Location = new System.Drawing.Point(0, 0);
             this.dtpDesde.Name = "dtpDesde";
-            this.dtpDesde.Size = new System.Drawing.Size(200, 22);
+            this.dtpDesde.Size = new System.Drawing.Size(200, 20);
             this.dtpDesde.TabIndex = 0;
             // 
             // dtpHasta
             // 
             this.dtpHasta.Location = new System.Drawing.Point(0, 0);
             this.dtpHasta.Name = "dtpHasta";
-            this.dtpHasta.Size = new System.Drawing.Size(200, 22);
+            this.dtpHasta.Size = new System.Drawing.Size(200, 20);
             this.dtpHasta.TabIndex = 0;
             // 
             // lblDesde
@@ -356,7 +369,7 @@ namespace GestionDeVentas.Admin
             // 
             this.cmbMovimiento.Location = new System.Drawing.Point(0, 0);
             this.cmbMovimiento.Name = "cmbMovimiento";
-            this.cmbMovimiento.Size = new System.Drawing.Size(121, 24);
+            this.cmbMovimiento.Size = new System.Drawing.Size(121, 21);
             this.cmbMovimiento.TabIndex = 0;
             // 
             // lblFiltroMovimiento

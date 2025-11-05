@@ -120,8 +120,7 @@ namespace GestionDeVentas.Vendedor
                     var p = frm.ProductoSeleccionado;
                     productoSeleccionadoTmp = p;
 
-                 //   txtBuscarProducto.Text = $"{p.Nombre} | Talle: {p.TalleNombre} | Stock: {p.StockDisponible}";
-                    pnlSeleccionProducto.Visible = true;
+                    txtBuscarProducto.Text = $"{p.Nombre} - Stock Disponible: {p.StockDisponible}"; pnlSeleccionProducto.Visible = true;
                     txtCantidadSeleccionada.Text = "1";
                     txtCantidadSeleccionada.Focus();
                 }
@@ -168,7 +167,7 @@ namespace GestionDeVentas.Vendedor
             }
 
 
-            // ✅ Mostrar el Código (no el ID)
+          
             dgvDetalle.Rows.Add(
                 p.Codigo.ToString(),
                 p.Nombre,
@@ -179,6 +178,7 @@ namespace GestionDeVentas.Vendedor
             );
 
             pnlSeleccionProducto.Visible = false;
+            txtBuscarProducto.Text = "Buscar por código o nombre";
             CalcularTotales();
         }
 

@@ -128,7 +128,7 @@ namespace GestionDeVentas.Datos
 
                 // 🔸 Registrar modificación
                 new ReporteDatos().RegistrarMovimientoGeneral(
-                    usuarioActual,
+                  SesionActual.NombreCompleto,
                     "Usuarios",
                     "Modificación",
                     $"Usuario actualizado: {usuario.Nombre} {usuario.Apellido} ({usuario.Rol})"
@@ -156,7 +156,7 @@ namespace GestionDeVentas.Datos
 
                 // 🔸 Registrar cambio de estado
                 new ReporteDatos().RegistrarMovimientoGeneral(
-                    usuarioActual,
+                    SesionActual.NombreCompleto,
                     "Usuarios",
                     accion,
                     $"Usuario {accion.ToLower()}: {nombreUsuario}"

@@ -142,7 +142,7 @@ namespace GestionDeVentas.Datos
 
                 // 🔸 Registrar modificación
                 new ReporteDatos().RegistrarMovimientoGeneral(
-                    usuario,
+                    SesionActual.NombreCompleto,
                     "Proveedores",
                     "Modificación",
                     $"Proveedor actualizado: {proveedor.Empresa} ({proveedor.Nombre})"
@@ -172,7 +172,7 @@ namespace GestionDeVentas.Datos
 
                 // 🔸 Registrar cambio de estado
                 new ReporteDatos().RegistrarMovimientoGeneral(
-                    usuario,
+                    SesionActual.NombreCompleto,
                     "Proveedores",
                     accion,
                     $"Proveedor {accion.ToLower()}: {nombreProveedor}"

@@ -260,7 +260,7 @@ namespace Datos
 
                 // 🔸 Registrar modificación en movimientos generales
                 new ReporteDatos().RegistrarMovimientoGeneral(
-                    usuario,
+                   SesionActual.NombreCompleto,
                     "Productos",
                     "Modificación",
                     $"Producto actualizado: {producto.Nombre}"
@@ -289,7 +289,7 @@ namespace Datos
                 // 🔸 Registrar activación o inactivación
                 string accion = activar ? "Activación" : "Inactivación";
                 new ReporteDatos().RegistrarMovimientoGeneral(
-                    usuario,
+                    SesionActual.NombreCompleto,
                     "Productos",
                     accion,
                     $"Producto {accion.ToLower()}: {nombreProducto}"

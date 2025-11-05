@@ -224,9 +224,10 @@ namespace GestionDeVentas.Gerent
                 ChartArea = "MainArea",
                 ChartType = SeriesChartType.Pie,
                 IsValueShownAsLabel = true,
-                Font = new Font("Segoe UI", 9, FontStyle.Bold),
-                LabelFormat = "#PERCENT"
+                Font = new Font("Segoe UI", 9, FontStyle.Bold)
+
             };
+            serieProd.Label = "#PERCENT{P0}";
 
             Color[] paletaPie = { colorAcento2, ColorTranslator.FromHtml("#8D6E63"), ColorTranslator.FromHtml("#EBD3B3"), colorAcento1, ColorTranslator.FromHtml("#D4AF37") };
             int i = 0;

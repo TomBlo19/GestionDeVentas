@@ -26,8 +26,6 @@ namespace GestionDeVentas.Gerent
             this.lblCerrarSesion = new System.Windows.Forms.Label();
             this.iconRendimientoVendedores = new System.Windows.Forms.PictureBox();
             this.lblRendimientoVendedores = new System.Windows.Forms.Label();
-            this.iconReportes = new System.Windows.Forms.PictureBox();
-            this.lblReportes = new System.Windows.Forms.Label();
             this.iconDashboard = new System.Windows.Forms.PictureBox();
             this.lblDashboard = new System.Windows.Forms.Label();
             this.iconInicio = new System.Windows.Forms.PictureBox();
@@ -41,7 +39,6 @@ namespace GestionDeVentas.Gerent
             this.sidePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRendimientoVendedores)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconReportes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconDashboard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconInicio)).BeginInit();
             this.mainPanel.SuspendLayout();
@@ -78,8 +75,6 @@ namespace GestionDeVentas.Gerent
             this.sidePanel.Controls.Add(this.lblCerrarSesion);
             this.sidePanel.Controls.Add(this.iconRendimientoVendedores);
             this.sidePanel.Controls.Add(this.lblRendimientoVendedores);
-            this.sidePanel.Controls.Add(this.iconReportes);
-            this.sidePanel.Controls.Add(this.lblReportes);
             this.sidePanel.Controls.Add(this.iconDashboard);
             this.sidePanel.Controls.Add(this.lblDashboard);
             this.sidePanel.Controls.Add(this.iconInicio);
@@ -114,7 +109,7 @@ namespace GestionDeVentas.Gerent
             // iconRendimientoVendedores
             // 
             this.iconRendimientoVendedores.Image = global::GestionDeVentas.Properties.Resources.icon_client;
-            this.iconRendimientoVendedores.Location = new System.Drawing.Point(15, 220);
+            this.iconRendimientoVendedores.Location = new System.Drawing.Point(15, 181);
             this.iconRendimientoVendedores.Name = "iconRendimientoVendedores";
             this.iconRendimientoVendedores.Size = new System.Drawing.Size(24, 24);
             this.iconRendimientoVendedores.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -124,32 +119,12 @@ namespace GestionDeVentas.Gerent
             // lblRendimientoVendedores
             // 
             this.lblRendimientoVendedores.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.lblRendimientoVendedores.Location = new System.Drawing.Point(50, 220);
+            this.lblRendimientoVendedores.Location = new System.Drawing.Point(50, 182);
             this.lblRendimientoVendedores.Name = "lblRendimientoVendedores";
             this.lblRendimientoVendedores.Size = new System.Drawing.Size(194, 23);
             this.lblRendimientoVendedores.TabIndex = 3;
             this.lblRendimientoVendedores.Text = "Rendimiento Vendedores";
             this.lblRendimientoVendedores.Click += new System.EventHandler(this.lblRendimientoVendedores_Click);
-            // 
-            // iconReportes
-            // 
-            this.iconReportes.Image = global::GestionDeVentas.Properties.Resources.icon_sales;
-            this.iconReportes.Location = new System.Drawing.Point(15, 180);
-            this.iconReportes.Name = "iconReportes";
-            this.iconReportes.Size = new System.Drawing.Size(24, 24);
-            this.iconReportes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.iconReportes.TabIndex = 4;
-            this.iconReportes.TabStop = false;
-            // 
-            // lblReportes
-            // 
-            this.lblReportes.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.lblReportes.Location = new System.Drawing.Point(50, 180);
-            this.lblReportes.Name = "lblReportes";
-            this.lblReportes.Size = new System.Drawing.Size(158, 23);
-            this.lblReportes.TabIndex = 5;
-            this.lblReportes.Text = "Reportes";
-            this.lblReportes.Click += new System.EventHandler(this.lblReportes_Click);
             // 
             // iconDashboard
             // 
@@ -243,7 +218,7 @@ namespace GestionDeVentas.Gerent
             this.lblGerenteWelcome.ForeColor = System.Drawing.Color.White;
             this.lblGerenteWelcome.Location = new System.Drawing.Point(705, 30);
             this.lblGerenteWelcome.Name = "lblGerenteWelcome";
-            this.lblGerenteWelcome.Size = new System.Drawing.Size(83, 25);
+            this.lblGerenteWelcome.Size = new System.Drawing.Size(65, 20);
             this.lblGerenteWelcome.TabIndex = 1;
             this.lblGerenteWelcome.Text = "Gerente";
             this.lblGerenteWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -261,7 +236,6 @@ namespace GestionDeVentas.Gerent
             this.sidePanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.iconCerrarSesion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRendimientoVendedores)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconReportes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconDashboard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconInicio)).EndInit();
             this.mainPanel.ResumeLayout(false);
@@ -286,13 +260,11 @@ namespace GestionDeVentas.Gerent
 
         private System.Windows.Forms.PictureBox iconInicio;
         private System.Windows.Forms.PictureBox iconDashboard;
-        private System.Windows.Forms.PictureBox iconReportes;
         private System.Windows.Forms.PictureBox iconRendimientoVendedores;
         private System.Windows.Forms.PictureBox iconCerrarSesion;
 
         private System.Windows.Forms.Label lblInicio;
         private System.Windows.Forms.Label lblDashboard;
-        private System.Windows.Forms.Label lblReportes;
         private System.Windows.Forms.Label lblRendimientoVendedores;
         private System.Windows.Forms.Label lblCerrarSesion;
     }

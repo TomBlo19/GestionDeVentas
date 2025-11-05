@@ -21,6 +21,8 @@
             this.logoPanel = new System.Windows.Forms.Panel();
             this.lblAdminPanel = new System.Windows.Forms.Label();
             this.sidePanel = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.iconListarVentas = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,6 +44,7 @@
             this.lblAdminWelcome = new System.Windows.Forms.Label();
             this.logoPanel.SuspendLayout();
             this.sidePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iconListarVentas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarProveedor)).BeginInit();
@@ -80,6 +83,8 @@
             // sidePanel
             // 
             this.sidePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(220)))), ((int)(((byte)(200)))));
+            this.sidePanel.Controls.Add(this.label2);
+            this.sidePanel.Controls.Add(this.iconListarVentas);
             this.sidePanel.Controls.Add(this.pictureBox2);
             this.sidePanel.Controls.Add(this.pictureBox1);
             this.sidePanel.Controls.Add(this.label1);
@@ -101,10 +106,30 @@
             this.sidePanel.Size = new System.Drawing.Size(250, 600);
             this.sidePanel.TabIndex = 2;
             // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.label2.Location = new System.Drawing.Point(50, 302);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(194, 23);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Listar Ventas Totales";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // iconListarVentas
+            // 
+            this.iconListarVentas.Image = ((System.Drawing.Image)(resources.GetObject("iconListarVentas.Image")));
+            this.iconListarVentas.Location = new System.Drawing.Point(15, 292);
+            this.iconListarVentas.Name = "iconListarVentas";
+            this.iconListarVentas.Size = new System.Drawing.Size(24, 43);
+            this.iconListarVentas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.iconListarVentas.TabIndex = 16;
+            this.iconListarVentas.TabStop = false;
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::GestionDeVentas.Properties.Resources.icon_client;
-            this.pictureBox2.Location = new System.Drawing.Point(15, 299);
+            this.pictureBox2.Location = new System.Drawing.Point(15, 341);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(24, 24);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -114,7 +139,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::GestionDeVentas.Properties.Resources.icon_logout;
-            this.pictureBox1.Location = new System.Drawing.Point(15, 345);
+            this.pictureBox1.Location = new System.Drawing.Point(15, 391);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(24, 24);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -124,7 +149,7 @@
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.label1.Location = new System.Drawing.Point(50, 345);
+            this.label1.Location = new System.Drawing.Point(45, 392);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 23);
             this.label1.TabIndex = 13;
@@ -134,7 +159,7 @@
             // lblCerrarSesion
             // 
             this.lblCerrarSesion.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.lblCerrarSesion.Location = new System.Drawing.Point(50, 300);
+            this.lblCerrarSesion.Location = new System.Drawing.Point(50, 342);
             this.lblCerrarSesion.Name = "lblCerrarSesion";
             this.lblCerrarSesion.Size = new System.Drawing.Size(100, 23);
             this.lblCerrarSesion.TabIndex = 1;
@@ -294,7 +319,7 @@
             this.lblAdminWelcome.ForeColor = System.Drawing.Color.White;
             this.lblAdminWelcome.Location = new System.Drawing.Point(656, 28);
             this.lblAdminWelcome.Name = "lblAdminWelcome";
-            this.lblAdminWelcome.Size = new System.Drawing.Size(141, 25);
+            this.lblAdminWelcome.Size = new System.Drawing.Size(111, 20);
             this.lblAdminWelcome.TabIndex = 1;
             this.lblAdminWelcome.Text = "Administrador";
             // 
@@ -309,6 +334,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.logoPanel.ResumeLayout(false);
             this.sidePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.iconListarVentas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconRegistrarProveedor)).EndInit();
@@ -351,5 +377,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox iconListarVentas;
+        private System.Windows.Forms.Label label2;
     }
 }

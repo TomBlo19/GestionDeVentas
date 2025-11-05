@@ -226,10 +226,15 @@ namespace GestionDeVentas.Admin
                 this.Close(); // 🔹 Cierra el panel actual
             }
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            LoadForm(new FormReportesGerente());
+        }
     }
 
+
     
-    // Clases de Formulario de Ejemplo (mantén tus clases reales)
 
     public class FormGestionarPrendas : Form { }
     public class FormModificarUsuario : Form { }

@@ -102,7 +102,7 @@ namespace GestionDeVentas.Gerente
             }
 
             if (estadoSeleccionado == "Activos") estadoFiltro = "activo";
-            else if (estadoSeleccionado == "Inactivos") estadoFiltro = "inactivo";
+            else if (estadoSeleccionado == "Inactivos") estadoFiltro = "desactivado";
 
             List<Proveedor> proveedores = _proveedorDatos.ObtenerProveedores(cuitFiltro, nombreFiltro, empresaFiltro, estadoFiltro);
             CargarGrilla(proveedores);

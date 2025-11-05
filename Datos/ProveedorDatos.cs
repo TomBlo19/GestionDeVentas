@@ -161,7 +161,9 @@ namespace GestionDeVentas.Datos
                 string query = "UPDATE proveedor SET estado_proveedor=@Estado WHERE id_proveedor=@Id";
                 using (var cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Estado", activar ? "activo" : "inactivo");
+                  
+                    cmd.Parameters.AddWithValue("@Estado", activar ? "activo" : "desactivado");
+                  
                     cmd.Parameters.AddWithValue("@Id", idProveedor);
                     cmd.ExecuteNonQuery();
                 }

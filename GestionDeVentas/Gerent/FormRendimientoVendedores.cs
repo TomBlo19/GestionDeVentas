@@ -201,7 +201,7 @@ namespace GestionDeVentas.Gerent
             lblVentasUnidadesValor.Text = datos.unidades.ToString("N0");
 
             // Gráfico 1: Ingresos Mensuales
-            var ingresos = _datos.ObtenerIngresosMensuales(idVendedor); // Nota: Asumo que este método usa las fechas del DT
+            var ingresos = _datos.ObtenerIngresosMensuales(idVendedor, dtpDesde.Value, dtpHasta.Value);
             chartIngresosMensuales.Series.Clear();
             var serie = new Series("Ingresos")
             {

@@ -148,23 +148,28 @@ namespace Datos
             return (ingresos, unidades, ticketPromedio, participacion);
         }
 
-        public List<RendimientoMensual> ObtenerIngresosMensuales(int idVendedor)
+        public List<RendimientoMensual> ObtenerIngresosMensuales(int idVendedor, DateTime desde, DateTime hasta)
         {
             var lista = new List<RendimientoMensual>();
             using (var conn = ConexionBD.ObtenerConexion())
             {
                 conn.Open();
                 string query = @"
-                    SELECT DATENAME(MONTH, f.fecha_factura) AS Mes,
-                           SUM(df.cantidad * df.precio_unitario) AS Total
-                    FROM factura f
-                    JOIN detalle_factura df ON df.id_factura = f.id_factura
-                    WHERE f.id_usuario = @IdVendedor AND f.activo = 1
-                    GROUP BY DATENAME(MONTH, f.fecha_factura), MONTH(f.fecha_factura)
-                    ORDER BY MONTH(f.fecha_factura)";
+            SELECT DATENAME(MONTH, f.fecha_factura) AS Mes,
+                   SUM(df.cantidad * df.precio_unitario) AS Total
+            FROM factura f
+            JOIN detalle_factura df ON df.id_factura = f.id_factura
+            WHERE f.id_usuario = @IdVendedor 
+                  AND f.activo = 1
+                  AND f.fecha_factura BETWEEN @Desde AND @Hasta
+            GROUP BY DATENAME(MONTH, f.fecha_factura), MONTH(f.fecha_factura)
+            ORDER BY MONTH(f.fecha_factura)";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@IdVendedor", idVendedor);
+                    cmd.Parameters.AddWithValue("@Desde", desde);
+                    cmd.Parameters.AddWithValue("@Hasta", hasta);
+
                     using (var dr = cmd.ExecuteReader())
                     {
                         while (dr.Read())
@@ -180,6 +185,7 @@ namespace Datos
             }
             return lista;
         }
+
 
         public List<ProductoVendido> ObtenerProductosMasVendidos(int idVendedor, DateTime desde, DateTime hasta)
         {

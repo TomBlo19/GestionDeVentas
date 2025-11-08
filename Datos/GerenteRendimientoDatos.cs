@@ -68,8 +68,9 @@ namespace Datos
                     ORDER BY Total DESC";
                 using (var cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Desde", desde);
-                    cmd.Parameters.AddWithValue("@Hasta", hasta);
+                    cmd.Parameters.AddWithValue("@Desde", desde.Date);
+                    cmd.Parameters.AddWithValue("@Hasta", hasta.Date.AddDays(1).AddTicks(-1));
+
                     using (var dr = cmd.ExecuteReader())
                     {
                         while (dr.Read())

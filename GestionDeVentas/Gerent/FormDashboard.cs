@@ -100,7 +100,8 @@ namespace GestionDeVentas.Gerent
                 dtpDesde.Value = new DateTime(hoy.Year, hoy.Month, 1).Date;
                 dtpHasta.Value = hoy.Date;
             }
-            else if (btn.Text == "Último trimestre")
+            
+            else if (btn.Text == "Ultimos Meses") 
             {
                 dtpDesde.Value = hoy.AddMonths(-3).Date;
                 dtpHasta.Value = hoy.Date;
@@ -622,16 +623,16 @@ namespace GestionDeVentas.Gerent
 
                     // --- KPI PRINCIPALES ---
                     string queryKpis = @"
-                        SELECT  
-                            ISNULL(SUM(f.total_factura),0) AS TotalVentas,
-                            ISNULL(SUM(d.cantidad),0) AS ProductosVendidos,
-                            COUNT(DISTINCT c.id_cliente) AS ClientesNuevos,
-                            COUNT(DISTINCT f.id_factura) AS NumeroFacturas
-                        FROM factura f
-                        JOIN detalle_factura d ON d.id_factura = f.id_factura
-                        JOIN cliente c ON c.id_cliente = f.id_cliente
-                        WHERE f.fecha_factura BETWEEN @Desde AND @Hasta
-                            AND f.activo = 1;";
+    SELECT  
+        ISNULL(SUM(d.cantidad * d.precio_unitario),0) AS TotalVentas,
+        ISNULL(SUM(d.cantidad),0) AS ProductosVendidos,
+        COUNT(DISTINCT c.id_cliente) AS ClientesNuevos,
+        COUNT(DISTINCT f.id_factura) AS NumeroFacturas
+    FROM factura f
+    JOIN detalle_factura d ON d.id_factura = f.id_factura
+    JOIN cliente c ON c.id_cliente = f.id_cliente
+    WHERE f.fecha_factura BETWEEN @Desde AND @Hasta
+        AND f.activo = 1;";
 
                     decimal totalVentas = 0;
                     int productosVendidos = 0, clientesNuevos = 0, numeroFacturas = 0;
@@ -664,14 +665,17 @@ namespace GestionDeVentas.Gerent
 
                     // --- GRÁFICO DE INGRESOS MENSUALES ---
                     string queryIngresos = @"
-                        SELECT  
-                            FORMAT(f.fecha_factura, 'MM-yyyy') AS Mes,
-                            SUM(f.total_factura) AS Total
-                        FROM factura f
-                        WHERE f.activo = 1
-                            AND f.fecha_factura BETWEEN @Desde AND @Hasta
-                        GROUP BY FORMAT(f.fecha_factura, 'MM-yyyy')
-                        ORDER BY MIN(f.fecha_factura);";
+    SELECT  
+        FORMAT(f.fecha_factura, 'MM-yyyy') AS Mes,
+        SUM(d.cantidad * d.precio_unitario) AS Total
+    FROM factura f
+    JOIN detalle_factura d ON d.id_factura = f.id_factura
+    WHERE f.activo = 1
+        AND f.fecha_factura BETWEEN @Desde AND @Hasta
+    GROUP BY FORMAT(f.fecha_factura, 'MM-yyyy')
+    ORDER BY MIN(f.fecha_factura);";
+
+
 
                     var serieIngresos = new Series("Ingresos")
                     {
